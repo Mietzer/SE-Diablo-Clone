@@ -8,4 +8,19 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Images\lock.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="MVVM\Viewmodel\" />
+      <Folder Include="MVVM\Model\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Images\lock.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
+
 </Project>

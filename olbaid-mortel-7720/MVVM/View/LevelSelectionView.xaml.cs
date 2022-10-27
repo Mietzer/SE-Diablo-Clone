@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace olbaid_mortel_7720
+namespace olbaid_mortel_7720.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+  /// <summary>
+  /// Interaktionslogik für LevelSelectionView.xaml
+  /// </summary>
+  public partial class LevelSelectionView : UserControl
+  {
+    public LevelSelectionView()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+      InitializeComponent();
     }
+  }
 }
