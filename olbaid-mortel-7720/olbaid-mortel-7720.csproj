@@ -8,4 +8,16 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Resource Include="Images\lock-closed.png" />
+      <Resource Include="Images\Healthbar\background.png" />
+      <Resource Include="Images\Healthbar\bar.png" />
+      <Resource Include="Images\Healthbar\overlay.png" />
+      <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Fonts" />
+    </ItemGroup>
+
 </Project>
