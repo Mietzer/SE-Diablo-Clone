@@ -9,6 +9,7 @@
         Title="Olbaid Mortal" 
         WindowStyle="None"
         ResizeMode="NoResize"
+        MouseDown="MoveWindow"
         Height="450"
         Width="800">
 

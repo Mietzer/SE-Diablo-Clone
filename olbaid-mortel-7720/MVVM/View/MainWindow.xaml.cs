@@ -28,23 +28,29 @@ namespace olbaid_mortel_7720.MVVM.View
       CurrentView = new LevelSelectionView();
 
       InitializeComponent();
-      
+
     }
 
     private void Minimize(object sender, RoutedEventArgs e)
     {
       App.Current.MainWindow.WindowState = WindowState.Minimized;
-    } 
+    }
     private void Maximize(object sender, RoutedEventArgs e)
     {
-      if(App.Current.MainWindow.WindowState == WindowState.Maximized)
+      if (App.Current.MainWindow.WindowState == WindowState.Maximized)
         App.Current.MainWindow.WindowState = WindowState.Normal;
-      else if(App.Current.MainWindow.WindowState == WindowState.Normal)
+      else if (App.Current.MainWindow.WindowState == WindowState.Normal)
         App.Current.MainWindow.WindowState = WindowState.Maximized;
-    } 
+    }
     private void Close(object sender, RoutedEventArgs e)
     {
       App.Current.Shutdown();
+    }
+
+    private void MoveWindow(object sender, MouseButtonEventArgs e)
+    {
+      if(e.LeftButton == MouseButtonState.Pressed)
+        DragMove();
     }
   }
 }
