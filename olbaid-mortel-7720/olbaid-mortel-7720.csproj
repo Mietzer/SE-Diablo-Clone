@@ -9,11 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Resource Include="Images\lock-closed.png" />
-      <Resource Include="Images\Healthbar\background.png" />
-      <Resource Include="Images\Healthbar\bar.png" />
-      <Resource Include="Images\Healthbar\overlay.png" />
-      <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
+      <None Remove="Images\*" />
+      <Resource Include="Images\*" />
+      <None Remove="Fonts\*" />
+      <Resource Include="Fonts\*" />
     </ItemGroup>
 
     <ItemGroup>

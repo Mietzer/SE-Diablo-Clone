@@ -7,7 +7,8 @@
              xmlns:utils="clr-namespace:olbaid_mortel_7720.MVVN.Utils"
              mc:Ignorable="d"
              d:DesignWidth="720" d:DesignHeight="120" RenderOptions.BitmapScalingMode="NearestNeighbor"
-             Background="Transparent" FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323">
+             Background="Transparent" FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
+             Loaded="PlayerHealthbarView_OnLoaded">
     <UserControl.DataContext>
         <local:PlayerHealthbarModel />
     </UserControl.DataContext>
@@ -16,8 +17,8 @@
     </UserControl.Resources>
     <Grid>
         <Image Source="/Images/Healthbar/background.png" />
-        <Image Source="/Images/Healthbar/bar.png" VerticalAlignment="Stretch" Stretch="UniformToFill" HorizontalAlignment="Left" Width="{Binding Health, Converter={StaticResource PercentageToSizeConverter}, ConverterParameter=720, TargetNullValue=0}" />
+        <Image Source="/Images/Healthbar/bar.png" HorizontalAlignment="Left" Width="{Binding Health, Converter={StaticResource PercentageToSizeConverter}, ConverterParameter=720, TargetNullValue=0}" />
         <Image Source="/Images/Healthbar/overlay.png" />
-        <TextBlock Margin="0 0  60 0" FontSize="50" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding Health, StringFormat={}{0:F0}%, TargetNullValue=0}" />
+        <TextBlock x:Name="TxtPercentage" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding Health, StringFormat={}{0:F0}%, TargetNullValue=0}" />
     </Grid>
 </UserControl>
