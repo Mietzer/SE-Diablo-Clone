@@ -4,18 +4,16 @@ using System.Runtime.CompilerServices;
 namespace olbaid_mortel_7720.MVVN.Models
 {
   /// <summary>
-  ///   TODO: Model should perhaps be the player itself.
+  ///   TODO: Model should perhaps be the Boss itself.
   ///   Model class providing a health property.
   /// </summary>
-  public class PlayerHealthbarModel : INotifyPropertyChanged
+  public class BossHealthbarModel : INotifyPropertyChanged
   {
-    private PlayerEffect _effect;
     private int _health;
 
-    public PlayerHealthbarModel()
+    public BossHealthbarModel()
     {
       _health = 100;
-      _effect = PlayerEffect.None;
     }
 
     public int Health
@@ -29,27 +27,11 @@ namespace olbaid_mortel_7720.MVVN.Models
       }
     }
 
-    public PlayerEffect Effect
-    {
-      get => _effect;
-      set
-      {
-        if (value == _effect) return;
-        _effect = value;
-        OnPropertyChanged();
-      }
-    }
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public void UpdateHealth(int health)
     {
       Health = health;
-    }
-
-    public void UpdateEffect(PlayerEffect effect)
-    {
-      Effect = effect;
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")

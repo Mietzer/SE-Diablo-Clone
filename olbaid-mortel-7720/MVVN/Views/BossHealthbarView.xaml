@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="olbaid_mortel_7720.MVVN.Views.PlayerHealthbarView"
+﻿<UserControl x:Class="olbaid_mortel_7720.MVVN.Views.BossHealthbarView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,13 +7,12 @@
              xmlns:utils="clr-namespace:olbaid_mortel_7720.MVVN.Utils"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d"
-             d:DesignWidth="720" d:DesignHeight="120" RenderOptions.BitmapScalingMode="NearestNeighbor"
+             d:DesignWidth="720" d:DesignHeight="60" RenderOptions.BitmapScalingMode="NearestNeighbor"
              x:Name="CtlHealthbar"
-             Background="Transparent" FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
-             Loaded="OnViewLoaded">
+             Background="Transparent">
     <!-- #region Datacontext and Resources -->
     <UserControl.DataContext>
-        <local:PlayerHealthbarModel />
+        <local:BossHealthbarModel />
     </UserControl.DataContext>
     <UserControl.Resources>
         <utils:PercentageToSizeConverter x:Key="PercentageToSizeConverter" />
@@ -23,8 +22,8 @@
     <!-- #region Healthbar -->
     <Grid MaxHeight="{Binding ElementName=CtlHealthbar, Path=ActualHeight}"
           MaxWidth="{Binding ElementName=CtlHealthbar, Path=ActualWidth}">
-        <Image Source="/Images/Healthbar/background.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <Image x:Name="ImgBar" Source="/Images/Healthbar/bar-normal.png" HorizontalAlignment="Left"
+        <Image Source="/Images/Bossbar/background.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Image Source="/Images/Bossbar/bar.png" HorizontalAlignment="Left"
                VerticalAlignment="Stretch" Stretch="UniformToFill"
                Height="{Binding ElementName=CtlHealthbar, Path=ActualHeight}">
             <Image.Width>
@@ -34,11 +33,7 @@
                 </MultiBinding>
             </Image.Width>
         </Image>
-        <Image Source="/Images/Healthbar/overlay.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <Image x:Name="ImgIcon" gif:ImageBehavior.AnimatedSource="/Images/Healthbar/Icons/heart-normal.png" HorizontalAlignment="Left"
-               VerticalAlignment="Stretch" />
-        <TextBlock x:Name="TxtPercentage" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"
-                   Text="{Binding Health, StringFormat={}{0:F0}%, TargetNullValue=0}" />
+        <Image Source="/Images/Bossbar/overlay.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
     <!-- #endregion -->
 </UserControl>
