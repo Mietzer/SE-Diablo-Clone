@@ -1,6 +1,8 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -57,7 +59,8 @@ namespace olbaid_mortel_7720.Engine
     }
     #endregion Movement
 
-
+    public ObservableCollection<Bullet> Bullets;
+    
     private Rect hitbox;
     public Rect Hitbox
     {
@@ -79,6 +82,7 @@ namespace olbaid_mortel_7720.Engine
       this.Width = width;
       this.stepLength = stepLength;
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
+      Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
     }
 

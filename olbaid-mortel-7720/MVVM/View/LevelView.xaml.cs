@@ -93,6 +93,7 @@ namespace olbaid_mortel_7720.MVVM.View
       currentLevel = this;
     }
     #endregion Level
+
     #region ProperyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged([CallerMemberName] string prop = null)

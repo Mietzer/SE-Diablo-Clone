@@ -14,6 +14,7 @@
             HorizontalAlignment="Left"
             Margin="60">
       <Button Content="Level1"
+              Command="{Binding SelectLevel1Command}"
               Background="Bisque"
               Height="200"
               Width="200"
@@ -25,6 +26,7 @@
             Width="200"
             HorizontalAlignment="Center">
       <Button Background="Lavender"
+              Command="{Binding SelectLevel2Command}"
               Height="200"
               Width="200"
               FontSize="50"
@@ -43,6 +45,7 @@
             HorizontalAlignment="Right"
             Margin="60">
       <Button  Background="RoyalBlue"
+               Command="{Binding SelectLevel3Command}"
                Height="200"
                Width="200"
                FontSize="50"

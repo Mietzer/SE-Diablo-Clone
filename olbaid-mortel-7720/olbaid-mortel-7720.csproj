@@ -13,10 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="MVVM\Viewmodel\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Resource Include="Images\lock.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Resource>
