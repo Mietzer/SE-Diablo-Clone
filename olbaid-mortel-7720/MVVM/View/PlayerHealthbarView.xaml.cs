@@ -23,7 +23,10 @@ namespace olbaid_mortel_7720.MVVN.Views
     {
       InitializeComponent();
       _model = DataContext as PlayerHealthbarModel;
-      _model.PropertyChanged += OnModelPropertyChanged;
+      if (_model != null)
+      {
+        _model.PropertyChanged += OnModelPropertyChanged;
+      }
     }
 
     #region EventHandlers
