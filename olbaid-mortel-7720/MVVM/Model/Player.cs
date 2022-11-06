@@ -29,9 +29,9 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
-    public void Move(object sender, KeyEventArgs e)
+    public void Move(object sender, Key key)
     {
-      switch (e.Key)
+      switch (key)
       {
         case Key.W:
           MoveUp();

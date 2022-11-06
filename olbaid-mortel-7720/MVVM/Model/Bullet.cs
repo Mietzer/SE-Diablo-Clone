@@ -25,8 +25,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       Rectangle.Fill = brush;
       Rectangle.Name = name;
       Direction = direction;
+
+      //Rotate Shot by its vector
+      double angle = Math.Atan2(direction.Y , direction.X) * 180/Math.PI;
+      RotateTransform rotation =  new RotateTransform(angle);
+      rotation.CenterX = width/2;
+      rotation.CenterY = height/2;
+      Rectangle.RenderTransform = rotation;
     }
-
-
   }
 }

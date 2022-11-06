@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -21,6 +22,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private int MinY;
     private int MaxX;
     private int MaxY;
+
+    //Movement Direction
+    public bool moveLeft { get; set; }
+    public bool moveRight { get; set; }
+    public bool moveUp { get; set; }
+    public bool moveDown { get; set; }
 
     private string ShotName = "ShotPlayer";
 
@@ -44,20 +51,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void InitTimer()
     {
+      DispatcherTimer movementTimer = new();
+      movementTimer.Tick += new EventHandler(Move);
+      movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
+      movementTimer.Start();
+
       DispatcherTimer shotMovementTimer = new();
       shotMovementTimer.Tick += new EventHandler(MoveShots);
       shotMovementTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
       shotMovementTimer.Start();
-
-      DispatcherTimer deleteShotTimer = new();
-      deleteShotTimer.Tick += new EventHandler(DeleteShots);
-      deleteShotTimer.Interval = new TimeSpan(0, 0, 0, 2);
-      deleteShotTimer.Start();
     }
     public void MoveShots(object sender, EventArgs e)
     {
       //How many Pixels the bullet should move everytime
       int velocity = 30;
+      List<Rectangle> deleteList = new List<Rectangle>();
 
       foreach (Rectangle item in MyPlayerCanvas.Children)
       {
@@ -66,27 +74,20 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
           Canvas.SetLeft(item, Canvas.GetLeft(item) + b.Direction.X * velocity);
           Canvas.SetTop(item, Canvas.GetTop(item) + b.Direction.Y * velocity);
-        }
-      }
-    }
-    public void DeleteShots(object sender, EventArgs e)
-    {
-      foreach (Rectangle item in MyPlayerCanvas.Children)
-      {
-        if (item.Name == ShotName) //Find shots for our Player
-        {
-          Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
-          //Remove Shot if out of Border
+
           if (Canvas.GetLeft(item) < MinX - item.Width || Canvas.GetLeft(item) > MaxX
-           || Canvas.GetTop(item) < MinY - item.Height || Canvas.GetTop(item) > MaxY)
+            || Canvas.GetTop(item) < MinY - item.Height || Canvas.GetTop(item) > MaxY)
           {
-            MyPlayerCanvas.Children.Remove(item);
+            //Remove from List and Register Rectangle to remove from Canvas
+            deleteList.Add(item);
             MyPlayer.Bullets.Remove(b);
-            break; //Break, cause List has been changed
           }
         }
       }
-    }
+      //Now delete
+      foreach (Rectangle item in deleteList)
+        MyPlayerCanvas.Children.Remove(item);
+    }    
 
     /// <summary>
     /// Creates a new Bullet
@@ -121,8 +122,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //Set Position
       Canvas.SetLeft(bullet.Rectangle, playerMidX + vector.X * 50);
       Canvas.SetTop(bullet.Rectangle, playerMidY + vector.Y * 50);
+      
     }
 
+    private void Move(object sender, EventArgs e)
+    {
+      if (moveDown)
+        MyPlayer.Move(sender, Key.S);
+      else if (moveUp)
+        MyPlayer.Move(sender, Key.W);
+
+      if (moveLeft)
+        MyPlayer.Move(sender, Key.A);
+      else if (moveRight)
+        MyPlayer.Move(sender, Key.D);
+    }
     #endregion Methods
 
     #region Commands
