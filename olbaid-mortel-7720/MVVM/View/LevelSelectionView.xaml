@@ -14,6 +14,7 @@
             HorizontalAlignment="Left"
             Margin="60">
       <Button Content="Level1"
+              FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
               Command="{Binding SelectLevel1Command}"
               Background="Bisque"
               Height="200"
@@ -33,8 +34,9 @@
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
         <Button.Content>
-          <TextBlock Text="Level 2">
-          <Image Source="/Images/lock.png"
+          <TextBlock Text="Level2"
+                     Style="{StaticResource tbLevelSelection}">
+          <Image Source="/Images/lock-closed.png"
                  Height="40" />
           </TextBlock>
         </Button.Content>
@@ -52,8 +54,9 @@
                HorizontalAlignment="Center"
                VerticalAlignment="Center">
         <Button.Content>
-          <TextBlock Text="Level 3">
-          <Image Source="/Images/lock.png"
+          <TextBlock Text="Level3"
+                 Style="{StaticResource tbLevelSelection}">
+          <Image Source="/Images/lock-closed.png"
                  Height="40" />
           </TextBlock>
         </Button.Content>
