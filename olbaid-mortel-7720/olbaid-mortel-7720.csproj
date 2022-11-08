@@ -53,6 +53,9 @@
         <!-- Font assets -->
         <None Remove="Fonts\VT323\VT323-Regular.ttf" />
         <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
+        <!-- Gameplay assets -->
+        <None Remove="Images\bullet.png" />
+        <Resource Include="Images\bullet.png" />
     </ItemGroup>
 
     <ItemGroup>

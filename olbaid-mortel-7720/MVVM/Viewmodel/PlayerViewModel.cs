@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -46,15 +47,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       DispatcherTimer shotMovementTimer = new();
       shotMovementTimer.Tick += new EventHandler(MoveShots);
-      shotMovementTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+      shotMovementTimer.Interval = TimeSpan.FromMilliseconds(100);
       shotMovementTimer.Start();
 
       DispatcherTimer deleteShotTimer = new();
       deleteShotTimer.Tick += new EventHandler(DeleteShots);
-      deleteShotTimer.Interval = new TimeSpan(0, 0, 0, 2);
+      deleteShotTimer.Interval = TimeSpan.FromSeconds(2);
       deleteShotTimer.Start();
     }
-    public void MoveShots(object sender, EventArgs e)
+    public void MoveShots(object? sender, EventArgs e)
     {
       //How many Pixels the bullet should move everytime
       int velocity = 30;
@@ -69,7 +70,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         }
       }
     }
-    public void DeleteShots(object sender, EventArgs e)
+    public void DeleteShots(object? sender, EventArgs e)
     {
       foreach (Rectangle item in MyPlayerCanvas.Children)
       {
@@ -100,7 +101,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerMidX, p.Y - playerMidY);
       vector.Normalize();
-      Bullet bullet = new Bullet(5, 20, vector, new SolidColorBrush(Colors.MediumPurple), ShotName);
+      Brush bulletImage = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/bullet.png")));
+      Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
       
       //Add to View and Player (TODO: Maybe Collection Changed Event)
       MyPlayerCanvas.Children.Add(bullet.Rectangle);
@@ -110,13 +112,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (vector.X < 0)
       {
         playerMidX -= bullet.Rectangle.Width;
+        
         //Above
         if (vector.Y < 0)
+        {
           playerMidY -= bullet.Rectangle.Height;
+        }
       }
+      
       //Shot on Players right and above
       else if (vector.X > 0 && vector.Y < 0)
+      {
         playerMidY -= bullet.Rectangle.Height;
+      }
+      
+      // Apply the rotation
+      double angle = Math.Atan2(vector.Y, vector.X) * 180 / Math.PI;
+      bullet.Rectangle.RenderTransform = new RotateTransform(angle, bullet.Rectangle.Width / 2,
+        bullet.Rectangle.Height / 2);
 
       //Set Position
       Canvas.SetLeft(bullet.Rectangle, playerMidX + vector.X * 50);
