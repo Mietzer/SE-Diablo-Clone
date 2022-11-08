@@ -101,7 +101,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerMidX, p.Y - playerMidY);
       vector.Normalize();
-      Bullet bullet = new Bullet(5, 20, vector, new SolidColorBrush(Colors.MediumPurple), ShotName);
+      Brush bulletImage = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/bullet.png")));
+      Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
       
       //Add to View and Player (TODO: Maybe Collection Changed Event)
       MyPlayerCanvas.Children.Add(bullet.Rectangle);
