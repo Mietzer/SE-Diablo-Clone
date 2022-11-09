@@ -73,8 +73,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         if (item.Name == ShotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
-          Canvas.SetLeft(item, Canvas.GetLeft(item) + b.Direction.X * velocity);
-          Canvas.SetTop(item, Canvas.GetTop(item) + b.Direction.Y * velocity);
+          b?.Move(velocity);
 
           if (Canvas.GetLeft(item) < MinX - item.Width || Canvas.GetLeft(item) > MaxX
             || Canvas.GetTop(item) < MinY - item.Height || Canvas.GetTop(item) > MaxY)
@@ -105,8 +104,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Brush bulletImage = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/bullet.png")));
       Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
       
-      //Add to View and Player (TODO: Maybe Collection Changed Event)
-      MyPlayerCanvas.Children.Add(bullet.Rectangle);
+      //Add to Player
       MyPlayer.Bullets.Add(bullet);
 
       //Shot on Players left
@@ -120,10 +118,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //Shot on Players right and above
       else if (vector.X > 0 && vector.Y < 0)
         playerMidY -= bullet.Rectangle.Height;
-
-      //Set Position
-      Canvas.SetLeft(bullet.Rectangle, playerMidX + vector.X * 50);
-      Canvas.SetTop(bullet.Rectangle, playerMidY + vector.Y * 50);
+      // Add to Canvas
+      bullet.Show(MyPlayerCanvas, playerMidX, playerMidY);
       
     }
 
