@@ -9,6 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Levels\Level1\**" />
+      <EmbeddedResource Remove="Levels\Level1\**" />
+      <None Remove="Levels\Level1\**" />
+      <Page Remove="Levels\Level1\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Remove="Images\lock.png" />
     </ItemGroup>
 
@@ -76,6 +83,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="tiledcs" Version="3.3.3" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
     </ItemGroup>
 
