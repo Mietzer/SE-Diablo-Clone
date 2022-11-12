@@ -9,10 +9,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="Images\Items\paralysispotion.png" />
         <None Remove="Images\lock.png" />
     </ItemGroup>
 
     <ItemGroup>
+        <Resource Include="Images\Items\paralysispotion.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
         <Resource Include="Images\lock.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>

@@ -8,61 +8,293 @@
              Loaded="UserControl_Loaded"
              d:DesignHeight="450"
              d:DesignWidth="800">
+  <UserControl.Resources>
+    <!--#region TriangleButton-->
+    <Style x:Key="TriangleButton"
+           TargetType="{x:Type Button}">
+      <Setter Property="Margin"
+              Value="10" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Polygon Fill="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"
+                     Points="0,15 30,30 30,0"
+                     Stroke="Black"
+                     StrokeLineJoin="Round"
+                     StrokeStartLineCap="Round"
+                     StrokeEndLineCap="Round"
+                     StrokeThickness="3">
+            </Polygon>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <!--#endregion TriangleButton-->
+    <SolidColorBrush x:Key="ButtonBrush"
+                     Color="OrangeRed" />
+    <!--#region Levelbutton-->
+    <Style x:Key="Star"
+           TargetType="Polygon">
+      <Setter Property="Points"
+              Value="8,0 10.5,4 15.5,5 11.5,8.5 12.5,13 
+                     8,11 3.5,13 4.5,8.5 0,5 5.5,4 " />
+    </Style>
+
+    <Style x:Key="StarCheckbox"
+           TargetType="{x:Type CheckBox}">
+      <Setter Property="IsEnabled"
+              Value="False" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type CheckBox}">
+            <Viewbox Width="20"
+                     Height="20">
+              <Polygon Style="{StaticResource Star}"
+                       x:Name="levelStar" />
+            </Viewbox>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked"
+                       Value="True">
+                <Setter TargetName="levelStar"
+                        Property="Fill"
+                        Value="Yellow" />
+              </Trigger>
+              <Trigger Property="IsChecked"
+                       Value="False">
+                <Setter TargetName="levelStar"
+                        Property="Fill"
+                        Value="Black" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="Levelbutton"
+           TargetType="{x:Type Button}">
+      <Setter Property="FontFamily"
+              Value="/Fonts/VT323/VT323-Regular.ttf #VT323" />
+      <Setter Property="FontSize"
+              Value="20" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border BorderThickness="8"
+                    Background="Black"
+                    x:Name="OuterBorder"
+                    OpacityMask="DarkGray"
+                    Opacity="0.5">
+              <Border.Effect>
+                <DropShadowEffect />
+              </Border.Effect>
+              <!--<Border.Style>
+                  <Style TargetType="Border">
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver"
+                               Value="True">
+                        <Trigger.EnterActions>
+                          <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                            <Storyboard>
+                              <ColorAnimation Duration="0:0:1"
+                                              To="#FF0000"
+                                              Storyboard.TargetProperty="BorderBrush.Color" />
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                          <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                            <Storyboard>
+                              <ColorAnimation Duration="0:0:1"
+                                              To="Black"
+                                              Storyboard.TargetProperty="BorderBrush.Color" />
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </Trigger.ExitActions>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Border.Style>-->
+
+              <Grid x:Name="MyDataGrid">
+
+                <Border BorderThickness="8">
+                  <Grid >
+                    <Grid.Background>
+                      <ImageBrush ImageSource="{Binding Path=PreviewPicture}"/>
+
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                      <RowDefinition />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1"
+                          Background="Gray"
+                          Opacity="0.7"
+                          HorizontalAlignment="Stretch">
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="5" />
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Center" />
+                      <TextBlock Text="{Binding Path=BestTime}"
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Center"
+                                 Grid.Row="1" />
+                      <Grid Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch">
+                        <CheckBox Style="{StaticResource StarCheckbox}"
+                                  IsChecked="{Binding Path=Star1}"
+                                  HorizontalAlignment="Left" />
+                        <CheckBox Style="{StaticResource StarCheckbox}"
+                                  IsChecked="{Binding Path=Star2}"
+                                  HorizontalAlignment="Center" />
+                        <CheckBox Style="{StaticResource StarCheckbox}"
+                                  IsChecked="{Binding Path=Star3}"
+                                  HorizontalAlignment="Right" />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Border>
+              </Grid>
+            </Border>
+            <!--<ControlTemplate.Triggers>
+              --><!--<EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OuterBorder"
+                                                     Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                                     AutoReverse="True">
+
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                Value="Color.Blue">
+                            
+                          <DiscreteObjectKeyFrame.Value>
+                            <SolidColorBrush Color="Blue" Opacity="0.6" />
+                          </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                      </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                  </BeginStoryboard>
+                </EventTrigger.Actions>
+              </EventTrigger>--><!-- 
+              <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <ColorAnimation From="Black"
+                                      To="Blue"
+                                      Duration="0:0:2"
+                                      Storyboard.TargetName="OuterBorder"
+                                      Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                      AutoReverse="True"/>
+                    </Storyboard>
+                  </BeginStoryboard>
+                </EventTrigger.Actions>
+              </EventTrigger>
+            </ControlTemplate.Triggers>-->
+            <ControlTemplate.Triggers>
+              <Trigger Property="Button.IsMouseOver"
+                       Value="True">
+                <Trigger.EnterActions>
+                  <BeginStoryboard HandoffBehavior="Compose">
+                    <Storyboard>
+                      <ColorAnimation Storyboard.TargetName="OuterBorder"
+                                      Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                      To="DarkGray"
+                                      Duration="0:0:0.2" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <ColorAnimation Storyboard.TargetName="OuterBorder"
+                                      Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                      To="Black"
+                                      Duration="0:0:0.2" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </Trigger.ExitActions>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+      </Style.Triggers>
+    </Style>
+    <!--#region Levelbutton-->
+
+  </UserControl.Resources>
   <Grid Background="DarkGray">
-    <Border Height="200"
-            Width="200"
+    <ListView x:Name="LevellistView"
+              ItemsSource="{Binding Levellist}"
+              Background="Transparent"
+              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+              Margin="20,0">
+      <ListView.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal" 
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+        </ItemsPanelTemplate>
+      </ListView.ItemsPanel>
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <Button Content="{Binding LevelName}"
+                  Style="{StaticResource Levelbutton}"
+                  Command="{Binding DataContext.SelectLevelCommand, ElementName=LevellistView}"
+                  CommandParameter="{Binding LevelID}"
+                  Background="Red"
+                  Height="360"
+                  Width="190"
+                  VerticalAlignment="Center">
+          </Button>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+      <ListView.ItemContainerStyle>
+        <Style TargetType="{x:Type ListViewItem}">
+          <Setter Property="Background"
+                  Value="Green"  />
+          <Setter Property="Margin"
+                  Value="20" />
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type ListViewItem}">
+                <ContentPresenter />
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ListView.ItemContainerStyle>
+
+    </ListView>
+
+    <Button Style="{StaticResource TriangleButton}"
             HorizontalAlignment="Left"
-            Margin="60">
-      <Button Content="Level1"
-              FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
-              Command="{Binding SelectLevel1Command}"
-              Background="Bisque"
-              Height="200"
-              Width="200"
-              FontSize="50"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center" />
-    </Border>
-    <Border Height="200"
-            Width="200"
-            HorizontalAlignment="Center">
-      <Button Background="Lavender"
-              Command="{Binding SelectLevel2Command}"
-              Height="200"
-              Width="200"
-              FontSize="50"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-        <Button.Content>
-          <TextBlock Text="Level2"
-                     Style="{StaticResource tbLevelSelection}">
-          <Image Source="/Images/lock-closed.png"
-                 Height="40" />
-          </TextBlock>
-        </Button.Content>
-      </Button>
-    </Border>
-    <Border Height="200"
-            Width="200"
+            VerticalAlignment="Center"
+            Background="Red" />
+    <Button Style="{StaticResource TriangleButton}"
             HorizontalAlignment="Right"
-            Margin="60">
-      <Button  Background="RoyalBlue"
-               Command="{Binding SelectLevel3Command}"
-               Height="200"
-               Width="200"
-               FontSize="50"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center">
-        <Button.Content>
-          <TextBlock Text="Level3"
-                 Style="{StaticResource tbLevelSelection}">
-          <Image Source="/Images/lock-closed.png"
-                 Height="40" />
-          </TextBlock>
-        </Button.Content>
-      </Button>
-    </Border>
-    <ContentControl Grid.Row="1"
-                    Content="{Binding PlayerView}" />
+            VerticalAlignment="Center"
+            Background="Yellow"
+            RenderTransformOrigin="0.5, 0.5">
+      <Button.RenderTransform>
+        <RotateTransform Angle="180" />
+      </Button.RenderTransform>
+    </Button>
   </Grid>
 </UserControl>
