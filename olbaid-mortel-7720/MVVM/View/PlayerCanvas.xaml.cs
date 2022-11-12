@@ -51,10 +51,17 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       MyPlayer.Move(sender, e);
     }
+    
+    public void Canvas_KeyUp(object sender, KeyEventArgs e)
+    {
+      MyPlayer.Stop(sender, e);
+    }
+    
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       Window window = Window.GetWindow(this);
       window.KeyDown += Canvas_KeyDown;
+      window.KeyUp += Canvas_KeyUp;
       window.MouseLeftButtonDown += Canvas_Shoot;
 
       DispatcherTimer deleteTimer = new();
@@ -141,6 +148,5 @@ namespace olbaid_mortel_7720.MVVM.View
     }
 
     #endregion shooting
-
   }
 }

@@ -60,9 +60,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //How many Pixels the bullet should move everytime
       int velocity = 30;
 
-      foreach (Rectangle item in MyPlayerCanvas.Children)
+      foreach (FrameworkElement item in MyPlayerCanvas.Children)
       {
-        if (item.Name == ShotName) //Find shots for our Player
+        if (item is Rectangle && item.Name == ShotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
           b?.Move(velocity);
@@ -71,9 +71,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     public void DeleteShots(object? sender, EventArgs e)
     {
-      foreach (Rectangle item in MyPlayerCanvas.Children)
+      foreach (FrameworkElement item in MyPlayerCanvas.Children)
       {
-        if (item.Name == ShotName) //Find shots for our Player
+        if (item is Rectangle && item.Name == ShotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
           //Remove Shot if out of Border

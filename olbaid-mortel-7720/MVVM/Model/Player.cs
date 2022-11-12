@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -31,6 +32,9 @@ namespace olbaid_mortel_7720.MVVM.Model
     #region Methods
     public void Move(object sender, KeyEventArgs e)
     {
+      Direction oldDirection = Direction;
+      bool oldIsMoving = IsMoving;
+      IsMoving = true;
       switch (e.Key)
       {
         case Key.W:
@@ -46,6 +50,18 @@ namespace olbaid_mortel_7720.MVVM.Model
           MoveRight();
           break;
       }
+      if (oldDirection != Direction || oldIsMoving != IsMoving)
+      {
+        string directionString = this.Direction.ToString().ToLower();
+        Image = new BitmapImage(new Uri("pack://application:,,,/Images/Entities/Player/player-walking-" + directionString + ".gif"));
+      }
+    }
+
+    public override void Stop(object sender, KeyEventArgs e)
+    {
+      IsMoving = false;
+      string directionString = this.Direction.ToString().ToLower();
+      Image = new BitmapImage(new Uri("pack://application:,,,/Images/Entities/Player/player-standing-" + directionString + ".gif"));
     }
 
     public void TakeDamage(int damage)

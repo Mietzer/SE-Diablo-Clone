@@ -48,7 +48,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       double h = (d as Grid).ActualHeight;
 
       //Create Player and add view
-      Player p = new Player(0, 0, 0, 0, (int)w.Width, (int)(w.ActualHeight - h), 60, 60, 100, 5);
+      Player p = new Player(0, 0, 0, 0, (int)w.Width, (int)(w.ActualHeight - h), 128, 64, 100, 5);
       PlayerView = new PlayerCanvas(p);
     }
 

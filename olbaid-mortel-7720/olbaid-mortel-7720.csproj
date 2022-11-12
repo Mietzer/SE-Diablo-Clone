@@ -69,6 +69,23 @@
         <!-- Gameplay assets -->
         <None Remove="Images\bullet.png" />
         <Resource Include="Images\bullet.png" />
+        <!-- Player assets -->
+        <None Remove="Images\Entities\Player\player-walking-down.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-down.gif" />
+        <None Remove="Images\Entities\Player\player-standing-down.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-down.gif" />
+        <None Remove="Images\Entities\Player\player-walking-left.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-left.gif" />
+        <None Remove="Images\Entities\Player\player-standing-left.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-left.gif" />
+        <None Remove="Images\Entities\Player\player-standing-right.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-right.gif" />
+        <None Remove="Images\Entities\Player\player-walking-right.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-right.gif" />
+        <None Remove="Images\Entities\Player\player-standing-up.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-up.gif" />
+        <None Remove="Images\Entities\Player\player-walking-up.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-up.gif" />
     </ItemGroup>
 
     <ItemGroup>
