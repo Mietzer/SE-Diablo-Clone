@@ -47,7 +47,7 @@ namespace olbaid_mortel_7720.Engine
     public int YCoordMin { get; private set; }
     public int Height { get; private set; }
     public int Width { get; private set; }
-    public Direction Direction { get; private set; }
+    public Direction Direction { get; set; }
     public bool IsMoving { get; protected set; }
 
     private int stepLength;

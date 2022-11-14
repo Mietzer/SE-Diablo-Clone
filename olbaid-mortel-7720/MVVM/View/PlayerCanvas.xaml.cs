@@ -63,16 +63,20 @@ namespace olbaid_mortel_7720.MVVM.View
       window.KeyDown += Canvas_KeyDown;
       window.KeyUp += Canvas_KeyUp;
       window.MouseLeftButtonDown += Canvas_Shoot;
+      window.MouseLeftButtonUp += Canvas_MouseUp;
 
       DispatcherTimer deleteTimer = new();
       deleteTimer.Tick += new EventHandler(CheckForDelete);
       deleteTimer.Interval = new TimeSpan(0, 0, 15);
       deleteTimer.Start();
-
-  
     }
 
     #region shooting
+    
+    private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      (DataContext as PlayerViewModel).StopShooting();
+    }
 
     private void Canvas_Shoot(object sender, MouseButtonEventArgs e)
     {
@@ -148,5 +152,6 @@ namespace olbaid_mortel_7720.MVVM.View
     }
 
     #endregion shooting
+    
   }
 }

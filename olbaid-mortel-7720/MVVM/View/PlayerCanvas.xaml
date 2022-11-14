@@ -12,19 +12,20 @@
     <Canvas x:Name="PlayerCanvasObject"
             KeyDown="Canvas_KeyDown"
             KeyUp="Canvas_KeyUp"
-            MouseLeftButtonDown="Canvas_Shoot">
+            MouseLeftButtonDown="Canvas_Shoot"
+            MouseLeftButtonUp="Canvas_MouseUp">
       <Image DataContext="{Binding MyPlayer}"
                  Canvas.Left="{Binding XCoord}"
                  Canvas.Top="{Binding YCoord}"
                  Height="{Binding Height}"
                  Width="{Binding Width}"
                  gif:ImageBehavior.AnimatedSource="{Binding Image}"/>
-      <!-- TODO: Add weapon overlay here -->
       <Image DataContext="{Binding MyPlayer}"
                  Canvas.Left="{Binding XCoord}"
                  Canvas.Top="{Binding YCoord}"
                  Height="{Binding Height}"
-                 Width="{Binding Width}"/>
+                 Width="{Binding Width}"
+                 gif:ImageBehavior.AnimatedSource="{Binding WeaponOverlay}"/>
       <!-- TODO: Add player effects here -->
       <Image DataContext="{Binding MyPlayer}"
                  Canvas.Left="{Binding XCoord}"

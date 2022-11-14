@@ -56,6 +56,15 @@
         <Resource Include="Images\Entities\Player\player-walking-right.gif" />
         <Resource Include="Images\Entities\Player\player-standing-up.gif" />
         <Resource Include="Images\Entities\Player\player-walking-up.gif" />
+        <!-- Weapon overlay assets -->
+        <Resource Include="Images\Weapons\Player\Handgun\walking-right.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\walking-left.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\walking-up.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\walking-down.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-down.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-left.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-right.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-up.gif" />
     </ItemGroup>
 
     <ItemGroup>

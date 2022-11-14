@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitTimer();
     }
     #region Methods
-
+    /// <summary>
+    /// Initialize a dispatcher timer to move the bullets
+    /// </summary>
     public void InitTimer()
     {
       DispatcherTimer shotMovementTimer = new();
@@ -55,6 +58,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       deleteShotTimer.Interval = TimeSpan.FromSeconds(2);
       deleteShotTimer.Start();
     }
+    
+    /// <summary>
+    /// Event to move the shots
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public void MoveShots(object? sender, EventArgs e)
     {
       //How many Pixels the bullet should move everytime
@@ -69,6 +78,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         }
       }
     }
+    
+    /// <summary>
+    /// Delete shots that are out of the canvas
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public void DeleteShots(object? sender, EventArgs e)
     {
       foreach (FrameworkElement item in MyPlayerCanvas.Children)
@@ -104,6 +119,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
       
       //Add to Player
+      MyPlayer.IsShooting = true;
       MyPlayer.Bullets.Add(bullet);
 
       //Shot on Players left
@@ -126,6 +142,44 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       
       // Add to Canvas
       bullet.Show(MyPlayerCanvas, playerMidX, playerMidY);
+      
+      MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
+    }
+    
+    public void StopShooting()
+    {
+      MyPlayer.IsShooting = false;
+    }
+    
+    /// <summary>
+    /// Get the ViewDirection of the Player
+    /// </summary>
+    /// <param name="x">X of the view vector</param>
+    /// <param name="y">Y of the view vector</param>
+    /// <returns></returns>
+    private Direction GetPlayerView(double x, double y)
+    {
+      const double proportion = 0.8;
+      if (x > 0 && y > -proportion && y < proportion)
+      {
+        return Direction.Right;
+      }
+      else if (x < 0 && y > -proportion && y < proportion)
+      {
+        return Direction.Left;
+      }
+      else if (y > 0 && x > -proportion && x < proportion)
+      {
+        return Direction.Down;
+      }
+      else if (y < 0 && x > -proportion && x < proportion)
+      {
+        return Direction.Up;
+      }
+      else
+      {
+        return Direction.Down;
+      }
     }
 
     #endregion Methods
