@@ -27,6 +27,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
+    /// <summary>
+    /// Shows the bullet on the canvas
+    /// </summary>
+    /// <param name="canvas">Canvas to be shown on</param>
+    /// <param name="x">X Coordinate</param>
+    /// <param name="y">Y Coordinate</param>
     public void Show(Canvas canvas, double x, double y)
     {
       // Adjust the hitbox
@@ -44,6 +50,10 @@ namespace olbaid_mortel_7720.MVVM.Model
       Canvas.SetTop(Rectangle, y + Direction.Y * 50);
     }
     
+    /// <summary>
+    /// Moving the bullet on the canvas
+    /// </summary>
+    /// <param name="velocity">Velocity to move with</param>
     public void Move(double velocity)
     {
       // Move the bullet

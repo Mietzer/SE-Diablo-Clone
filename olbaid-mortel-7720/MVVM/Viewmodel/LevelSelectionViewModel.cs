@@ -41,7 +41,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void SelectLevel(object sender)
     {
-      //return; //TODO Remove
       mainWindow.SwitchView(new LevelView((int)sender));
     }
 

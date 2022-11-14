@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.Engine
 {
@@ -46,6 +47,8 @@ namespace olbaid_mortel_7720.Engine
     public int YCoordMin { get; private set; }
     public int Height { get; private set; }
     public int Width { get; private set; }
+    public Direction Direction { get; set; }
+    public bool IsMoving { get; protected set; }
 
     private int stepLength;
     public int StepLength
@@ -67,6 +70,17 @@ namespace olbaid_mortel_7720.Engine
       get { return hitbox; }
       set { hitbox = value; }
     }
+    
+    private BitmapImage image;
+    public BitmapImage Image
+    {
+      get { return image; }
+      set
+      {
+        image = value;
+        OnPropertyChanged(nameof(Image));
+      }
+    }
 
     #endregion Properties
 
@@ -80,10 +94,13 @@ namespace olbaid_mortel_7720.Engine
       this.YCoordMax = yMax;
       this.Height = height;
       this.Width = width;
+      this.Direction = Direction.Down;
+      IsMoving = false;
       this.stepLength = stepLength;
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
+      Stop(null, null);
     }
 
     #region Methods
@@ -98,26 +115,36 @@ namespace olbaid_mortel_7720.Engine
 
     protected void MoveLeft()
     {
+      Direction = Direction.Left;
       if (XCoord - StepLength >= XCoordMin)
         XCoord -= StepLength;
     }
     protected void MoveRight()
     {
+      Direction = Direction.Right;
       if (XCoord + StepLength + Width <= XCoordMax)
         XCoord += StepLength;
     }
     protected void MoveUp()
     {
+      Direction = Direction.Up;
       if (YCoord - StepLength >= YCoordMin)
         YCoord -= StepLength;
     }
     protected void MoveDown()
     {
+      Direction = Direction.Down;
       if (YCoord + StepLength + Height <= YCoordMax)
         YCoord += StepLength;
     }
+    
+    /// <summary>
+    /// Defines a action happening when entity is stopping a movement
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public abstract void Stop(object sender, EventArgs e);
 
-   
     #endregion Methods
 
   }
