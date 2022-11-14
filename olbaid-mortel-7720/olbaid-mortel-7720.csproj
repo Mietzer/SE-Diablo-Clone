@@ -9,60 +9,52 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Images\lock.png" />
-    </ItemGroup>
-
-    <ItemGroup>
         <!-- Player's healthbar assets -->
-        <None Remove="Images\Healthbar\background.png" />
         <Resource Include="Images\Healthbar\background.png" />
-        <None Remove="Images\Healthbar\bar-normal.png" />
         <Resource Include="Images\Healthbar\bar-normal.png" />
-        <None Remove="Images\Healthbar\bar-poisoned.png" />
         <Resource Include="Images\Healthbar\bar-poisoned.png" />
-        <None Remove="Images\Healthbar\overlay.png" />
         <Resource Include="Images\Healthbar\overlay.png" />
-        <None Remove="Images\Healthbar\Icons\heart-normal.png" />
         <Resource Include="Images\Healthbar\Icons\heart-normal.png" />
-        <None Remove="Images\Healthbar\Icons\heart-burnt.gif" />
         <Resource Include="Images\Healthbar\Icons\heart-burnt.gif" />
-        <None Remove="Images\Healthbar\Icons\heart-poisoned.png" />
         <Resource Include="Images\Healthbar\Icons\heart-poisoned.png" />
-        <None Remove="Images\Healthbar\Icons\heart-healing.gif" />
         <Resource Include="Images\Healthbar\Icons\heart-healing.gif" />
-        <None Remove="Images\Healthbar\Icons\heart-protected.gif" />
         <Resource Include="Images\Healthbar\Icons\heart-protected.gif" />
         <!-- Boss' healthbar assets -->
-        <None Remove="Images\Bossbar\background.png" />
         <Resource Include="Images\Bossbar\background.png" />
-        <None Remove="Images\Bossbar\bar.png" />
         <Resource Include="Images\Bossbar\bar.png" />
-        <None Remove="Images\Bossbar\overlay.png" />
         <Resource Include="Images\Bossbar\overlay.png" />
         <!-- Level selection assets -->
-        <None Remove="Images\lock-closed.png" />
         <Resource Include="Images\lock-closed.png" />
-        <None Remove="Images\lock-open.png" />
         <Resource Include="Images\lock-open.png" />
         <!-- Button assets -->
-        <None Remove="Images\Buttons\close.png" />
         <Resource Include="Images\Buttons\close.png" />
-        <None Remove="Images\Buttons\close-active.png" />
         <Resource Include="Images\Buttons\close-active.png" />
-        <None Remove="Images\Buttons\maximize.png" />
         <Resource Include="Images\Buttons\maximize.png" />
-        <None Remove="Images\Buttons\maximize-active.png" />
         <Resource Include="Images\Buttons\maximize-active.png" />
-        <None Remove="Images\Buttons\minimize.png" />
         <Resource Include="Images\Buttons\minimize.png" />
-        <None Remove="Images\Buttons\minimize-active.png" />
         <Resource Include="Images\Buttons\minimize-active.png" />
         <!-- Font assets -->
-        <None Remove="Fonts\VT323\VT323-Regular.ttf" />
         <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
         <!-- Gameplay assets -->
-        <None Remove="Images\bullet.png" />
         <Resource Include="Images\bullet.png" />
+        <!-- Player assets -->
+        <Resource Include="Images\Entities\Player\player-walking-down.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-down.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-left.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-left.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-right.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-right.gif" />
+        <Resource Include="Images\Entities\Player\player-standing-up.gif" />
+        <Resource Include="Images\Entities\Player\player-walking-up.gif" />
+        <!-- Weapon overlay assets -->
+        <Resource Include="Images\Weapons\Player\Handgun\walking-right.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\walking-left.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\walking-up.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\walking-down.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-down.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-left.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-right.gif" />
+        <Resource Include="Images\Weapons\Player\Handgun\standing-up.gif" />
     </ItemGroup>
 
     <ItemGroup>

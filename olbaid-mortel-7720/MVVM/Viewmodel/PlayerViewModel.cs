@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitTimer();
     }
     #region Methods
-
+    /// <summary>
+    /// Initialize a dispatcher timer to move the bullets
+    /// </summary>
     public void InitTimer()
     {
       DispatcherTimer movementTimer = new();
@@ -62,21 +65,27 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       shotMovementTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
       shotMovementTimer.Start();
     }
-    public void MoveShots(object sender, EventArgs e)
+    
+    /// <summary>
+    /// Event to move the shots
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public void MoveShots(object? sender, EventArgs e)
     {
       //How many Pixels the bullet should move everytime
       int velocity = 30;
-      List<Rectangle> deleteList = new List<Rectangle>();
+      List<FrameworkElement> deleteList = new List<FrameworkElement>();
 
-      foreach (Rectangle item in MyPlayerCanvas.Children)
+      foreach (FrameworkElement item in MyPlayerCanvas.Children)
       {
-        if (item.Name == ShotName) //Find shots for our Player
+        if (item is Rectangle && item.Name == ShotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
           b?.Move(velocity);
-
+          
           if (Canvas.GetLeft(item) < MinX - item.Width || Canvas.GetLeft(item) > MaxX
-            || Canvas.GetTop(item) < MinY - item.Height || Canvas.GetTop(item) > MaxY)
+           || Canvas.GetTop(item) < MinY - item.Height || Canvas.GetTop(item) > MaxY)
           {
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
@@ -85,9 +94,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         }
       }
       //Now delete
-      foreach (Rectangle item in deleteList)
+      foreach (FrameworkElement item in deleteList)
         MyPlayerCanvas.Children.Remove(item);
-    }    
+    }
 
     /// <summary>
     /// Creates a new Bullet
@@ -105,24 +114,77 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
       
       //Add to Player
+      MyPlayer.IsShooting = true;
       MyPlayer.Bullets.Add(bullet);
 
       //Shot on Players left
       if (vector.X < 0)
       {
         playerMidX -= bullet.Rectangle.Width;
+        
         //Above
         if (vector.Y < 0)
+        {
           playerMidY -= bullet.Rectangle.Height;
+        }
       }
+      
       //Shot on Players right and above
       else if (vector.X > 0 && vector.Y < 0)
+      {
         playerMidY -= bullet.Rectangle.Height;
+      }
+      
       // Add to Canvas
       bullet.Show(MyPlayerCanvas, playerMidX, playerMidY);
       
+      MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
+    }
+    
+    /// <summary>
+    /// Method stopping the shooting action
+    /// </summary>
+    public void StopShooting()
+    {
+      MyPlayer.IsShooting = false;
+    }
+    
+    /// <summary>
+    /// Get the ViewDirection of the Player
+    /// </summary>
+    /// <param name="x">X of the view vector</param>
+    /// <param name="y">Y of the view vector</param>
+    /// <returns></returns>
+    private Direction GetPlayerView(double x, double y)
+    {
+      const double proportion = 0.8;
+      if (x > 0 && y > -proportion && y < proportion)
+      {
+        return Direction.Right;
+      }
+      else if (x < 0 && y > -proportion && y < proportion)
+      {
+        return Direction.Left;
+      }
+      else if (y > 0 && x > -proportion && x < proportion)
+      {
+        return Direction.Down;
+      }
+      else if (y < 0 && x > -proportion && x < proportion)
+      {
+        return Direction.Up;
+      }
+      else
+      {
+        return Direction.Down;
+      }
     }
 
+    /// <summary>
+    /// Method to move the Player Canvas
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Move(object sender, EventArgs e)
     {
       if (moveDown)
@@ -134,6 +196,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.Move(sender, Key.A);
       else if (moveRight)
         MyPlayer.Move(sender, Key.D);
+
+      if (!moveDown && !moveUp && !moveLeft && !moveRight)
+        MyPlayer.Stop(sender, e);
     }
     #endregion Methods
 

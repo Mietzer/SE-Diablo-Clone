@@ -41,8 +41,9 @@ namespace olbaid_mortel_7720.MVVM.View
       //Init Events
       Window window = Window.GetWindow(this);
       window.KeyDown += Canvas_StartMove;
-      window.MouseLeftButtonDown += Canvas_Shoot;
       window.KeyUp += Canvas_StopMove;
+      window.MouseLeftButtonDown += Canvas_Shoot;
+      window.MouseLeftButtonUp += Canvas_MouseUp;
     }
 
     public async void Canvas_StartMove(object sender, KeyEventArgs e)
@@ -85,6 +86,11 @@ namespace olbaid_mortel_7720.MVVM.View
     }
 
     #region shooting
+    private async void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      (DataContext as PlayerViewModel).StopShooting();
+    }
+
     private async void Canvas_Shoot(object sender, MouseButtonEventArgs e)
     {
       Point p = e.GetPosition(this);
