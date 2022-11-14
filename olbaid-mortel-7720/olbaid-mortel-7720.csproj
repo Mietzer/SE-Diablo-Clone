@@ -13,12 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Images\lock.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Resource>
-    </ItemGroup>
-
-    <ItemGroup>
         <!-- Player's healthbar assets -->
         <Resource Include="Images\Healthbar\background.png" />
         <Resource Include="Images\Healthbar\bar-normal.png" />

@@ -9,11 +9,7 @@
              Loaded="UserControl_Loaded"
              d:DesignHeight="450" d:DesignWidth="800"
              RenderOptions.BitmapScalingMode="NearestNeighbor">
-    <Canvas x:Name="PlayerCanvasObject"
-            KeyDown="Canvas_KeyDown"
-            KeyUp="Canvas_KeyUp"
-            MouseLeftButtonDown="Canvas_Shoot"
-            MouseLeftButtonUp="Canvas_MouseUp">
+    <Canvas x:Name="PlayerCanvasObject">
       <Image DataContext="{Binding MyPlayer}"
                  Canvas.Left="{Binding XCoord}"
                  Canvas.Top="{Binding YCoord}"
