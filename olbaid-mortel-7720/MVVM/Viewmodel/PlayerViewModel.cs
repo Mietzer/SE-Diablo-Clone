@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
@@ -140,6 +141,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
     
+    /// <summary>
+    /// Method stopping the shooting action
+    /// </summary>
     public void StopShooting()
     {
       MyPlayer.IsShooting = false;
@@ -176,6 +180,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    /// <summary>
+    /// Method to move the Player Canvas
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Move(object sender, EventArgs e)
     {
       if (moveDown)
@@ -187,6 +196,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.Move(sender, Key.A);
       else if (moveRight)
         MyPlayer.Move(sender, Key.D);
+
+      if (!moveDown && !moveUp && !moveLeft && !moveRight)
+        MyPlayer.Stop(sender, e);
     }
     #endregion Methods
 

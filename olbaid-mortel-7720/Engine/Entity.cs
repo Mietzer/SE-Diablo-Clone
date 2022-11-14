@@ -138,7 +138,12 @@ namespace olbaid_mortel_7720.Engine
         YCoord += StepLength;
     }
     
-    public abstract void Stop(object sender, KeyEventArgs e);
+    /// <summary>
+    /// Defines a action happening when entity is stopping a movement
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public abstract void Stop(object sender, EventArgs e);
 
     #endregion Methods
 

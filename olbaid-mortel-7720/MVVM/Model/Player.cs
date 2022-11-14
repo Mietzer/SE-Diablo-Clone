@@ -44,6 +44,11 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
+    /// <summary>
+    /// Moving and animating the player
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="key"></param>
     public void Move(object sender, Key key)
     {
       Direction oldDirection = Direction;
@@ -54,11 +59,11 @@ namespace olbaid_mortel_7720.MVVM.Model
         case Key.W:
           MoveUp();
           break;
-        case Key.A:
-          MoveLeft();
-          break;
         case Key.S:
           MoveDown();
+          break;
+        case Key.A:
+          MoveLeft();
           break;
         case Key.D:
           MoveRight();
@@ -72,7 +77,12 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
-    public override void Stop(object sender, KeyEventArgs e)
+    /// <summary>
+    /// Stopping animation for player
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public override void Stop(object sender, EventArgs e)
     {
       IsMoving = false;
       string directionString = this.Direction.ToString().ToLower();
@@ -80,6 +90,10 @@ namespace olbaid_mortel_7720.MVVM.Model
       WeaponOverlay = new BitmapImage(new Uri("pack://application:,,,/Images/Weapons/Player/Handgun/standing-" + directionString + ".gif"));
     }
     
+    /// <summary>
+    /// Set the correct view for the player when he is shooting
+    /// </summary>
+    /// <param name="newDirection"></param>
     public void UpdateViewDirection(Direction newDirection)
     {
       if (Direction == newDirection) return;
