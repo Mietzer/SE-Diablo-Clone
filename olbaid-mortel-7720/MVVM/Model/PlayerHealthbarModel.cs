@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace olbaid_mortel_7720.MVVN.Models
+namespace olbaid_mortel_7720.MVVM.Models
 {
   /// <summary>
   ///   TODO: Model should perhaps be the player itself.

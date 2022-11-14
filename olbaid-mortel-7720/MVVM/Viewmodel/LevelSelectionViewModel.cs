@@ -15,8 +15,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public LevelSelectionViewModel()
     {
       //Examples
-      LevelModel level1 = new LevelModel(true, true, false, 1, "LEVEL 1", TimeSpan.FromSeconds(54.0), "Sunset Desktop.jpg", true);
-      LevelModel level2 = new LevelModel(true, false, false, 2, "LEVEL 2", TimeSpan.FromSeconds(43.0), "Bilder/Winter Screen.jpg", false);
+      LevelModel level1 = new LevelModel(true, true, false, 1, "LEVEL 1 Name", TimeSpan.FromSeconds(54.0), "", true);
+      LevelModel level2 = new LevelModel(true, false, false, 2, "Das ist mein LEVEL 2.", TimeSpan.FromSeconds(43.0), "", false);
       LevelModel level3 = new LevelModel(false, true, true, 3, "LEVEL 3", TimeSpan.FromSeconds(97.0), "pack://application:,,,/Images/Items/paralysispotion.png", false);
       LevelModel level4 = new LevelModel(true, true, true, 4, "LEVEL 4", TimeSpan.FromSeconds(197.0), "pack://application:,,,/Images/Items/paralysispotion.png", false);
       Levellist.Add(level1);
@@ -41,7 +41,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void SelectLevel(object sender)
     {
-      return; //TODO Remove
+      //return; //TODO Remove
       mainWindow.SwitchView(new LevelView((int)sender));
     }
 

@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
+             xmlns:conv="clr-namespace:olbaid_mortel_7720.MVVM.Utils"
              mc:Ignorable="d"
              Loaded="UserControl_Loaded"
              d:DesignHeight="450"
              d:DesignWidth="800">
   <UserControl.Resources>
+    <conv:BoolToVisibilityInverterConverter x:Key="BoolToVisIC" />
+
     <!--#region TriangleButton-->
     <Style x:Key="TriangleButton"
            TargetType="{x:Type Button}">
@@ -17,22 +20,50 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="{x:Type Button}">
-            <Polygon Fill="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"
+            <Polygon x:Name="Triangle"
+                     Fill="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"
                      Points="0,15 30,30 30,0"
+                     Opacity="1"
                      Stroke="Black"
                      StrokeLineJoin="Round"
                      StrokeStartLineCap="Round"
                      StrokeEndLineCap="Round"
                      StrokeThickness="3">
             </Polygon>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver"
+                       Value="True">
+                <Trigger.EnterActions>
+                  <BeginStoryboard HandoffBehavior="Compose">
+                    <Storyboard>
+                      <DoubleAnimation Storyboard.TargetName="Triangle"
+                                       Storyboard.TargetProperty="StrokeThickness"
+                                       To="5"
+                                       Duration="0:0:0.2" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                  <BeginStoryboard HandoffBehavior="Compose">
+                    <Storyboard>
+                      <DoubleAnimation Storyboard.TargetName="Triangle"
+                                       Storyboard.TargetProperty="StrokeThickness"
+                                       To="3"
+                                       Duration="0:0:0.2" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </Trigger.ExitActions>
+              </Trigger>
+            </ControlTemplate.Triggers>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
     </Style>
     <!--#endregion TriangleButton-->
-    <SolidColorBrush x:Key="ButtonBrush"
-                     Color="OrangeRed" />
+    
     <!--#region Levelbutton-->
+
+    <!--#region StarCheckbox -->
     <Style x:Key="Star"
            TargetType="Polygon">
       <Setter Property="Points"
@@ -70,7 +101,8 @@
         </Setter.Value>
       </Setter>
     </Style>
-
+    <!--#endregion StarCheckbox-->
+    
     <Style x:Key="Levelbutton"
            TargetType="{x:Type Button}">
       <Setter Property="FontFamily"
@@ -81,53 +113,38 @@
         <Setter.Value>
           <ControlTemplate TargetType="{x:Type Button}">
             <Border BorderThickness="8"
+                    CornerRadius="20"
                     Background="Black"
                     x:Name="OuterBorder"
                     OpacityMask="DarkGray"
+                    IsEnabled="{Binding Path=IsUnlocked}"
                     Opacity="0.5">
               <Border.Effect>
                 <DropShadowEffect />
               </Border.Effect>
-              <!--<Border.Style>
-                  <Style TargetType="Border">
-                    <Style.Triggers>
-                      <Trigger Property="IsMouseOver"
-                               Value="True">
-                        <Trigger.EnterActions>
-                          <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                            <Storyboard>
-                              <ColorAnimation Duration="0:0:1"
-                                              To="#FF0000"
-                                              Storyboard.TargetProperty="BorderBrush.Color" />
-                            </Storyboard>
-                          </BeginStoryboard>
-                        </Trigger.EnterActions>
-                        <Trigger.ExitActions>
-                          <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
-                            <Storyboard>
-                              <ColorAnimation Duration="0:0:1"
-                                              To="Black"
-                                              Storyboard.TargetProperty="BorderBrush.Color" />
-                            </Storyboard>
-                          </BeginStoryboard>
-                        </Trigger.ExitActions>
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </Border.Style>-->
-
               <Grid x:Name="MyDataGrid">
-
                 <Border BorderThickness="8">
-                  <Grid >
+                  <Grid>
                     <Grid.Background>
-                      <ImageBrush ImageSource="{Binding Path=PreviewPicture}"/>
-
+                      <ImageBrush ImageSource="{Binding Path=PreviewPicture}" />
                     </Grid.Background>
                     <Grid.RowDefinitions>
                       <RowDefinition />
                       <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid Grid.Row="0"
+                          ClipToBounds="True">
+                      <Image VerticalAlignment="Center"
+                             Source="/Images/lock-closed.png"
+                             Opacity="0.7"
+                             Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsEnabled, Converter={StaticResource BoolToVisIC}}"
+                             Width="110">
+                        <Image.Effect>
+                          <DropShadowEffect />
+                        </Image.Effect>
+                      </Image>
+
+                    </Grid>
                     <Grid Grid.Row="1"
                           Background="Gray"
                           Opacity="0.7"
@@ -145,13 +162,19 @@
                       </Grid.ColumnDefinitions>
                       <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                  Grid.Column="1"
-                                 HorizontalAlignment="Center" />
+                                 Foreground="White"
+                                 TextWrapping="WrapWithOverflow"
+                                 HorizontalAlignment="Center"/>
+
                       <TextBlock Text="{Binding Path=BestTime}"
                                  Grid.Column="1"
                                  HorizontalAlignment="Center"
-                                 Grid.Row="1" />
+                                 Grid.Row="1">
+                        <Run Text="Best Time: " />
+                      </TextBlock>
                       <Grid Grid.Row="2"
                             Grid.Column="1"
+                            Width="80"
                             HorizontalAlignment="Stretch">
                         <CheckBox Style="{StaticResource StarCheckbox}"
                                   IsChecked="{Binding Path=Star1}"
@@ -168,46 +191,17 @@
                 </Border>
               </Grid>
             </Border>
-            <!--<ControlTemplate.Triggers>
-              --><!--<EventTrigger RoutedEvent="Button.MouseEnter">
-                <EventTrigger.Actions>
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OuterBorder"
-                                                     Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                                     AutoReverse="True">
 
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0"
-                                                Value="Color.Blue">
-                            
-                          <DiscreteObjectKeyFrame.Value>
-                            <SolidColorBrush Color="Blue" Opacity="0.6" />
-                          </DiscreteObjectKeyFrame.Value>
-                        </DiscreteObjectKeyFrame>
-                      </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger.Actions>
-              </EventTrigger>--><!-- 
-              <EventTrigger RoutedEvent="Button.MouseEnter">
-                <EventTrigger.Actions>
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <ColorAnimation From="Black"
-                                      To="Blue"
-                                      Duration="0:0:2"
-                                      Storyboard.TargetName="OuterBorder"
-                                      Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                      AutoReverse="True"/>
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger.Actions>
-              </EventTrigger>
-            </ControlTemplate.Triggers>-->
+            <!--#region Buttontrigger -->
             <ControlTemplate.Triggers>
-              <Trigger Property="Button.IsMouseOver"
-                       Value="True">
-                <Trigger.EnterActions>
+              <MultiTrigger>
+                <MultiTrigger.Conditions>
+                  <Condition Property="Button.IsMouseOver"
+                             Value="True" />
+                  <Condition Property="Button.IsEnabled"
+                             Value="True" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
                   <BeginStoryboard HandoffBehavior="Compose">
                     <Storyboard>
                       <ColorAnimation Storyboard.TargetName="OuterBorder"
@@ -216,9 +210,9 @@
                                       Duration="0:0:0.2" />
                     </Storyboard>
                   </BeginStoryboard>
-                </Trigger.EnterActions>
+                </MultiTrigger.EnterActions>
 
-                <Trigger.ExitActions>
+                <MultiTrigger.ExitActions>
                   <BeginStoryboard>
                     <Storyboard>
                       <ColorAnimation Storyboard.TargetName="OuterBorder"
@@ -227,16 +221,17 @@
                                       Duration="0:0:0.2" />
                     </Storyboard>
                   </BeginStoryboard>
-                </Trigger.ExitActions>
-              </Trigger>
+                </MultiTrigger.ExitActions>
+              </MultiTrigger>
             </ControlTemplate.Triggers>
+            <!--#endregion Buttontrigger-->
           </ControlTemplate>
         </Setter.Value>
       </Setter>
       <Style.Triggers>
       </Style.Triggers>
     </Style>
-    <!--#region Levelbutton-->
+    <!--#endregion Levelbutton-->
 
   </UserControl.Resources>
   <Grid Background="DarkGray">
@@ -258,17 +253,15 @@
                   Style="{StaticResource Levelbutton}"
                   Command="{Binding DataContext.SelectLevelCommand, ElementName=LevellistView}"
                   CommandParameter="{Binding LevelID}"
-                  Background="Red"
+                  IsEnabled="{Binding IsUnlocked}"
                   Height="360"
-                  Width="190"
+                  Width="210"
                   VerticalAlignment="Center">
           </Button>
         </DataTemplate>
       </ListView.ItemTemplate>
       <ListView.ItemContainerStyle>
         <Style TargetType="{x:Type ListViewItem}">
-          <Setter Property="Background"
-                  Value="Green"  />
           <Setter Property="Margin"
                   Value="20" />
           <Setter Property="Template">
@@ -280,17 +273,18 @@
           </Setter>
         </Style>
       </ListView.ItemContainerStyle>
-
     </ListView>
 
     <Button Style="{StaticResource TriangleButton}"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Background="Red" />
+            Opacity=".8"
+            Background="LightBlue" />
     <Button Style="{StaticResource TriangleButton}"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Background="Yellow"
+            Opacity=".8"
+            Background="LightBlue"
             RenderTransformOrigin="0.5, 0.5">
       <Button.RenderTransform>
         <RotateTransform Angle="180" />
