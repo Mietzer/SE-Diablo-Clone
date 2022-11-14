@@ -1,4 +1,4 @@
-﻿using olbaid_mortel_7720.MVVN.Models;
+﻿using olbaid_mortel_7720.MVVM.Models;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace olbaid_mortel_7720.MVVN.Views
+namespace olbaid_mortel_7720.MVVM.Views
 {
   /// <summary>
   ///   View component for the health bar in the overall player's gui.
