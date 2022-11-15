@@ -9,52 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- Player's healthbar assets -->
-        <Resource Include="Images\Healthbar\background.png" />
-        <Resource Include="Images\Healthbar\bar-normal.png" />
-        <Resource Include="Images\Healthbar\bar-poisoned.png" />
-        <Resource Include="Images\Healthbar\overlay.png" />
-        <Resource Include="Images\Healthbar\Icons\heart-normal.png" />
-        <Resource Include="Images\Healthbar\Icons\heart-burnt.gif" />
-        <Resource Include="Images\Healthbar\Icons\heart-poisoned.png" />
-        <Resource Include="Images\Healthbar\Icons\heart-healing.gif" />
-        <Resource Include="Images\Healthbar\Icons\heart-protected.gif" />
-        <!-- Boss' healthbar assets -->
-        <Resource Include="Images\Bossbar\background.png" />
-        <Resource Include="Images\Bossbar\bar.png" />
-        <Resource Include="Images\Bossbar\overlay.png" />
-        <!-- Level selection assets -->
-        <Resource Include="Images\lock-closed.png" />
-        <Resource Include="Images\lock-open.png" />
-        <!-- Button assets -->
-        <Resource Include="Images\Buttons\close.png" />
-        <Resource Include="Images\Buttons\close-active.png" />
-        <Resource Include="Images\Buttons\maximize.png" />
-        <Resource Include="Images\Buttons\maximize-active.png" />
-        <Resource Include="Images\Buttons\minimize.png" />
-        <Resource Include="Images\Buttons\minimize-active.png" />
-        <!-- Font assets -->
-        <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
-        <!-- Gameplay assets -->
-        <Resource Include="Images\bullet.png" />
-        <!-- Player assets -->
-        <Resource Include="Images\Entities\Player\player-walking-down.gif" />
-        <Resource Include="Images\Entities\Player\player-standing-down.gif" />
-        <Resource Include="Images\Entities\Player\player-walking-left.gif" />
-        <Resource Include="Images\Entities\Player\player-standing-left.gif" />
-        <Resource Include="Images\Entities\Player\player-standing-right.gif" />
-        <Resource Include="Images\Entities\Player\player-walking-right.gif" />
-        <Resource Include="Images\Entities\Player\player-standing-up.gif" />
-        <Resource Include="Images\Entities\Player\player-walking-up.gif" />
-        <!-- Weapon overlay assets -->
-        <Resource Include="Images\Weapons\Player\Handgun\walking-right.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\walking-left.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\walking-up.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\walking-down.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\standing-down.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\standing-left.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\standing-right.gif" />
-        <Resource Include="Images\Weapons\Player\Handgun\standing-up.gif" />
+        <Resource Include="Images\**\*.png" />
+        <Resource Include="Images\**\*.gif" />
     </ItemGroup>
 
     <ItemGroup>
@@ -62,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="TiledCS" Version="3.3.3" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
     </ItemGroup>
 

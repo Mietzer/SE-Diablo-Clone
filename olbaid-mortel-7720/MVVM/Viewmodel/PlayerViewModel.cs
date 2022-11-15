@@ -39,6 +39,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
+      MyPlayer.Stop("Initial", null);
       MyPlayerCanvas = playerCanvas;
 
       //Save Borders of the Canvas
@@ -110,7 +111,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerMidX, p.Y - playerMidY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/bullet.png")));
+      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.GENERAL, "bullet.png"));
       Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
       
       //Add to Player
