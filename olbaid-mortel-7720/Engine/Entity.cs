@@ -100,7 +100,6 @@ namespace olbaid_mortel_7720.Engine
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
-      Stop(null, null);
     }
 
     #region Methods

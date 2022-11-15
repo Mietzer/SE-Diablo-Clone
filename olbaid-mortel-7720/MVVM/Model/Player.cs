@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,8 +73,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       if ((oldDirection != Direction || oldIsMoving != IsMoving) && !IsShooting)
       {
         string directionString = this.Direction.ToString().ToLower();
-        Image = new BitmapImage(new Uri("pack://application:,,,/Images/Entities/Player/player-walking-" + directionString + ".gif"));
-        WeaponOverlay = new BitmapImage(new Uri("pack://application:,,,/Images/Weapons/Player/Handgun/walking-" + directionString + ".gif"));
+        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "walking-" + directionString + ".gif");
       }
     }
 
@@ -84,10 +85,14 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="e"></param>
     public override void Stop(object sender, EventArgs e)
     {
+      bool oldIsMoving = IsMoving;
       IsMoving = false;
-      string directionString = this.Direction.ToString().ToLower();
-      Image = new BitmapImage(new Uri("pack://application:,,,/Images/Entities/Player/player-standing-" + directionString + ".gif"));
-      WeaponOverlay = new BitmapImage(new Uri("pack://application:,,,/Images/Weapons/Player/Handgun/standing-" + directionString + ".gif"));
+      if (oldIsMoving != IsMoving || (sender != null && sender.ToString().Equals("Initial")))
+      {
+        string directionString = this.Direction.ToString().ToLower();
+        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
+      }
     }
     
     /// <summary>
@@ -101,13 +106,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       string directionString = newDirection.ToString().ToLower();
       if (IsMoving)
       {
-        Image = new BitmapImage(new Uri("pack://application:,,,/Images/Entities/Player/player-walking-" + directionString + ".gif"));
-        WeaponOverlay = new BitmapImage(new Uri("pack://application:,,,/Images/Weapons/Player/Handgun/walking-" + directionString + ".gif"));
+        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "walking-" + directionString + ".gif");
       }
       else
       {
-        Image = new BitmapImage(new Uri("pack://application:,,,/Images/Entities/Player/player-standing-" + directionString + ".gif"));
-        WeaponOverlay = new BitmapImage(new Uri("pack://application:,,,/Images/Weapons/Player/Handgun/standing-" + directionString + ".gif"));
+        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
       }
       
       Direction = newDirection;

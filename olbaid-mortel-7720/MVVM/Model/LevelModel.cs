@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Helper;
 using System;
+using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -62,8 +63,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
-    private string previewPicture;
-    public string PreviewPicture
+    private BitmapImage previewPicture;
+    public BitmapImage PreviewPicture
     {
       get { return previewPicture; }
       set
@@ -87,7 +88,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     #endregion Properties
 
     #region Constructor
-    public LevelModel(bool star1, bool star2, bool star3, int levelID, string levelName, TimeSpan bestTime, string previewPicture, bool isUnlocked)
+    public LevelModel(bool star1, bool star2, bool star3, int levelID, string levelName, TimeSpan bestTime, BitmapImage previewPicture, bool isUnlocked)
     {
       Star1 = star1;
       Star2 = star2;

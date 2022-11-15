@@ -63,7 +63,7 @@ namespace olbaid_mortel_7720.MVVM.View
       double gameHeight = w.ActualHeight - (row0 as Grid).ActualHeight;
 
 
-      Player p = new Player(0, 0, 0, 0, (int)w.Width, (int)gameHeight, 20, 20, 100, 5);
+      Player p = new Player(0, 0, 0, 0, (int)w.Width, (int)gameHeight, 128, 64, 100, 5);
       PlayerView = new PlayerCanvas(p);
     }
     #endregion PlayerAdding
