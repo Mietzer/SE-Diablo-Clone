@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="1056" d:DesignWidth="1920">
-    <Grid >
+    <Grid Name="myGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="32"/>
@@ -105,26 +105,7 @@
             <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
 
-        <Rectangle Width="206" Height="64" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0" >
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="C:\Users\Konsti\OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm\Documents\Studium\Semester 3\SE Praktikum\git\olbaid-mortel-7720\Images\Tilesets\Level1.png" AlignmentX="Left" AlignmentY="top" Stretch="None" TileMode="None" ViewboxUnits="Absolute" >
-                    <ImageBrush.Transform>
-                        <TranslateTransform X="-174" Y="-32" />
-                    </ImageBrush.Transform>
-                </ImageBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle Width="238" Height="32" RenderTransformOrigin="0,0" Grid.Row="0" Grid.Column="1" >
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="C:\Users\Konsti\OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm\Documents\Studium\Semester 3\SE Praktikum\git\olbaid-mortel-7720\Images\Tilesets\Level1.png" AlignmentX="Left" AlignmentY="top" Stretch="None" TileMode="None" ViewboxUnits="Absolute" >
-                    <ImageBrush.Transform>
-                        <TranslateTransform X="-206" Y="0" />
-                    </ImageBrush.Transform>
-                </ImageBrush>
-            </Rectangle.Fill>
-
-        </Rectangle>
-
+        <Rectangle Name="Tiled00" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
         <Rectangle Name="Tiled01" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
         <Rectangle Name="Tiled02" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
         <Rectangle Name="Tiled03" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
@@ -225,6 +206,7 @@
         <Rectangle Name="Tiled98" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
         <Rectangle Name="Tiled99" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
         <Rectangle Name="Tiled100" RenderTransformOrigin="0,0" Grid.Column="0" Grid.Row="0"/>
+
 
     </Grid>
 </UserControl>

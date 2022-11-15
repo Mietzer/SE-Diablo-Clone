@@ -32,9 +32,9 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       foreach (var layer in tileLayers)
       {
-        for (var y = 0; y < layer.height; y++)
+        for (var y = 0; y < layer.height; y++) //10
         {
-          for (var x = 0; x < layer.width; x++)
+          for (var x = 0; x < layer.width; x++) //10
           {
             var index = (y * layer.width) + x; // Assuming the default render order is used which is from right to bottom
             var gid = layer.data[index]; // The tileset tile index
@@ -56,7 +56,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
             // Use the connection object as well as the tileset to figure out the source rectangle.
             //var rect = ;
-            Rect[Layerzahler, (y + x)] = map.GetSourceRect(mapTileset, tileset, gid);
+            Rect[Layerzahler, index] = map.GetSourceRect(mapTileset, tileset, gid);
             // Render sprite at position tileX, tileY using the rect
 
           }

@@ -17,6 +17,11 @@
 
     <ItemGroup>
         <None Remove="Images\lock.png" />
+        <None Remove="Images\Tilesets\Level1.png" />
+        <None Remove="Images\Tilesets\Level1_old.png" />
+        <None Remove="Levels\Level1.tmx" />
+        <None Remove="Levels\Level1.tsx" />
+        <None Remove="Levels\Level1_test.tmx" />
     </ItemGroup>
 
     <ItemGroup>
@@ -76,6 +81,19 @@
         <!-- Gameplay assets -->
         <None Remove="Images\bullet.png" />
         <Resource Include="Images\bullet.png" />
+        <Resource Include="Images\Tilesets\Level1.png">
+          <CopyToOutputDirectory></CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\Tilesets\Level1_old.png" />
+        <Resource Include="Levels\Level1.tmx">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Levels\Level1.tsx">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Levels\Level1_test.tmx">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
     </ItemGroup>
 
     <ItemGroup>
@@ -86,6 +104,12 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="tiledcs" Version="3.3.3" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Images\Tilesets\Level1 - Kopieren.png">
+        <CopyToOutputDirectory></CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
