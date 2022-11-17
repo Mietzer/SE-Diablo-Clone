@@ -1,4 +1,6 @@
-﻿using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.GameplayClasses;
+using olbaid_mortel_7720.MVVM.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -30,6 +32,7 @@ namespace olbaid_mortel_7720.MVVM.View
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       AddPlayer();
+      AddEnemy();
       AddLevel();
     }
 
@@ -67,6 +70,45 @@ namespace olbaid_mortel_7720.MVVM.View
       PlayerView = new PlayerCanvas(p);
     }
     #endregion PlayerAdding
+
+    #region EnemySpawning
+
+    private EnemyCanvas enemyView;
+    public EnemyCanvas EnemyView
+    {
+      get { return enemyView; }
+      set
+      {
+        enemyView = value;
+        OnPropertyChanged(nameof(EnemyView));
+      }
+    }
+
+    private void AddEnemy()
+    {
+      Random rnd = new Random();
+      Window w = Window.GetWindow(this);
+      List<Enemy> spawnList = new List<Enemy>();
+      int maxEnemy = 10;
+      for (int i = 0; i < maxEnemy; i++)
+      {
+        //Creating Enemies and Adding them to a List
+        EnemyMelee e = new EnemyMelee(rnd.Next(0, (int)w.Width), rnd.Next(0, (int)w.ActualHeight - 50), 0, 0, (int)w.Width, (int)(w.ActualHeight), 20, 20, 5, 100, 5);
+        spawnList.Add(e);
+      }
+      //Creating View to display Enemies
+      EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
+
+      foreach (Enemy e in spawnList)
+      {
+        //Placing Enemies and Adding them to the Canvas
+        Canvas.SetTop(e.Model, e.YCoord);
+        Canvas.SetLeft(e.Model, e.XCoord);
+        EnemyView.EnemyCanvasObject.Children.Add(e.Model);
+      }
+    }
+
+    #endregion
 
     #region Level
     private UserControl currentLevel;
