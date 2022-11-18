@@ -17,10 +17,7 @@ namespace olbaid_mortel_7720.GameplayClasses
 
     override public void Attack(Player player)
     {
-      if (this.Hitbox.IntersectsWith(player.Hitbox))
-      {
         player.TakeDamage(this.Damage);
-      }
     }
 
     public void MoveToPlayer(Player player)

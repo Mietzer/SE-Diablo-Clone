@@ -64,6 +64,11 @@ namespace olbaid_mortel_7720.GameplayClasses
       
     }
 
+    public void TakeDamage(int damage)
+    {
+      this.health = health - damage;
+    }
+
     
   }
 }
