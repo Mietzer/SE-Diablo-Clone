@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,21 +23,51 @@ namespace olbaid_mortel_7720.GameplayClasses
 
     public void MoveToPlayer(Player player)
     {
-      if(player.XCoord < this.XCoord)
+      Direction lastDirection = this.Direction;
+      List<Direction> directions = new List<Direction>();
+      if(player.XCoord + player.Width / 2 < this.XCoord + this.Width / 2)
       {
-        MoveLeft();
+        directions.Add(Direction.Left);
       }
-      if(player.XCoord > this.XCoord)
+      if(player.XCoord + player.Width / 2 > this.XCoord + this.Width / 2)
       {
-        MoveRight();
+        directions.Add(Direction.Right);
       }
-      if(player.YCoord < this.YCoord)
+      if(player.YCoord + player.Height / 2 < this.YCoord + this.Height / 2)
       {
-        MoveUp();
+        directions.Add(Direction.Up);
       }
-      if(player.XCoord > this.YCoord)
+      if(player.YCoord + player.Height / 2 > this.YCoord + this.Height / 2)
       {
-        MoveDown();
+        directions.Add(Direction.Down);
+      }
+
+      Direction item;
+      if (directions.Contains(lastDirection))
+      {
+        item = lastDirection;
+      }
+      else
+      {
+        Random random = new Random();
+        int index = random.Next(0, directions.Count);
+        if (directions.Count == 0) return;
+        item = directions[index];
+      }
+      switch (item)
+      {
+        case Direction.Up:
+          this.MoveUp();
+          break;
+        case Direction.Down:
+          this.MoveDown();
+          break;
+        case Direction.Left:
+          this.MoveLeft();
+          break;
+        case Direction.Right:
+          this.MoveRight();
+          break;
       }
     }
 
