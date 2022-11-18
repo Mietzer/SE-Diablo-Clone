@@ -17,7 +17,7 @@ namespace olbaid_mortel_7720.GameplayClasses
 
     public override void Attack(Player player)
     {
-      throw new NotImplementedException();
+      player.TakeDamage(this.Damage);
     }
 
     public override void Stop(object sender, EventArgs e)
