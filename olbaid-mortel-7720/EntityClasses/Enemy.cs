@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using olbaid_mortel_7720.Engine;
+﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.MVVM.Model;
-using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace olbaid_mortel_7720.GameplayClasses
 {
@@ -35,8 +26,8 @@ namespace olbaid_mortel_7720.GameplayClasses
     public Rectangle Model
     {
       get { return model; }
-      private set 
-      { 
+      private set
+      {
         model = value;
         OnPropertyChanged(nameof(Model));
       }
@@ -53,17 +44,16 @@ namespace olbaid_mortel_7720.GameplayClasses
     }
 
 
-    
+
     public abstract void Attack(Player player);
 
-    public Enemy(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, height, width, steplength)
+    public Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
     {
       this.health = health;
       this.damage = damage;
       this.model = new Rectangle() { Tag = "Enemy", Height = 20, Width = 20, Fill = Brushes.Blue };
-      
     }
 
-    
+
   }
 }

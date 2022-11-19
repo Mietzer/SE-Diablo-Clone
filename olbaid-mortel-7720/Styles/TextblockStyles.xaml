@@ -17,9 +17,5 @@
     <Setter Property="Margin"
             Value="20,0,0,0" />
   </Style>
-  <Style TargetType="TextBlock"
-         x:Key="tbLevelSelection">
-    <Setter Property="FontFamily"
-            Value="/Fonts/VT323/VT323-Regular.ttf #VT323" />
-  </Style>
+
 </ResourceDictionary>
