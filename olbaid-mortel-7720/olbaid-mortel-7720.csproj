@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Fonts\VT323\VT323-Regular.ttf"/>
+      <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -22,6 +23,7 @@ namespace olbaid_mortel_7720.MVVM.Utils
       if (values[0] is IConvertible && values[1] is IConvertible)
       {
         double percentage = System.Convert.ToDouble(values[1]) / 100;
+        if (percentage <= 0) return 0.0;
         double fullSize = System.Convert.ToDouble(values[0]);
         return fullSize * percentage;
       }

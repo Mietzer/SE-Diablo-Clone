@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,18 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
     
+    private PlayerEffect effect;
+    public PlayerEffect Effect
+    {
+      get => effect;
+      set
+      {
+        if (value == effect) return;
+        effect = value;
+        OnPropertyChanged(nameof(Effect));
+      }
+    }
+    
     private BitmapImage weaponOverlay;
     public BitmapImage WeaponOverlay
     {
@@ -41,6 +54,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Player(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int health, int stepLength) : base(x, y, xMin, yMin, xMax, yMax, height, width, stepLength)
     {
       HealthPoints = health;
+      Effect = PlayerEffect.None;
       WeaponOverlay = null;
     }
 

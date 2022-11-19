@@ -16,5 +16,6 @@
                     Content="{Binding CurrentLevel}" />
     <ContentControl Grid.Row="1"
                     Content="{Binding EnemyView}" />
+    <ContentControl Grid.Row="1" Content="{Binding Gui}" />
   </Grid>
 </UserControl>

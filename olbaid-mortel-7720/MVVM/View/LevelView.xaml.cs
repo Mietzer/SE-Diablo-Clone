@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.GameplayClasses;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +35,7 @@ namespace olbaid_mortel_7720.MVVM.View
       AddPlayer();
       AddEnemy();
       AddLevel();
+      AddGui();
     }
 
     #region PlayerAdding
@@ -125,6 +127,38 @@ namespace olbaid_mortel_7720.MVVM.View
       currentLevel = this;
     }
     #endregion Level
+    
+    #region Gui Overlays
+    private UserControl guiOverlay;
+    public UserControl Gui
+    {
+      get { return guiOverlay; }
+      set
+      {
+        guiOverlay = value;
+        OnPropertyChanged(nameof(Gui));
+      }
+    }
+
+    private void AddGui()
+    {
+      Window w = Window.GetWindow(this);
+      Gui = new UserControl();
+      Canvas guiCanvas = new Canvas();
+      guiCanvas.Width = w.Width;
+      guiCanvas.Height = w.Height;
+      guiCanvas.Background = Brushes.Transparent;
+      
+      PlayerHealthbarView phb = new PlayerHealthbarView(PlayerView.MyPlayer);
+      phb.Height = 32;
+      phb.Width = phb.Height * 6;
+      Canvas.SetTop(phb, 10);
+      Canvas.SetLeft(phb, 10);
+      guiCanvas.Children.Add(phb);
+      
+      Gui.Content = guiCanvas;
+    }
+    #endregion Gui Overlays
 
     #region ProperyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
