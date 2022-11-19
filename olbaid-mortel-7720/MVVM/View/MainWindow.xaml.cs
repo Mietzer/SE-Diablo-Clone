@@ -13,7 +13,7 @@ namespace olbaid_mortel_7720.MVVM.View
 
     public MainWindow()
     {
-      CurrentView = new MapView();
+      CurrentView = new LevelSelectionView();
 
 
       InitializeComponent();

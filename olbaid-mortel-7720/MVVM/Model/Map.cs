@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using olbaid_mortel_7720.MVVM.Model.Object;
+using olbaid_mortel_7720.Object;
+using System.Collections.Generic;
+using System.Linq;
 using TiledCS;
 
 namespace olbaid_mortel_7720.MVVM.Model
@@ -6,8 +9,11 @@ namespace olbaid_mortel_7720.MVVM.Model
   public class Map
   {
     #region Properties
-    string PathMap { get; set; }
-    string PathTileset { get; set; }
+    public string PathMap { get; set; }
+    public string PathTileset { get; set; }
+
+    public int MapHeight;
+    public int MapWidth;
 
     #endregion Properties
 
@@ -15,21 +21,25 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       this.PathMap = pathmap;
       this.PathTileset = pathtileset;
-
+      this.MapHeight = this.GetHeight();
+      this.MapWidth = this.GetWidth();
     }
 
 
 
     #region Methods
-    public TiledCS.TiledSourceRect[,] Load()
+    public List<MapObject> Load()
     {
-      TiledCS.TiledSourceRect[,] Rect = new TiledCS.TiledSourceRect[5, 100];
-      int Layerzahler = 0;
+      List<MapObject> mapObjects = new List<MapObject>();
+
+
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
       var tilesets = map.GetTiledTilesets(this.PathTileset); // DO NOT forget the / at the end
       var tileLayers = map.Layers.Where(x => x.type == TiledLayerType.TileLayer);
+      var tileObject = map.Layers.Where(x => x.type == TiledLayerType.ObjectLayer);
 
+      //Creat MapObjects for Rendering Map
       foreach (var layer in tileLayers)
       {
         for (var y = 0; y < layer.height; y++) //10
@@ -55,16 +65,42 @@ namespace olbaid_mortel_7720.MVVM.Model
             var tileset = tilesets[mapTileset.firstgid];
 
             // Use the connection object as well as the tileset to figure out the source rectangle.
-            //var rect = ;
-            Rect[Layerzahler, index] = map.GetSourceRect(mapTileset, tileset, gid);
-            // Render sprite at position tileX, tileY using the rect
+            var rect = map.GetSourceRect(mapTileset, tileset, gid); ;
+
+
+            mapObjects.Add(new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == "Floor" ? true : false));
 
           }
         }
-        Layerzahler++;
+
       }
 
-      return Rect;
+      //Creat ObjectList for Plasing Objects in Map
+      foreach (var layer in tileObject)
+      {
+        foreach (var obj in layer.objects)
+        {
+          //To Do Impelmentierung vpn Objecten z.b. Spawn Points
+          /*
+          obj.name; //Name des Objectes 
+          obj.x;    //Plazierung in der Karte 
+          obj.y;    //Plazierung in der Karte
+          */
+        }
+      }
+
+      return mapObjects;
+    }
+
+    public int GetHeight()
+    {
+      var map = new TiledMap(this.PathMap);
+      return map.Height;
+    }
+    public int GetWidth()
+    {
+      var map = new TiledMap(this.PathMap);
+      return map.Width;
     }
     #endregion Methods
 

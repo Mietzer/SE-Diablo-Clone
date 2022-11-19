@@ -3,12 +3,10 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -64,10 +62,19 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public RelayCommand SelectLevel1Command { get; set; }
     public void SelectLevel1(object sender)
     {
-      //TODO
+      // This will get the current WORKING directory (i.e. \bin\Debug)
+      string workingDirectory = Environment.CurrentDirectory;
+      // or: Directory.GetCurrentDirectory() gives the same result
+
+      // This will get the current PROJECT directory
+      string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+
+      Level level1 = new Level(new Map($"{projectDirectory}/Levels/Level1.tmx", $"{projectDirectory}/Levels/Level1.tsx"));
+
+      MapView mapView = new MapView(level1.Map);
     }
     public bool CanSelectLevel1()
-      => true; 
+      => true;
     public RelayCommand SelectLevel2Command { get; set; }
     public void SelectLevel2(object sender)
     {

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Level1.tmx",
+    "activeFile": "Level1.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -20,8 +20,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 365,
-                "y": 553
+                "x": 959.5,
+                "y": 526.5
             }
         },
         "Level1.tmx#Level1": {
@@ -46,11 +46,11 @@
             "scaleInEditor": 5.5
         },
         "Level1_test.tmx": {
-            "scale": 3.7495312499999995,
-            "selectedLayer": 0,
+            "scale": 1.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": -41.07180064174688,
-                "y": 89.07780139184067
+                "x": -270.3333333333333,
+                "y": 245
             }
         },
         "TilemapLevel1.tsx": {
@@ -68,12 +68,14 @@
     "map.width": 10,
     "openFiles": [
         "Level1.tmx",
-        "Level1.tsx"
+        "Level1.tsx",
+        "Level1_test.tmx"
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level1.tsx",
         "Level1.tmx",
+        "Level1_test.tmx",
+        "Level1.tsx",
         "Level1_old.tsx",
         "TilemapLevel1.tsx"
     ],
