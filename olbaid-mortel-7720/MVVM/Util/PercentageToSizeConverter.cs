@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace olbaid_mortel_7720.MVVN.Utils
+namespace olbaid_mortel_7720.MVVM.Utils
 {
   /// <summary>
   ///   A Converter to convert a percentage to a size to be used in XAML.

@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.MVVN.Models;
+using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Models;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -6,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace olbaid_mortel_7720.MVVN.Views
+namespace olbaid_mortel_7720.MVVM.Views
 {
   /// <summary>
   ///   View component for the health bar in the overall player's gui.
@@ -42,32 +43,30 @@ namespace olbaid_mortel_7720.MVVN.Views
         switch (effect)
         {
           case PlayerEffect.Burning:
-            iconSource = new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/Icons/heart-burnt.gif"));
+            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-burnt.gif");
             break;
           case PlayerEffect.Poisoned:
-            iconSource =
-              new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/Icons/heart-poisoned.png"));
+            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-poisoned.png");
             break;
           case PlayerEffect.Healing:
-            iconSource = new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/Icons/heart-healing.gif"));
+            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-healing.gif");
             break;
           case PlayerEffect.Protected:
-            iconSource =
-              new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/Icons/heart-protected.gif"));
+            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-protected.gif");
             break;
           default:
-            iconSource = new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/Icons/heart-normal.png"));
+            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-normal.png");
             break;
         }
         ImageBehavior.SetAnimatedSource(ImgIcon, iconSource);
 
         if (effect == PlayerEffect.Poisoned)
         {
-          ImgBar.Source = new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/bar-poisoned.png"));
+          ImgBar.Source = RessourceImporter.Import(ImageCategory.HEALTHBAR, "bar-poisoned.png");
         }
         else
         {
-          ImgBar.Source = new BitmapImage(new Uri("pack://application:,,,/Images/Healthbar/bar-normal.png"));
+          ImgBar.Source = RessourceImporter.Import(ImageCategory.HEALTHBAR, "bar-normal.png");
         }
       }
     }

@@ -1,4 +1,4 @@
-﻿namespace olbaid_mortel_7720.MVVN.Models
+﻿namespace olbaid_mortel_7720.MVVM.Models
 {
   /// <summary>
   ///  List containing all the possible effects a player can have

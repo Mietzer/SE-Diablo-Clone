@@ -9,101 +9,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Levels\Level1\**" />
-      <EmbeddedResource Remove="Levels\Level1\**" />
-      <None Remove="Levels\Level1\**" />
-      <Page Remove="Levels\Level1\**" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Remove="Images\lock.png" />
-        <None Remove="Images\Tilesets\Level1.png" />
-        <None Remove="Images\Tilesets\Level1_old.png" />
-        <None Remove="Levels\Level1.tmx" />
-        <None Remove="Levels\Level1.tsx" />
-        <None Remove="Levels\Level1_test.tmx" />
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Images\lock.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Resource>
-    </ItemGroup>
-
-    <ItemGroup>
-        <!-- Player's healthbar assets -->
-        <None Remove="Images\Healthbar\background.png" />
-        <Resource Include="Images\Healthbar\background.png" />
-        <None Remove="Images\Healthbar\bar-normal.png" />
-        <Resource Include="Images\Healthbar\bar-normal.png" />
-        <None Remove="Images\Healthbar\bar-poisoned.png" />
-        <Resource Include="Images\Healthbar\bar-poisoned.png" />
-        <None Remove="Images\Healthbar\overlay.png" />
-        <Resource Include="Images\Healthbar\overlay.png" />
-        <None Remove="Images\Healthbar\Icons\heart-normal.png" />
-        <Resource Include="Images\Healthbar\Icons\heart-normal.png" />
-        <None Remove="Images\Healthbar\Icons\heart-burnt.gif" />
-        <Resource Include="Images\Healthbar\Icons\heart-burnt.gif" />
-        <None Remove="Images\Healthbar\Icons\heart-poisoned.png" />
-        <Resource Include="Images\Healthbar\Icons\heart-poisoned.png" />
-        <None Remove="Images\Healthbar\Icons\heart-healing.gif" />
-        <Resource Include="Images\Healthbar\Icons\heart-healing.gif" />
-        <None Remove="Images\Healthbar\Icons\heart-protected.gif" />
-        <Resource Include="Images\Healthbar\Icons\heart-protected.gif" />
-        <!-- Boss' healthbar assets -->
-        <None Remove="Images\Bossbar\background.png" />
-        <Resource Include="Images\Bossbar\background.png" />
-        <None Remove="Images\Bossbar\bar.png" />
-        <Resource Include="Images\Bossbar\bar.png" />
-        <None Remove="Images\Bossbar\overlay.png" />
-        <Resource Include="Images\Bossbar\overlay.png" />
-        <!-- Level selection assets -->
-        <None Remove="Images\lock-closed.png" />
-        <Resource Include="Images\lock-closed.png" />
-        <None Remove="Images\lock-open.png" />
-        <Resource Include="Images\lock-open.png" />
-        <!-- Button assets -->
-        <None Remove="Images\Buttons\close.png" />
-        <Resource Include="Images\Buttons\close.png" />
-        <None Remove="Images\Buttons\close-active.png" />
-        <Resource Include="Images\Buttons\close-active.png" />
-        <None Remove="Images\Buttons\maximize.png" />
-        <Resource Include="Images\Buttons\maximize.png" />
-        <None Remove="Images\Buttons\maximize-active.png" />
-        <Resource Include="Images\Buttons\maximize-active.png" />
-        <None Remove="Images\Buttons\minimize.png" />
-        <Resource Include="Images\Buttons\minimize.png" />
-        <None Remove="Images\Buttons\minimize-active.png" />
-        <Resource Include="Images\Buttons\minimize-active.png" />
-        <!-- Font assets -->
-        <None Remove="Fonts\VT323\VT323-Regular.ttf" />
-        <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
-        <!-- Gameplay assets -->
-        <None Remove="Images\bullet.png" />
-        <Resource Include="Images\bullet.png" />
-        <Resource Include="Images\Tilesets\Level1.png">
-          <CopyToOutputDirectory></CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Images\Tilesets\Level1_old.png" />
-        <Resource Include="Levels\Level1.tmx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Levels\Level1.tsx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Levels\Level1_test.tmx">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Resource>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Fonts" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="tiledcs" Version="3.3.3" />
+        <PackageReference Include="TiledCS" Version="3.3.3" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Fonts\VT323\VT323-Regular.ttf"/>
     </ItemGroup>
 
     <ItemGroup>
