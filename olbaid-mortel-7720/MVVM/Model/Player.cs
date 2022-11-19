@@ -98,7 +98,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public override void Stop(object sender, EventArgs e)
+    public override void StopMovement(object? sender, EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;

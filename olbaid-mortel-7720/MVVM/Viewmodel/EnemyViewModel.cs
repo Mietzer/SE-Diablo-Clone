@@ -16,31 +16,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class EnemyViewModel : NotifyObject
   {
-    public List<Enemy> MyEnemy = new List<Enemy>();
+    public List<Enemy> MyEnemies = new List<Enemy>();
     private Player MyPlayer { get; set; }
-    private int MinX;
-    private int MinY;
-    private int MaxX;
-    private int MaxY;
 
     private Canvas MyEnemyCanvas;
 
-    private string Tag;
-
-    public EnemyViewModel(List<Enemy> myenemy, Canvas MyEnemyCanvas, Player player)
+    public EnemyViewModel(List<Enemy> myEnemies, Canvas myEnemyCanvas, Player player)
     {
-      this.MyEnemy = myenemy;
-      this.MyEnemyCanvas = MyEnemyCanvas;
-      this.Tag = "Enemy";
-     
-      foreach(Enemy enemy in MyEnemy)
-      {
-        MinX = enemy.XCoordMin;
-        MinY = enemy.YCoordMin;
-        MaxX = enemy.XCoordMax;
-        MaxY = enemy.YCoordMax;
-      }
-
+      this.MyEnemies = myEnemies;
+      this.MyEnemyCanvas = myEnemyCanvas;
       this.MyPlayer = player;
 
       InitTimer();
@@ -69,7 +53,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void Move(object sender, EventArgs e)
     {
-      foreach(Enemy enemy in MyEnemy)
+      foreach(Enemy enemy in MyEnemies)
       {
         (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
         //Places enemy Rectangle at new Position
@@ -79,7 +63,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void CheckforHit(object sender, EventArgs e)
     {
-      foreach(Enemy enemy in MyEnemy)
+      foreach(Enemy enemy in MyEnemies)
       {
         foreach(Bullet bullet in MyPlayer.Bullets)
         {
@@ -101,7 +85,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void RemoveEnemy(object sender, EventArgs e)
     {
      List<Enemy> deleteList = new List<Enemy>();
-     foreach(Enemy enemy in MyEnemy)
+     foreach(Enemy enemy in MyEnemies)
       {
         // Search for Enemies with 0 or less health
         if(enemy.Health <= 0)
@@ -115,11 +99,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
      foreach(Enemy enemy in deleteList)
      {
         MyEnemyCanvas.Children.Remove(enemy.Model);
-        MyEnemy.Remove(enemy);
+        MyEnemies.Remove(enemy);
      }
-
-
     }
-
   }
 }

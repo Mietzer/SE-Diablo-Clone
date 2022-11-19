@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.GameplayClasses
 {
@@ -30,13 +33,15 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
     }
 
-    private Rectangle model;
+    private Image model;
 
-    public Rectangle Model
+    public Image Model
     {
       get { return model; }
       private set 
       { 
+        if (value.Source == Model.Source) return;
+        if (ImageBehavior.GetAnimatedSource(value) == ImageBehavior.GetAnimatedSource(Model)) return;
         model = value;
         OnPropertyChanged(nameof(Model));
       }
@@ -51,24 +56,19 @@ namespace olbaid_mortel_7720.GameplayClasses
         OnPropertyChanged(nameof(Damage));
       }
     }
-
-
     
     public abstract void Attack(Player player);
 
-    public Enemy(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, height, width, steplength)
+    protected Enemy(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, height, width, steplength)
     {
       this.health = health;
       this.damage = damage;
-      this.model = new Rectangle() { Tag = "Enemy", Height = 20, Width = 20, Fill = Brushes.Blue };
-      
+      this.model = new Image() { Tag = "Enemy", Height = height, Width = width };
     }
 
     public void TakeDamage(int damage)
     {
       this.health = health - damage;
     }
-
-    
   }
 }

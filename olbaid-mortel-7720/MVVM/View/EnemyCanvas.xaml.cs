@@ -24,23 +24,10 @@ namespace olbaid_mortel_7720.MVVM.View
   public partial class EnemyCanvas : UserControl
   {
     public List<Enemy> MyEnemy = new List<Enemy>();
-    private int MinX;
-    private int MinY;
-    private int MaxX;
-    private int MaxY;
 
     public EnemyCanvas(List<Enemy> enemyList, Player player)
     {
-
       this.MyEnemy = enemyList;
-      foreach(Enemy enemy in enemyList)
-      {
-        MinX = enemy.XCoordMin;
-        MinY = enemy.YCoordMin;
-        MaxX = enemy.XCoordMax;
-        MaxY = enemy.YCoordMax;
-      }
-      
 
       InitializeComponent();
       EnemyViewModel vm = new(enemyList, EnemyCanvasObject, player);

@@ -1,14 +1,17 @@
 ﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WpfAnimatedGif;
 
 // TODO: Namespaces
 namespace olbaid_mortel_7720.GameplayClasses
@@ -43,6 +46,11 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
 
       Direction item;
+      if (directions.Count == 0)
+      {
+        StopMovement(null, null);
+        return;
+      }
       if (directions.Contains(lastDirection))
       {
         item = lastDirection;
@@ -51,9 +59,9 @@ namespace olbaid_mortel_7720.GameplayClasses
       {
         Random random = new Random();
         int index = random.Next(0, directions.Count);
-        if (directions.Count == 0) return;
         item = directions[index];
       }
+      IsMoving = true;
       switch (item)
       {
         case Direction.Up:
@@ -71,14 +79,15 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
     }
 
-    public override void Stop(object sender, EventArgs e)
+    public override void StopMovement(object? sender, EventArgs e)
     {
-      throw new NotImplementedException();
+      this.IsMoving = false;
+      ImageBehavior.SetAnimatedSource(Model, RessourceImporter.Import(ImageCategory.MELEE, "melee-standing-left.gif"));
     }
 
     public EnemyMelee(int x, int y, int xMin, int yMin, int xMax, int yMax, int heigth, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, heigth, width, steplength, health, damage)
     {
- 
+      ImageBehavior.SetAnimatedSource(Model, RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif"));
     }
   }
 }

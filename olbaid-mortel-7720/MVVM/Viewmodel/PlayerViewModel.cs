@@ -39,7 +39,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
-      MyPlayer.Stop("Initial", null);
+      MyPlayer.StopMovement("Initial", null);
       MyPlayerCanvas = playerCanvas;
 
       //Save Borders of the Canvas
@@ -199,7 +199,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.Move(sender, Key.D);
 
       if (!moveDown && !moveUp && !moveLeft && !moveRight)
-        MyPlayer.Stop(sender, e);
+        MyPlayer.StopMovement(sender, e);
     }
     #endregion Methods
 

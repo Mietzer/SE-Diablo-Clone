@@ -92,7 +92,7 @@ namespace olbaid_mortel_7720.Engine
 
     #endregion Properties
 
-    public Entity(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int stepLength)
+    protected Entity(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int stepLength)
     {
       this.xCoord = x;
       this.yCoord = y;
@@ -144,13 +144,13 @@ namespace olbaid_mortel_7720.Engine
       if (YCoord + StepLength + Height <= YCoordMax)
         YCoord += StepLength;
     }
-    
+
     /// <summary>
     /// Defines a action happening when entity is stopping a movement
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public abstract void Stop(object sender, EventArgs e);
+    public abstract void StopMovement(object? sender, EventArgs e);
 
     #endregion Methods
 

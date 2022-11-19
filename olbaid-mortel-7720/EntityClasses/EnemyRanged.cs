@@ -20,7 +20,7 @@ namespace olbaid_mortel_7720.GameplayClasses
       player.TakeDamage(this.Damage);
     }
 
-    public override void Stop(object sender, EventArgs e)
+    public override void StopMovement(object? sender, EventArgs e)
     {
       throw new NotImplementedException();
     }

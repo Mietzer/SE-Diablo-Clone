@@ -24,8 +24,6 @@ namespace olbaid_mortel_7720.MVVM.View
 
       //Currently not used: Will be called, if any Level is selected to Initialize general Stuff
 
-      //TODO: Add Healthbar
-
       DataContext = this;
       InitializeComponent();
     }
@@ -91,11 +89,11 @@ namespace olbaid_mortel_7720.MVVM.View
       Random rnd = new Random();
       Window w = Window.GetWindow(this);
       List<Enemy> spawnList = new List<Enemy>();
-      int maxEnemy = 10;
+      int maxEnemy = 5;
       for (int i = 0; i < maxEnemy; i++)
       {
         //Creating Enemies and Adding them to a List
-        EnemyMelee e = new EnemyMelee(rnd.Next(0, (int)w.Width), rnd.Next(0, (int)w.ActualHeight - 50), 0, 0, (int)w.Width, (int)(w.ActualHeight), 20, 20, 4, 100, 5);
+        EnemyMelee e = new EnemyMelee(rnd.Next(0, (int)w.Width), rnd.Next(0, (int)w.ActualHeight - 50), 0, 0, (int)w.Width, (int)(w.ActualHeight), 128, 64, 3, 100, 5);
         spawnList.Add(e);
       }
       //Creating View to display Enemies
