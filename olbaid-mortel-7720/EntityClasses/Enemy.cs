@@ -1,7 +1,17 @@
-﻿using olbaid_mortel_7720.Engine;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.MVVM.Model;
-using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Media;
+
 
 namespace olbaid_mortel_7720.GameplayClasses
 {
@@ -52,6 +62,11 @@ namespace olbaid_mortel_7720.GameplayClasses
       this.health = health;
       this.damage = damage;
       this.model = new Rectangle() { Tag = "Enemy", Height = 20, Width = 20, Fill = Brushes.Blue };
+    }
+
+    public void TakeDamage(int damage)
+    {
+      this.health = health - damage;
     }
 
 

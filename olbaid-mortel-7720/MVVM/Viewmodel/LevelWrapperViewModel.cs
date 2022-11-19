@@ -86,7 +86,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       for (int i = 0; i < maxEnemy; i++)
       {
         //Creating Enemies and Adding them to a List
-        EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 20, 20, 5, 100, 5);
+        EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 20, 20, 4, 100, 5);
         spawnList.Add(e);
       }
       //Creating View to display Enemies
