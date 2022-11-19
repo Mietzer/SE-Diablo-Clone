@@ -25,6 +25,7 @@ namespace olbaid_mortel_7720.Engine
       get { return xCoord; }
       private set
       {
+        if (value == xCoord) return;
         xCoord = value;
         OnPropertyChanged(nameof(XCoord));
       }
@@ -36,6 +37,7 @@ namespace olbaid_mortel_7720.Engine
       get { return yCoord; }
       private set
       {
+        if (value == yCoord) return;
         yCoord = value;
         OnPropertyChanged(nameof(YCoord));
       }
@@ -68,7 +70,12 @@ namespace olbaid_mortel_7720.Engine
     public Rect Hitbox
     {
       get { return hitbox; }
-      set { hitbox = value; }
+      set
+      {
+        if (value == hitbox) return;
+        hitbox = value;
+        OnPropertyChanged(nameof(Hitbox));
+      }
     }
     
     private BitmapImage image;
@@ -77,6 +84,7 @@ namespace olbaid_mortel_7720.Engine
       get { return image; }
       set
       {
+        if (value == image) return;
         image = value;
         OnPropertyChanged(nameof(Image));
       }

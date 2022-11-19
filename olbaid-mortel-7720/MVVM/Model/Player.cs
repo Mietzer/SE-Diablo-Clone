@@ -43,6 +43,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       get { return weaponOverlay; }
       private set
       {
+        if (value == weaponOverlay) return;
         weaponOverlay = value;
         OnPropertyChanged(nameof(WeaponOverlay));
       }

@@ -34,7 +34,7 @@ namespace olbaid_mortel_7720.MVVM.Utils
     /// <summary>
     ///   Convert a size to a percentage.
     /// </summary>
-    /// <exception cref="NotImplementedException">Otherwise there would be a missing value to perform a calculation.</exception>
+    /// <exception>Otherwise there would be a missing value to perform a calculation.</exception>
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
       throw new NotImplementedException("This converter can only be used OneWay.");

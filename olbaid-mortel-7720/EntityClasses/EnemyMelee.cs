@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-
+// TODO: Namespaces
 namespace olbaid_mortel_7720.GameplayClasses
 {
   public class EnemyMelee : Enemy
