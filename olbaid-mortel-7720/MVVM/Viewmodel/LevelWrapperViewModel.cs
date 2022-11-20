@@ -105,6 +105,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       //TODO: Depending on some Variable, using of Level 1,2 or 3
       //currentLevel = this;
+      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
+      CurrentLevel = new MapView(level1.Map);
     }
     #endregion Methods
 

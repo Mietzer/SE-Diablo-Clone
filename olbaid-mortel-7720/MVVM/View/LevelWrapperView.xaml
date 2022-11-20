@@ -10,12 +10,13 @@
   <Grid>
     <Viewbox Height="50"
              VerticalAlignment="Top">
-      <ContentControl Content="{Binding PlayerHealthbar}" 
+            <ContentControl Content="{Binding PlayerHealthbar}" 
                     />
-      </Viewbox>
-    <ContentControl Content="{Binding PlayerView}" />
+    </Viewbox>
 
     <ContentControl Content="{Binding CurrentLevel}" />
+      
+    <ContentControl Content="{Binding PlayerView}" />
 
     <ContentControl Content="{Binding EnemyView}" />
   </Grid>
