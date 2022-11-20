@@ -9,22 +9,32 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Images\lock.png" />
+        <Resource Include="Images\**\*.png" />
+        <Resource Include="Images\**\*.gif" />
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Levels\Level1.tmx" />
+      <None Remove="Levels\Level1.tsx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Levels\Level1.tmx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level1.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="TiledCS" Version="3.3.3" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Fonts\VT323\VT323-Regular.ttf"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Images\Tilesets\Level1 - Kopieren.png">
-        <CopyToOutputDirectory></CopyToOutputDirectory>
-      </None>
+      <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
     </ItemGroup>
 
 </Project>
