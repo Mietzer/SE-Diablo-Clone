@@ -5,7 +5,7 @@
     <Compile Update="MVVM\View\LevelSelectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\LevelView.xaml.cs">
+    <Compile Update="MVVM\View\LevelWrapperView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\PlayerCanvas.xaml.cs">
@@ -16,7 +16,7 @@
     <Page Update="MVVM\View\LevelSelectionView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\LevelView.xaml">
+    <Page Update="MVVM\View\LevelWrapperView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\PlayerCanvas.xaml">

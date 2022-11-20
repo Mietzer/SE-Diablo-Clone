@@ -1,16 +1,10 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.GameplayClasses;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using olbaid_mortel_7720.GameplayClasses;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -18,10 +12,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
   {
     public List<Enemy> MyEnemy = new List<Enemy>();
     private Player MyPlayer { get; set; }
-    private int MinX;
-    private int MinY;
-    private int MaxX;
-    private int MaxY;
 
     private Canvas MyEnemyCanvas;
 
@@ -33,13 +23,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       this.MyEnemyCanvas = MyEnemyCanvas;
       this.Tag = "Enemy";
      
-      foreach(Enemy enemy in MyEnemy)
-      {
-        MinX = enemy.XCoordMin;
-        MinY = enemy.YCoordMin;
-        MaxX = enemy.XCoordMax;
-        MaxY = enemy.YCoordMax;
-      }
 
       this.MyPlayer = player;
 
@@ -69,7 +52,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void Move(object sender, EventArgs e)
     {
-      foreach(Enemy enemy in MyEnemy)
+      foreach (Enemy enemy in MyEnemy)
       {
         (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
         //Places enemy Rectangle at new Position

@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.ObjectModel;
@@ -41,7 +42,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void SelectLevel(object sender)
     {
-      mainWindow.SwitchView(new LevelView((int)sender));
+      mainWindow.SwitchView(new LevelWrapperView((int)sender));
+      GlobalVariables.InGame = true;
     }
 
     public bool CanSelectLevel()

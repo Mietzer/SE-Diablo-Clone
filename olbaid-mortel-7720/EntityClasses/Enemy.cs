@@ -12,6 +12,7 @@ using olbaid_mortel_7720.MVVM.Model;
 using System.Windows.Shapes;
 using System.Windows.Media;
 
+
 namespace olbaid_mortel_7720.GameplayClasses
 {
   public abstract class Enemy : Entity
@@ -35,8 +36,8 @@ namespace olbaid_mortel_7720.GameplayClasses
     public Rectangle Model
     {
       get { return model; }
-      private set 
-      { 
+      private set
+      {
         model = value;
         OnPropertyChanged(nameof(Model));
       }
@@ -53,15 +54,14 @@ namespace olbaid_mortel_7720.GameplayClasses
     }
 
 
-    
+
     public abstract void Attack(Player player);
 
-    public Enemy(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, height, width, steplength)
+    public Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
     {
       this.health = health;
       this.damage = damage;
       this.model = new Rectangle() { Tag = "Enemy", Height = 20, Width = 20, Fill = Brushes.Blue };
-      
     }
 
     public void TakeDamage(int damage)
@@ -69,6 +69,6 @@ namespace olbaid_mortel_7720.GameplayClasses
       this.health = health - damage;
     }
 
-    
+
   }
 }

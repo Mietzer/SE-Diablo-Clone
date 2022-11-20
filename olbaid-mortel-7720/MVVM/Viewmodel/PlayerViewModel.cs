@@ -1,29 +1,23 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
-  public class PlayerViewModel :  NotifyObject
+  public class PlayerViewModel : NotifyObject
   {
     #region Properties
     public Player MyPlayer { get; set; }
-    private int MinX;
-    private int MinY;
-    private int MaxX;
-    private int MaxY;
 
     //Movement Direction
     public bool moveLeft { get; set; }
@@ -41,12 +35,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       MyPlayer = player;
       MyPlayer.Stop("Initial", null);
       MyPlayerCanvas = playerCanvas;
-
-      //Save Borders of the Canvas
-      MinX = player.XCoordMin;
-      MinY = player.YCoordMin;
-      MaxX = player.XCoordMax;
-      MaxY = player.YCoordMax;
 
       InitTimer();
     }
@@ -66,7 +54,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       shotMovementTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
       shotMovementTimer.Start();
     }
-    
+
     /// <summary>
     /// Event to move the shots
     /// </summary>
@@ -84,9 +72,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
           b?.Move(velocity);
-          
-          if (Canvas.GetLeft(item) < MinX - item.Width || Canvas.GetLeft(item) > MaxX
-           || Canvas.GetTop(item) < MinY - item.Height || Canvas.GetTop(item) > MaxY)
+
+          if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
+           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY)
           {
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
@@ -113,7 +101,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       vector.Normalize();
       Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.GENERAL, "bullet.png"));
       Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
-      
+
       //Add to Player
       MyPlayer.IsShooting = true;
       MyPlayer.Bullets.Add(bullet);
@@ -122,26 +110,26 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (vector.X < 0)
       {
         playerMidX -= bullet.Rectangle.Width;
-        
+
         //Above
         if (vector.Y < 0)
         {
           playerMidY -= bullet.Rectangle.Height;
         }
       }
-      
+
       //Shot on Players right and above
       else if (vector.X > 0 && vector.Y < 0)
       {
         playerMidY -= bullet.Rectangle.Height;
       }
-      
+
       // Add to Canvas
       bullet.Show(MyPlayerCanvas, playerMidX, playerMidY);
-      
+
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
-    
+
     /// <summary>
     /// Method stopping the shooting action
     /// </summary>
@@ -149,7 +137,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       MyPlayer.IsShooting = false;
     }
-    
+
     /// <summary>
     /// Get the ViewDirection of the Player
     /// </summary>
