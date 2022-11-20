@@ -9,14 +9,11 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
-
         <ContentControl Grid.Row="1"
                     Content="{Binding CurrentLevel}" />
         <ContentControl Grid.Row="1"
                     Content="{Binding PlayerView}" />
-
-    
-    <ContentControl Grid.Row="1"
+        <ContentControl Grid.Row="1"
                     Content="{Binding EnemyView}" />
   </Grid>
 </UserControl>
