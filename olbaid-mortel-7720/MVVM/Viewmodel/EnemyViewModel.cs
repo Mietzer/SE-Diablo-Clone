@@ -1,14 +1,9 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.GameplayClasses;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using olbaid_mortel_7720.GameplayClasses;
 using WpfAnimatedGif;
@@ -21,12 +16,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private Player MyPlayer { get; set; }
 
     private Canvas MyEnemyCanvas;
+    
+    private string Tag;
 
     public EnemyViewModel(List<Enemy> myEnemies, Canvas myEnemyCanvas, Player player)
     {
       this.MyEnemies = myEnemies;
       this.MyEnemyCanvas = myEnemyCanvas;
       this.MyPlayer = player;
+      this.Tag = "Enemy";
 
       InitTimer();
     }

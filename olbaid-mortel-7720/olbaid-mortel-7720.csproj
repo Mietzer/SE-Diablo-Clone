@@ -14,6 +14,21 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Levels\Level1.tmx" />
+      <None Remove="Levels\Level1.tsx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Levels\Level1.tmx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level1.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="TiledCS" Version="3.3.3" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
     </ItemGroup>

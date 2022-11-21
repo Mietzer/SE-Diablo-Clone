@@ -1,15 +1,10 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Utils;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.Engine
@@ -43,10 +38,6 @@ namespace olbaid_mortel_7720.Engine
       }
     }
 
-    public int XCoordMax { get; private set; }
-    public int YCoordMax { get; private set; }
-    public int XCoordMin { get; private set; }
-    public int YCoordMin { get; private set; }
     public int Height { get; private set; }
     public int Width { get; private set; }
     public Direction Direction { get; set; }
@@ -65,7 +56,7 @@ namespace olbaid_mortel_7720.Engine
     #endregion Movement
 
     public ObservableCollection<Bullet> Bullets;
-    
+
     private Rect hitbox;
     public Rect Hitbox
     {
@@ -77,7 +68,7 @@ namespace olbaid_mortel_7720.Engine
         OnPropertyChanged(nameof(Hitbox));
       }
     }
-    
+
     private BitmapImage image;
     public BitmapImage Image
     {
@@ -92,14 +83,11 @@ namespace olbaid_mortel_7720.Engine
 
     #endregion Properties
 
-    protected Entity(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int stepLength)
+    protected Entity(int x, int y, int height, int width, int stepLength)
     {
       this.xCoord = x;
       this.yCoord = y;
-      this.XCoordMin = xMin;
-      this.YCoordMin = yMin;
-      this.XCoordMax = xMax;
-      this.YCoordMax = yMax;
+
       this.Height = height;
       this.Width = width;
       this.Direction = Direction.Down;
@@ -123,25 +111,25 @@ namespace olbaid_mortel_7720.Engine
     protected void MoveLeft()
     {
       Direction = Direction.Left;
-      if (XCoord - StepLength >= XCoordMin)
+      if (XCoord - StepLength >= GlobalVariables.MinX)
         XCoord -= StepLength;
     }
     protected void MoveRight()
     {
       Direction = Direction.Right;
-      if (XCoord + StepLength + Width <= XCoordMax)
+      if (XCoord + StepLength + Width <= GlobalVariables.MaxX)
         XCoord += StepLength;
     }
     protected void MoveUp()
     {
       Direction = Direction.Up;
-      if (YCoord - StepLength >= YCoordMin)
+      if (YCoord - StepLength >= GlobalVariables.MinY)
         YCoord -= StepLength;
     }
     protected void MoveDown()
     {
       Direction = Direction.Down;
-      if (YCoord + StepLength + Height <= YCoordMax)
+      if (YCoord + StepLength + Height <= GlobalVariables.MaxY)
         YCoord += StepLength;
     }
 

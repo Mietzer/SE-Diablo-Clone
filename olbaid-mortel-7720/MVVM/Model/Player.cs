@@ -2,10 +2,6 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -48,11 +44,11 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(WeaponOverlay));
       }
     }
-    
+
     public bool IsShooting { get; set; }
     #endregion Properties
 
-    public Player(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int health, int stepLength) : base(x, y, xMin, yMin, xMax, yMax, height, width, stepLength)
+    public Player(int x, int y, int height, int width, int health, int stepLength) : base(x, y, height, width, stepLength)
     {
       HealthPoints = health;
       Effect = PlayerEffect.None;
@@ -109,7 +105,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
       }
     }
-    
+
     /// <summary>
     /// Set the correct view for the player when he is shooting
     /// </summary>
@@ -117,7 +113,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public void UpdateViewDirection(Direction newDirection)
     {
       if (Direction == newDirection) return;
-      
+
       string directionString = newDirection.ToString().ToLower();
       if (IsMoving)
       {
@@ -129,7 +125,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
         WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
       }
-      
+
       Direction = newDirection;
     }
 

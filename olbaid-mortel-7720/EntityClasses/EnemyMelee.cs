@@ -109,7 +109,7 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
     }
 
-    public EnemyMelee(int x, int y, int xMin, int yMin, int xMax, int yMax, int heigth, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, heigth, width, steplength, health, damage)
+    public EnemyMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
     }

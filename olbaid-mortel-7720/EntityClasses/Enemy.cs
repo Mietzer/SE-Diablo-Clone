@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using WpfAnimatedGif;
 
+
 namespace olbaid_mortel_7720.GameplayClasses
 {
   public abstract class Enemy : Entity
