@@ -63,7 +63,7 @@ namespace olbaid_mortel_7720.GameplayClasses
     
     public abstract void Attack(Player player);
 
-    protected Enemy(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, height, width, steplength)
+    protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
     {
       this.health = health;
       this.damage = damage;

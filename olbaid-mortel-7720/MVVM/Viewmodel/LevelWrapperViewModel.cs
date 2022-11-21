@@ -7,6 +7,7 @@ using olbaid_mortel_7720.MVVM.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -73,9 +74,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddPlayer()
     {
-      Player p = new Player(0, 0, 128, 64, 100, 5);
+      Player p = new Player(0, 0, 64, 32, 100, 5);
       PlayerView = new PlayerCanvas(p);
-      PlayerHealthbar = new();
+      PlayerHealthbar = new PlayerHealthbarView(p);
+      PlayerHealthbar.Height = 20;
+      PlayerHealthbar.Width = PlayerHealthbar.Height * 6;
     }
 
     private void AddEnemy()
@@ -86,7 +89,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       for (int i = 0; i < maxEnemy; i++)
       {
         //Creating Enemies and Adding them to a List
-        EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 20, 20, 4, 100, 5);
+        EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2);
         spawnList.Add(e);
       }
       //Creating View to display Enemies
@@ -94,7 +97,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       foreach (Enemy e in spawnList)
       {
+        Image enemyImage = new Image();
+        enemyImage.Height = e.Height;
+        enemyImage.Width = e.Width;
+        ImageBehavior.SetAnimatedSource(enemyImage, e.Image);
+        
         //Placing Enemies and Adding them to the Canvas
+        e.Model = enemyImage;
         Canvas.SetTop(e.Model, e.YCoord);
         Canvas.SetLeft(e.Model, e.XCoord);
         EnemyView.EnemyCanvasObject.Children.Add(e.Model);

@@ -8,16 +8,18 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
   <Grid>
-    <Viewbox Height="50"
-             VerticalAlignment="Top">
-            <ContentControl Content="{Binding PlayerHealthbar}" 
-                    />
-    </Viewbox>
-
     <ContentControl Content="{Binding CurrentLevel}" />
       
     <ContentControl Content="{Binding PlayerView}" />
 
     <ContentControl Content="{Binding EnemyView}" />
+    
+    <Viewbox Height="30"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Top"
+             Margin="10 10 0 0">
+            <ContentControl Content="{Binding PlayerHealthbar}" 
+                    />
+    </Viewbox>
   </Grid>
 </UserControl>

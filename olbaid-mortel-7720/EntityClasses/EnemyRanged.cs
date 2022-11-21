@@ -6,7 +6,7 @@ namespace olbaid_mortel_7720.GameplayClasses
   public class EnemyRanged : Enemy
   {
 
-    public EnemyRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(health, damage, x, y, heigth, width, steplength)
+    public EnemyRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
 
     }
