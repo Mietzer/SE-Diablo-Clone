@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.MVVM.Model.Object;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.Object;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,8 +66,7 @@ namespace olbaid_mortel_7720.MVVM.Model
             var tileset = tilesets[mapTileset.firstgid];
 
             // Use the connection object as well as the tileset to figure out the source rectangle.
-            var rect = map.GetSourceRect(mapTileset, tileset, gid); ;
-
+            var rect = map.GetSourceRect(mapTileset, tileset, gid);
 
             mapObjects.Add(new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == "Floor" ? true : false));
 
@@ -75,22 +75,33 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       }
 
+
+
+      return mapObjects;
+    }
+
+    public List<SpawnObject> LoadObjects()
+    {
+      List<SpawnObject> spawnObjects = new List<SpawnObject>();
+
+      //Import Tildmap
+      var map = new TiledMap(this.PathMap);
+      var tilesets = map.GetTiledTilesets(this.PathTileset); // DO NOT forget the / at the 
+      var tileObject = map.Layers.Where(x => x.type == TiledLayerType.ObjectLayer);
+
       //Creat ObjectList for Plasing Objects in Map
       foreach (var layer in tileObject)
       {
         foreach (var obj in layer.objects)
         {
           //To Do Impelmentierung vpn Objecten z.b. Spawn Points
-          /*
-          obj.name; //Name des Objectes 
-          obj.x;    //Plazierung in der Karte 
-          obj.y;    //Plazierung in der Karte
-          */
+          spawnObjects.Add(new SpawnObject(obj.name, true, true, obj.x, obj.y, obj.width, obj.height));
         }
       }
 
-      return mapObjects;
+      return spawnObjects;
     }
+
 
     public int GetHeight()
     {
