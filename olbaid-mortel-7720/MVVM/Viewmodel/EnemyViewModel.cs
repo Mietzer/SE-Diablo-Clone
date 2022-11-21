@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using olbaid_mortel_7720.GameplayClasses;
+using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -56,7 +57,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       foreach(Enemy enemy in MyEnemies)
       {
         (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
-        //Places enemy Rectangle at new Position
+        
+        //Places enemy Image at new Position
+        ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
         Canvas.SetTop(enemy.Model, enemy.YCoord);
         Canvas.SetLeft(enemy.Model, enemy.XCoord);
       }

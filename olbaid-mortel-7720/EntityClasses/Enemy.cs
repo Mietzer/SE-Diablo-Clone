@@ -20,6 +20,9 @@ namespace olbaid_mortel_7720.GameplayClasses
   public abstract class Enemy : Entity
   {
 
+    protected const int MAX_SAME_DIRECTION = 13;
+    protected int sameDirectionCounter = 0;
+    
     private int health;
     private int damage;
 
@@ -38,10 +41,8 @@ namespace olbaid_mortel_7720.GameplayClasses
     public Image Model
     {
       get { return model; }
-      private set 
+      set 
       { 
-        if (value.Source == Model.Source) return;
-        if (ImageBehavior.GetAnimatedSource(value) == ImageBehavior.GetAnimatedSource(Model)) return;
         model = value;
         OnPropertyChanged(nameof(Model));
       }
@@ -57,13 +58,14 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
     }
     
+    public bool IsAttacking { get; protected set; }
+    
     public abstract void Attack(Player player);
 
     protected Enemy(int x, int y, int xMin, int yMin, int xMax, int yMax, int height, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, height, width, steplength)
     {
       this.health = health;
       this.damage = damage;
-      this.model = new Image() { Tag = "Enemy", Height = height, Width = width };
     }
 
     public void TakeDamage(int damage)

@@ -19,28 +19,39 @@ namespace olbaid_mortel_7720.GameplayClasses
   public class EnemyMelee : Enemy
   {
 
-    override public void Attack(Player player)
+    public override void Attack(Player player)
     {
+        bool oldIsAttacking = IsAttacking;
+        IsAttacking = true;
+        IsMoving = false;
+        if (oldIsAttacking != IsAttacking)
+        {
+          string directionString = this.Direction.ToString().ToLower();
+          Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
+        }
         player.TakeDamage(this.Damage);
     }
 
     public void MoveToPlayer(Player player)
     {
+      const int tolerance = 5;
       Direction lastDirection = this.Direction;
+      bool oldIsMoving = this.IsMoving;
+      bool oldIsAttacking = this.IsAttacking;
       List<Direction> directions = new List<Direction>();
-      if(player.XCoord + player.Width / 2 < this.XCoord + this.Width / 2)
+      if(player.XCoord + player.Width / 2 + tolerance * 2 < this.XCoord + this.Width / 2)
       {
         directions.Add(Direction.Left);
       }
-      if(player.XCoord + player.Width / 2 > this.XCoord + this.Width / 2)
+      if(player.XCoord + player.Width / 2 - tolerance * 2 > this.XCoord + this.Width / 2)
       {
         directions.Add(Direction.Right);
       }
-      if(player.YCoord + player.Height / 2 < this.YCoord + this.Height / 2)
+      if(player.YCoord + player.Height / 2 + tolerance < this.YCoord + this.Height / 2)
       {
         directions.Add(Direction.Up);
       }
-      if(player.YCoord + player.Height / 2 > this.YCoord + this.Height / 2)
+      if(player.YCoord + player.Height / 2 - tolerance > this.YCoord + this.Height / 2)
       {
         directions.Add(Direction.Down);
       }
@@ -51,17 +62,20 @@ namespace olbaid_mortel_7720.GameplayClasses
         StopMovement(null, null);
         return;
       }
-      if (directions.Contains(lastDirection))
+      if (directions.Contains(lastDirection) && sameDirectionCounter <= MAX_SAME_DIRECTION)
       {
         item = lastDirection;
+        sameDirectionCounter++;
       }
       else
       {
         Random random = new Random();
         int index = random.Next(0, directions.Count);
         item = directions[index];
+        sameDirectionCounter = 0;
       }
       IsMoving = true;
+      IsAttacking = false;
       switch (item)
       {
         case Direction.Up:
@@ -77,17 +91,27 @@ namespace olbaid_mortel_7720.GameplayClasses
           this.MoveRight();
           break;
       }
+      if ((lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking))
+      {
+        string directionString = this.Direction.ToString().ToLower();
+        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-" + directionString + ".gif");
+      }
     }
 
     public override void StopMovement(object? sender, EventArgs e)
     {
+      bool oldIsMoving = this.IsMoving;
       this.IsMoving = false;
-      ImageBehavior.SetAnimatedSource(Model, RessourceImporter.Import(ImageCategory.MELEE, "melee-standing-left.gif"));
+      if (oldIsMoving != IsMoving && !IsAttacking)
+      {
+        string directionString = this.Direction.ToString().ToLower();
+        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
+      }
     }
 
     public EnemyMelee(int x, int y, int xMin, int yMin, int xMax, int yMax, int heigth, int width, int steplength, int health, int damage) : base(x, y, xMin, yMin, xMax, yMax, heigth, width, steplength, health, damage)
     {
-      ImageBehavior.SetAnimatedSource(Model, RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif"));
+      Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
     }
   }
 }

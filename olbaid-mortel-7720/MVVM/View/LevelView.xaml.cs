@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.View
 {
@@ -102,6 +103,12 @@ namespace olbaid_mortel_7720.MVVM.View
       foreach (Enemy e in spawnList)
       {
         //Placing Enemies and Adding them to the Canvas
+        Image enemyImage = new Image();
+        enemyImage.Height = e.Height;
+        enemyImage.Width = e.Width;
+        ImageBehavior.SetAnimatedSource(enemyImage, e.Image);
+
+        e.Model = enemyImage;
         Canvas.SetTop(e.Model, e.YCoord);
         Canvas.SetLeft(e.Model, e.XCoord);
         EnemyView.EnemyCanvasObject.Children.Add(e.Model);
