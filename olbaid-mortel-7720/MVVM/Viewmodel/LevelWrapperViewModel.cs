@@ -25,15 +25,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    private PlayerHealthbarView playerHealthbar;
+    private UserControl gui;
 
-    public PlayerHealthbarView PlayerHealthbar
+    public UserControl Gui
     {
-      get { return playerHealthbar; }
+      get { return gui; }
       set
       {
-        playerHealthbar = value;
-        OnPropertyChanged(nameof(PlayerHealthbar));
+        gui = value;
+        OnPropertyChanged(nameof(Gui));
       }
     }
 
@@ -76,9 +76,25 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       Player p = new Player(0, 0, 64, 32, 100, 5);
       PlayerView = new PlayerCanvas(p);
-      PlayerHealthbar = new PlayerHealthbarView(p);
-      PlayerHealthbar.Height = 20;
-      PlayerHealthbar.Width = PlayerHealthbar.Height * 6;
+      
+      Gui = new UserControl();
+      Canvas guiCanvas = new Canvas();
+      Gui.Content = guiCanvas;
+      
+      PlayerHealthbarView playerHealthbar = new PlayerHealthbarView(p);
+      playerHealthbar.Height = 20;
+      playerHealthbar.Width = playerHealthbar.Height * 6;
+      Canvas.SetTop(playerHealthbar, 10);
+      Canvas.SetLeft(playerHealthbar, 10);
+      guiCanvas.Children.Add(playerHealthbar);
+      
+      Image weaponImage = new Image();
+      weaponImage.Source = RessourceImporter.Import(ImageCategory.ITEMS, p.CurrentWeapon.GetImageString());
+      weaponImage.Height = 20;
+      weaponImage.Width = weaponImage.Height * 2;
+      Canvas.SetTop(weaponImage, 10);
+      Canvas.SetLeft(weaponImage, 10 + playerHealthbar.Width + 10);
+      guiCanvas.Children.Add(weaponImage);
     }
 
     private void AddEnemy()

@@ -3,7 +3,7 @@
   /// <summary>
   /// Class separating the images in different categories
   /// </summary>
-  internal class ImageCategory
+  public class ImageCategory
   {
     public string Value { get; set; }
     

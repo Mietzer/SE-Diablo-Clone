@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
+using olbaid_mortel_7720.Object;
 using System;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -44,6 +45,19 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(WeaponOverlay));
       }
     }
+    
+    private Weapon currentWeapon;
+    
+    public Weapon CurrentWeapon
+    {
+      get { return currentWeapon; }
+      set
+      {
+        if (value == currentWeapon) return;
+        currentWeapon = value;
+        OnPropertyChanged(nameof(CurrentWeapon));
+      }
+    }
 
     public bool IsShooting { get; set; }
     #endregion Properties
@@ -53,6 +67,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       HealthPoints = health;
       Effect = PlayerEffect.None;
       WeaponOverlay = null;
+      CurrentWeapon = new Handgun();
     }
 
     #region Methods
@@ -85,7 +100,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         string directionString = this.Direction.ToString().ToLower();
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "walking-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
     }
 
@@ -102,7 +117,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         string directionString = this.Direction.ToString().ToLower();
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
     }
 
@@ -118,12 +133,12 @@ namespace olbaid_mortel_7720.MVVM.Model
       if (IsMoving)
       {
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "walking-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
       else
       {
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
 
       Direction = newDirection;

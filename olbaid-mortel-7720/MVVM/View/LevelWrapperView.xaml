@@ -14,12 +14,6 @@
 
     <ContentControl Content="{Binding EnemyView}" />
     
-    <Viewbox Height="30"
-             HorizontalAlignment="Left"
-             VerticalAlignment="Top"
-             Margin="10 10 0 0">
-            <ContentControl Content="{Binding PlayerHealthbar}" 
-                    />
-    </Viewbox>
+    <ContentControl Content="{Binding Gui}" />
   </Grid>
 </UserControl>
