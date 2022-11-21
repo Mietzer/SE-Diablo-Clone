@@ -16,6 +16,7 @@
     <ItemGroup>
       <None Remove="Levels\Level1.tmx" />
       <None Remove="Levels\Level1.tsx" />
+      <None Remove="Levels\Level1_test.tmx" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,6 +24,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Include="Levels\Level1.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level1_test.tmx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

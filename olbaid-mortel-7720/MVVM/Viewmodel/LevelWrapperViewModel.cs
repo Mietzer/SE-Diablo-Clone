@@ -75,7 +75,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       Player p = new Player(0, 0, 128, 64, 100, 5);
       PlayerView = new PlayerCanvas(p);
-      PlayerHealthbar = new();
+      //PlayerHealthbar = new();
     }
 
     private void AddEnemy()

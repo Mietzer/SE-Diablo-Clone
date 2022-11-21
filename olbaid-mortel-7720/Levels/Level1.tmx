@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="60" height="33" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="4">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="60" height="33" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
  <tileset firstgid="1" source="Level1.tsx"/>
- <objectgroup id="5" name="Spawn Point 1">
-  <object id="2" x="1.167" y="1.1667" width="227.167" height="90"/>
+ <objectgroup id="5" name="Spawn Points">
+  <object id="2" name="Enemy Spawn" x="38.5003" y="37.8334" width="227.167" height="90"/>
+  <object id="4" name="Player Spawn" x="37.4165" y="452" width="23.167" height="20"/>
  </objectgroup>
  <layer id="4" name="Inner Wall" width="60" height="33">
   <data encoding="csv">

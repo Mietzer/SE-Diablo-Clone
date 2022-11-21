@@ -1,28 +1,22 @@
-﻿using olbaid_mortel_7720.Object;
-
-namespace olbaid_mortel_7720.MVVM.Model.Object
+﻿namespace olbaid_mortel_7720.MVVM.Model.Object
 {
-  /// <summary>
-  ///  Basic Class for all types of Object 
-  /// </summary>
-  public class MapObject
+  public abstract class Object
   {
+    #region Properties
     public string Name;
-    public Graphics Graphic;
-
     bool Visible;
+    public bool Penetrable;
+    #endregion Properties
 
-    //hitbox 
-    public bool Penetrable { get; set; }
-
-
-
-    public MapObject(string name, Graphics graphic, bool visible, bool penetrable)
+    public Object(string name, bool visible, bool penetrable)
     {
       Name = name;
-      Graphic = graphic;
-      Visible = visible;
+      this.Visible = visible;
       Penetrable = penetrable;
     }
+
+    #region Methods
+
+    #endregion Methods
   }
 }
