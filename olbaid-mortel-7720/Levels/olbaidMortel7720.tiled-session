@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Level1.tsx",
+    "activeFile": "Level1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,11 +17,14 @@
             "scaleInDock": 1
         },
         "Level1.tmx": {
-            "scale": 1,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 243.5,
-                "y": 11
+                "x": 1036.6666666666665,
+                "y": 395.33333333333326
             }
         },
         "Level1.tmx#Level1": {
@@ -38,7 +41,7 @@
             "dynamicWrapping": true
         },
         "Level1.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 2,
             "scaleInEditor": 3
         },
         "Level1_old.tsx": {
@@ -52,8 +55,8 @@
             "scale": 4,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 38.875,
-                "y": 48.25
+                "x": 159.875,
+                "y": 160
             }
         },
         "TilemapLevel1.tsx": {
@@ -76,9 +79,9 @@
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level1.tmx",
         "Level1_test.tmx",
         "Level1.tsx",
+        "Level1.tmx",
         "Level1_old.tsx",
         "TilemapLevel1.tsx"
     ],
