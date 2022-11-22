@@ -1,6 +1,6 @@
-﻿using olbaid_mortel_7720.GameplayClasses;
-using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.View;
 using olbaid_mortel_7720.MVVM.Views;
@@ -105,8 +105,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       for (int i = 0; i < maxEnemy; i++)
       {
         //Creating Enemies and Adding them to a List
-        EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2);
-        spawnList.Add(e);
+        //EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2);
+        EnemyRanged r = new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2);
+        //spawnList.Add(e);
+        spawnList.Add(r);
       }
       //Creating View to display Enemies
       EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);

@@ -16,14 +16,14 @@ using System.Windows.Media;
 using WpfAnimatedGif;
 
 
-namespace olbaid_mortel_7720.GameplayClasses
+namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public abstract class Enemy : Entity
   {
 
     protected const int MAX_SAME_DIRECTION = 13;
     protected int sameDirectionCounter = 0;
-    
+
     private int health;
     private int damage;
 
@@ -42,8 +42,8 @@ namespace olbaid_mortel_7720.GameplayClasses
     public Image Model
     {
       get { return model; }
-      set 
-      { 
+      set
+      {
         model = value;
         OnPropertyChanged(nameof(Model));
       }
@@ -58,9 +58,9 @@ namespace olbaid_mortel_7720.GameplayClasses
         OnPropertyChanged(nameof(Damage));
       }
     }
-    
+
     public bool IsAttacking { get; protected set; }
-    
+
     public abstract void Attack(Player player);
 
     protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
@@ -71,7 +71,7 @@ namespace olbaid_mortel_7720.GameplayClasses
 
     public void TakeDamage(int damage)
     {
-      this.health = health - damage;
+      health = health - damage;
     }
   }
 }
