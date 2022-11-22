@@ -23,8 +23,8 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1036.6666666666665,
-                "y": 395.33333333333326
+                "x": 219.99999999999994,
+                "y": 540
             }
         },
         "Level1.tmx#Level1": {
@@ -55,7 +55,7 @@
             "scale": 4,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 159.875,
+                "x": 160,
                 "y": 160
             }
         },
