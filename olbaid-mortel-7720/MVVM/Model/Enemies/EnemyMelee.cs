@@ -2,6 +2,7 @@
 using olbaid_mortel_7720.Helper;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 //TODO: CodeCleanup, Regions, Kommentare
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
@@ -9,6 +10,11 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
   public class EnemyMelee : Enemy
   {
 
+    public override void RefreshHitbox()
+    {
+      this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
+    }
+    
     public override void Attack(Player player)
     {
       bool oldIsAttacking = IsAttacking;
@@ -94,6 +100,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     public EnemyMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
+      Hitbox = new Rect(x, y + 27, width, heigth - 27);
     }
   }
 }

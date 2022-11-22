@@ -24,6 +24,7 @@
     <Grid Grid.Row="0"
           MouseDown="MoveWindow"
           Name="Menubar"
+          Cursor="Arrow"
           Background="{StaticResource TitlebarColor}"
           Opacity="0.7">
       <Grid.ColumnDefinitions>

@@ -51,7 +51,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       int yDistance = Math.Abs(player.YCoord - this.YCoord);
 
       List<Direction> directions = new List<Direction>();
-
+      
       if (xDistance <= 100 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
         directions.Add(Direction.Right);
       if (xDistance <= 100 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)

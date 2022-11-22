@@ -3,6 +3,7 @@ using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.Object;
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -66,11 +67,18 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints = health;
       Effect = PlayerEffect.None;
+      Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
       CurrentWeapon = new Handgun();
     }
 
     #region Methods
+    
+    public override void RefreshHitbox()
+    {
+      this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
+    }
+    
     /// <summary>
     /// Moving and animating the player
     /// </summary>

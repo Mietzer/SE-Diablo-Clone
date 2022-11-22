@@ -11,6 +11,7 @@ using olbaid_mortel_7720.MVVM.Utils;
 using System.Linq;
 using System.Windows.Shapes;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
+using System.Windows.Media.Animation;
 //TODO: CodeCleanup, Regions, Kommentare
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -135,6 +136,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         // Search for Enemies with 0 or less health
         if(enemy.Health <= 0)
         {
+          DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
+          animation.Completed += delegate
+          {
+            MyEnemyCanvas.Children.Remove(enemy.Model);
+          };
+          enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList
           deleteList.Add(enemy);
         }
@@ -143,8 +150,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
      // Delete them off the canvas
      foreach(Enemy enemy in deleteList)
      {
-        MyEnemyCanvas.Children.Remove(enemy.Model);
-        MyEnemies.Remove(enemy);
+       MyEnemies.Remove(enemy);
      }
     }
     private void Shoot(EnemyRanged enemy, Point p)
