@@ -7,6 +7,9 @@ using olbaid_mortel_7720.MVVM.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
@@ -74,7 +77,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddPlayer()
     {
-      Player p = new Player(0, 0, 64, 32, 100, 5);
+      Player p = new Player(100, 100, 64, 32, 100, 5);
       PlayerView = new PlayerCanvas(p);
       
       Gui = new UserControl();
@@ -82,19 +85,34 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Gui.Content = guiCanvas;
       
       PlayerHealthbarView playerHealthbar = new PlayerHealthbarView(p);
-      playerHealthbar.Height = 20;
+      playerHealthbar.Height = 40;
       playerHealthbar.Width = playerHealthbar.Height * 6;
-      Canvas.SetTop(playerHealthbar, 10);
-      Canvas.SetLeft(playerHealthbar, 10);
+      Canvas.SetTop(playerHealthbar, 20);
+      Canvas.SetLeft(playerHealthbar, 20);
       guiCanvas.Children.Add(playerHealthbar);
       
-      Image weaponImage = new Image();
-      weaponImage.Source = RessourceImporter.Import(ImageCategory.ITEMS, p.CurrentWeapon.GetImageString());
-      weaponImage.Height = 20;
+      PlayerWeaponView weaponImage = new PlayerWeaponView(p);
+      weaponImage.Height = 40;
       weaponImage.Width = weaponImage.Height * 2;
-      Canvas.SetTop(weaponImage, 10);
-      Canvas.SetLeft(weaponImage, 10 + playerHealthbar.Width + 10);
+      Canvas.SetTop(weaponImage, 20);
+      Canvas.SetLeft(weaponImage, 20 + playerHealthbar.Width + 20);
       guiCanvas.Children.Add(weaponImage);
+      
+      if (System.Diagnostics.Debugger.IsAttached)
+      {
+        Rectangle hitbox = new Rectangle();
+        hitbox.Height = (int)p.Hitbox.Height;
+        hitbox.Width = (int)p.Hitbox.Width;
+        hitbox.Stroke = Brushes.DodgerBlue;
+        hitbox.StrokeThickness = 1;
+        Binding xBind = new Binding("Hitbox.X");
+        xBind.Source = p;
+        hitbox.SetBinding(Canvas.LeftProperty, xBind);
+        Binding yBind = new Binding("Hitbox.Y");
+        yBind.Source = p;
+        hitbox.SetBinding(Canvas.TopProperty, yBind);
+        PlayerView.PlayerCanvasObject.Children.Add(hitbox);
+      }
     }
 
     private void AddEnemy()
@@ -123,6 +141,22 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.SetTop(e.Model, e.YCoord);
         Canvas.SetLeft(e.Model, e.XCoord);
         EnemyView.EnemyCanvasObject.Children.Add(e.Model);
+        
+        if (System.Diagnostics.Debugger.IsAttached)
+        {
+          Rectangle hitbox = new Rectangle();
+          hitbox.Height = (int)e.Hitbox.Height;
+          hitbox.Width = (int)e.Hitbox.Width;
+          hitbox.Stroke = Brushes.Red;
+          hitbox.StrokeThickness = 1;
+          Binding xBind = new Binding("Hitbox.X");
+          xBind.Source = e;
+          hitbox.SetBinding(Canvas.LeftProperty, xBind);
+          Binding yBind = new Binding("Hitbox.Y");
+          yBind.Source = e;
+          hitbox.SetBinding(Canvas.TopProperty, yBind);
+          EnemyView.EnemyCanvasObject.Children.Add(hitbox);
+        }
       }
     }
 

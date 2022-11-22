@@ -101,11 +101,12 @@ namespace olbaid_mortel_7720.Engine
     #region Methods
     private void Entity_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+      if (e.PropertyName == nameof(Hitbox)) return;
       RefreshHitbox();
     }
-    private void RefreshHitbox()
+    public virtual void RefreshHitbox()
     {
-      this.hitbox = new Rect(XCoord, YCoord, Width, Height);
+      this.Hitbox = new Rect(XCoord, YCoord, Width, Height);
     }
 
     protected void MoveLeft()
