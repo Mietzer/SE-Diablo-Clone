@@ -33,7 +33,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
-      MyPlayer.Stop("Initial", null);
+      MyPlayer.StopMovement("Initial", null);
       MyPlayerCanvas = playerCanvas;
 
       InitTimer();
@@ -93,14 +93,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <param name="p">Targetpoint for Bullet</param>
     public void Shoot(Point p)
     {
-      double playerMidX = MyPlayer.XCoord + MyPlayer.Width / 2
-           , playerMidY = MyPlayer.YCoord + MyPlayer.Height / 2;
+      double playerShootX = MyPlayer.XCoord + MyPlayer.Width / 2
+           , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
 
       // Direction the bullet is going
-      Vector vector = new Vector(p.X - playerMidX, p.Y - playerMidY);
+      Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.GENERAL, "bullet.png"));
-      Bullet bullet = new Bullet(5, 10, vector, bulletImage, ShotName);
+      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "bullet.png"));
+      Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -109,24 +109,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //Shot on Players left
       if (vector.X < 0)
       {
-        playerMidX -= bullet.Rectangle.Width;
-
+        playerShootX -= bullet.Rectangle.Width;
+        
         //Above
         if (vector.Y < 0)
         {
-          playerMidY -= bullet.Rectangle.Height;
+          playerShootY -= bullet.Rectangle.Height;
         }
       }
 
       //Shot on Players right and above
       else if (vector.X > 0 && vector.Y < 0)
       {
-        playerMidY -= bullet.Rectangle.Height;
+        playerShootY -= bullet.Rectangle.Height;
       }
 
       // Add to Canvas
-      bullet.Show(MyPlayerCanvas, playerMidX, playerMidY);
-
+      bullet.Show(MyPlayerCanvas, playerShootX, playerShootY);
+      
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 
@@ -187,7 +187,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.Move(sender, Key.D);
 
       if (!moveDown && !moveUp && !moveLeft && !moveRight)
-        MyPlayer.Stop(sender, e);
+        MyPlayer.StopMovement(sender, e);
     }
     #endregion Methods
 

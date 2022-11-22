@@ -16,7 +16,6 @@ namespace olbaid_mortel_7720.MVVM.View
 
     public EnemyCanvas(List<Enemy> enemyList, Player player)
     {
-
       this.MyEnemy = enemyList;
 
       InitializeComponent();
