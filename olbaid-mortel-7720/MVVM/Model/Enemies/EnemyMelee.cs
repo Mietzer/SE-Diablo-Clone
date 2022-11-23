@@ -12,7 +12,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #region Methods
     public override void RefreshHitbox()
     {
-      this.Hitbox = new Rect(XCoord, YCoord +27, Width, Height - 27);
+      this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
     }
     
     public override void Attack(Player player)
@@ -28,7 +28,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       player.TakeDamage(Damage);
     }
 
-    public void MoveToPlayer(Player player)
+    public virtual void MoveToPlayer(Player player)
     {
       const int tolerance = 5;
       Direction lastDirection = Direction;

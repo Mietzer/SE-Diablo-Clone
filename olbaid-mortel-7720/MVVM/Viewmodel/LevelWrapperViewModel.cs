@@ -52,6 +52,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    private Level usedLevel;
     private UserControl currentLevel;
     public UserControl CurrentLevel
     {
@@ -117,21 +118,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddEnemy()
     {
-      Random rnd = new Random();
-      List<Enemy> spawnList = new List<Enemy>();
-      int maxEnemy = 10;
-      for (int i = 0; i < maxEnemy; i++)
-      {
-        //Creating Enemies and Adding them to a List
-        //EnemyMelee e = new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2);
-        EnemyRanged r = new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2);
-        //spawnList.Add(e);
-        spawnList.Add(r);
-      }
       //Creating View to display Enemies
-      EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
+      EnemyView = new EnemyCanvas(usedLevel.EnemySpawnList, PlayerView.MyPlayer);
 
-      foreach (Enemy e in spawnList)
+      foreach (Enemy e in usedLevel.EnemySpawnList)
       {
         Image enemyImage = new Image();
         enemyImage.Height = e.Height;
@@ -164,10 +154,25 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddLevel()
     {
-      //TODO: Depending on some Variable, using of Level 1,2 or 3
-      //currentLevel = this;
-      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
+      // TODO: Depending on some Variable, using of Level 1,2 or 3
+      Random rnd = new Random();
+      // TODO: Add spawnlists with random choice out of a list of possible lists
+      List<Enemy> spawnList = new List<Enemy>();
+      // 3 Ranged
+      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      // 2 Melee
+      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      // 1 Rare Ranged
+      spawnList.Add(new EnemyRareRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      // 2 Rare Melee
+      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"), spawnList);
       CurrentLevel = new MapView(level1.Map);
+      usedLevel = level1;
     }
     #endregion Methods
 

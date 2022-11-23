@@ -184,7 +184,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "bullet.png"));
+      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
       Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName);
 
       //Add to Enemies

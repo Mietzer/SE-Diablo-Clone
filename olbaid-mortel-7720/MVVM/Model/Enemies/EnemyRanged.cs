@@ -4,6 +4,8 @@ using System;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.Engine;
 using System.Collections.Generic;
+using System.Windows;
+
 //TODO: CodeCleanup, Regions, Kommentare
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
@@ -26,6 +28,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     public EnemyRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
+      Hitbox = new Rect(x, y + 22, width, heigth - 22);
       t = new Timer();
       t.Interval = 3000;
       t.AutoReset = false;
@@ -37,6 +40,11 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Constructor
 
     #region Methods
+    public override void RefreshHitbox()
+    {
+      this.Hitbox = new Rect(XCoord, YCoord + 22, Width, Height - 22);
+    }
+    
     public void ShotCoolDown() // Starts shot timer for enemies
     {
       t.Start();
@@ -50,7 +58,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       t.Stop();
     }
 
-    public void KeepDistance(Player player)
+    public virtual void KeepDistance(Player player)
     {
       const int tolerance = 5;
       Direction lastDirection = Direction;
