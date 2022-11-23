@@ -17,6 +17,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class EnemyViewModel : NotifyObject
   {
+    #region Properties
     public List<Enemy> MyEnemies = new List<Enemy>();
     private Player MyPlayer { get; set; }
 
@@ -26,6 +27,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private string Tag;
 
+    #endregion Properties
+
+    #region Constructor
     public EnemyViewModel(List<Enemy> myEnemies, Canvas myEnemyCanvas, Player player)
     {
       this.MyEnemies = myEnemies;
@@ -36,8 +40,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitTimer();
     }
 
+    #endregion Constructor
+
+    #region Methods 
     public void InitTimer()
     {
+      //Tick for EnemyRemoval if health <= 0
+      DispatcherTimer removeEnemy = new();
+      removeEnemy.Tick += new EventHandler(RemoveEnemy);
+      removeEnemy.Interval = new TimeSpan(0, 0, 0, 0, 20);
+      removeEnemy.Start();
+
       //Tick for EnemyMovement
       DispatcherTimer movementTimer = new();
       movementTimer.Tick += new EventHandler(Move);
@@ -55,11 +68,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
       movementTimer.Start();
 
-      //Tick for EnemyRemoval if health <= 0
-      DispatcherTimer removeEnemy = new();
-      removeEnemy.Tick += new EventHandler(RemoveEnemy);
-      removeEnemy.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      removeEnemy.Start();
+      
 
       
     }
@@ -110,7 +119,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           if ((enemy as EnemyRanged).isShooting)
           {
             
-            Point p = new Point(MyPlayer.XCoord, MyPlayer.YCoord);
+            Point p = new Point(MyPlayer.XCoord + MyPlayer.Width / 2 , MyPlayer.YCoord + MyPlayer.Height / 2);
             Shoot(enemy as EnemyRanged, p);
             (enemy as EnemyRanged).ShotCoolDown();
           }
@@ -120,6 +129,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
         foreach(Bullet bullet in enemy.Bullets)
         {
+          //Checks if enemy bullet hits Playerhitbox
           if (bullet.Hitbox.IntersectsWith(MyPlayer.Hitbox))
           {
             enemy.Attack(MyPlayer);
@@ -130,8 +140,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void RemoveEnemy(object sender, EventArgs e)
     {
-     List<Enemy> deleteList = new List<Enemy>();
-     foreach(Enemy enemy in MyEnemies)
+      List<Enemy> deleteList = new List<Enemy>();
+      List<Bullet> deleteBullets = new List<Bullet>();
+      foreach(Enemy enemy in MyEnemies)
       {
         // Search for Enemies with 0 or less health
         if(enemy.Health <= 0)
@@ -144,6 +155,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList
           deleteList.Add(enemy);
+
+          //Deletes bullets, that would not be deleted because of enemy deletion
+          foreach(Bullet bullet in enemy.Bullets)
+          {
+            deleteBullets.Add(bullet);
+          }
         }
       }
 
@@ -151,6 +168,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
      foreach(Enemy enemy in deleteList)
      {
        MyEnemies.Remove(enemy);
+     }
+
+     //Delete bullets of the canvas
+     foreach(Bullet bullet in deleteBullets)
+     {
+        MyEnemyCanvas.Children.Remove(bullet.Rectangle);
      }
     }
     private void Shoot(EnemyRanged enemy, Point p)
@@ -192,7 +215,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void MoveShots(object sender, EventArgs e)
     {
       //How many Pixels the bullet should move everytime
-      int velocity = 20;
+      int velocity = 10;
       List<FrameworkElement> deleteList = new List<FrameworkElement>();
 
       foreach (FrameworkElement item in MyEnemyCanvas.Children)
@@ -201,8 +224,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           if (item is Rectangle && item.Name == ShotName) //Find shots for each enemy
           {
-            //TODO: Anpassen auf Enemies und Bulletentfernung fixen
-
             Bullet b = enemy.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
             b?.Move(velocity);
 
@@ -221,7 +242,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyEnemyCanvas.Children.Remove(item);
     }
 
-
+    #endregion Methods
   }
-  }
+}
 

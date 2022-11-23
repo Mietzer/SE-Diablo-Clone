@@ -9,10 +9,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyMelee : Enemy
   {
-
+    #region Methods
     public override void RefreshHitbox()
     {
-      this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
+      this.Hitbox = new Rect(XCoord, YCoord +27, Width, Height - 27);
     }
     
     public override void Attack(Player player)
@@ -35,6 +35,8 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       bool oldIsMoving = IsMoving;
       bool oldIsAttacking = IsAttacking;
       List<Direction> directions = new List<Direction>();
+
+      //Compares player coordinates with enemy coordianten then decides which direction to go
       if (player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2)
         directions.Add(Direction.Left);
       if (player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2)
@@ -64,6 +66,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
       IsMoving = true;
       IsAttacking = false;
+
+      //Switch-Case for enemy movement
+
       switch (item)
       {
         case Direction.Up:
@@ -96,11 +101,16 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
       }
     }
+    #endregion Methods
 
+    #region Constructor
     public EnemyMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, width, heigth - 27);
+      this.Health = 100;
     }
+
+    #endregion Constructor
   }
 }

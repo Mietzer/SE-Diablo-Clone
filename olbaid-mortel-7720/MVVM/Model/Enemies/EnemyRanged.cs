@@ -10,6 +10,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRanged : Enemy
   {
+    #region Properties
     private Timer t;
 
     public bool isShooting { get; private set; }
@@ -19,15 +20,23 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       get { return t; }
       private set { t = value; }
     }
+    #endregion Properties
+
+    #region Constructor
     public EnemyRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       t = new Timer();
-      t.Interval = 2500;
+      t.Interval = 3000;
       t.AutoReset = false;
       isShooting = false;
+
+      this.Health = 50;
     }
 
+    #endregion Constructor
+
+    #region Methods
     public void ShotCoolDown() // Starts shot timer for enemies
     {
       t.Start();
@@ -51,22 +60,28 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       int yDistance = Math.Abs(player.YCoord - this.YCoord);
 
       List<Direction> directions = new List<Direction>();
-      
-      if (xDistance <= 100 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
+
+      //Checks distance between player and enemy and checks where to move
+
+      if(xDistance >= 100 && xDistance <= 120 && yDistance >= 100 && yDistance <= 120)
+      {
+        return;
+      }
+      if (xDistance < 100 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
         directions.Add(Direction.Right);
-      if (xDistance <= 100 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
+      if (xDistance < 100 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
         directions.Add(Direction.Left);
-      if (yDistance <= 100 && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
+      if (yDistance < 100 && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
         directions.Add(Direction.Down);
-      if (yDistance <= 100 && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
+      if (yDistance < 100 && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
         directions.Add(Direction.Up);
-      if (xDistance >= 100 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
+      if (xDistance > 120 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
         directions.Add(Direction.Left);
-      if (xDistance >= 100 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
+      if (xDistance > 120 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX)
         directions.Add(Direction.Right);
-      if (yDistance >= 100 && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
+      if (yDistance > 120 && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
         directions.Add(Direction.Up);
-      if (yDistance >= 100 && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
+      if (yDistance > 120 && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
         directions.Add(Direction.Down);
 
 
@@ -90,6 +105,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
       IsMoving = true;
       IsAttacking = false;
+
+      //Switch-Case for enemy movement
+
       switch (item)
       {
         case Direction.Up:
@@ -126,5 +144,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
       }
     }
+
+    #endregion Methods
   }
 }
