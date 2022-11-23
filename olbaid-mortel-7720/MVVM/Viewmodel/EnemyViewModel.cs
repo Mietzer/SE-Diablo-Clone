@@ -5,26 +5,28 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using olbaid_mortel_7720.GameplayClasses;
+using System.Windows;
+using System.Windows.Media.Animation;
+using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class EnemyViewModel : NotifyObject
   {
-    public List<Enemy> MyEnemy = new List<Enemy>();
+    public List<Enemy> MyEnemies = new List<Enemy>();
     private Player MyPlayer { get; set; }
 
     private Canvas MyEnemyCanvas;
-
+    
     private string Tag;
 
-    public EnemyViewModel(List<Enemy> myenemy, Canvas MyEnemyCanvas, Player player)
+    public EnemyViewModel(List<Enemy> myEnemies, Canvas myEnemyCanvas, Player player)
     {
-      this.MyEnemy = myenemy;
-      this.MyEnemyCanvas = MyEnemyCanvas;
-      this.Tag = "Enemy";
-     
-
+      this.MyEnemies = myEnemies;
+      this.MyEnemyCanvas = myEnemyCanvas;
       this.MyPlayer = player;
+      this.Tag = "Enemy";
 
       InitTimer();
     }
@@ -52,17 +54,19 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void Move(object sender, EventArgs e)
     {
-      foreach (Enemy enemy in MyEnemy)
+      foreach(Enemy enemy in MyEnemies)
       {
         (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
-        //Places enemy Rectangle at new Position
+        
+        //Places enemy Image at new Position
+        ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
         Canvas.SetTop(enemy.Model, enemy.YCoord);
         Canvas.SetLeft(enemy.Model, enemy.XCoord);
       }
     }
     private void CheckforHit(object sender, EventArgs e)
     {
-      foreach(Enemy enemy in MyEnemy)
+      foreach(Enemy enemy in MyEnemies)
       {
         foreach(Bullet bullet in MyPlayer.Bullets)
         {
@@ -84,11 +88,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void RemoveEnemy(object sender, EventArgs e)
     {
      List<Enemy> deleteList = new List<Enemy>();
-     foreach(Enemy enemy in MyEnemy)
+     foreach(Enemy enemy in MyEnemies)
       {
         // Search for Enemies with 0 or less health
         if(enemy.Health <= 0)
         {
+          DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
+          animation.Completed += delegate
+          {
+            MyEnemyCanvas.Children.Remove(enemy.Model);
+          };
+          enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList
           deleteList.Add(enemy);
         }
@@ -97,12 +107,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
      // Delete them off the canvas
      foreach(Enemy enemy in deleteList)
      {
-        MyEnemyCanvas.Children.Remove(enemy.Model);
-        MyEnemy.Remove(enemy);
+       MyEnemies.Remove(enemy);
      }
-
-
     }
-
   }
 }

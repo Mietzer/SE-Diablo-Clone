@@ -21,10 +21,15 @@
                 5
             ],
             "scale": 0.75,
-            "selectedLayer": 0,
+            "selectedLayer": 4,
             "viewCenter": {
+<<<<<<< HEAD
                 "x": 219.99999999999994,
                 "y": 540
+=======
+                "x": 799.3333333333333,
+                "y": 251.33333333333326
+>>>>>>> main
             }
         },
         "Level1.tmx#Level1": {
@@ -41,11 +46,11 @@
             "dynamicWrapping": true
         },
         "Level1.tsx": {
-            "scaleInDock": 2,
+            "scaleInDock": 1.5,
             "scaleInEditor": 3
         },
         "Level1_old.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 5.5
         },
         "Level1_test.tmx": {
@@ -55,8 +60,13 @@
             "scale": 4,
             "selectedLayer": 3,
             "viewCenter": {
+<<<<<<< HEAD
                 "x": 160,
                 "y": 160
+=======
+                "x": 159.875,
+                "y": 159.875
+>>>>>>> main
             }
         },
         "TilemapLevel1.tsx": {
@@ -65,7 +75,7 @@
             "scaleInEditor": 3
         }
     },
-    "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/Documentation/Design",
+    "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Levels",
     "last.imagePath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Images/Tilesets",
     "last.objectTemplatePath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/Documentation/Design",
     "map.height": 10,
@@ -73,15 +83,13 @@
     "map.orientation": null,
     "map.width": 10,
     "openFiles": [
-        "Level1.tmx",
-        "Level1.tsx",
-        "Level1_test.tmx"
+        "Level1.tmx"
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
+        "Level1.tmx",
         "Level1_test.tmx",
         "Level1.tsx",
-        "Level1.tmx",
         "Level1_old.tsx",
         "TilemapLevel1.tsx"
     ],

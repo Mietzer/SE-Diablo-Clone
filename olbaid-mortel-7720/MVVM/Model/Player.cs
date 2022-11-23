@@ -1,6 +1,9 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Models;
+using olbaid_mortel_7720.Object;
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -19,15 +22,41 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
-
+    
+    private PlayerEffect effect;
+    public PlayerEffect Effect
+    {
+      get => effect;
+      set
+      {
+        if (value == effect) return;
+        effect = value;
+        OnPropertyChanged(nameof(Effect));
+      }
+    }
+    
     private BitmapImage weaponOverlay;
     public BitmapImage WeaponOverlay
     {
       get { return weaponOverlay; }
       private set
       {
+        if (value == weaponOverlay) return;
         weaponOverlay = value;
         OnPropertyChanged(nameof(WeaponOverlay));
+      }
+    }
+    
+    private Weapon currentWeapon;
+    
+    public Weapon CurrentWeapon
+    {
+      get { return currentWeapon; }
+      set
+      {
+        if (value == currentWeapon) return;
+        currentWeapon = value;
+        OnPropertyChanged(nameof(CurrentWeapon));
       }
     }
 
@@ -37,10 +66,19 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Player(int x, int y, int height, int width, int health, int stepLength) : base(x, y, height, width, stepLength)
     {
       HealthPoints = health;
+      Effect = PlayerEffect.None;
+      Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
+      CurrentWeapon = new Handgun();
     }
 
     #region Methods
+    
+    public override void RefreshHitbox()
+    {
+      this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
+    }
+    
     /// <summary>
     /// Moving and animating the player
     /// </summary>
@@ -70,7 +108,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         string directionString = this.Direction.ToString().ToLower();
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "walking-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
     }
 
@@ -79,7 +117,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public override void Stop(object sender, EventArgs e)
+    public override void StopMovement(object? sender, EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
@@ -87,7 +125,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         string directionString = this.Direction.ToString().ToLower();
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
     }
 
@@ -103,12 +141,12 @@ namespace olbaid_mortel_7720.MVVM.Model
       if (IsMoving)
       {
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "walking-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
       else
       {
         Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(ImageCategory.WEAPONS_PLAYER_HANDGUN, "standing-" + directionString + ".gif");
+        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
 
       Direction = newDirection;

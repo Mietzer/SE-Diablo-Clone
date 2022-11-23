@@ -3,18 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.Models"
              xmlns:utils="clr-namespace:olbaid_mortel_7720.MVVM.Utils"
+             xmlns:model="clr-namespace:olbaid_mortel_7720.MVVM.Model"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d"
              d:DesignWidth="720" d:DesignHeight="120" RenderOptions.BitmapScalingMode="NearestNeighbor"
              x:Name="CtlHealthbar"
              Background="Transparent" FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
              Loaded="OnViewLoaded">
-    <!-- #region Datacontext and Resources -->
-    <UserControl.DataContext>
-        <local:PlayerHealthbarModel />
-    </UserControl.DataContext>
+    <!-- #region Resources -->
     <UserControl.Resources>
         <utils:PercentageToSizeConverter x:Key="PercentageToSizeConverter" />
     </UserControl.Resources>
@@ -30,7 +27,7 @@
             <Image.Width>
                 <MultiBinding Converter="{StaticResource PercentageToSizeConverter}">
                     <Binding ElementName="CtlHealthbar" Path="ActualWidth" />
-                    <Binding Path="Health" />
+                    <Binding Path="HealthPoints" />
                 </MultiBinding>
             </Image.Width>
         </Image>
@@ -38,7 +35,7 @@
         <Image x:Name="ImgIcon" gif:ImageBehavior.AnimatedSource="/Images/Healthbar/Icons/heart-normal.png" HorizontalAlignment="Left"
                VerticalAlignment="Stretch" />
         <TextBlock x:Name="TxtPercentage" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"
-                   Text="{Binding Health, StringFormat={}{0:F0}%, TargetNullValue=0}" />
+                   Text="{Binding HealthPoints, StringFormat={}{0:F0}%, TargetNullValue=0}" />
     </Grid>
     <!-- #endregion -->
 </UserControl>

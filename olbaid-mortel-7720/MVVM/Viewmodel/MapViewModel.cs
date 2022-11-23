@@ -4,6 +4,7 @@ using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -34,6 +35,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void RenderMap()
     {
       List<MapObject> rednermap = map.Load();
+      BitmapImage tilesetImage = RessourceImporter.Import(ImageCategory.TILESETS, "Level1.png");
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
@@ -44,7 +46,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Rectangles[i].Height = 2000;
 
         ImageBrush myImageBrush = new ImageBrush();
-        myImageBrush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Tilesets/Level1.png", UriKind.Absolute));
+        myImageBrush.ImageSource = tilesetImage;
         myImageBrush.ViewboxUnits = BrushMappingMode.Absolute;
         myImageBrush.Stretch = Stretch.None;
         myImageBrush.TileMode = TileMode.None;

@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using WpfAnimatedGif;
 
 
 namespace olbaid_mortel_7720.GameplayClasses
@@ -18,6 +21,9 @@ namespace olbaid_mortel_7720.GameplayClasses
   public abstract class Enemy : Entity
   {
 
+    protected const int MAX_SAME_DIRECTION = 13;
+    protected int sameDirectionCounter = 0;
+    
     private int health;
     private int damage;
 
@@ -31,13 +37,13 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
     }
 
-    private Rectangle model;
+    private Image model;
 
-    public Rectangle Model
+    public Image Model
     {
       get { return model; }
-      private set
-      {
+      set 
+      { 
         model = value;
         OnPropertyChanged(nameof(Model));
       }
@@ -52,23 +58,20 @@ namespace olbaid_mortel_7720.GameplayClasses
         OnPropertyChanged(nameof(Damage));
       }
     }
-
-
-
+    
+    public bool IsAttacking { get; protected set; }
+    
     public abstract void Attack(Player player);
 
-    public Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
+    protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
     {
       this.health = health;
       this.damage = damage;
-      this.model = new Rectangle() { Tag = "Enemy", Height = 20, Width = 20, Fill = Brushes.Blue };
     }
 
     public void TakeDamage(int damage)
     {
       this.health = health - damage;
     }
-
-
   }
 }

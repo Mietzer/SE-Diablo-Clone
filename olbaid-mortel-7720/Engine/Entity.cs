@@ -20,6 +20,7 @@ namespace olbaid_mortel_7720.Engine
       get { return xCoord; }
       private set
       {
+        if (value == xCoord) return;
         xCoord = value;
         OnPropertyChanged(nameof(XCoord));
       }
@@ -31,6 +32,7 @@ namespace olbaid_mortel_7720.Engine
       get { return yCoord; }
       private set
       {
+        if (value == yCoord) return;
         yCoord = value;
         OnPropertyChanged(nameof(YCoord));
       }
@@ -59,7 +61,12 @@ namespace olbaid_mortel_7720.Engine
     public Rect Hitbox
     {
       get { return hitbox; }
-      set { hitbox = value; }
+      set
+      {
+        if (value == hitbox) return;
+        hitbox = value;
+        OnPropertyChanged(nameof(Hitbox));
+      }
     }
 
     private BitmapImage image;
@@ -68,6 +75,7 @@ namespace olbaid_mortel_7720.Engine
       get { return image; }
       set
       {
+        if (value == image) return;
         image = value;
         OnPropertyChanged(nameof(Image));
       }
@@ -75,7 +83,7 @@ namespace olbaid_mortel_7720.Engine
 
     #endregion Properties
 
-    public Entity(int x, int y, int height, int width, int stepLength)
+    protected Entity(int x, int y, int height, int width, int stepLength)
     {
       this.xCoord = x;
       this.yCoord = y;
@@ -93,11 +101,12 @@ namespace olbaid_mortel_7720.Engine
     #region Methods
     private void Entity_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+      if (e.PropertyName == nameof(Hitbox)) return;
       RefreshHitbox();
     }
-    private void RefreshHitbox()
+    public virtual void RefreshHitbox()
     {
-      this.hitbox = new Rect(XCoord, YCoord, Width, Height);
+      this.Hitbox = new Rect(XCoord, YCoord, Width, Height);
     }
 
     protected void MoveLeft()
@@ -130,7 +139,7 @@ namespace olbaid_mortel_7720.Engine
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public abstract void Stop(object sender, EventArgs e);
+    public abstract void StopMovement(object? sender, EventArgs e);
 
     #endregion Methods
 

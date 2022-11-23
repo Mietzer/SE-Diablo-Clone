@@ -1,4 +1,5 @@
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Models;
 using System;
 using System.ComponentModel;
@@ -15,19 +16,17 @@ namespace olbaid_mortel_7720.MVVM.Views
   /// </summary>
   public partial class PlayerHealthbarView : UserControl
   {
-    private readonly PlayerHealthbarModel _model;
+    private readonly Player _model;
 
     /// <summary>
     ///   Constructor.
     /// </summary>
-    public PlayerHealthbarView()
+    public PlayerHealthbarView(Player player)
     {
       InitializeComponent();
-      _model = DataContext as PlayerHealthbarModel;
-      if (_model != null)
-      {
-        _model.PropertyChanged += OnModelPropertyChanged;
-      }
+      DataContext = player;
+      _model = player;
+      _model.PropertyChanged += OnModelPropertyChanged;
     }
 
     #region EventHandlers
@@ -36,7 +35,7 @@ namespace olbaid_mortel_7720.MVVM.Views
     /// </summary>
     private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == nameof(PlayerHealthbarModel.Effect))
+      if (e.PropertyName == nameof(Player.Effect))
       {
         PlayerEffect effect = _model.Effect;
         BitmapImage iconSource;
