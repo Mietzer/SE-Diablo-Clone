@@ -85,6 +85,16 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       CurrentView = newView;
       OnPropertyChanged(nameof(CurrentView));
+      
+      if (GlobalVariables.InGame)
+      {
+        BtnPanel.Children.Remove(BtnMaximize);
+      }
+      else
+      {
+        if (BtnPanel.Children.Contains(BtnMaximize) == false)
+          BtnPanel.Children.Add(BtnMaximize);
+      }
     }
 
     #endregion Methods
