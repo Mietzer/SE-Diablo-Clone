@@ -1,65 +1,50 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
-using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using WpfAnimatedGif;
+//TODO: CodeCleanup, Regions, Kommentare
 
-// TODO: Namespaces
-namespace olbaid_mortel_7720.GameplayClasses
+namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyMelee : Enemy
   {
-
+    #region Methods
     public override void RefreshHitbox()
     {
-      this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
+      this.Hitbox = new Rect(XCoord, YCoord +27, Width, Height - 27);
     }
     
     public override void Attack(Player player)
     {
-        bool oldIsAttacking = IsAttacking;
-        IsAttacking = true;
-        IsMoving = false;
-        if (oldIsAttacking != IsAttacking)
-        {
-          string directionString = this.Direction.ToString().ToLower();
-          Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
-        }
-        player.TakeDamage(this.Damage);
+      bool oldIsAttacking = IsAttacking;
+      IsAttacking = true;
+      IsMoving = false;
+      if (oldIsAttacking != IsAttacking)
+      {
+        string directionString = Direction.ToString().ToLower();
+        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
+      }
+      player.TakeDamage(Damage);
     }
 
     public void MoveToPlayer(Player player)
     {
       const int tolerance = 5;
-      Direction lastDirection = this.Direction;
-      bool oldIsMoving = this.IsMoving;
-      bool oldIsAttacking = this.IsAttacking;
+      Direction lastDirection = Direction;
+      bool oldIsMoving = IsMoving;
+      bool oldIsAttacking = IsAttacking;
       List<Direction> directions = new List<Direction>();
-      if(player.XCoord + player.Width / 2 + tolerance * 2 < this.XCoord + this.Width / 2)
-      {
+
+      //Compares player coordinates with enemy coordianten then decides which direction to go
+      if (player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2)
         directions.Add(Direction.Left);
-      }
-      if(player.XCoord + player.Width / 2 - tolerance * 2 > this.XCoord + this.Width / 2)
-      {
+      if (player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2)
         directions.Add(Direction.Right);
-      }
-      if(player.YCoord + player.Height / 2 + tolerance < this.YCoord + this.Height / 2)
-      {
+      if (player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2)
         directions.Add(Direction.Up);
-      }
-      if(player.YCoord + player.Height / 2 - tolerance > this.YCoord + this.Height / 2)
-      {
+      if (player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2)
         directions.Add(Direction.Down);
-      }
 
       Direction item;
       if (directions.Count == 0)
@@ -81,43 +66,51 @@ namespace olbaid_mortel_7720.GameplayClasses
       }
       IsMoving = true;
       IsAttacking = false;
+
+      //Switch-Case for enemy movement
+
       switch (item)
       {
         case Direction.Up:
-          this.MoveUp();
+          MoveUp();
           break;
         case Direction.Down:
-          this.MoveDown();
+          MoveDown();
           break;
         case Direction.Left:
-          this.MoveLeft();
+          MoveLeft();
           break;
         case Direction.Right:
-          this.MoveRight();
+          MoveRight();
           break;
       }
-      if ((lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking))
+      if (lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking)
       {
-        string directionString = this.Direction.ToString().ToLower();
+        string directionString = Direction.ToString().ToLower();
         Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-" + directionString + ".gif");
       }
     }
 
     public override void StopMovement(object? sender, EventArgs e)
     {
-      bool oldIsMoving = this.IsMoving;
-      this.IsMoving = false;
+      bool oldIsMoving = IsMoving;
+      IsMoving = false;
       if (oldIsMoving != IsMoving && !IsAttacking)
       {
-        string directionString = this.Direction.ToString().ToLower();
+        string directionString = Direction.ToString().ToLower();
         Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
       }
     }
+    #endregion Methods
 
+    #region Constructor
     public EnemyMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, width, heigth - 27);
+      this.Health = 100;
     }
+
+    #endregion Constructor
   }
 }
