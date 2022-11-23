@@ -25,14 +25,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     
     public override void Attack(Player player)
     {
-      base.Attack(player);
       bool oldIsAttacking = IsAttacking;
-      IsAttacking = true;
-      IsMoving = false;
+      base.Attack(player);
       if (oldIsAttacking != IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
+        Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-attacking-" + directionString + ".gif");
       }
     }
     

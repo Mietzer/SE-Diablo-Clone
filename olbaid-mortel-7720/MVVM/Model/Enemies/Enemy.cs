@@ -32,6 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       get { return health; }
       set
       {
+        if (value == health) return;
         health = value;
         OnPropertyChanged(nameof(Health));
       }
@@ -54,6 +55,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       get { return damage; }
       set
       {
+        if (value == damage) return;
         damage = value;
         OnPropertyChanged(nameof(Damage));
       }
