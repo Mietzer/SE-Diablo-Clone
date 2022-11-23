@@ -20,6 +20,9 @@
       <Content Include="Levels\Level1.tsx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="Levels\Level1_old.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="Levels\Level1_test.tmx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

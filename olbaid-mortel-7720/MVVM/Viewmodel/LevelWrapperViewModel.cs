@@ -80,25 +80,25 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       Player p = new Player(100, 100, 64, 32, 100, 5);
       PlayerView = new PlayerCanvas(p);
-      
+
       Gui = new UserControl();
       Canvas guiCanvas = new Canvas();
       Gui.Content = guiCanvas;
-      
+
       PlayerHealthbarView playerHealthbar = new PlayerHealthbarView(p);
       playerHealthbar.Height = 40;
       playerHealthbar.Width = playerHealthbar.Height * 6;
       Canvas.SetTop(playerHealthbar, 20);
       Canvas.SetLeft(playerHealthbar, 20);
       guiCanvas.Children.Add(playerHealthbar);
-      
+
       PlayerWeaponView weaponImage = new PlayerWeaponView(p);
       weaponImage.Height = 40;
       weaponImage.Width = weaponImage.Height * 2;
       Canvas.SetTop(weaponImage, 20);
       Canvas.SetLeft(weaponImage, 20 + playerHealthbar.Width + 20);
       guiCanvas.Children.Add(weaponImage);
-      
+
       if (System.Diagnostics.Debugger.IsAttached)
       {
         Rectangle hitbox = new Rectangle();
@@ -127,13 +127,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         enemyImage.Height = e.Height;
         enemyImage.Width = e.Width;
         ImageBehavior.SetAnimatedSource(enemyImage, e.Image);
-        
+
         //Placing Enemies and Adding them to the Canvas
         e.Model = enemyImage;
         Canvas.SetTop(e.Model, e.YCoord);
         Canvas.SetLeft(e.Model, e.XCoord);
         EnemyView.EnemyCanvasObject.Children.Add(e.Model);
-        
+
         if (System.Diagnostics.Debugger.IsAttached)
         {
           Rectangle hitbox = new Rectangle();
