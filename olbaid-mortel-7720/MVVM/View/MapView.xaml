@@ -7,105 +7,12 @@
              mc:Ignorable="d" 
              d:DesignWidth="1920" d:DesignHeight="1056" >
 
-        <Grid Name="myGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
-            </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="32"/>
-        </Grid.RowDefinitions>
-    </Grid>
+        <Canvas Name="MyCanvas">
 
-    
+
+        </Canvas>
+
+
 </UserControl>
+
+
