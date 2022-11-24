@@ -8,6 +8,7 @@ namespace olbaid_mortel_7720.Object
       {
         category = ImageCategory.WEAPONS_PLAYER_HANDGUN;
         imageString = "handgun.png";
+        Damage = 20;
       }
     }
 }

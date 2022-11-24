@@ -99,8 +99,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "bullet.png"));
-      Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName);
+      Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png"));
+      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
 
       //Add to Player
       MyPlayer.IsShooting = true;

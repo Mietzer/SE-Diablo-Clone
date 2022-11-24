@@ -110,8 +110,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       if ((oldDirection != Direction || oldIsMoving != IsMoving) && !IsShooting)
       {
         string directionString = this.Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
     }
 
@@ -127,8 +127,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       if (oldIsMoving != IsMoving || (sender != null && sender.ToString().Equals("Initial")))
       {
         string directionString = this.Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
     }
 
@@ -143,13 +143,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       string directionString = newDirection.ToString().ToLower();
       if (IsMoving)
       {
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
       else
       {
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
 
       Direction = newDirection;

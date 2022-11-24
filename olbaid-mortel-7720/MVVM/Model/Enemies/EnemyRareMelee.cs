@@ -11,11 +11,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareMelee : EnemyMelee
   {
-    public EnemyRareMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    public EnemyRareMelee(int x, int y) : base(x, y)
     {
       this.Health = base.Health * 10;
-      Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
-      Hitbox = new Rect(x, y + 22, width, heigth - 22);
+      this.Damage = base.Damage * 2;
+      Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
+      Hitbox = new Rect(x, y + 22, Width, Height - 22);
     }
     
     public override void RefreshHitbox()
@@ -25,14 +26,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     
     public override void Attack(Player player)
     {
-      base.Attack(player);
       bool oldIsAttacking = IsAttacking;
-      IsAttacking = true;
-      IsMoving = false;
+      base.Attack(player);
       if (oldIsAttacking != IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "rare-attacking-" + directionString + ".gif");
       }
     }
     
@@ -45,7 +44,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (lastDirection != Direction || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-" + directionString + ".gif");
       }
     }
     
@@ -56,7 +55,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsMoving != IsMoving && !IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "rare-standing-" + directionString + ".gif");
       }
     }
   }

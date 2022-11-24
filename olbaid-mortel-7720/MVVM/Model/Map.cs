@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.Object;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TiledCS;
@@ -95,7 +96,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         foreach (var obj in layer.objects)
         {
           //To Do Impelmentierung vpn Objecten z.b. Spawn Points
-          spawnObjects.Add(new SpawnObject(obj.name, true, true, obj.x, obj.y, obj.width, obj.height));
+          spawnObjects.Add(new SpawnObject(obj.name, true, true, Convert.ToInt32(obj.x), Convert.ToInt32(obj.y), obj.width, obj.height));
         }
       }
 

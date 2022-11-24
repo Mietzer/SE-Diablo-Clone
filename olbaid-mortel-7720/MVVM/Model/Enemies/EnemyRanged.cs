@@ -13,28 +13,20 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
   public class EnemyRanged : Enemy
   {
     #region Properties
-    private Timer t;
-
-    public bool isShooting { get; private set; }
-
-    public Timer T
-    {
-      get { return t; }
-      private set { t = value; }
-    }
+    
+    private readonly Timer shootCooldownTimer;
+    
     #endregion Properties
 
     #region Constructor
-    public EnemyRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    public EnemyRanged(int x, int y) : base(x, y, 64, 32, 3, 50, 2)
     {
-      Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
-      Hitbox = new Rect(x, y + 22, width, heigth - 22);
-      t = new Timer();
-      t.Interval = 3000;
-      t.AutoReset = false;
-      isShooting = false;
-
-      this.Health = 50;
+      Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
+      Hitbox = new Rect(x, y + 22, Width, Height - 22);
+      shootCooldownTimer = new Timer();
+      shootCooldownTimer.Interval = 3000;
+      shootCooldownTimer.AutoReset = false;
+      IsAttacking = false;
     }
 
     #endregion Constructor
@@ -47,23 +39,25 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     
     public void ShotCoolDown() // Starts shot timer for enemies
     {
-      t.Start();
-      isShooting = false;
-      t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+      shootCooldownTimer.Start();
+      IsAttacking = false;
+      shootCooldownTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
     }
 
     private void OnTimedEvent(object source, ElapsedEventArgs e) // Shoots then resets timer
     {
-      isShooting = true;
-      t.Stop();
+      IsAttacking = true;
+      shootCooldownTimer.Stop();
     }
 
     public virtual void KeepDistance(Player player)
     {
       const int tolerance = 5;
+      const int nearestDistance = 150;
+      const int farthestDistance = 200;
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
-      bool oldIsAttacking = IsAttacking;
+      bool oldIsAttacking = base.IsAttacking;
       int xDistance = Math.Abs(player.XCoord - this.XCoord);
       int yDistance = Math.Abs(player.YCoord - this.YCoord);
 
@@ -71,25 +65,25 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
       //Checks distance between player and enemy and checks where to move
 
-      if(xDistance >= 100 && xDistance <= 120 && yDistance >= 100 && yDistance <= 120)
+      if(xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
       {
         return;
       }
-      if (xDistance < 100 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
+      if (xDistance < nearestDistance&& player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
         directions.Add(Direction.Right);
-      if (xDistance < 100 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
+      if (xDistance < nearestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
         directions.Add(Direction.Left);
-      if (yDistance < 100 && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
+      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
         directions.Add(Direction.Down);
-      if (yDistance < 100 && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
+      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
         directions.Add(Direction.Up);
-      if (xDistance > 120 && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
+      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
         directions.Add(Direction.Left);
-      if (xDistance > 120 && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX)
+      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX)
         directions.Add(Direction.Right);
-      if (yDistance > 120 && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
+      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
         directions.Add(Direction.Up);
-      if (yDistance > 120 && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
+      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
         directions.Add(Direction.Down);
 
 
@@ -112,7 +106,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         sameDirectionCounter = 0;
       }
       IsMoving = true;
-      IsAttacking = false;
+      base.IsAttacking = false;
 
       //Switch-Case for enemy movement
 
@@ -134,7 +128,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-" + directionString + ".gif");
       }
     }
     public override void Attack(Player player)
@@ -146,10 +140,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
-      if (oldIsMoving != IsMoving && !IsAttacking)
+      if (oldIsMoving != IsMoving && !base.IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
       }
     }
 

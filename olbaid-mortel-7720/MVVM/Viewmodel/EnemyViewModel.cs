@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
@@ -67,10 +68,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       movementTimer.Tick += new EventHandler(MoveShots);
       movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
       movementTimer.Start();
-
-      
-
-      
     }
 
     private void Move(object sender, EventArgs e)
@@ -105,7 +102,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           // Checks if bullet hits Enemyhitbox
           if (enemy.Hitbox.IntersectsWith(bullet.Hitbox))
           {
-            enemy.TakeDamage(20);
+            enemy.TakeDamage(MyPlayer.CurrentWeapon.Damage);
           }
         }
         //Checks if Enemy hits Playerhitbox
@@ -116,7 +113,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
         if(enemy is EnemyRanged)
         {
-          if ((enemy as EnemyRanged).isShooting)
+          if ((enemy as EnemyRanged).IsAttacking)
           {
             
             Point p = new Point(MyPlayer.XCoord + MyPlayer.Width / 2 , MyPlayer.YCoord + MyPlayer.Height / 2);
@@ -184,8 +181,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
-      Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName);
+      Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
+      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
 
       //Add to Enemies
       enemy.Bullets.Add(bullet);

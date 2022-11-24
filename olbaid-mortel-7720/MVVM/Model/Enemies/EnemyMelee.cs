@@ -23,7 +23,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsAttacking != IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
       }
       player.TakeDamage(Damage);
     }
@@ -87,7 +87,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-" + directionString + ".gif");
       }
     }
 
@@ -98,17 +98,16 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsMoving != IsMoving && !IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
       }
     }
     #endregion Methods
 
     #region Constructor
-    public EnemyMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    public EnemyMelee(int x, int y) : base(x, y, 64, 32, 3, 100, 2)
     {
-      Image = RessourceImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
-      Hitbox = new Rect(x, y + 27, width, heigth - 27);
-      this.Health = 100;
+      Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
+      Hitbox = new Rect(x, y + 27, Width, Height - 27);
     }
 
     #endregion Constructor

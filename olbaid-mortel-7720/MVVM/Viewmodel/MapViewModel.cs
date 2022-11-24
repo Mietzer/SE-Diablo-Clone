@@ -2,9 +2,7 @@
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
-using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -17,16 +15,16 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Properties
 
     public List<Rectangle> Rectangles;
-    public Grid MyGrid;
     private Map map;
+    public Canvas Canvas;
 
     #endregion Properties
 
-    public MapViewModel(Grid mygrid, Map map)
+    public MapViewModel(Canvas canvas, Map map)
     {
       Rectangles = new List<Rectangle>();
       this.map = map;
-      MyGrid = mygrid;
+      Canvas = canvas;
       RenderMap();
       CreatObjects();
     }
@@ -35,15 +33,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void RenderMap()
     {
       List<MapObject> rednermap = map.Load();
-      BitmapImage tilesetImage = RessourceImporter.Import(ImageCategory.TILESETS, "Level1.png");
+      BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
       {
         Rectangles.Add(new Rectangle());
 
-        Rectangles[i].Width = 2000;
-        Rectangles[i].Height = 2000;
+        double Wert = 42.74;
+
+        Rectangles[i].Width = Wert * ((rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
+        Rectangles[i].Height = Wert * ((rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = tilesetImage;
@@ -58,10 +58,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         myImageBrush.Transform = new MatrixTransform(0.75d, 0.0d, 0.0d, 0.75d, x, y); //m11=default 1   m12 m21 m22=default 1 0.75 da 0.25 Skalierungfaktor rausrechnen x y 
         Rectangles[i].Fill = myImageBrush;
 
-        Grid.SetColumn(Rectangles[i], rednermap[i].Graphic.Index % map.MapWidth);
-        Grid.SetRow(Rectangles[i], (rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth);
-
-        MyGrid.Children.Add(Rectangles[i]);
+        Canvas.SetTop(Rectangles[i], ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32);
+        Canvas.SetLeft(Rectangles[i], (rednermap[i].Graphic.Index % map.MapWidth) * 32);
+        Canvas.Children.Add(Rectangles[i]);
       }
     }
 
@@ -71,30 +70,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       for (int i = 0; i < rednerobjects.Count; i++)
       {
-        Grid.SetColumn(rednerobjects[i].Hitbox, CalculateGridPosition(rednerobjects[i].X));
-        Grid.SetRow(rednerobjects[i].Hitbox, CalculateGridPosition(rednerobjects[i].Y));
-        if (rednerobjects[i].Hitbox.Width > 32)
-          Grid.SetColumnSpan(rednerobjects[i].Hitbox, CalculateGridSpan(rednerobjects[i].Hitbox.Width));
-        if (rednerobjects[i].Hitbox.Height > 32)
-          Grid.SetRowSpan(rednerobjects[i].Hitbox, CalculateGridSpan(rednerobjects[i].Hitbox.Height));
-        MyGrid.Children.Add(rednerobjects[i].Hitbox);
+        Canvas.SetTop(rednerobjects[i].Hitbox, (rednerobjects[i].Y));
+        Canvas.SetLeft(rednerobjects[i].Hitbox, (rednerobjects[i].X));
+        Canvas.Children.Add(rednerobjects[i].Hitbox);
       }
-
-    }
-
-    public int CalculateGridPosition(float wert)
-    {
-      int iwert = Convert.ToInt32(wert / 32);
-      if (0 < (wert / 32) - iwert)
-        return (iwert);
-      return iwert - 1;
-    }
-    public int CalculateGridSpan(double wert)
-    {
-      int iwert = Convert.ToInt32(wert / 32);
-      if (0 < (wert / 32) - iwert)
-        return iwert + 1;
-      return iwert;
     }
 
     #endregion Methods

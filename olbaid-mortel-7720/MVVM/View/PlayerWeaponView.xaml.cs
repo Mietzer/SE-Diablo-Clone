@@ -30,7 +30,7 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       InitializeComponent();
       this.DataContext = this;
-      Image = RessourceImporter.Import(ImageCategory.ITEMS, player.CurrentWeapon.GetImageString());
+      Image = ImageImporter.Import(ImageCategory.ITEMS, player.CurrentWeapon.GetImageString());
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

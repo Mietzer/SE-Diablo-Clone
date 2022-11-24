@@ -11,11 +11,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareRanged : EnemyRanged
   {
-    public EnemyRareRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    public EnemyRareRanged(int x, int y) : base(x, y)
     {
       this.Health = base.Health * 10;
-      Image = RessourceImporter.Import(ImageCategory.RANGED, "rare-walking-left.gif");
-      Hitbox = new Rect(x, y + 19, width, heigth - 19);
+      this.Damage = base.Damage * 2;
+      Image = ImageImporter.Import(ImageCategory.RANGED, "rare-walking-left.gif");
+      Hitbox = new Rect(x, y + 19, Width, Height - 19);
     }
     
     public override void RefreshHitbox()
@@ -27,12 +28,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
-      bool oldIsAttacking = IsAttacking;
+      bool oldIsAttacking = ((Enemy)this).IsAttacking;
       base.KeepDistance(player);
       if (lastDirection != Direction || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "rare-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "rare-walking-" + directionString + ".gif");
       }
     }
     
@@ -40,10 +41,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
-      if (oldIsMoving != IsMoving && !IsAttacking)
+      if (oldIsMoving != IsMoving && !((Enemy)this).IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "rare-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "rare-standing-" + directionString + ".gif");
       }
     }
   }
