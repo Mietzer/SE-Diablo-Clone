@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignWidth="1920" d:DesignHeight="1056" >
+             Width="1920"
+             Height="1050" >
 
-        <Canvas Name="MyCanvas">
-
-
-        </Canvas>
+  <Canvas Name="MyCanvas"
+          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Path=Height  }"
+          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Path=Width}" />
 
 
 </UserControl>

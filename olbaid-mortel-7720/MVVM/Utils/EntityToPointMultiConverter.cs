@@ -10,7 +10,7 @@ namespace olbaid_mortel_7720.MVVM.Utils
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
       Entity enitity = (Entity)values[0];
-      return new System.Windows.Point(enitity.XCoord + enitity.Width / 2, enitity.YCoord + enitity.Height);
+      return new System.Windows.Point(enitity.XCoord + enitity.Width / 2, enitity.YCoord + enitity.Height / 2);
     }
 
 
