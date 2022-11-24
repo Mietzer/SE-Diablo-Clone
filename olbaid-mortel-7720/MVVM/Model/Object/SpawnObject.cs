@@ -24,7 +24,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
       hitbox.Height = height;
       hitbox.Width = width;
       //TODO: To colour the spawn zones, the following must be removed from the finished game. 
-      hitbox.Fill = Brushes.Black;
+      hitbox.Fill = Brushes.Transparent;
       return hitbox;
     }
     #endregion Methods
