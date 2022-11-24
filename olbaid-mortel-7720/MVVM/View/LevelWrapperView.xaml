@@ -8,14 +8,17 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
   <Grid>
-    <Viewbox Height="50"
+    <Viewbox x:Name="PlayerhealthViewbox"
+              Height="50"
              VerticalAlignment="Top">
             <ContentControl Content="{Binding PlayerHealthbar}" 
-                    />
+                            Height="{Binding RelativeSource={RelativeSource AncestorType=Viewbox}, Path=Height}"   />
     </Viewbox>
 
-    <ContentControl Content="{Binding CurrentLevel}" />
-      
+    <Viewbox>
+      <ContentControl Content="{Binding CurrentLevel}" />
+    </Viewbox>
+
     <ContentControl Content="{Binding PlayerView}" />
 
     <ContentControl Content="{Binding EnemyView}" />
