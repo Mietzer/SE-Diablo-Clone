@@ -25,8 +25,11 @@ namespace olbaid_mortel_7720.Helper
       string path = Path.Combine(fileName + ".json");
       //Convert To Json 
       string jsonString = JsonSerializer.Serialize(data);
-
+      
       //Make file writable
+      if (!File.Exists(path))
+        File.Create(path);
+      
       File.SetAttributes(path, FileAttributes.Normal);
       File.WriteAllText(path, jsonString);
 
