@@ -4,7 +4,6 @@ using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -19,16 +18,18 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public List<Rectangle> Rectangles;
     public Grid MyGrid;
     private Map map;
+    public Canvas MyCanvas;
 
     #endregion Properties
 
-    public MapViewModel(Grid mygrid, Map map)
+    public MapViewModel(Canvas mycanvas, Map map)
     {
       Rectangles = new List<Rectangle>();
       this.map = map;
-      MyGrid = mygrid;
+      //MyGrid = mygrid;
+      MyCanvas = mycanvas;
       RenderMap();
-      CreatObjects();
+      //CreatObjects();
     }
 
     #region Methods
@@ -42,8 +43,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       {
         Rectangles.Add(new Rectangle());
 
-        Rectangles[i].Width = 2000;
-        Rectangles[i].Height = 2000;
+        double RWitdh = ((rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
+        double RHeight = ((rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
+        double Wert = 42.65;
+
+        Rectangles[i].Width = Wert * RWitdh;
+        Rectangles[i].Height = Wert * RHeight;
 
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = tilesetImage;
@@ -58,10 +63,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         myImageBrush.Transform = new MatrixTransform(0.75d, 0.0d, 0.0d, 0.75d, x, y); //m11=default 1   m12 m21 m22=default 1 0.75 da 0.25 Skalierungfaktor rausrechnen x y 
         Rectangles[i].Fill = myImageBrush;
 
-        Grid.SetColumn(Rectangles[i], rednermap[i].Graphic.Index % map.MapWidth);
-        Grid.SetRow(Rectangles[i], (rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth);
+        //Grid.SetColumn(Rectangles[i], rednermap[i].Graphic.Index % map.MapWidth);
+        //Grid.SetRow(Rectangles[i], (rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth);
+        //MyGrid.Children.Add(Rectangles[i]);
 
-        MyGrid.Children.Add(Rectangles[i]);
+        Canvas.SetTop(Rectangles[i], ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32);
+        Canvas.SetLeft(Rectangles[i], (rednermap[i].Graphic.Index % map.MapWidth) * 32);
+        MyCanvas.Children.Add(Rectangles[i]);
       }
     }
 
