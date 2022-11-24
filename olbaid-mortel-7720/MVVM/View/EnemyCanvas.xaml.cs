@@ -1,5 +1,5 @@
-﻿using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Model.Enemies;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Collections.Generic;
 using System.Windows.Controls;

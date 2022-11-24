@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Utils;
@@ -187,17 +188,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // TODO: Add spawnlists with random choice out of a list of possible lists
       List<Enemy> spawnList = new List<Enemy>();
       // 3 Ranged
-      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
-      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
-      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
+      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
+      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
       // 2 Melee
-      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
-      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
+      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
       // 1 Rare Ranged
-      spawnList.Add(new EnemyRareRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyRareRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
       // 2 Rare Melee
-      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
-      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50), 64, 32, 3, 100, 2));
+      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
+      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"), spawnList);
       CurrentLevel = new MapView(level1.Map);
       usedLevel = level1;

@@ -28,8 +28,8 @@ namespace olbaid_mortel_7720.Helper
       
       //Make file writable
       if (!File.Exists(path))
-        File.Create(path);
-      
+        File.Create(path).Close();
+
       File.SetAttributes(path, FileAttributes.Normal);
       File.WriteAllText(path, jsonString);
 
