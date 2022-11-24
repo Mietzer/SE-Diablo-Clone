@@ -67,8 +67,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void SelectLevel(object sender)
     {
-      mainWindow.SwitchView(new LevelWrapperView((int)sender));
       GlobalVariables.InGame = true;
+      mainWindow.SwitchView(new LevelWrapperView((int)sender));
     }
 
     public bool CanSelectLevel()

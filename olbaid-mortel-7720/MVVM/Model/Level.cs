@@ -1,4 +1,7 @@
-﻿namespace olbaid_mortel_7720.MVVM.Model
+﻿using olbaid_mortel_7720.MVVM.Model.Enemies;
+using System.Collections.Generic;
+
+namespace olbaid_mortel_7720.MVVM.Model
 {
   public class Level
   {
@@ -7,14 +10,21 @@
     //TODO: ADD Progperties for Level
 
     public Map Map;
+    
+    private List<Enemy> _enemySpawnList;
+    public List<Enemy> EnemySpawnList
+    {
+      get { return _enemySpawnList; }
+      private set { _enemySpawnList = value; }
+    }
 
     #endregion Properties
 
-    public Level(Map map)
+    public Level(Map map, List<Enemy> enemySpawnList)
     {
       Map = map;
+      EnemySpawnList = enemySpawnList;
     }
-
 
     #region Methods
     //TODO: Add WIN/LOSE Game 

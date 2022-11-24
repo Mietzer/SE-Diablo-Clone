@@ -1,98 +1,30 @@
 {
-    "Map/SizeTest": {
-        "height": 4300,
-        "width": 2
-    },
     "activeFile": "Level1.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "Alle Dateien (*)",
     "fileStates": {
-        "": {
-            "scaleInDock": 2,
-            "scaleInEditor": 4
-        },
-        "#TilemapLevel1": {
-            "scaleInDock": 1
-        },
         "Level1.tmx": {
-            "expandedObjectLayers": [
-                5
-            ],
             "scale": 0.75,
-            "selectedLayer": 0,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1036.6666666666665,
-                "y": 395.33333333333326
+                "x": 1281.3333333333335,
+                "y": 512.6666666666666
             }
-        },
-        "Level1.tmx#Level1": {
-            "scaleInDock": 2,
-            "scaleInEditor": 1
-        },
-        "Level1.tmx#TilemapLevel": {
-            "dynamicWrapping": false
-        },
-        "Level1.tmx#TilemapLevel1": {
-            "scaleInDock": 2
-        },
-        "Level1.tmx#test": {
-            "dynamicWrapping": true
         },
         "Level1.tsx": {
-            "scaleInDock": 2,
-            "scaleInEditor": 3
+            "scaleInDock": 1
         },
         "Level1_old.tsx": {
-            "scaleInDock": 1,
-            "scaleInEditor": 5.5
-        },
-        "Level1_test.tmx": {
-            "expandedObjectLayers": [
-                4
-            ],
-            "scale": 4,
-            "selectedLayer": 3,
-            "viewCenter": {
-                "x": 159.875,
-                "y": 160
-            }
-        },
-        "TilemapLevel1.tsx": {
-            "dynamicWrapping": false,
-            "scaleInDock": 2,
-            "scaleInEditor": 3
+            "scaleInDock": 2
         }
     },
-    "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/Documentation/Design",
-    "last.imagePath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Images/Tilesets",
-    "last.objectTemplatePath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/Documentation/Design",
-    "map.height": 10,
-    "map.lastUsedFormat": "tmx",
-    "map.orientation": null,
-    "map.width": 10,
     "openFiles": [
-        "Level1.tmx",
-        "Level1.tsx",
-        "Level1_test.tmx"
+        "Level1.tmx"
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level1_test.tmx",
-        "Level1.tsx",
-        "Level1.tmx",
-        "Level1_old.tsx",
-        "TilemapLevel1.tsx"
-    ],
-    "tileset.embedInMap": true,
-    "tileset.lastUsedFilter": "Tiled-Kachelsatzdateien (*.tsx *.xml)",
-    "tileset.lastUsedFormat": "tsx",
-    "tileset.tileSize": {
-        "height": 32,
-        "width": 32
-    },
-    "tileset.transparentColor": "#ff7f26",
-    "tileset.type": 0,
-    "tileset.useTransparentColor": false
+        "Level1.tmx"
+    ]
 }

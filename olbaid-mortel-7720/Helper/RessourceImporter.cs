@@ -32,7 +32,7 @@ namespace olbaid_mortel_7720.Helper
           throw new FileLoadException($"Tiled file '{filePath}' has not a valid extension!");
         }
       }
-      catch (IOException e)
+      catch (TiledException e)
       {
         throw new FileLoadException($"Tiled file '{filePath}' not found!");
       }

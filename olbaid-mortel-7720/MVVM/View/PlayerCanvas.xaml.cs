@@ -40,6 +40,7 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       //Init Events
       Window window = Window.GetWindow(this);
+      window.Cursor = Cursors.Cross;
       window.KeyDown += Canvas_StartMove;
       window.KeyUp += Canvas_StopMove;
       window.MouseLeftButtonDown += Canvas_Shoot;

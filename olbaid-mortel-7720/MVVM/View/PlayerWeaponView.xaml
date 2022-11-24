@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="olbaid_mortel_7720.MVVM.View.PlayerWeaponView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
+             xmlns:object="clr-namespace:olbaid_mortel_7720.Object"
+             mc:Ignorable="d"
+             d:DesignHeight="120" d:DesignWidth="240"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
+             x:Name="CtlPlayerWeapon"
+             Background="Transparent" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}"
+             Loaded="OnLoaded">
+  <Grid>
+    <Image Source="/Images/Weapons/View/background.png"/>
+    <Image x:Name="ImgWeapon" Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <Image Source="/Images/Weapons/View/overlay.png" />
+  </Grid>
+</UserControl>

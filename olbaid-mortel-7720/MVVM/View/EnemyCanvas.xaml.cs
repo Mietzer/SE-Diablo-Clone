@@ -1,5 +1,5 @@
-﻿using olbaid_mortel_7720.GameplayClasses;
-using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -16,7 +16,6 @@ namespace olbaid_mortel_7720.MVVM.View
 
     public EnemyCanvas(List<Enemy> enemyList, Player player)
     {
-
       this.MyEnemy = enemyList;
 
       InitializeComponent();

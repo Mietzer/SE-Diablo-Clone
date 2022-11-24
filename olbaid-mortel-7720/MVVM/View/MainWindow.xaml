@@ -24,6 +24,7 @@
     <Grid Grid.Row="0"
           MouseDown="MoveWindow"
           Name="Menubar"
+          Cursor="Arrow"
           Background="{StaticResource TitlebarColor}"
           Opacity="0.7">
       <Grid.ColumnDefinitions>
@@ -35,6 +36,7 @@
                  Grid.Column="0"
                  Style="{StaticResource tbHeadlineWhite}" />
       <StackPanel Grid.Column="1"
+                  x:Name="BtnPanel"
                   HorizontalAlignment="Right"
                   Orientation="Horizontal">
         <Button Click="Minimize"
@@ -75,6 +77,7 @@
           </Button.ContentTemplate>
         </Button>
         <Button Click="Maximize"
+                x:Name="BtnMaximize"
                 Style="{StaticResource WindowButton}">
           <Button.ContentTemplate>
             <DataTemplate>

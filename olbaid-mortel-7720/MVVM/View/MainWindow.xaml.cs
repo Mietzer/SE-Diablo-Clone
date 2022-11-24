@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.MVVM.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -70,6 +71,11 @@ namespace olbaid_mortel_7720.MVVM.View
       GlobalVariables.MinY = 0;
       GlobalVariables.MaxX = (int)ActualWidth;
       GlobalVariables.MaxY = (int)ActualHeight - menuBarHeight;
+      
+      if (Debugger.IsAttached)
+      {
+        Debug.WriteLine("\n------------------\nStarted in DEBUG mode\n------------------\n"); 
+      }
     }
 
     #endregion Events
@@ -79,6 +85,16 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       CurrentView = newView;
       OnPropertyChanged(nameof(CurrentView));
+      
+      if (GlobalVariables.InGame)
+      {
+        BtnPanel.Children.Remove(BtnMaximize);
+      }
+      else
+      {
+        if (BtnPanel.Children.Contains(BtnMaximize) == false)
+          BtnPanel.Children.Add(BtnMaximize);
+      }
     }
 
     #endregion Methods
