@@ -29,7 +29,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
 
     private UserControl gui;
-
     public UserControl Gui
     {
       get { return gui; }
@@ -52,6 +51,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    private int usedLevelID;
     private Level usedLevel;
     private UserControl currentLevel;
     public UserControl CurrentLevel
@@ -62,8 +62,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #endregion Properties
 
     #region Constructor
-    public LevelWrapperViewModel()
+    public LevelWrapperViewModel(int selectedLevel)
     {
+      usedLevelID = selectedLevel;
       Setup();
     }
     #endregion Constructor
@@ -155,6 +156,18 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void AddLevel()
     {
       // TODO: Depending on some Variable, using of Level 1,2 or 3
+      switch (usedLevelID)
+      {
+        case 1:
+          AddLevel1Data();
+          break;
+        default:
+          break;
+      }
+    }
+
+    private void AddLevel1Data()
+    {
       Random rnd = new Random();
       // TODO: Add spawnlists with random choice out of a list of possible lists
       List<Enemy> spawnList = new List<Enemy>();
