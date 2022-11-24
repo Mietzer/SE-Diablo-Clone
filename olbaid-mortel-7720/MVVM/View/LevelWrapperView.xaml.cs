@@ -13,7 +13,7 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       //TODO: Add Healthbar
 
-      LevelWrapperViewModel vm = new();
+      LevelWrapperViewModel vm = new(selectedLevel);
       DataContext = vm;
       InitializeComponent();
     }
