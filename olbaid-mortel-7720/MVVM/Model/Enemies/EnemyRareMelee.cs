@@ -11,11 +11,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareMelee : EnemyMelee
   {
-    public EnemyRareMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    public EnemyRareMelee(int x, int y) : base(x, y)
     {
       this.Health = base.Health * 10;
+      this.Damage = base.Damage * 2;
       Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
-      Hitbox = new Rect(x, y + 22, width, heigth - 22);
+      Hitbox = new Rect(x, y + 22, Width, Height - 22);
     }
     
     public override void RefreshHitbox()

@@ -1,4 +1,4 @@
-﻿using olbaid_mortel_7720.MVVM.Model.Enemies;
+﻿using olbaid_mortel_7720.Engine;
 using System.Collections.Generic;
 
 namespace olbaid_mortel_7720.MVVM.Model

@@ -104,11 +104,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Methods
 
     #region Constructor
-    public EnemyMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    public EnemyMelee(int x, int y) : base(x, y, 64, 32, 3, 100, 2)
     {
       Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
-      Hitbox = new Rect(x, y + 27, width, heigth - 27);
-      this.Health = 100;
+      Hitbox = new Rect(x, y + 27, Width, Height - 27);
     }
 
     #endregion Constructor

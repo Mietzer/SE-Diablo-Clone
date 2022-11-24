@@ -13,6 +13,10 @@ namespace olbaid_mortel_7720.Object
     Projectile Bullet;
     protected ImageCategory category;
     protected string imageString;
+    
+    private int damage;
+
+    public int Damage { get; protected set; }
 
       //optional Munitons Munition 
     public string PathtoGraphics { get; set; }

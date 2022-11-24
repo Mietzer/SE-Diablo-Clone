@@ -16,7 +16,7 @@ using System.Windows.Media;
 using WpfAnimatedGif;
 
 
-namespace olbaid_mortel_7720.MVVM.Model.Enemies
+namespace olbaid_mortel_7720.Engine
 {
   public abstract class Enemy : Entity
   {
