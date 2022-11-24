@@ -12,8 +12,8 @@
         ResizeMode="NoResize"
         Loaded="LoadedWindow"
         FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
-        Height="450"
-        Width="750">
+        Height="465"
+        Width="800">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
