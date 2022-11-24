@@ -26,6 +26,9 @@ namespace olbaid_mortel_7720.Helper
       //Convert To Json 
       string jsonString = JsonSerializer.Serialize(data);
 
+      if (!File.Exists(path))
+        File.Create(path).Close();
+
       //Make file writable
       File.SetAttributes(path, FileAttributes.Normal);
       File.WriteAllText(path, jsonString);

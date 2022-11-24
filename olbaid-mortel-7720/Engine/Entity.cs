@@ -83,6 +83,17 @@ namespace olbaid_mortel_7720.Engine
 
     #endregion Properties
 
+    private int viewRange;
+    public int ViewRange
+    {
+      get { return viewRange; }
+      set
+      {
+        viewRange = value;
+        OnPropertyChanged(nameof(ViewRange));
+      }
+    }
+
     protected Entity(int x, int y, int height, int width, int stepLength)
     {
       this.xCoord = x;

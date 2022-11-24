@@ -79,7 +79,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddPlayer()
     {
-      Player p = new Player(100, 100, 64, 32, 100, 5);
+      Player p = new Player(100, 100, 64, 32, 100, 5, 50);
       PlayerView = new PlayerCanvas(p);
 
       Gui = new UserControl();

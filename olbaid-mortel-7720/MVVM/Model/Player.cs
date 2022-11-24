@@ -22,7 +22,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
-    
+
     private PlayerEffect effect;
     public PlayerEffect Effect
     {
@@ -34,7 +34,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(Effect));
       }
     }
-    
+
     private BitmapImage weaponOverlay;
     public BitmapImage WeaponOverlay
     {
@@ -46,9 +46,9 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(WeaponOverlay));
       }
     }
-    
+
     private Weapon currentWeapon;
-    
+
     public Weapon CurrentWeapon
     {
       get { return currentWeapon; }
@@ -60,12 +60,15 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
+
+
     public bool IsShooting { get; set; }
     #endregion Properties
 
-    public Player(int x, int y, int height, int width, int health, int stepLength) : base(x, y, height, width, stepLength)
+    public Player(int x, int y, int height, int width, int health, int stepLength, int viewRange) : base(x, y, height, width, stepLength)
     {
       HealthPoints = health;
+      ViewRange = viewRange;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
@@ -73,12 +76,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
-    
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
     }
-    
+
     /// <summary>
     /// Moving and animating the player
     /// </summary>
