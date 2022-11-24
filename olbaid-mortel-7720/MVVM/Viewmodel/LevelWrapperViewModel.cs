@@ -152,6 +152,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           TextBlock enemyHealth = new TextBlock();
           enemyHealth.Foreground = Brushes.Red;
           Binding bindEnemyHealth = new Binding(nameof(e.Health));
+          bindEnemyHealth.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+          bindEnemyHealth.Mode = BindingMode.OneWay;
           bindEnemyHealth.Source = e;
           enemyHealth.SetBinding(TextBlock.TextProperty, bindEnemyHealth);
           Binding bindEnemyX = new Binding(nameof(e.XCoord));

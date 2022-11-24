@@ -27,7 +27,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #region Constructor
     public EnemyRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
-      Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
+      Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       Hitbox = new Rect(x, y + 22, width, heigth - 22);
       t = new Timer();
       t.Interval = 3000;
@@ -134,7 +134,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-" + directionString + ".gif");
       }
     }
     public override void Attack(Player player)
@@ -149,7 +149,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsMoving != IsMoving && !IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
       }
     }
 

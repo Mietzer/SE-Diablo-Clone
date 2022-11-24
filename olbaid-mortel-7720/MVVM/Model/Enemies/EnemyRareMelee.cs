@@ -14,7 +14,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     public EnemyRareMelee(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
     {
       this.Health = base.Health * 10;
-      Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
+      Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
       Hitbox = new Rect(x, y + 22, width, heigth - 22);
     }
     
@@ -30,7 +30,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsAttacking != IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-attacking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "rare-attacking-" + directionString + ".gif");
       }
     }
     
@@ -43,7 +43,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (lastDirection != Direction || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-" + directionString + ".gif");
       }
     }
     
@@ -54,7 +54,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsMoving != IsMoving && !IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.MELEE, "rare-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.MELEE, "rare-standing-" + directionString + ".gif");
       }
     }
   }

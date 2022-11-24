@@ -16,10 +16,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public LevelSelectionViewModel()
     {
       //Examples
-      LevelModel level1 = new LevelModel(true, true, false, 1, "LEVEL 1 Name", TimeSpan.FromSeconds(54.0), RessourceImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), true);
-      LevelModel level2 = new LevelModel(true, false, false, 2, "Das ist mein LEVEL 2.", TimeSpan.FromSeconds(43.0), RessourceImporter.Import(ImageCategory.ITEMS, "healthpack.png"), false);
-      LevelModel level3 = new LevelModel(false, true, true, 3, "LEVEL 3", TimeSpan.FromSeconds(97.0), RessourceImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), false);
-      LevelModel level4 = new LevelModel(true, true, true, 4, "LEVEL 4", TimeSpan.FromSeconds(197.0), RessourceImporter.Import(ImageCategory.ITEMS, "healthpack.png"), false);
+      LevelModel level1 = new LevelModel(true, true, false, 1, "LEVEL 1 Name", TimeSpan.FromSeconds(54.0), ImageImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), true);
+      LevelModel level2 = new LevelModel(true, false, false, 2, "Das ist mein LEVEL 2.", TimeSpan.FromSeconds(43.0), ImageImporter.Import(ImageCategory.ITEMS, "healthpack.png"), false);
+      LevelModel level3 = new LevelModel(false, true, true, 3, "LEVEL 3", TimeSpan.FromSeconds(97.0), ImageImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), false);
+      LevelModel level4 = new LevelModel(true, true, true, 4, "LEVEL 4", TimeSpan.FromSeconds(197.0), ImageImporter.Import(ImageCategory.ITEMS, "healthpack.png"), false);
       Levellist.Add(level1);
       Levellist.Add(level2);
       Levellist.Add(level3);
