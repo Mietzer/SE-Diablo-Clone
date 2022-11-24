@@ -7,14 +7,14 @@
     "fileStates": {
         "Level1.tmx": {
             "scale": 0.75,
-            "selectedLayer": 4,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 1281.3333333333335,
+                "x": 1052.6666666666667,
                 "y": 512.6666666666666
             }
         },
         "Level1.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 2
         },
         "Level1_old.tsx": {
             "scaleInDock": 2

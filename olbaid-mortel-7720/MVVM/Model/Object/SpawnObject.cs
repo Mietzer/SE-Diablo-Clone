@@ -10,7 +10,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
     public float X;
     public float Y;
     #endregion Properties
-    public SpawnObject(string name, bool visible, bool penetrable, float x, float y, float width, float height) : base(name, visible, penetrable)
+    public SpawnObject(string name, bool visible, bool penetrable, float x, float y, float width = 1, float height = 1) : base(name, visible, penetrable)
     {
       X = x;
       Y = y;
@@ -24,7 +24,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
       hitbox.Height = height;
       hitbox.Width = width;
       //TODO: To colour the spawn zones, the following must be removed from the finished game. 
-      hitbox.Fill = Brushes.Transparent;
+      hitbox.Fill = Brushes.Black;
       return hitbox;
     }
     #endregion Methods
