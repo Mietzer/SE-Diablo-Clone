@@ -35,7 +35,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void RenderMap()
     {
       List<MapObject> rednermap = map.Load();
-      BitmapImage tilesetImage = RessourceImporter.Import(ImageCategory.TILESETS, "Level1.png");
+      BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)

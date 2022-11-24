@@ -142,13 +142,28 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           hitbox.Width = (int)e.Hitbox.Width;
           hitbox.Stroke = Brushes.Red;
           hitbox.StrokeThickness = 1;
-          Binding xBind = new Binding("Hitbox.X");
-          xBind.Source = e;
-          hitbox.SetBinding(Canvas.LeftProperty, xBind);
-          Binding yBind = new Binding("Hitbox.Y");
-          yBind.Source = e;
-          hitbox.SetBinding(Canvas.TopProperty, yBind);
+          Binding bindHitboxX = new Binding("Hitbox.X");
+          bindHitboxX.Source = e;
+          hitbox.SetBinding(Canvas.LeftProperty, bindHitboxX);
+          Binding bindHitboxY = new Binding("Hitbox.Y");
+          bindHitboxY.Source = e;
+          hitbox.SetBinding(Canvas.TopProperty, bindHitboxY);
           EnemyView.EnemyCanvasObject.Children.Add(hitbox);
+          
+          TextBlock enemyHealth = new TextBlock();
+          enemyHealth.Foreground = Brushes.Red;
+          Binding bindEnemyHealth = new Binding(nameof(e.Health));
+          bindEnemyHealth.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+          bindEnemyHealth.Mode = BindingMode.OneWay;
+          bindEnemyHealth.Source = e;
+          enemyHealth.SetBinding(TextBlock.TextProperty, bindEnemyHealth);
+          Binding bindEnemyX = new Binding(nameof(e.XCoord));
+          bindEnemyX.Source = e;
+          enemyHealth.SetBinding(Canvas.LeftProperty, bindEnemyX);
+          Binding bindEnemyY = new Binding(nameof(e.YCoord));
+          bindEnemyY.Source = e;
+          enemyHealth.SetBinding(Canvas.TopProperty, bindEnemyY);
+          EnemyView.EnemyCanvasObject.Children.Add(enemyHealth);
         }
       }
     }
