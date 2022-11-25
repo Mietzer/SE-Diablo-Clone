@@ -37,9 +37,8 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
-      var tilesets = map.GetTiledTilesets(this.PathTileset); // DO NOT forget the / at the end
+      var tilesets = map.GetTiledTilesets(this.PathTileset);
       var tileLayers = map.Layers.Where(x => x.type == TiledLayerType.TileLayer);
-      var tileObject = map.Layers.Where(x => x.type == TiledLayerType.ObjectLayer);
 
       //Creat MapObjects for Rendering Map
       foreach (var layer in tileLayers)
@@ -87,7 +86,6 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
-      var tilesets = map.GetTiledTilesets(this.PathTileset); // DO NOT forget the / at the 
       var tileObject = map.Layers.Where(x => x.type == TiledLayerType.ObjectLayer);
 
       //Creat ObjectList for Plasing Objects in Map
@@ -109,6 +107,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       var map = new TiledMap(this.PathMap);
       return map.Height;
     }
+    
     public int GetWidth()
     {
       var map = new TiledMap(this.PathMap);

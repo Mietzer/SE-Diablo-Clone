@@ -48,7 +48,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
     }
     
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;

@@ -137,9 +137,8 @@ namespace olbaid_mortel_7720.Engine
     /// <summary>
     /// Defines a action happening when entity is stopping a movement
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public abstract void StopMovement(object? sender, EventArgs e);
+    public abstract void StopMovement(EventArgs e);
 
     #endregion Methods
 

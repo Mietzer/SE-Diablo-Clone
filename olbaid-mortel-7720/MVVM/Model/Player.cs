@@ -82,9 +82,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <summary>
     /// Moving and animating the player
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="key"></param>
-    public void Move(object sender, Key key)
+    public void Move(Key key)
     {
       Direction oldDirection = Direction;
       bool oldIsMoving = IsMoving;
@@ -115,13 +114,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <summary>
     /// Stopping animation for player
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
-      if (oldIsMoving != IsMoving || (sender != null && sender.ToString().Equals("Initial")))
+      if (oldIsMoving != IsMoving || ((e as InitialEventArgs) != null && (e as InitialEventArgs).IsInitial))
       {
         string directionString = this.Direction.ToString().ToLower();
         Image = ImageImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");

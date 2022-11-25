@@ -11,6 +11,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareRanged : EnemyRanged
   {
+    
+    private int shotCountForDoubleShot = 0;
+    
     public EnemyRareRanged(int x, int y) : base(x, y)
     {
       this.Health = base.Health * 10;
@@ -18,7 +21,20 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Image = ImageImporter.Import(ImageCategory.RANGED, "rare-walking-left.gif");
       Hitbox = new Rect(x, y + 19, Width, Height - 19);
     }
-    
+
+    public override void ShotCoolDown()
+    {
+      if (shotCountForDoubleShot >= 2)
+      {
+        shotCountForDoubleShot = 0;
+        base.ShotCoolDown();
+      }
+      else
+      {
+        shotCountForDoubleShot++;
+      }
+    }
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 19, Width, Height - 19);
@@ -37,7 +53,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
     }
     
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;

@@ -42,8 +42,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
         double Wert = 42.74;
 
-        Rectangles[i].Width = Wert * ((rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
-        Rectangles[i].Height = Wert * ((rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
+        Rectangles[i].Width = Wert * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
+        Rectangles[i].Height = Wert * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = tilesetImage;
