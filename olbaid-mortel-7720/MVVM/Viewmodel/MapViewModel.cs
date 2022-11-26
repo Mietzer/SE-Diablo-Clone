@@ -70,9 +70,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       for (int i = 0; i < rednerobjects.Count; i++)
       {
-        Canvas.SetTop(rednerobjects[i].Hitbox, (rednerobjects[i].Y));
-        Canvas.SetLeft(rednerobjects[i].Hitbox, (rednerobjects[i].X));
-        Canvas.Children.Add(rednerobjects[i].Hitbox);
       }
     }
 
