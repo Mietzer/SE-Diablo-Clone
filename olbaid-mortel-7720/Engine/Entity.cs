@@ -1,7 +1,9 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Utils;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -81,9 +83,10 @@ namespace olbaid_mortel_7720.Engine
       }
     }
 
+    protected List<Rect> Walls { get; private set; }
     #endregion Properties
 
-    protected Entity(int x, int y, int height, int width, int stepLength)
+    protected Entity(int x, int y, int height, int width, int stepLength, MapViewModel mapModel)
     {
       this.xCoord = x;
       this.yCoord = y;
@@ -96,6 +99,9 @@ namespace olbaid_mortel_7720.Engine
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
+      
+      if (mapModel == null) Walls = new();
+      else Walls = mapModel.Walls;
     }
 
     #region Methods

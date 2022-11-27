@@ -3,6 +3,8 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,6 +17,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Properties
 
     public List<Rectangle> Rectangles;
+    public List<Rect> Walls;
     private Map map;
     public Canvas Canvas;
 
@@ -23,6 +26,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public MapViewModel(Canvas canvas, Map map)
     {
       Rectangles = new List<Rectangle>();
+      Walls = new List<Rect>();
       this.map = map;
       Canvas = canvas;
       RenderMap();
@@ -61,6 +65,20 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.SetTop(Rectangles[i], ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32);
         Canvas.SetLeft(Rectangles[i], (rednermap[i].Graphic.Index % map.MapWidth) * 32);
         Canvas.Children.Add(Rectangles[i]);
+        
+        if (rednermap[i].Name == MapLayerType.INNER_WALL || rednermap[i].Name == MapLayerType.OUTER_WALL)
+        {
+          MapObject wall = rednermap[i];
+          Rectangle rect = new Rectangle();
+          rect.Height = (int)wall.Graphic.Imageheight;
+          rect.Width = (int)wall.Graphic.Imagewidth;
+          rect.Stroke = Brushes.Orange;
+          rect.StrokeThickness = 1;
+          Canvas.SetTop(rect, wall.Graphic.Index / map.MapWidth * wall.Graphic.Imageheight);
+          Canvas.SetLeft(rect, wall.Graphic.Index % map.MapWidth * wall.Graphic.Imagewidth);
+          Canvas.Children.Add(rect);
+          Walls.Add(new Rect(wall.Graphic.Index % map.MapWidth * wall.Graphic.Imagewidth, wall.Graphic.Index / map.MapWidth * wall.Graphic.Imageheight, wall.Graphic.Imagewidth, wall.Graphic.Imageheight));
+        }
       }
     }
 
@@ -74,8 +92,5 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
 
     #endregion Methods
-
-
   }
-
 }

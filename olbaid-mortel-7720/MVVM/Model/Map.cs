@@ -68,7 +68,7 @@ namespace olbaid_mortel_7720.MVVM.Model
             // Use the connection object as well as the tileset to figure out the source rectangle.
             var rect = map.GetSourceRect(mapTileset, tileset, gid);
 
-            mapObjects.Add(new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == "Floor" ? true : false));
+            mapObjects.Add(new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false));
 
           }
         }
