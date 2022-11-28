@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareMelee : EnemyMelee
   {
-    public EnemyRareMelee(int x, int y) : base(x, y)
+    public EnemyRareMelee(int x, int y, MapViewModel mapModel) : base(x, y, mapModel)
     {
       this.Health = base.Health * 10;
       this.Damage = base.Damage * 2;

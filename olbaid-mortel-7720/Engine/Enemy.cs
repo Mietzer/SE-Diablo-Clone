@@ -66,7 +66,7 @@ namespace olbaid_mortel_7720.Engine
 
     public abstract void Attack(Player player);
 
-    protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength, null)
+    protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage, MapViewModel mapModel) : base(x, y, height, width, steplength, mapModel)
     {
       this.health = health;
       this.damage = damage;

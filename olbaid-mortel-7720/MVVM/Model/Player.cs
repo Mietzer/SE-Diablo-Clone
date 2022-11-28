@@ -91,12 +91,6 @@ namespace olbaid_mortel_7720.MVVM.Model
       Direction oldDirection = Direction;
       bool oldIsMoving = IsMoving;
       IsMoving = true;
-      // TODO: Check if collision
-      // if (Walls.Any(w => w.IntersectsWith(Hitbox)))
-      // {
-      //   Debug.WriteLine(Walls.Where(w => w.IntersectsWith(Hitbox)).Count());
-      //   key = ReverseKey(key);
-      // }
       switch (key)
       {
         case Key.W:

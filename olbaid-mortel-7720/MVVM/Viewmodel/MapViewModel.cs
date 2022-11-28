@@ -57,27 +57,29 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         myImageBrush.AlignmentX = AlignmentX.Left;
         myImageBrush.AlignmentY = AlignmentY.Top;
 
-        double x = -rednermap[i].Graphic.Imagex;
-        double y = -rednermap[i].Graphic.Imagey;
-        myImageBrush.Transform = new MatrixTransform(0.75d, 0.0d, 0.0d, 0.75d, x, y); //m11=default 1   m12 m21 m22=default 1 0.75 da 0.25 Skalierungfaktor rausrechnen x y 
+        double xImageOffset = -rednermap[i].Graphic.Imagex;
+        double yImageOffset = -rednermap[i].Graphic.Imagey;
+        myImageBrush.Transform = new MatrixTransform(0.75d, 0.0d, 0.0d, 0.75d, xImageOffset, yImageOffset); //m11=default 1   m12 m21 m22=default 1 0.75 da 0.25 Skalierungfaktor rausrechnen x y 
         Rectangles[i].Fill = myImageBrush;
 
-        Canvas.SetTop(Rectangles[i], ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32);
-        Canvas.SetLeft(Rectangles[i], (rednermap[i].Graphic.Index % map.MapWidth) * 32);
+        double yTileValue = ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32;
+        double xTileValue = (rednermap[i].Graphic.Index % map.MapWidth) * 32;
+        Canvas.SetTop(Rectangles[i], yTileValue);
+        Canvas.SetLeft(Rectangles[i], xTileValue);
         Canvas.Children.Add(Rectangles[i]);
         
         if (rednermap[i].Name == MapLayerType.INNER_WALL || rednermap[i].Name == MapLayerType.OUTER_WALL)
         {
           MapObject wall = rednermap[i];
           Rectangle rect = new Rectangle();
-          rect.Height = (int)wall.Graphic.Imageheight;
-          rect.Width = (int)wall.Graphic.Imagewidth;
+          rect.Height = wall.Graphic.Imageheight;
+          rect.Width = wall.Graphic.Imagewidth;
           rect.Stroke = Brushes.Orange;
           rect.StrokeThickness = 1;
-          Canvas.SetTop(rect, wall.Graphic.Index / map.MapWidth * wall.Graphic.Imageheight);
-          Canvas.SetLeft(rect, wall.Graphic.Index % map.MapWidth * wall.Graphic.Imagewidth);
+          Canvas.SetTop(rect, yTileValue);
+          Canvas.SetLeft(rect, xTileValue);
           Canvas.Children.Add(rect);
-          Walls.Add(new Rect(wall.Graphic.Index % map.MapWidth * wall.Graphic.Imagewidth, wall.Graphic.Index / map.MapWidth * wall.Graphic.Imageheight, wall.Graphic.Imagewidth, wall.Graphic.Imageheight));
+          Walls.Add(new Rect(xTileValue, yTileValue, wall.Graphic.Imagewidth, wall.Graphic.Imageheight));
         }
       }
     }

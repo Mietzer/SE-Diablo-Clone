@@ -3,6 +3,7 @@ using System.Timers;
 using System;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -17,7 +18,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Properties
 
     #region Constructor
-    public EnemyRanged(int x, int y) : base(x, y, 64, 32, 3, 50, 2)
+    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
