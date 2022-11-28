@@ -1,18 +1,18 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using WpfAnimatedGif;
-using System.Windows;
-using System.Windows.Media;
-using olbaid_mortel_7720.MVVM.Utils;
-using System.Linq;
-using System.Windows.Shapes;
-using olbaid_mortel_7720.MVVM.Model.Enemies;
-using System.Windows.Media.Animation;
 //TODO: CodeCleanup, Regions, Kommentare
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -23,7 +23,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private Player MyPlayer { get; set; }
 
     private Canvas MyEnemyCanvas;
-    
+
     private string ShotName = "ShotEnemy";
 
     private string Tag;
@@ -72,9 +72,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void Move(object sender, EventArgs e)
     {
-      foreach(Enemy enemy in MyEnemies)
+      foreach (Enemy enemy in MyEnemies)
       {
-        if(enemy is EnemyMelee)
+        if (enemy is EnemyMelee)
         {
           (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
 
@@ -83,40 +83,44 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           Canvas.SetTop(enemy.Model, enemy.YCoord);
           Canvas.SetLeft(enemy.Model, enemy.XCoord);
         }
-        if(enemy is EnemyRanged)
+        if (enemy is EnemyRanged)
         {
           (enemy as EnemyRanged).KeepDistance(MyPlayer);
           ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
           Canvas.SetTop(enemy.Model, enemy.YCoord);
           Canvas.SetLeft(enemy.Model, enemy.XCoord);
         }
-        
+
       }
     }
     private void CheckforHit(object sender, EventArgs e)
     {
+      //Hit on enemmy
+      foreach (Bullet bullet in MyPlayer.Bullets.Where(b => !b.HasHit))
+      {
+        // Checks if bullet hits Enemyhitbox
+        Enemy enemy = MyEnemies?.FirstOrDefault(ene => ene.Hitbox.IntersectsWith(bullet.Hitbox));
+        enemy?.TakeDamage(MyPlayer.CurrentWeapon.Damage);
+        //Mark Bullet as deletable
+        if (enemy != null)
+          bullet.HasHit = true;
+      }
+
+      //Hit on Player
       foreach (Enemy enemy in MyEnemies)
       {
-        foreach(Bullet bullet in MyPlayer.Bullets)
-        {
-          // Checks if bullet hits Enemyhitbox
-          if (enemy.Hitbox.IntersectsWith(bullet.Hitbox))
-          {
-            enemy.TakeDamage(MyPlayer.CurrentWeapon.Damage);
-          }
-        }
         //Checks if Enemy hits Playerhitbox
         if (enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
           enemy.Attack(MyPlayer);
         }
 
-        if(enemy is EnemyRanged)
+        if (enemy is EnemyRanged)
         {
           if ((enemy as EnemyRanged).IsAttacking)
           {
-            
-            Point p = new Point(MyPlayer.XCoord + MyPlayer.Width / 2 , MyPlayer.YCoord + MyPlayer.Height / 2);
+            //TODO: Maybe some randomness to weaken Enemys (Maybe own Property for Enemy for shot accuracy (Boss and Rare -> Better, Normal ->worse)
+            Point p = new Point(MyPlayer.XCoord + MyPlayer.Width / 2, MyPlayer.YCoord + MyPlayer.Height / 2);
             Shoot(enemy as EnemyRanged, p);
             (enemy as EnemyRanged).ShotCoolDown();
           }
@@ -124,12 +128,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             (enemy as EnemyRanged).ShotCoolDown();
         }
 
-        foreach(Bullet bullet in enemy.Bullets)
+        //Checks if enemy bullet hits Playerhitbox
+        foreach (Bullet bullet in enemy.Bullets)
         {
-          //Checks if enemy bullet hits Playerhitbox
-          if (bullet.Hitbox.IntersectsWith(MyPlayer.Hitbox))
+          if (!bullet.HasHit && bullet.Hitbox.IntersectsWith(MyPlayer.Hitbox))
           {
             enemy.Attack(MyPlayer);
+            bullet.HasHit = true;
           }
         }
       }
@@ -139,10 +144,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       List<Enemy> deleteList = new List<Enemy>();
       List<Bullet> deleteBullets = new List<Bullet>();
-      foreach(Enemy enemy in MyEnemies)
+      foreach (Enemy enemy in MyEnemies)
       {
         // Search for Enemies with 0 or less health
-        if(enemy.Health <= 0)
+        if (enemy.Health <= 0)
         {
           DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
           animation.Completed += delegate
@@ -154,24 +159,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           deleteList.Add(enemy);
 
           //Deletes bullets, that would not be deleted because of enemy deletion
-          foreach(Bullet bullet in enemy.Bullets)
+          foreach (Bullet bullet in enemy.Bullets)
           {
             deleteBullets.Add(bullet);
           }
         }
       }
 
-     // Delete them off the canvas
-     foreach(Enemy enemy in deleteList)
-     {
-       MyEnemies.Remove(enemy);
-     }
+      // Delete them off the canvas
+      foreach (Enemy enemy in deleteList)
+      {
+        MyEnemies.Remove(enemy);
+      }
 
-     //Delete bullets of the canvas
-     foreach(Bullet bullet in deleteBullets)
-     {
+      //Delete bullets of the canvas
+      foreach (Bullet bullet in deleteBullets)
+      {
         MyEnemyCanvas.Children.Remove(bullet.Rectangle);
-     }
+      }
     }
     private void Shoot(EnemyRanged enemy, Point p)
     {
@@ -217,19 +222,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       foreach (FrameworkElement item in MyEnemyCanvas.Children)
       {
-        foreach(Enemy enemy in MyEnemies)
+        foreach (Enemy enemy in MyEnemies)
         {
           if (item is Rectangle && item.Name == ShotName) //Find shots for each enemy
           {
             Bullet b = enemy.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
-            b?.Move(velocity);
-
-            if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-             || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY)
+            if (b != null)
             {
-              //Remove from List and Register Rectangle to remove from Canvas
-              deleteList.Add(item);
-              enemy.Bullets.Remove(b);
+              b.Move(velocity);
+
+              if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
+               || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
+               || b.HasHit)
+              {
+                //Remove from List and Register Rectangle to remove from Canvas
+                deleteList.Add(item);
+                enemy.Bullets.Remove(b);
+              }
             }
           }
         }
