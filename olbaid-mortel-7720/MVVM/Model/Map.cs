@@ -58,6 +58,7 @@ namespace olbaid_mortel_7720.MVVM.Model
               continue;
             }
 
+            
             // Helper method to fetch the right TieldMapTileset instance. 
             // This is a connection object Tiled uses for linking the correct tileset to the gid value using the firstgid property.
             var mapTileset = map.GetTiledMapTileset(gid);
@@ -68,8 +69,9 @@ namespace olbaid_mortel_7720.MVVM.Model
             // Use the connection object as well as the tileset to figure out the source rectangle.
             var rect = map.GetSourceRect(mapTileset, tileset, gid);
 
-            mapObjects.Add(new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false));
-
+            MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false);
+            mapObject.AddCollisionBox(rect.x, rect.y, rect.width, rect.height);
+            mapObjects.Add(mapObject);
           }
         }
 

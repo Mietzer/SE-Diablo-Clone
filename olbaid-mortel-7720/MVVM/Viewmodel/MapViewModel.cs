@@ -71,15 +71,22 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         if (rednermap[i].Name == MapLayerType.INNER_WALL || rednermap[i].Name == MapLayerType.OUTER_WALL)
         {
           MapObject wall = rednermap[i];
-          Rectangle rect = new Rectangle();
-          rect.Height = wall.Graphic.Imageheight;
-          rect.Width = wall.Graphic.Imagewidth;
-          rect.Stroke = Brushes.Orange;
-          rect.StrokeThickness = 1;
-          Canvas.SetTop(rect, yTileValue);
-          Canvas.SetLeft(rect, xTileValue);
-          Canvas.Children.Add(rect);
-          Walls.Add(new Rect(xTileValue, yTileValue, wall.Graphic.Imagewidth, wall.Graphic.Imageheight));
+          if (wall.HasCollision())
+          {
+            Rect wallCollision = wall.CollisionBox ?? Rect.Empty;
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+              Rectangle rect = new Rectangle();
+              rect.Height = wallCollision.Height;
+              rect.Width = wallCollision.Width;
+              rect.Stroke = Brushes.Orange;
+              rect.StrokeThickness = 1;
+              Canvas.SetTop(rect, wallCollision.Y);
+              Canvas.SetLeft(rect, wallCollision.X);
+              Canvas.Children.Add(rect);
+            }
+            Walls.Add(wallCollision);
+          }
         }
       }
     }
