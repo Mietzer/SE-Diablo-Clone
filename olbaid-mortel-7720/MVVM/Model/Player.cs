@@ -5,6 +5,7 @@ using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
 using System;
 using System.Diagnostics;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -25,7 +26,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
-    
+
     private PlayerEffect effect;
     public PlayerEffect Effect
     {
@@ -37,7 +38,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(Effect));
       }
     }
-    
+
     private BitmapImage weaponOverlay;
     public BitmapImage WeaponOverlay
     {
@@ -49,9 +50,9 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(WeaponOverlay));
       }
     }
-    
+
     private Weapon currentWeapon;
-    
+
     public Weapon CurrentWeapon
     {
       get { return currentWeapon; }
@@ -64,6 +65,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     public bool IsShooting { get; set; }
+    public int OverallShots { get; private set; } = 0;
+    public int ShotHits { get; private set; } = 0;
     #endregion Properties
 
     public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
@@ -73,15 +76,16 @@ namespace olbaid_mortel_7720.MVVM.Model
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
       CurrentWeapon = new Handgun();
+      Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
 
     #region Methods
-    
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
     }
-    
+
     /// <summary>
     /// Moving and animating the player
     /// </summary>
@@ -113,23 +117,6 @@ namespace olbaid_mortel_7720.MVVM.Model
         WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
     }
-    
-    // private Key ReverseKey(Key key)
-    // {
-    //   switch (key)
-    //   {
-    //     case Key.A:
-    //       return Key.D;
-    //     case Key.D:
-    //       return Key.A;
-    //     case Key.W:
-    //       return Key.S;
-    //     case Key.S:
-    //       return Key.W;
-    //     default:
-    //       return Key.S;
-    //   }
-    // }
 
     /// <summary>
     /// Stopping animation for player
@@ -174,7 +161,25 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints -= damage;
     }
+
     #endregion Methods
 
+    #region Events
+    /// <summary>
+    /// Counts the hits and Shots of the Player
+    /// </summary>
+    private void Bullets_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.NewItems != null)
+        foreach (var item in e.NewItems)
+          OverallShots++;
+
+      if (e.OldItems != null)
+        foreach (var item in e.OldItems)
+          if ((item as Bullet).HasHit)
+            ShotHits++;
+
+    }
+    #endregion Events
   }
 }

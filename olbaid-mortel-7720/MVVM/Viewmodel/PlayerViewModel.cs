@@ -67,11 +67,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           b?.Move(velocity);
 
           if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY)
+           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
+           || b.HasHit)
           {
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
             MyPlayer.Bullets.Remove(b);
+
           }
         }
       }
@@ -103,7 +105,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (vector.X < 0)
       {
         playerShootX -= bullet.Rectangle.Width;
-        
+
         //Above
         if (vector.Y < 0)
         {
@@ -119,7 +121,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       // Add to Canvas
       bullet.Show(MyPlayerCanvas, playerShootX, playerShootY);
-      
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 

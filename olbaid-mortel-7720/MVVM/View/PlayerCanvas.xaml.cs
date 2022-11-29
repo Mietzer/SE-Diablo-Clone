@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Concurrent;
@@ -27,6 +28,7 @@ namespace olbaid_mortel_7720.MVVM.View
   public partial class PlayerCanvas : UserControl
   {
     public Player MyPlayer { get; set; }
+    public Rectangle CustomPointer { get; set; }
 
     public PlayerCanvas(Player player)
     {
@@ -34,17 +36,32 @@ namespace olbaid_mortel_7720.MVVM.View
       InitializeComponent();
       PlayerViewModel vm = new(player, PlayerCanvasObject);
       DataContext = vm;
+      CustomPointer = new Rectangle();
+      CustomPointer.Width = 32;
+      CustomPointer.Height = 32;
+      CustomPointer.Fill = new ImageBrush(ImageImporter.Import(ImageCategory.GENERAL, "crosshair.png"));
+      PlayerCanvasObject.Children.Add(CustomPointer);
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       //Init Events
       Window window = Window.GetWindow(this);
-      window.Cursor = Cursors.Cross;
       window.KeyDown += Canvas_StartMove;
       window.KeyUp += Canvas_StopMove;
       window.MouseLeftButtonDown += Canvas_Shoot;
       window.MouseLeftButtonUp += Canvas_MouseUp;
+      window.MouseMove += Canvas_MouseMove;
+    }
+    
+    private void Canvas_MouseMove(object sender, MouseEventArgs e)
+    {
+      Point p = e.GetPosition(PlayerCanvasObject);
+      Canvas.SetTop(CustomPointer, p.Y - CustomPointer.Height / 2);
+      Canvas.SetLeft(CustomPointer, p.X - CustomPointer.Width / 2);
+      
+      Window window = Window.GetWindow(this);
+      window.Cursor = Cursors.None;
     }
 
     public async void Canvas_StartMove(object sender, KeyEventArgs e)
