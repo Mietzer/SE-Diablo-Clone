@@ -3,6 +3,7 @@ using System.Timers;
 using System;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -13,20 +14,23 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
   public class EnemyRanged : Enemy
   {
     #region Properties
-    
-    private readonly Timer shootCooldownTimer;
-    
+
     #endregion Properties
 
     #region Constructor
-    public EnemyRanged(int x, int y) : base(x, y, 64, 32, 3, 50, 2)
+    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
-      shootCooldownTimer = new Timer();
-      shootCooldownTimer.Interval = 3000;
-      shootCooldownTimer.AutoReset = false;
       IsAttacking = false;
+      Random random = new Random();
+      GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate(EventArgs e)
+      {
+        GameTimer.ExecuteWithInterval(75, delegate(EventArgs e)
+        {
+          IsAttacking = true;
+        });
+      }, true);
     }
 
     #endregion Constructor
@@ -37,17 +41,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       this.Hitbox = new Rect(XCoord, YCoord + 22, Width, Height - 22);
     }
     
-    public void ShotCoolDown() // Starts shot timer for enemies
+    public virtual void ShotCoolDown() // Starts shot timer for enemies
     {
-      shootCooldownTimer.Start();
       IsAttacking = false;
-      shootCooldownTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-    }
-
-    private void OnTimedEvent(object source, ElapsedEventArgs e) // Shoots then resets timer
-    {
-      IsAttacking = true;
-      shootCooldownTimer.Stop();
     }
 
     public virtual void KeepDistance(Player player)
@@ -67,6 +63,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
       if(xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
       {
+        StopMovement(EventArgs.Empty);
         return;
       }
       if (xDistance < nearestDistance&& player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
@@ -90,7 +87,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Direction item;
       if (directions.Count == 0)
       {
-        StopMovement(null, null);
+        StopMovement(EventArgs.Empty);
         return;
       }
       if (directions.Contains(lastDirection) && sameDirectionCounter <= MAX_SAME_DIRECTION)
@@ -136,7 +133,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       player.TakeDamage(Damage);
     }
 
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;

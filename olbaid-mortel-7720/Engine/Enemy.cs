@@ -10,6 +10,7 @@ using System.Windows.Input;
 using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
@@ -65,7 +66,7 @@ namespace olbaid_mortel_7720.Engine
 
     public abstract void Attack(Player player);
 
-    protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage) : base(x, y, height, width, steplength)
+    protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage, MapViewModel mapModel) : base(x, y, height, width, steplength, mapModel)
     {
       this.health = health;
       this.damage = damage;

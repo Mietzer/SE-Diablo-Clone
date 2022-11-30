@@ -80,7 +80,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddPlayer()
     {
-      Player p = new Player(100, 100, 64, 32, 100, 5);
+      Player p = new Player(100, 100, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
       PlayerView = new PlayerCanvas(p);
 
       Gui = new UserControl();
@@ -184,23 +184,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddLevel1Data()
     {
-      Random rnd = new Random();
       // TODO: Add spawnlists with random choice out of a list of possible lists
-      List<Enemy> spawnList = new List<Enemy>();
-      // 3 Ranged
-      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      spawnList.Add(new EnemyRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      // 2 Melee
-      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      spawnList.Add(new EnemyMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      // 1 Rare Ranged
-      spawnList.Add(new EnemyRareRanged(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      // 2 Rare Melee
-      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      spawnList.Add(new EnemyRareMelee(rnd.Next(0, GlobalVariables.MaxX), rnd.Next(0, GlobalVariables.MaxY - 50)));
-      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"), spawnList);
+      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
+      level1.SpawnEnemies((CurrentLevel as MapView).Vm, 2, 2, 3, 1, 0);
       usedLevel = level1;
     }
     #endregion Methods
