@@ -8,4 +8,33 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Resource Include="Images\**\*.png" />
+        <Resource Include="Images\**\*.gif" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Levels\Level1.tmx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level1.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level1_old.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level1_test.tmx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="TiledCS" Version="3.3.3" />
+        <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
+    </ItemGroup>
+
 </Project>

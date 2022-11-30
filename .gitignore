@@ -4,3 +4,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+.vs/
+**/*.user
+/olbaid-mortel-7720/Levels/*.tiled-session

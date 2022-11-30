@@ -1,0 +1,32 @@
+{
+    "activeFile": "Level1.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Level1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1076,
+                "y": 736
+            }
+        },
+        "Level1.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 4
+        },
+        "Level1_old.tsx": {
+            "scaleInDock": 2
+        }
+    },
+    "openFiles": [
+        "Level1.tmx"
+    ],
+    "project": "olbaidMortel7720.tiled-project",
+    "recentFiles": [
+        "Level1.tmx",
+        "Level1.tsx"
+    ]
+}
