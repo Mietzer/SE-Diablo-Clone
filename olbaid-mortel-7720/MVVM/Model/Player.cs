@@ -22,7 +22,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
-    
+
     private PlayerEffect effect;
     public PlayerEffect Effect
     {
@@ -34,7 +34,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(Effect));
       }
     }
-    
+
     private BitmapImage weaponOverlay;
     public BitmapImage WeaponOverlay
     {
@@ -46,9 +46,8 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(WeaponOverlay));
       }
     }
-    
+
     private Weapon currentWeapon;
-    
     public Weapon CurrentWeapon
     {
       get { return currentWeapon; }
@@ -73,12 +72,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
-    
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
     }
-    
+
     /// <summary>
     /// Moving and animating the player
     /// </summary>

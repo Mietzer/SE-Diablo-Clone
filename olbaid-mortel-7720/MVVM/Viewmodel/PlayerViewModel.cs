@@ -100,7 +100,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
       Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "bullet.png"));
-      Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName);
+      Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName, 20);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -110,7 +110,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (vector.X < 0)
       {
         playerShootX -= bullet.Rectangle.Width;
-        
+
         //Above
         if (vector.Y < 0)
         {
@@ -126,7 +126,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       // Add to Canvas
       bullet.Show(MyPlayerCanvas, playerShootX, playerShootY);
-      
+
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 
