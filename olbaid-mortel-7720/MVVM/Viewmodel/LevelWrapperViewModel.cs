@@ -4,7 +4,6 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.View;
-using olbaid_mortel_7720.MVVM.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -15,7 +14,7 @@ using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
-  public class LevelWrapperViewModel : NotifyObject
+  public class LevelWrapperViewModel : BaseViewModel
   {
     #region Properties
     private PlayerCanvas playerView;
@@ -150,7 +149,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           bindHitboxY.Source = e;
           hitbox.SetBinding(Canvas.TopProperty, bindHitboxY);
           EnemyView.EnemyCanvasObject.Children.Add(hitbox);
-          
+
           TextBlock enemyHealth = new TextBlock();
           enemyHealth.Foreground = Brushes.Red;
           Binding bindEnemyHealth = new Binding(nameof(e.Health));
@@ -202,6 +201,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"), spawnList);
       CurrentLevel = new MapView(level1.Map);
       usedLevel = level1;
+    }
+
+    /// <summary>
+    /// Sets view back to Levelselection
+    /// </summary>
+    private void LeaveMatch()
+    {
+      //TODO: Clearup, handle win/loose (saving data of win and unlock new level)
+      NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
     #endregion Methods
 

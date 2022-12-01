@@ -1,5 +1,4 @@
-﻿using olbaid_mortel_7720.MVVM.Viewmodel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace olbaid_mortel_7720.MVVM.View
 {
@@ -9,14 +8,9 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class LevelWrapperView : UserControl
   {
-    public LevelWrapperView(int selectedLevel = 0)
+    public LevelWrapperView()
     {
-      //TODO: Add Healthbar
-
-      LevelWrapperViewModel vm = new(selectedLevel);
-      DataContext = vm;
       InitializeComponent();
     }
-
   }
 }

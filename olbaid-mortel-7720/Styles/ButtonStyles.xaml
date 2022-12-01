@@ -34,4 +34,92 @@
       </Trigger>
     </Style.Triggers>
   </Style>
+
+  <Style x:Key="TitlescreenButton"
+         TargetType="{x:Type Button}">
+    <Setter Property="Margin"
+            Value="0,5, 5, 5" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Center" />
+
+    <Setter Property="Width"
+            Value="200" />
+    <Setter Property="FontSize"
+            Value="30" />
+    <Setter Property="FontWeight"
+            Value="Bold" />
+    <Setter Property="Foreground"
+            Value="#A37C10" />
+
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid>
+            <Border BorderThickness="10"
+                    CornerRadius="8"
+                    x:Name="ButtonBorder">
+              <Border.BorderBrush>
+                <RadialGradientBrush>
+                  <GradientStop Color="Black"
+                                Offset="0" />
+                  <GradientStop Color="DarkRed"
+                                Offset="0.8" />
+                  <GradientStop Color="Black"
+                                Offset="1.2" />
+                </RadialGradientBrush>
+              </Border.BorderBrush>
+              <Border.Background>
+                <RadialGradientBrush>
+                  <GradientStop Color="Red"
+                                Offset="-0.3" />
+                  <GradientStop Color="#00002F"
+                                Offset="1.2" />
+                </RadialGradientBrush>
+              </Border.Background>
+              <Border.Effect>
+                <DropShadowEffect ShadowDepth="13"
+                                  Opacity="0.2" />
+              </Border.Effect>
+              <ContentPresenter VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+            </Border>
+          </Grid>
+       
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver"
+               Value="True">
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Trigger.EnterActions>
+          <BeginStoryboard>
+            <Storyboard>
+              <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
+                <LinearColorKeyFrame KeyTime="0:0:0.3"
+                                     Value="#D19F19"
+                                     Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
+                </LinearColorKeyFrame>
+              </ColorAnimationUsingKeyFrames>
+            </Storyboard>
+          </BeginStoryboard>
+        </Trigger.EnterActions>
+        <Trigger.ExitActions>
+          <BeginStoryboard>
+            <Storyboard>
+              <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
+                <LinearColorKeyFrame KeyTime="0:0:0.3"
+                                     Value="#A37C10"
+                                     Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
+                </LinearColorKeyFrame>
+              </ColorAnimationUsingKeyFrames>
+            </Storyboard>
+          </BeginStoryboard>
+        </Trigger.ExitActions>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
 </ResourceDictionary>
