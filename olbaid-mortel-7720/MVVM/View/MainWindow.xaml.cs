@@ -45,6 +45,8 @@ namespace olbaid_mortel_7720.MVVM.View
       GlobalVariables.MaxX = (int)ActualWidth;
       GlobalVariables.MaxY = (int)ActualHeight - menuBarHeight;
 
+
+
     }
     private void Close(object sender, RoutedEventArgs e)
     {

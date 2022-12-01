@@ -1,11 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Model.Enemies;
-using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.View;
-using System;
-using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -59,6 +55,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       get { return currentLevel; }
       set { currentLevel = value; }
     }
+
+
     #endregion Properties
 
     #region Constructor
