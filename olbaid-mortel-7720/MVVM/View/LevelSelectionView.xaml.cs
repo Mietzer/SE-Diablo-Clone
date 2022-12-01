@@ -1,6 +1,4 @@
-﻿using olbaid_mortel_7720.MVVM.Viewmodel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace olbaid_mortel_7720.MVVM.View
 {
@@ -11,15 +9,9 @@ namespace olbaid_mortel_7720.MVVM.View
   {
     public LevelSelectionView()
     {
-      LevelSelectionViewModel vm = new();
-      DataContext = vm;
       InitializeComponent();
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
-    {
-      Window w = Window.GetWindow(this);
-      (DataContext as LevelSelectionViewModel).SetWindow(w as MainWindow);
-    }
+
   }
 }

@@ -1,17 +1,14 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Utils;
-using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
-  public class LevelSelectionViewModel : NotifyObject
+  public class LevelSelectionViewModel : BaseViewModel
   {
     #region Properties
-    public MainWindow mainWindow { get; private set; }
     public ObservableCollection<LevelModel> Levellist { get; set; } = new();
 
     private DataProvider dataProvider { get; set; } = new();
@@ -36,10 +33,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       InitCommands();
     }
+
     #region Methods
     private void InitCommands()
     {
       SelectLevelCommand = new RelayCommand(SelectLevel, CanSelectLevel);
+      OpenStartscreenCommand = new RelayCommand(OpenStartscreen, CanOpenStartscreen);
     }
 
     /// <summary>
@@ -57,8 +56,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Levellist.Add(level3);
 
     }
-    public void SetWindow(MainWindow w)
-      => mainWindow = w;
+
     #endregion Methods
 
     #region Commands
@@ -67,11 +65,19 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void SelectLevel(object sender)
     {
-      GlobalVariables.InGame = true;
-      mainWindow.SwitchView(new LevelWrapperView((int)sender));
+      NavigationLocator.MainViewModel.SwitchView(new LevelWrapperViewModel((int)sender));
     }
 
     public bool CanSelectLevel()
+      => true;
+    public RelayCommand OpenStartscreenCommand { get; set; }
+
+    public void OpenStartscreen(object sender)
+    {
+      NavigationLocator.MainViewModel.SwitchView(new StartscreenViewModel());
+    }
+
+    public bool CanOpenStartscreen()
       => true;
 
     #endregion Commands

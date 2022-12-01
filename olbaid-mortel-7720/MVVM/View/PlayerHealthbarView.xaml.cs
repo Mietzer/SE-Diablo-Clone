@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace olbaid_mortel_7720.MVVM.Views
+namespace olbaid_mortel_7720.MVVM.View
 {
   /// <summary>
   ///   View component for the health bar in the overall player's gui.

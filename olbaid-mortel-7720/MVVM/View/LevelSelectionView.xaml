@@ -7,7 +7,6 @@
              xmlns:conv="clr-namespace:olbaid_mortel_7720.MVVM.Utils"
              x:Name="ViewLevelSelect"
              mc:Ignorable="d"
-             Loaded="UserControl_Loaded"
              d:DesignHeight="450"
              d:DesignWidth="800">
   <UserControl.Resources>
@@ -262,9 +261,9 @@
                   Command="{Binding DataContext.SelectLevelCommand, ElementName=LevellistView}"
                   CommandParameter="{Binding LevelID}"
                   IsEnabled="{Binding IsUnlocked}"
-                  Height="360"
+                  Height="330"
                   Width="210"
-                  VerticalAlignment="Center">
+                  VerticalAlignment="Top">
           </Button>
         </DataTemplate>
       </ListView.ItemTemplate>
@@ -298,5 +297,11 @@
         <RotateTransform Angle="180" />
       </Button.RenderTransform>
     </Button>
+
+    <Button Style="{StaticResource TitlescreenButton}"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="GO BACK"
+            Command="{Binding OpenStartscreenCommand}" />
   </Grid>
 </UserControl>

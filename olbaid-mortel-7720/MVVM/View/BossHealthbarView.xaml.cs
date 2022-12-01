@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace olbaid_mortel_7720.MVVM.Views
+namespace olbaid_mortel_7720.MVVM.View
 {
   /// <summary>
   ///   View component for the health bar boss fight.
