@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -49,7 +50,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Direction item;
       if (directions.Count == 0)
       {
-        StopMovement(null, null);
+        StopMovement(EventArgs.Empty);
         return;
       }
       if (directions.Contains(lastDirection) && sameDirectionCounter <= MAX_SAME_DIRECTION)
@@ -91,7 +92,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
     }
 
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
@@ -104,7 +105,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Methods
 
     #region Constructor
-    public EnemyMelee(int x, int y) : base(x, y, 64, 32, 3, 100, 2)
+    public EnemyMelee(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 100, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, Width, Height - 27);

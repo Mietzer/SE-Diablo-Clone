@@ -1,10 +1,13 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Utils;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.Engine
@@ -81,9 +84,10 @@ namespace olbaid_mortel_7720.Engine
       }
     }
 
+    protected List<Rect> Walls { get; private set; }
     #endregion Properties
 
-    protected Entity(int x, int y, int height, int width, int stepLength)
+    protected Entity(int x, int y, int height, int width, int stepLength, MapViewModel mapModel)
     {
       this.xCoord = x;
       this.yCoord = y;
@@ -96,6 +100,9 @@ namespace olbaid_mortel_7720.Engine
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
+      
+      if (mapModel == null) Walls = new();
+      else Walls = mapModel.Walls;
     }
 
     #region Methods
@@ -112,35 +119,54 @@ namespace olbaid_mortel_7720.Engine
     protected void MoveLeft()
     {
       Direction = Direction.Left;
-      if (XCoord - StepLength >= GlobalVariables.MinX)
+      if (XCoord - StepLength >= GlobalVariables.MinX && VerifyNoCollision())
         XCoord -= StepLength;
     }
     protected void MoveRight()
     {
       Direction = Direction.Right;
-      if (XCoord + StepLength + Width <= GlobalVariables.MaxX)
+      if (XCoord + StepLength + Width <= GlobalVariables.MaxX && VerifyNoCollision())
         XCoord += StepLength;
     }
     protected void MoveUp()
     {
       Direction = Direction.Up;
-      if (YCoord - StepLength >= GlobalVariables.MinY)
+      if (YCoord - StepLength >= GlobalVariables.MinY && VerifyNoCollision())
         YCoord -= StepLength;
     }
     protected void MoveDown()
     {
       Direction = Direction.Down;
-      if (YCoord + StepLength + Height <= GlobalVariables.MaxY)
+      if (YCoord + StepLength + Height <= GlobalVariables.MaxY && VerifyNoCollision())
         YCoord += StepLength;
     }
 
     /// <summary>
     /// Defines a action happening when entity is stopping a movement
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public abstract void StopMovement(object? sender, EventArgs e);
+    public abstract void StopMovement(EventArgs e);
 
+    private bool VerifyNoCollision()
+    {
+      Rect testHitbox = new Rect(Hitbox.X, Hitbox.Y, Hitbox.Width, Hitbox.Height);
+      switch (Direction)
+      {
+        case Direction.Left:
+          testHitbox.X -= StepLength;
+          break;
+        case Direction.Right:
+          testHitbox.X += StepLength;
+          break;
+        case Direction.Up:
+          testHitbox.Y -= StepLength;
+          break;
+        case Direction.Down:
+          testHitbox.Y += StepLength;
+          break;
+      }
+      return !Walls.Any(w => w.IntersectsWith(testHitbox));
+    }
     #endregion Methods
 
   }

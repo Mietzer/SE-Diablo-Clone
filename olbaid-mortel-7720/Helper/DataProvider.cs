@@ -19,7 +19,7 @@ namespace olbaid_mortel_7720.Helper
     /// </summary>
     /// <typeparam name="T">Serializable objecttyp</typeparam>
     /// <param name="data">Object to save</param>
-    /// <param name="filename"=Name of file without ending</param>
+    /// <param name="fileName">Name of file without ending</param>
     public void SaveData<T>(T data, string fileName)
     {
       string path = Path.Combine(fileName + ".json");
@@ -42,7 +42,7 @@ namespace olbaid_mortel_7720.Helper
     /// Loads data from a readonly JSON file
     /// </summary>
     /// <typeparam name="T">Deserializable class in file</typeparam>
-    /// <param name="filename"=Name of file without ending</param>
+    /// <param name="filename">Name of file without ending</param>
     /// <returns></returns>
     public T? LoadData<T>(string filename)
     {

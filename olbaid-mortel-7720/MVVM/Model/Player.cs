@@ -1,12 +1,15 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
 using System;
+using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -66,7 +69,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public int ShotHits { get; private set; } = 0;
     #endregion Properties
 
-    public Player(int x, int y, int height, int width, int health, int stepLength) : base(x, y, height, width, stepLength)
+    public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
     {
       HealthPoints = health;
       Effect = PlayerEffect.None;
@@ -86,9 +89,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <summary>
     /// Moving and animating the player
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="key"></param>
-    public void Move(object sender, Key key)
+    public void Move(Key key)
     {
       Direction oldDirection = Direction;
       bool oldIsMoving = IsMoving;
@@ -119,13 +121,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <summary>
     /// Stopping animation for player
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
-      if (oldIsMoving != IsMoving || (sender != null && sender.ToString().Equals("Initial")))
+      if (oldIsMoving != IsMoving || ((e as InitialEventArgs) != null && (e as InitialEventArgs).IsInitial))
       {
         string directionString = this.Direction.ToString().ToLower();
         Image = ImageImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");

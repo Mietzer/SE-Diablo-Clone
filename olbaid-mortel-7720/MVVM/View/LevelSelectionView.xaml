@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
              xmlns:conv="clr-namespace:olbaid_mortel_7720.MVVM.Utils"
+             x:Name="ViewLevelSelect"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
   <UserControl.Resources>
     <conv:BoolToVisibilityInverterConverter x:Key="BoolToVisIC" />
+    <conv:SizeToBlurRadiusConverter x:Key="SizeToBlurIC" />
 
     <!--#region TriangleButton-->
     <Style x:Key="TriangleButton"
@@ -233,9 +235,15 @@
     <!--#endregion Levelbutton-->
 
   </UserControl.Resources>
-  <Grid Background="DarkGray">
+  <Grid Background="MidnightBlue">
+    <Image Source="../../Images/background.png" ClipToBounds="True" Stretch="UniformToFill">
+      <Image.Effect>
+        <BlurEffect Radius="{Binding ElementName=ViewLevelSelect, Path=ActualHeight, Converter={StaticResource SizeToBlurIC}}" />
+      </Image.Effect>
+    </Image>
     <ListView x:Name="LevellistView"
               ItemsSource="{Binding Levellist}"
+              BorderThickness="0"
               Background="Transparent"
               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
               Margin="20,0">
@@ -278,12 +286,12 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Opacity=".8"
-            Background="LightBlue" />
+            Background="HotPink" />
     <Button Style="{StaticResource TriangleButton}"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Opacity=".8"
-            Background="LightBlue"
+            Background="HotPink"
             RenderTransformOrigin="0.5, 0.5">
       <Button.RenderTransform>
         <RotateTransform Angle="180" />

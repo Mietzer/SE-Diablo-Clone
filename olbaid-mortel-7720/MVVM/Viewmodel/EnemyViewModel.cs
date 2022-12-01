@@ -46,31 +46,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Methods 
     public void InitTimer()
     {
-      //Tick for EnemyRemoval if health <= 0
-      DispatcherTimer removeEnemy = new();
-      removeEnemy.Tick += new EventHandler(RemoveEnemy);
-      removeEnemy.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      removeEnemy.Start();
-
-      //Tick for EnemyMovement
-      DispatcherTimer movementTimer = new();
-      movementTimer.Tick += new EventHandler(Move);
-      movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      movementTimer.Start();
-
-      //Tick for HitReg
-      DispatcherTimer checkforHit = new();
-      checkforHit.Tick += new EventHandler(CheckforHit);
-      checkforHit.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      checkforHit.Start();
-
-      DispatcherTimer movementShots = new();
-      movementShots.Tick += new EventHandler(MoveShots);
-      movementShots.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      movementShots.Start();
+      GameTimer timer = GameTimer.Instance;
+      timer.GameTick += Move;
+      timer.GameTick += RemoveEnemy;
+      timer.GameTick += MoveShots;
+      timer.GameTick += CheckforHit;
     }
 
-    private void Move(object sender, EventArgs e)
+    private void Move(EventArgs e)
     {
       foreach (Enemy enemy in MyEnemies)
       {
@@ -93,7 +76,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       }
     }
-    private void CheckforHit(object sender, EventArgs e)
+    private void CheckforHit(EventArgs e)
     {
       //Hit on enemmy
       foreach (Bullet bullet in MyPlayer.Bullets.Where(b => !b.HasHit))
@@ -140,7 +123,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    private void RemoveEnemy(object sender, EventArgs e)
+    private void RemoveEnemy(EventArgs e)
     {
       List<Enemy> deleteList = new List<Enemy>();
       List<Bullet> deleteBullets = new List<Bullet>();
@@ -214,7 +197,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
     }
 
-    private void MoveShots(object sender, EventArgs e)
+    private void MoveShots(EventArgs e)
     {
       //How many Pixels the bullet should move everytime
       int velocity = 10;
