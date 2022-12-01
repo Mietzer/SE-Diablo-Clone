@@ -65,9 +65,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       checkforHit.Start();
 
       DispatcherTimer movementShots = new();
-      movementTimer.Tick += new EventHandler(MoveShots);
-      movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      movementTimer.Start();
+      movementShots.Tick += new EventHandler(MoveShots);
+      movementShots.Interval = new TimeSpan(0, 0, 0, 0, 20);
+      movementShots.Start();
     }
 
     private void Move(object sender, EventArgs e)
