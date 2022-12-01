@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using olbaid_mortel_7720.Engine;
-using olbaid_mortel_7720.Helper;
-using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.MVVM.Model;
 using System.Windows.Controls;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using WpfAnimatedGif;
 
 
 namespace olbaid_mortel_7720.Engine
@@ -33,6 +19,9 @@ namespace olbaid_mortel_7720.Engine
       set
       {
         if (value == health) return;
+        //Delete Picture if Enemy dies
+        if (health <= 0)
+          Model = null;
         health = value;
         OnPropertyChanged(nameof(Health));
       }
