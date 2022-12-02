@@ -4,12 +4,10 @@ using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
 using System;
-using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Linq;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -67,6 +65,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public bool IsShooting { get; set; }
     public int OverallShots { get; private set; } = 0;
     public int ShotHits { get; private set; } = 0;
+
     #endregion Properties
 
     public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)

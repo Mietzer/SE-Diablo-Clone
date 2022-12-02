@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.Engine
@@ -56,6 +56,7 @@ namespace olbaid_mortel_7720.Engine
         OnPropertyChanged(nameof(stepLength));
       }
     }
+
     #endregion Movement
 
     public ObservableCollection<Bullet> Bullets;
@@ -100,7 +101,7 @@ namespace olbaid_mortel_7720.Engine
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
-      
+
       if (mapModel == null) Walls = new();
       else Walls = mapModel.Walls;
     }
