@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -33,7 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
-      MyPlayer.StopMovement("Initial", null);
+      MyPlayer.StopMovement(new InitialEventArgs());
       MyPlayerCanvas = playerCanvas;
 
       InitTimer();
@@ -44,26 +43,19 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// </summary>
     public void InitTimer()
     {
-      DispatcherTimer movementTimer = new();
-      movementTimer.Tick += new EventHandler(Move);
-      movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      movementTimer.Start();
-
-      DispatcherTimer shotMovementTimer = new();
-      shotMovementTimer.Tick += new EventHandler(MoveShots);
-      shotMovementTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-      shotMovementTimer.Start();
+      GameTimer timer = GameTimer.Instance;
+      timer.GameTick += Move;
+      timer.GameTick += MoveShots;
     }
 
     /// <summary>
     /// Event to move the shots
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public void MoveShots(object? sender, EventArgs e)
+    public void MoveShots(EventArgs e)
     {
       //How many Pixels the bullet should move everytime
-      int velocity = 30;
+      int velocity = 10;
       List<FrameworkElement> deleteList = new List<FrameworkElement>();
 
       foreach (FrameworkElement item in MyPlayerCanvas.Children)
@@ -74,11 +66,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           b?.Move(velocity);
 
           if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY)
+           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
+           || b.HasHit)
           {
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
             MyPlayer.Bullets.Remove(b);
+
           }
         }
       }
@@ -99,8 +93,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(RessourceImporter.Import(ImageCategory.BULLETS, "bullet.png"));
-      Bullet bullet = new Bullet(2, 4, vector, bulletImage, ShotName);
+      Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png"));
+      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -110,7 +104,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (vector.X < 0)
       {
         playerShootX -= bullet.Rectangle.Width;
-        
+
         //Above
         if (vector.Y < 0)
         {
@@ -126,7 +120,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       // Add to Canvas
       bullet.Show(MyPlayerCanvas, playerShootX, playerShootY);
-      
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 
@@ -172,22 +165,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <summary>
     /// Method to move the Player Canvas
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Move(object sender, EventArgs e)
+    private void Move(EventArgs e)
     {
       if (moveDown)
-        MyPlayer.Move(sender, Key.S);
+        MyPlayer.Move(Key.S);
       else if (moveUp)
-        MyPlayer.Move(sender, Key.W);
+        MyPlayer.Move(Key.W);
 
       if (moveLeft)
-        MyPlayer.Move(sender, Key.A);
+        MyPlayer.Move(Key.A);
       else if (moveRight)
-        MyPlayer.Move(sender, Key.D);
+        MyPlayer.Move(Key.D);
 
       if (!moveDown && !moveUp && !moveLeft && !moveRight)
-        MyPlayer.StopMovement(sender, e);
+        MyPlayer.StopMovement(e);
     }
     #endregion Methods
 

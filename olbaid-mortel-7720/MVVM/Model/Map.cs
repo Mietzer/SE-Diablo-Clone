@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.Object;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TiledCS;
@@ -36,9 +37,8 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
-      var tilesets = map.GetTiledTilesets(this.PathTileset); // DO NOT forget the / at the end
+      var tilesets = map.GetTiledTilesets(this.PathTileset);
       var tileLayers = map.Layers.Where(x => x.type == TiledLayerType.TileLayer);
-      var tileObject = map.Layers.Where(x => x.type == TiledLayerType.ObjectLayer);
 
       //Creat MapObjects for Rendering Map
       foreach (var layer in tileLayers)
@@ -58,6 +58,7 @@ namespace olbaid_mortel_7720.MVVM.Model
               continue;
             }
 
+            
             // Helper method to fetch the right TieldMapTileset instance. 
             // This is a connection object Tiled uses for linking the correct tileset to the gid value using the firstgid property.
             var mapTileset = map.GetTiledMapTileset(gid);
@@ -68,8 +69,10 @@ namespace olbaid_mortel_7720.MVVM.Model
             // Use the connection object as well as the tileset to figure out the source rectangle.
             var rect = map.GetSourceRect(mapTileset, tileset, gid);
 
-            mapObjects.Add(new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == "Floor" ? true : false));
-
+            MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false);
+            // TODO: Add collision of tileset tile as collision box to the map object
+            mapObject.AddCollisionBox(tileX, tileY, map.TileWidth, map.TileHeight);
+            mapObjects.Add(mapObject);
           }
         }
 
@@ -86,7 +89,6 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
-      var tilesets = map.GetTiledTilesets(this.PathTileset); // DO NOT forget the / at the 
       var tileObject = map.Layers.Where(x => x.type == TiledLayerType.ObjectLayer);
 
       //Creat ObjectList for Plasing Objects in Map
@@ -94,8 +96,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         foreach (var obj in layer.objects)
         {
-          //To Do Impelmentierung vpn Objecten z.b. Spawn Points
-          spawnObjects.Add(new SpawnObject(obj.name, true, true, obj.x, obj.y, obj.width, obj.height));
+          // Todo: Impelmentierung vpn Objecten z.b. Spawn Points
+          spawnObjects.Add(new SpawnObject(obj.name, true, true, Convert.ToInt32(obj.x + obj.width / 2), Convert.ToInt32(obj.y + obj.height / 2)));
         }
       }
 
@@ -108,6 +110,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       var map = new TiledMap(this.PathMap);
       return map.Height;
     }
+    
     public int GetWidth()
     {
       var map = new TiledMap(this.PathMap);

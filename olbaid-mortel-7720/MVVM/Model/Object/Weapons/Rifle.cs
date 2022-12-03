@@ -1,6 +1,15 @@
-﻿namespace olbaid_mortel_7720.Object.Weapons
+﻿using olbaid_mortel_7720.Helper;
+
+// TODO: Namespaces
+namespace olbaid_mortel_7720.Object.Weapons
 {
-    internal class Rifle : Weapon
+    public class Rifle : Weapon
     {
+      public Rifle()
+      {
+        category = ImageCategory.WEAPONS_PLAYER_HANDGUN;
+        imageString = "rifle.png";
+        Damage = 30;
+      }
     }
 }

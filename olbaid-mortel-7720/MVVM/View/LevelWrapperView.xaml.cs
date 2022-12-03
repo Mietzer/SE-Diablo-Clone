@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.MVVM.Viewmodel;
+﻿using olbaid_mortel_7720.MVVM.Utils;
+using System;
 using System.Windows.Controls;
 
 namespace olbaid_mortel_7720.MVVM.View
@@ -9,14 +10,19 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class LevelWrapperView : UserControl
   {
-    public LevelWrapperView(int selectedLevel = 0)
+    public LevelWrapperView()
     {
-      //TODO: Add Healthbar
-
-      LevelWrapperViewModel vm = new();
-      DataContext = vm;
       InitializeComponent();
     }
 
+    private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+      double x = GlobalVariables.MaxX * PlayerControl.ActualWidth / ScalingViewBox.ActualWidth;
+      double y = GlobalVariables.MaxY * PlayerControl.ActualWidth / ScalingViewBox.ActualWidth;
+
+      GlobalVariables.MaxX = Convert.ToInt32(x);
+      GlobalVariables.MaxY = Convert.ToInt32(y);
+
+    }
   }
 }

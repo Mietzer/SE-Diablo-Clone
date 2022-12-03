@@ -1,4 +1,6 @@
-﻿using olbaid_mortel_7720.MVVM.Utils;
+﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Utils;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -13,15 +15,16 @@ namespace olbaid_mortel_7720.MVVM.View
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : Window, INotifyPropertyChanged
+  public partial class MainWindow : Window, INotifyPropertyChanged, IMainViewModel
   {
-    public UserControl CurrentView { get; private set; }
+    public BaseViewModel CurrentViewModel { get; private set; }
     private int menuBarHeight = 0;
 
     public MainWindow()
     {
-      CurrentView = new LevelSelectionView();
+      CurrentViewModel = new StartscreenViewModel();
       InitializeComponent();
+      NavigationLocator.MainViewModel = this;
     }
 
     #region Events
@@ -41,6 +44,8 @@ namespace olbaid_mortel_7720.MVVM.View
 
       GlobalVariables.MaxX = (int)ActualWidth;
       GlobalVariables.MaxY = (int)ActualHeight - menuBarHeight;
+
+
 
     }
     private void Close(object sender, RoutedEventArgs e)
@@ -71,21 +76,27 @@ namespace olbaid_mortel_7720.MVVM.View
       GlobalVariables.MinY = 0;
       GlobalVariables.MaxX = (int)ActualWidth;
       GlobalVariables.MaxY = (int)ActualHeight - menuBarHeight;
-      
+
       if (Debugger.IsAttached)
       {
-        Debug.WriteLine("\n------------------\nStarted in DEBUG mode\n------------------\n"); 
+        Debug.WriteLine("\n------------------\nStarted in DEBUG mode\n------------------\n");
       }
     }
 
     #endregion Events
 
     #region Methods
-    public void SwitchView(UserControl newView)
+    public void SwitchView(BaseViewModel newViewmodel)
     {
-      CurrentView = newView;
-      OnPropertyChanged(nameof(CurrentView));
-      
+      if (newViewmodel.GetType() == typeof(LevelWrapperViewModel))
+        GlobalVariables.InGame = true;
+      else
+        GlobalVariables.InGame = false;
+
+
+      CurrentViewModel = newViewmodel;
+      OnPropertyChanged(nameof(CurrentViewModel));
+
       if (GlobalVariables.InGame)
       {
         BtnPanel.Children.Remove(BtnMaximize);

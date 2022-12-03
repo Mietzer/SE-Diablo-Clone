@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,30 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareRanged : EnemyRanged
   {
-    public EnemyRareRanged(int x, int y, int heigth, int width, int steplength, int health, int damage) : base(x, y, heigth, width, steplength, health, damage)
+    
+    private int shotCountForDoubleShot = 0;
+    
+    public EnemyRareRanged(int x, int y, MapViewModel mapModel) : base(x, y, mapModel)
     {
       this.Health = base.Health * 10;
-      Image = RessourceImporter.Import(ImageCategory.RANGED, "rare-walking-left.gif");
-      Hitbox = new Rect(x, y + 19, width, heigth - 19);
+      this.Damage = base.Damage * 2;
+      Image = ImageImporter.Import(ImageCategory.RANGED, "rare-walking-left.gif");
+      Hitbox = new Rect(x, y + 19, Width, Height - 19);
     }
-    
+
+    public override void ShotCoolDown()
+    {
+      if (shotCountForDoubleShot >= 2)
+      {
+        shotCountForDoubleShot = 0;
+        base.ShotCoolDown();
+      }
+      else
+      {
+        shotCountForDoubleShot++;
+      }
+    }
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 19, Width, Height - 19);
@@ -27,23 +45,23 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
-      bool oldIsAttacking = IsAttacking;
+      bool oldIsAttacking = ((Enemy)this).IsAttacking;
       base.KeepDistance(player);
       if (lastDirection != Direction || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "rare-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "rare-walking-" + directionString + ".gif");
       }
     }
     
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
-      if (oldIsMoving != IsMoving && !IsAttacking)
+      if (oldIsMoving != IsMoving && !((Enemy)this).IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.RANGED, "rare-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.RANGED, "rare-standing-" + directionString + ".gif");
       }
     }
   }

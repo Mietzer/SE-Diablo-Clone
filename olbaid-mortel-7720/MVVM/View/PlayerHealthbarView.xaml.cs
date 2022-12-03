@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace olbaid_mortel_7720.MVVM.Views
+namespace olbaid_mortel_7720.MVVM.View
 {
   /// <summary>
   ///   View component for the health bar in the overall player's gui.
@@ -42,30 +42,30 @@ namespace olbaid_mortel_7720.MVVM.Views
         switch (effect)
         {
           case PlayerEffect.Burning:
-            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-burnt.gif");
+            iconSource = ImageImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-burnt.gif");
             break;
           case PlayerEffect.Poisoned:
-            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-poisoned.png");
+            iconSource = ImageImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-poisoned.png");
             break;
           case PlayerEffect.Healing:
-            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-healing.gif");
+            iconSource = ImageImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-healing.gif");
             break;
           case PlayerEffect.Protected:
-            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-protected.gif");
+            iconSource = ImageImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-protected.gif");
             break;
           default:
-            iconSource = RessourceImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-normal.png");
+            iconSource = ImageImporter.Import(ImageCategory.HEALTHBAR_ICONS, "heart-normal.png");
             break;
         }
         ImageBehavior.SetAnimatedSource(ImgIcon, iconSource);
 
         if (effect == PlayerEffect.Poisoned)
         {
-          ImgBar.Source = RessourceImporter.Import(ImageCategory.HEALTHBAR, "bar-poisoned.png");
+          ImgBar.Source = ImageImporter.Import(ImageCategory.HEALTHBAR, "bar-poisoned.png");
         }
         else
         {
-          ImgBar.Source = RessourceImporter.Import(ImageCategory.HEALTHBAR, "bar-normal.png");
+          ImgBar.Source = ImageImporter.Import(ImageCategory.HEALTHBAR, "bar-normal.png");
         }
       }
     }

@@ -7,9 +7,10 @@
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
              Loaded="UserControl_Loaded"
-             d:DesignHeight="450" d:DesignWidth="800"
              RenderOptions.BitmapScalingMode="NearestNeighbor">
-  <Canvas x:Name="PlayerCanvasObject">
+  <Canvas x:Name="PlayerCanvasObject"
+          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Height}"
+          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Width}" >
     <Image DataContext="{Binding MyPlayer}"
            Canvas.Left="{Binding XCoord}"
            Canvas.Top="{Binding YCoord}"

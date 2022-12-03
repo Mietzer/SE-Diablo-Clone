@@ -1,8 +1,10 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
 using System;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -22,7 +24,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
-    
+
     private PlayerEffect effect;
     public PlayerEffect Effect
     {
@@ -34,7 +36,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(Effect));
       }
     }
-    
+
     private BitmapImage weaponOverlay;
     public BitmapImage WeaponOverlay
     {
@@ -46,9 +48,9 @@ namespace olbaid_mortel_7720.MVVM.Model
         OnPropertyChanged(nameof(WeaponOverlay));
       }
     }
-    
+
     private Weapon currentWeapon;
-    
+
     public Weapon CurrentWeapon
     {
       get { return currentWeapon; }
@@ -61,30 +63,33 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     public bool IsShooting { get; set; }
+    public int OverallShots { get; private set; } = 0;
+    public int ShotHits { get; private set; } = 0;
+
     #endregion Properties
 
-    public Player(int x, int y, int height, int width, int health, int stepLength) : base(x, y, height, width, stepLength)
+    public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
     {
       HealthPoints = health;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
       CurrentWeapon = new Handgun();
+      Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
 
     #region Methods
-    
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
     }
-    
+
     /// <summary>
     /// Moving and animating the player
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="key"></param>
-    public void Move(object sender, Key key)
+    public void Move(Key key)
     {
       Direction oldDirection = Direction;
       bool oldIsMoving = IsMoving;
@@ -107,25 +112,24 @@ namespace olbaid_mortel_7720.MVVM.Model
       if ((oldDirection != Direction || oldIsMoving != IsMoving) && !IsShooting)
       {
         string directionString = this.Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
     }
 
     /// <summary>
     /// Stopping animation for player
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
-      if (oldIsMoving != IsMoving || (sender != null && sender.ToString().Equals("Initial")))
+      if (oldIsMoving != IsMoving || ((e as InitialEventArgs) != null && (e as InitialEventArgs).IsInitial))
       {
         string directionString = this.Direction.ToString().ToLower();
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
     }
 
@@ -140,13 +144,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       string directionString = newDirection.ToString().ToLower();
       if (IsMoving)
       {
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
       }
       else
       {
-        Image = RessourceImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
-        WeaponOverlay = RessourceImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.PLAYER, "player-standing-" + directionString + ".gif");
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "standing-" + directionString + ".gif");
       }
 
       Direction = newDirection;
@@ -156,7 +160,25 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints -= damage;
     }
+
     #endregion Methods
 
+    #region Events
+    /// <summary>
+    /// Counts the hits and Shots of the Player
+    /// </summary>
+    private void Bullets_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.NewItems != null)
+        foreach (var item in e.NewItems)
+          OverallShots++;
+
+      if (e.OldItems != null)
+        foreach (var item in e.OldItems)
+          if ((item as Bullet).HasHit)
+            ShotHits++;
+
+    }
+    #endregion Events
   }
 }
