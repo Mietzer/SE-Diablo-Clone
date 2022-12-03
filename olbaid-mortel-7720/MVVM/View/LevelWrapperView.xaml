@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
              mc:Ignorable="d"
-             Loaded="UserControl_Loaded">
+             Loaded="UserControl_Loaded"
+             Background="{StaticResource MapBackgroundGradient}">
   <Viewbox x:Name="ScalingViewBox">
-    <Grid Background="{StaticResource MapBackgroundGradient}">
+    <Grid>
       <ContentControl Content="{Binding CurrentLevel}"
                       x:Name="LevelControl" />
-
 
       <ContentControl Content="{Binding PlayerView}"
                       x:Name="PlayerControl" />
