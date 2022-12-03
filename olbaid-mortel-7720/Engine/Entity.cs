@@ -103,7 +103,7 @@ namespace olbaid_mortel_7720.Engine
       PropertyChanged += Entity_PropertyChanged;
 
       if (mapModel == null) Walls = new();
-      else Walls = mapModel.Walls;
+      else Walls = mapModel.Barriers;
     }
 
     #region Methods

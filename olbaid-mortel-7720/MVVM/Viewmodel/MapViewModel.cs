@@ -17,7 +17,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Properties
 
     public List<Rectangle> Rectangles;
-    public List<Rect> Walls;
+    public List<Rect> Barriers;
     private Map map;
     public Canvas Canvas;
 
@@ -26,7 +26,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public MapViewModel(Canvas canvas, Map map)
     {
       Rectangles = new List<Rectangle>();
-      Walls = new List<Rect>();
+      Barriers = new List<Rect>();
       this.map = map;
       Canvas = canvas;
       RenderMap();
@@ -85,7 +85,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
               Canvas.SetLeft(rect, wallCollision.X);
               Canvas.Children.Add(rect);
             }
-            Walls.Add(wallCollision);
+            Barriers.Add(wallCollision);
           }
         }
       }
