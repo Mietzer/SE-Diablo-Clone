@@ -3,7 +3,6 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -67,7 +66,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.SetTop(Rectangles[i], yTileValue);
         Canvas.SetLeft(Rectangles[i], xTileValue);
         Canvas.Children.Add(Rectangles[i]);
-        
+
         if (rednermap[i].Name == MapLayerType.INNER_WALL || rednermap[i].Name == MapLayerType.OUTER_WALL)
         {
           MapObject wall = rednermap[i];
@@ -81,8 +80,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
               rect.Width = wallCollision.Width;
               rect.Stroke = Brushes.Orange;
               rect.StrokeThickness = 1;
-              Canvas.SetTop(rect, wallCollision.Y);
-              Canvas.SetLeft(rect, wallCollision.X);
+              Canvas.SetTop(rect, wallCollision.Y + yTileValue);
+              Canvas.SetLeft(rect, wallCollision.X + xTileValue);
               Canvas.Children.Add(rect);
             }
             Walls.Add(wallCollision);
