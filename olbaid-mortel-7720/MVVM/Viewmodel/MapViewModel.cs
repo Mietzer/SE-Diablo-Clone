@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class MapViewModel : NotifyObject
@@ -36,7 +37,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void RenderMap()
     {
       List<MapObject> rednermap = map.Load();
-      BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
+      //BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
+
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
@@ -48,6 +50,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Rectangles[i].Width = Wert * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
         Rectangles[i].Height = Wert * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
+        string ImageName = rednermap[i].Graphic.PathtoGraphics.Substring(19, rednermap[i].Graphic.PathtoGraphics.Length - 19);
+        BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, ImageName);
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = tilesetImage;
         myImageBrush.ViewboxUnits = BrushMappingMode.Absolute;

@@ -22,6 +22,8 @@
             "scaleInEditor": 4
         }
     },
+    "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Levels",
+    "last.imagePath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Images/Tilesets",
     "openFiles": [
         "Level1.tmx",
         "Level1.tsx"
@@ -31,5 +33,7 @@
         "Level1.tsx",
         "Level1.tmx",
         "Level1_old.tsx"
-    ]
+    ],
+    "tileset.lastUsedFilter": "Tiled-Kachelsatzdateien (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx"
 }
