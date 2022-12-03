@@ -77,7 +77,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddPlayer()
     {
-      Player p = new Player(100, 100, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
+      Player p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
       PlayerView = new PlayerCanvas(p);
 
       Gui = new UserControl();

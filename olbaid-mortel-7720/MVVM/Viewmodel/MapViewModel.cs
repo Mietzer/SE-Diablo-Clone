@@ -37,7 +37,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void RenderMap()
     {
       List<MapObject> rednermap = map.Load();
-      BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
+      Dictionary<string, BitmapImage> tilesets = new Dictionary<string, BitmapImage>();
+      tilesets.Add("Level1", ImageImporter.Import(ImageCategory.TILESETS, "Level1.png"));
+      tilesets.Add("Furniture", ImageImporter.Import(ImageCategory.TILESETS, "Furniture.png"));
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
@@ -49,6 +51,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Rectangles[i].Width = Wert * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
         Rectangles[i].Height = Wert * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
+        string ImageName = rednermap[i].Graphic.PathtoGraphics.Substring(19, rednermap[i].Graphic.PathtoGraphics.Length - 19).Replace(".png", "");
+        BitmapImage tilesetImage = tilesets[ImageName];
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = tilesetImage;
         myImageBrush.ViewboxUnits = BrushMappingMode.Absolute;
@@ -67,26 +71,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.SetTop(Rectangles[i], yTileValue);
         Canvas.SetLeft(Rectangles[i], xTileValue);
         Canvas.Children.Add(Rectangles[i]);
-        
-        if (rednermap[i].Name == MapLayerType.INNER_WALL || rednermap[i].Name == MapLayerType.OUTER_WALL)
+
+        MapObject mapObject = rednermap[i];
+        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIRS))
         {
-          MapObject wall = rednermap[i];
-          if (wall.HasCollision())
+          Rect barrierCollision = mapObject.CollisionBox ?? Rect.Empty;
+          if (System.Diagnostics.Debugger.IsAttached)
           {
-            Rect wallCollision = wall.CollisionBox ?? Rect.Empty;
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-              Rectangle rect = new Rectangle();
-              rect.Height = wallCollision.Height;
-              rect.Width = wallCollision.Width;
-              rect.Stroke = Brushes.Orange;
-              rect.StrokeThickness = 1;
-              Canvas.SetTop(rect, wallCollision.Y);
-              Canvas.SetLeft(rect, wallCollision.X);
-              Canvas.Children.Add(rect);
-            }
-            Barriers.Add(wallCollision);
+            Rectangle rect = new Rectangle();
+            rect.Height = barrierCollision.Height;
+            rect.Width = barrierCollision.Width;
+            rect.Stroke = Brushes.Orange;
+            rect.StrokeThickness = 1;
+            Canvas.SetTop(rect, barrierCollision.Y);
+            Canvas.SetLeft(rect, barrierCollision.X);
+            Canvas.Children.Add(rect);
           }
+          Barriers.Add(barrierCollision);
         }
       }
     }

@@ -85,7 +85,7 @@ namespace olbaid_mortel_7720.Engine
       }
     }
 
-    protected List<Rect> Walls { get; private set; }
+    protected List<Rect> Barriers { get; private set; }
     #endregion Properties
 
     protected Entity(int x, int y, int height, int width, int stepLength, MapViewModel mapModel)
@@ -102,8 +102,8 @@ namespace olbaid_mortel_7720.Engine
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
 
-      if (mapModel == null) Walls = new();
-      else Walls = mapModel.Barriers;
+      if (mapModel == null) Barriers = new();
+      else Barriers = mapModel.Barriers;
     }
 
     #region Methods
@@ -166,7 +166,7 @@ namespace olbaid_mortel_7720.Engine
           testHitbox.Y += StepLength;
           break;
       }
-      return !Walls.Any(w => w.IntersectsWith(testHitbox));
+      return !Barriers.Any(w => w.IntersectsWith(testHitbox));
     }
     #endregion Methods
 
