@@ -182,7 +182,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void AddLevel1Data()
     {
       // TODO: Add spawnlists with random choice out of a list of possible lists
-      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
+      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx")); ;
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).Vm, 2, 2, 3, 1, 0);
       usedLevel = level1;

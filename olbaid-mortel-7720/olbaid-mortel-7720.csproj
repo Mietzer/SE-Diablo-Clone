@@ -14,6 +14,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Levels\Furniture.tsx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Levels\Furniture.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="Levels\Level1.tmx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

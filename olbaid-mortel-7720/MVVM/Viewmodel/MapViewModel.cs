@@ -3,12 +3,12 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -37,7 +37,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void RenderMap()
     {
       List<MapObject> rednermap = map.Load();
-      BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
+      //BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, "Level1.png");
+
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
@@ -49,6 +50,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Rectangles[i].Width = Wert * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
         Rectangles[i].Height = Wert * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
+        string ImageName = rednermap[i].Graphic.PathtoGraphics.Substring(19, rednermap[i].Graphic.PathtoGraphics.Length - 19);
+        BitmapImage tilesetImage = ImageImporter.Import(ImageCategory.TILESETS, ImageName);
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = tilesetImage;
         myImageBrush.ViewboxUnits = BrushMappingMode.Absolute;
@@ -67,7 +70,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.SetTop(Rectangles[i], yTileValue);
         Canvas.SetLeft(Rectangles[i], xTileValue);
         Canvas.Children.Add(Rectangles[i]);
-        
+
         if (rednermap[i].Name == MapLayerType.INNER_WALL || rednermap[i].Name == MapLayerType.OUTER_WALL)
         {
           MapObject wall = rednermap[i];
@@ -81,8 +84,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
               rect.Width = wallCollision.Width;
               rect.Stroke = Brushes.Orange;
               rect.StrokeThickness = 1;
-              Canvas.SetTop(rect, wallCollision.Y);
-              Canvas.SetLeft(rect, wallCollision.X);
+              Canvas.SetTop(rect, wallCollision.Y + yTileValue);
+              Canvas.SetLeft(rect, wallCollision.X + xTileValue);
               Canvas.Children.Add(rect);
             }
             Walls.Add(wallCollision);
