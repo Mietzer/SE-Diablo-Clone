@@ -3,14 +3,14 @@
     "expandedProjectPaths": [
         "."
     ],
-    "file.lastUsedOpenFilter": "Alle Dateien (*)",
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Level1.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 3,
+            "scale": 1,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 550,
-                "y": 725
+                "x": 959.5,
+                "y": 528.5
             }
         },
         "Level1.tsx": {
@@ -19,18 +19,21 @@
         },
         "Level1_old.tsx": {
             "scaleInDock": 2,
-            "scaleInEditor": 3
+            "scaleInEditor": 4
         }
     },
+    "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Levels",
+    "last.imagePath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Images/Tilesets",
     "openFiles": [
         "Level1.tmx",
-        "Level1.tsx",
-        "Level1_old.tsx"
+        "Level1.tsx"
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level1_old.tsx",
         "Level1.tsx",
-        "Level1.tmx"
-    ]
+        "Level1.tmx",
+        "Level1_old.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled-Kachelsatzdateien (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx"
 }
