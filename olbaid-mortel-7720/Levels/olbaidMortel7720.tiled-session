@@ -6,20 +6,20 @@
     "file.lastUsedOpenFilter": "Alle Dateien (*)",
     "fileStates": {
         "Level1.tmx": {
-            "scale": 1.5,
+            "scale": 4,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 550,
-                "y": 725
+                "x": 187,
+                "y": 113.125
             }
         },
         "Level1.tsx": {
             "scaleInDock": 2,
-            "scaleInEditor": 3
+            "scaleInEditor": 4
         },
         "Level1_old.tsx": {
             "scaleInDock": 2,
-            "scaleInEditor": 3
+            "scaleInEditor": 4
         }
     },
     "openFiles": [

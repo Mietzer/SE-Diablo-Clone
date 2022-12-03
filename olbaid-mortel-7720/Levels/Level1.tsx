@@ -3,17 +3,17 @@
  <image source="../Images/Tilesets/Level1.png" width="384" height="256"/>
  <tile id="4">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="3" y="0" width="29" height="32"/>
+   <object id="1" name="WallCollision" x="3" y="0" width="29" height="32"/>
   </objectgroup>
  </tile>
  <tile id="5">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="32"/>
+   <object id="1" name="WallCollision" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="6">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="29.0909" height="32"/>
+   <object id="1" name="WallCollision" x="0" y="0" width="29.0909" height="32"/>
   </objectgroup>
  </tile>
  <tile id="7">
@@ -38,7 +38,7 @@
  </tile>
  <tile id="16">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="3" y="0" width="29" height="32"/>
+   <object id="1" name="WallCollision" x="3" y="0" width="29" height="32"/>
   </objectgroup>
  </tile>
  <tile id="17">
@@ -48,7 +48,7 @@
  </tile>
  <tile id="18">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="29" height="32"/>
+   <object id="1" name="WallCollision" x="0" y="0" width="29" height="32"/>
   </objectgroup>
  </tile>
  <tile id="19">
@@ -63,17 +63,17 @@
  </tile>
  <tile id="28">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="3" y="0" width="29" height="25"/>
+   <object id="1" name="WallCollision" x="3" y="0" width="29" height="25"/>
   </objectgroup>
  </tile>
  <tile id="29">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="25"/>
+   <object id="1" name="WallCollision" x="0" y="0" width="32" height="25"/>
   </objectgroup>
  </tile>
  <tile id="30">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="29" height="25"/>
+   <object id="1" name="WallCollision" x="0" y="0" width="29" height="25"/>
   </objectgroup>
  </tile>
  <tile id="31">
