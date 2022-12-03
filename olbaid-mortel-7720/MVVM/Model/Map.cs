@@ -72,12 +72,9 @@ namespace olbaid_mortel_7720.MVVM.Model
             MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false);
 
             // TODO: Add collision of tileset tile as collision box to the map object
-            if (map.GetTiledTile(mapTileset, tileset, gid).objects != null)
+            foreach (var collisonobject in map.GetTiledTile(mapTileset, tileset, gid).objects)
             {
-              foreach (var collisonobject in map.GetTiledTile(mapTileset, tileset, gid).objects)
-              {
-                mapObject.AddCollisionBox(collisonobject.x, collisonobject.y, collisonobject.width, collisonobject.height);
-              }
+              mapObject.AddCollisionBox(collisonobject.x, collisonobject.y, collisonobject.width, collisonobject.height);
             }
 
             mapObjects.Add(mapObject);

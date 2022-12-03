@@ -6,11 +6,11 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Level1.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 7,
+            "scale": 1,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 1500,
-                "y": 599
+                "x": 959.5,
+                "y": 528.5
             }
         },
         "Level1.tsx": {
