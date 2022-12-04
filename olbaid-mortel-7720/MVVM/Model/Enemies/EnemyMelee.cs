@@ -15,6 +15,11 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
     }
+
+    public void AttackCoolDown()
+    {
+      this.IsAttacking = false;
+    }
     
     public override void Attack(Player player)
     {
@@ -109,6 +114,13 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, Width, Height - 27);
+      GameTimer.ExecuteWithInterval(10 , delegate (EventArgs e)
+      {
+        GameTimer.ExecuteWithInterval(10, delegate (EventArgs e)
+        {
+          IsAttacking = true;
+        });
+      }, true);
     }
 
     #endregion Constructor

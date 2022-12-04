@@ -95,7 +95,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         //Checks if Enemy hits Playerhitbox
         if (enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
-          enemy.Attack(MyPlayer);
+          if((enemy as EnemyMelee).IsAttacking)
+          {
+            enemy.Attack(MyPlayer);
+            (enemy as EnemyMelee).AttackCoolDown();
+          }
         }
 
         if (enemy is EnemyRanged)
