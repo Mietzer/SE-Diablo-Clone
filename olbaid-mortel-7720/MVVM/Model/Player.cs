@@ -160,6 +160,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints -= damage;
     }
+    
+    public void Heal(int amount)
+    {
+      Effect = PlayerEffect.Healing;
+      GameTimer.ExecuteWithInterval(amount, delegate(EventArgs args) {}, progress => { HealthPoints += 1; }, true);
+    }
 
     #endregion Methods
 

@@ -1,13 +1,24 @@
-﻿namespace olbaid_mortel_7720.Object
+﻿
+namespace olbaid_mortel_7720.MVVM.Model.Object
 {
   /// <summary>
   ///  Class DropObject Dopts Items on Destruction
   /// </summary>
-  internal class DropObject
+  public class DropObject : DestroyableObject
   {
-    //public Item[] ConteinItem;
+    public CollectableObject[] Items { get; private set; }
 
-    public void DropItem()
-    { }
+    public void DropItems()
+    {
+      foreach (CollectableObject item in Items)
+      {
+        item.Spawn();
+      }
+    }
+    
+    public DropObject(string name, bool visible) : base(name, visible)
+    {
+      
+    }
   }
 }
