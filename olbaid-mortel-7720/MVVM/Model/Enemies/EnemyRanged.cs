@@ -3,8 +3,10 @@ using System.Timers;
 using System;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 //TODO: CodeCleanup, Regions, Kommentare
@@ -36,6 +38,14 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Constructor
 
     #region Methods
+    public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
+    {
+      List<CollectableObject> drops = new List<CollectableObject>();
+      drops.Add(new Medicine(200, 25));
+      drops.Add(new Paralysis(200, 100));
+      return drops.AsReadOnly();
+    }
+    
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 22, Width, Height - 22);

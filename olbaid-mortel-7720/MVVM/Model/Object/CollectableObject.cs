@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
 using System;
 using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace olbaid_mortel_7720.MVVM.Model.Object
 {
@@ -41,8 +42,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
 
     public abstract void WhenCollected(Player player);
 
-    public void Spawn()
+    public void Spawn(Canvas canvas, int x, int y)
     {
+      Debug.WriteLine(this.Name + " spawned");
       // TODO: Add to canvas
     }
     
