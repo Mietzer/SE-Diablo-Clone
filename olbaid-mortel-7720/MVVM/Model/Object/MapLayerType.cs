@@ -1,14 +1,35 @@
-﻿namespace olbaid_mortel_7720.MVVM.Model.Object
+﻿using olbaid_mortel_7720.Engine;
+
+namespace olbaid_mortel_7720.MVVM.Model.Object
 {
   public static class MapLayerType
   {
-    public static readonly string OUTER_WALL = "outer wall";
-    public static readonly string INNER_WALL = "Inner Wall";
-    public static readonly string DESTRUCTIBLE_WALL = "Destructible Wall";
-    public static readonly string STAIRS = "Stairs";
-    public static readonly string FLOOR = "Floor";
-    public static readonly string FURNITURE = "Furniture";
-    public static readonly string FURNITURE_DECORATION = "Furniture on Top";
-    public static readonly string DOOR = "outer Door";
+    public const string OUTER_WALL = "outer wall";
+    public const string INNER_WALL = "Inner Wall";
+    public const string DESTRUCTIBLE_WALL = "Destructible Wall";
+    public const string STAIRS = "Stairs";
+    public const string FLOOR = "Floor";
+    public const string FURNITURE = "Furniture";
+    public const string FURNITURE_DECORATION = "Furniture on Top";
+    public const string DOOR = "outer Door";
+    
+    public static Barrier.BarrierType GetBarrierType(string layerName)
+    {
+      switch (layerName)
+      {
+        case OUTER_WALL:
+        case INNER_WALL:
+        case DESTRUCTIBLE_WALL:
+          return Barrier.BarrierType.Wall;
+        case STAIRS:
+        case FLOOR:
+          return Barrier.BarrierType.Floor;
+        case FURNITURE:
+        case FURNITURE_DECORATION:
+          return Barrier.BarrierType.Furniture;
+        default:
+          return Barrier.BarrierType.None;
+      }
+    }
   }
 }
