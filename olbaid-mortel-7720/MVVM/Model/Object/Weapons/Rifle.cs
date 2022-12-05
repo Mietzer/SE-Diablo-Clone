@@ -7,7 +7,7 @@ namespace olbaid_mortel_7720.Object.Weapons
     {
       public Rifle()
       {
-        category = ImageCategory.WEAPONS_PLAYER_HANDGUN;
+        category = ImageCategory.WEAPONS_PLAYER_RIFLE;
         imageString = "rifle.png";
         Damage = 30;
       }

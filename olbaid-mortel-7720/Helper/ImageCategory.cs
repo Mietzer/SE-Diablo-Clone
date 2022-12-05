@@ -24,5 +24,6 @@
     internal static readonly ImageCategory ITEMS = new ImageCategory("Items/");
     internal static readonly ImageCategory TILESETS = new ImageCategory("Tilesets/");
     internal static readonly ImageCategory WEAPONS_PLAYER_HANDGUN = new ImageCategory("Weapons/Player/Handgun/");
+    internal static readonly ImageCategory WEAPONS_PLAYER_RIFLE = new ImageCategory("Weapons/Player/Rifle/");
   }
 }
