@@ -2,8 +2,15 @@
 
 namespace olbaid_mortel_7720.Engine
 {
+  /// <summary>
+  /// Implementing a collectable object
+  /// </summary>
   public interface ICollectable
   {
-    void WhenCollected(Player player);
+    /// <summary>
+    /// Callback when the object is collected by the player
+    /// </summary>
+    /// <param name="player">The player model</param>
+    void OnCollect(Player player);
   }
 }

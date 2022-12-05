@@ -149,6 +149,10 @@ namespace olbaid_mortel_7720.Engine
     /// <param name="e"></param>
     public abstract void StopMovement(EventArgs e);
 
+    /// <summary>
+    /// Checks if there is a collision with a barrier
+    /// </summary>
+    /// <returns></returns>
     protected bool VerifyNoCollision()
     {
       Rect testHitbox = new Rect(Hitbox.X, Hitbox.Y, Hitbox.Width, Hitbox.Height);

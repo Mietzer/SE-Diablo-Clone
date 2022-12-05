@@ -156,11 +156,19 @@ namespace olbaid_mortel_7720.MVVM.Model
       Direction = newDirection;
     }
 
+    /// <summary>
+    /// Player is takes damage
+    /// </summary>
+    /// <param name="damage">How much</param>
     public void TakeDamage(int damage)
     {
       HealthPoints -= damage;
     }
     
+    /// <summary>
+    /// Player is being healed
+    /// </summary>
+    /// <param name="amount">How much</param>
     public void Heal(int amount)
     {
       Effect = PlayerEffect.Healing;
