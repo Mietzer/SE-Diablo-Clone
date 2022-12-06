@@ -172,39 +172,43 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void Shoot(EnemyRanged enemy, Point p)
     {
-      double enemyShootX = enemy.XCoord + MyPlayer.Width / 2;
-      double enemyShootY = enemy.YCoord + MyPlayer.Height / 4 * 3;
-
-      // Direction the bullet is going
-      Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
-      vector.Normalize();
-      Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
-      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
-
-      //Add to Enemies
-      enemy.Bullets.Add(bullet);
-
-      //Shot on Enemies left
-      if (vector.X < 0)
+      if (enemy.StayAggro)
       {
-        enemyShootX -= bullet.Rectangle.Width;
+        double enemyShootX = enemy.XCoord + MyPlayer.Width / 2;
+        double enemyShootY = enemy.YCoord + MyPlayer.Height / 4 * 3;
 
-        //Above
-        if (vector.Y < 0)
+        // Direction the bullet is going
+        Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
+        vector.Normalize();
+        Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
+        Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
+
+        //Add to Enemies
+        enemy.Bullets.Add(bullet);
+
+        //Shot on Enemies left
+        if (vector.X < 0)
+        {
+          enemyShootX -= bullet.Rectangle.Width;
+
+          //Above
+          if (vector.Y < 0)
+          {
+            enemyShootY -= bullet.Rectangle.Height;
+          }
+        }
+
+        //Shot on Enemies right and above
+        else if (vector.X > 0 && vector.Y < 0)
         {
           enemyShootY -= bullet.Rectangle.Height;
         }
-      }
 
-      //Shot on Enemies right and above
-      else if (vector.X > 0 && vector.Y < 0)
-      {
-        enemyShootY -= bullet.Rectangle.Height;
+        // Add to Canvas
+        bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
       }
-
-      // Add to Canvas
-      bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
     }
+      
 
     private void MoveShots(EventArgs e)
     {

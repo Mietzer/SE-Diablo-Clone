@@ -20,7 +20,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Properties
 
     #region Constructor
-    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)
+    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 150, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
@@ -76,21 +76,21 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         StopMovement(EventArgs.Empty);
         return;
       }
-      if (xDistance < nearestDistance&& player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
+      if (xDistance < nearestDistance&& player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Right);
-      if (xDistance < nearestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
+      if (xDistance < nearestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Left);
-      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
+      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Down);
-      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
+      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Up);
-      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
+      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Left);
-      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX)
+      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Right);
-      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
+      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Up);
-      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
+      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Down);
 
 
@@ -152,6 +152,17 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         string directionString = Direction.ToString().ToLower();
         Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
       }
+    }
+    private bool CheckForPlayerDistance(Player player)
+    {
+      double distance = Math.Sqrt(Math.Pow(player.XCoord - this.XCoord, 2) + Math.Pow(player.YCoord - this.YCoord, 2));
+      if (distance < this.AggroDistance)
+      {
+        this.StayAggro = true;
+        return true;
+      }
+      else
+        return false;
     }
 
     #endregion Methods
