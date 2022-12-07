@@ -10,7 +10,7 @@ namespace olbaid_mortel_7720.Engine
 {
   public abstract class Enemy : Entity
   {
-
+    #region Properties
     protected const int MAX_SAME_DIRECTION = 13;
     protected int sameDirectionCounter = 0;
 
@@ -59,7 +59,9 @@ namespace olbaid_mortel_7720.Engine
     public bool IsAttacking { get; protected set; }
 
     public abstract void Attack(Player player);
+    #endregion Properties
 
+    #region Methods
     protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage, MapViewModel mapModel) : base(x, y, height, width, steplength, mapModel)
     {
       this.health = health;
@@ -70,5 +72,34 @@ namespace olbaid_mortel_7720.Engine
     {
       health = health - damage;
     }
+
+    protected List<Direction> DecideDirectionPath(Player player, int x, int y, int nearest = 0, int farthest = 0)
+    {
+      const int tolerance = 5;
+      List<Direction> directions = new();
+      
+      int xDistance = player.XCoord - x;
+      int yDistance = player.YCoord - y;
+      
+      if (xDistance > tolerance + nearest)
+      {
+        directions.Add(Direction.Right);
+      }
+      else if (xDistance < -tolerance - nearest)
+      {
+        directions.Add(Direction.Left);
+      }
+      if (yDistance > tolerance + nearest)
+      {
+        directions.Add(Direction.Down);
+      }
+      else if (yDistance < -tolerance - nearest)
+      {
+        directions.Add(Direction.Up);
+      }
+
+      return directions;
+    }
+    #endregion Methods
   }
 }
