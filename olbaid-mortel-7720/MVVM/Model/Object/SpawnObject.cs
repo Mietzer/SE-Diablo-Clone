@@ -3,7 +3,7 @@ using System.Windows.Shapes;
 
 namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
 {
-  public class SpawnObject : Object
+  public class SpawnObject : GameObject
   {
     #region Properties
     

@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
@@ -17,7 +18,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Properties
 
     public List<Rectangle> Rectangles;
-    public List<Rect> Barriers;
+    public List<Barrier> Barriers;
     private Map map;
     public Canvas Canvas;
 
@@ -26,7 +27,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public MapViewModel(Canvas canvas, Map map)
     {
       Rectangles = new List<Rectangle>();
-      Barriers = new List<Rect>();
+      Barriers = new List<Barrier>();
       this.map = map;
       Canvas = canvas;
       RenderMap();
@@ -87,7 +88,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             Canvas.SetLeft(rect, barrierCollision.X);
             Canvas.Children.Add(rect);
           }
-          Barriers.Add(barrierCollision);
+          Barriers.Add(new Barrier(barrierCollision, MapLayerType.GetBarrierType(mapObject.Name)));
         }
       }
     }

@@ -3,6 +3,7 @@ using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
+using olbaid_mortel_7720.Object.Weapons;
 using System;
 using System.Collections.Specialized;
 using System.Windows;
@@ -74,7 +75,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
-      CurrentWeapon = new Handgun();
+      CurrentWeapon = new Rifle();
       Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
 
@@ -156,9 +157,23 @@ namespace olbaid_mortel_7720.MVVM.Model
       Direction = newDirection;
     }
 
+    /// <summary>
+    /// Player is takes damage
+    /// </summary>
+    /// <param name="damage">How much</param>
     public void TakeDamage(int damage)
     {
       HealthPoints -= damage;
+    }
+    
+    /// <summary>
+    /// Player is being healed
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void Heal(int amount)
+    {
+      Effect = PlayerEffect.Healing;
+      GameTimer.ExecuteWithInterval(amount, delegate(EventArgs args) {}, progress => { HealthPoints += 1; }, true);
     }
 
     #endregion Methods
