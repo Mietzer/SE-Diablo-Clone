@@ -1,24 +1,12 @@
-﻿using olbaid_mortel_7720.Helper;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Viewmodel;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Xaml.Schema;
 
 namespace olbaid_mortel_7720.MVVM.View
 {
@@ -53,13 +41,13 @@ namespace olbaid_mortel_7720.MVVM.View
       window.MouseLeftButtonUp += Canvas_MouseUp;
       window.MouseMove += Canvas_MouseMove;
     }
-    
+
     private void Canvas_MouseMove(object sender, MouseEventArgs e)
     {
       Point p = e.GetPosition(PlayerCanvasObject);
       Canvas.SetTop(CustomPointer, p.Y - CustomPointer.Height / 2);
       Canvas.SetLeft(CustomPointer, p.X - CustomPointer.Width / 2);
-      
+
       Window window = Window.GetWindow(this);
       window.Cursor = Cursors.None;
     }
@@ -69,23 +57,23 @@ namespace olbaid_mortel_7720.MVVM.View
       PlayerViewModel vm = DataContext as PlayerViewModel;
       if (e.Key == Key.W)
       {
-        vm.moveDown = false;
-        vm.moveUp = true;
+        vm.MoveDown = false;
+        vm.MoveUp = true;
       }
       else if (e.Key == Key.S)
       {
-        vm.moveUp = false;
-        vm.moveDown = true;
+        vm.MoveUp = false;
+        vm.MoveDown = true;
       }
       else if (e.Key == Key.A)
       {
-       vm.moveRight = false;
-        vm.moveLeft = true;
+        vm.MoveRight = false;
+        vm.MoveLeft = true;
       }
       else if (e.Key == Key.D)
       {
-        vm.moveLeft = false;
-        vm.moveRight = true;
+        vm.MoveLeft = false;
+        vm.MoveRight = true;
       }
     }
 
@@ -94,13 +82,13 @@ namespace olbaid_mortel_7720.MVVM.View
       PlayerViewModel vm = DataContext as PlayerViewModel;
 
       if (e.Key == Key.W)
-        vm.moveUp = false;
+        vm.MoveUp = false;
       else if (e.Key == Key.S)
-        vm.moveDown = false;
+        vm.MoveDown = false;
       else if (e.Key == Key.A)
-        vm.moveLeft = false;
+        vm.MoveLeft = false;
       else if (e.Key == Key.D)
-        vm.moveRight = false;
+        vm.MoveRight = false;
     }
 
     #region shooting
@@ -112,7 +100,7 @@ namespace olbaid_mortel_7720.MVVM.View
     private async void Canvas_Shoot(object sender, MouseButtonEventArgs e)
     {
       Point p = e.GetPosition(this);
-      if (p.X < 0 || p.Y < 0)
+      if (p.X < 0 || p.Y < 0 || !GameTimer.Instance.IsRunning)
         return;
       (DataContext as PlayerViewModel).Shoot(p);
     }

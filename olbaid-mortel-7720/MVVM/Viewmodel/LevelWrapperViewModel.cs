@@ -188,6 +188,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       usedLevel = level1;
     }
 
+    public void PauseLevel()
+    {
+      GameTimer timer = GameTimer.Instance;
+      if (timer.IsRunning)
+        timer.Stop();
+      else
+        timer.Start();
+    }
+
     /// <summary>
     /// Sets view back to Levelselection
     /// </summary>
