@@ -56,6 +56,16 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       set { currentLevel = value; }
     }
 
+    private bool isRunning;
+    public bool IsRunning
+    {
+      get { return isRunning; }
+      set
+      {
+        isRunning = value;
+        OnPropertyChanged(nameof(IsRunning));
+      }
+    }
 
     #endregion Properties
 
@@ -63,6 +73,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public LevelWrapperViewModel(int selectedLevel)
     {
       usedLevelID = selectedLevel;
+      IsRunning = GameTimer.Instance.IsRunning;
       Setup();
     }
     #endregion Constructor
@@ -70,9 +81,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Methods
     public void Setup()
     {
+      InitCommands();
       AddLevel();
       AddPlayer();
       AddEnemy();
+    }
+    private void InitCommands()
+    {
+      ResumeGameCommand = new RelayCommand(ResumeGame, CanResumeGame);
+      LeaveGameCommand = new RelayCommand(LeaveGame, CanLeaveGame);
     }
 
     private void AddPlayer()
@@ -189,6 +206,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
 
     /// <summary>
+    /// Method to Pause/ Resume Game, depending on current state
+    /// </summary>
+    public void PauseLevel()
+    {
+      GameTimer timer = GameTimer.Instance;
+
+      if (IsRunning)
+        timer.Stop();
+      else
+        timer.Start();
+
+      IsRunning = !IsRunning;
+
+      OnPropertyChanged(nameof(timer.IsRunning));
+    }
+
+    /// <summary>
     /// Sets view back to Levelselection
     /// </summary>
     private void LeaveMatch()
@@ -199,7 +233,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #endregion Methods
 
     #region Commands
+    public RelayCommand ResumeGameCommand { get; set; }
 
+    public void ResumeGame(object sender)
+    {
+      PauseLevel();
+    }
+
+    public bool CanResumeGame() => !IsRunning;
+
+    public RelayCommand LeaveGameCommand { get; set; }
+    public void LeaveGame(object sender)
+    {
+      //TODO: Ask user if he really wants to leave
+      LeaveMatch();
+    }
+
+    public bool CanLeaveGame() => !IsRunning;
     #endregion Commands
   }
 }
