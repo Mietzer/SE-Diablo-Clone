@@ -49,7 +49,8 @@ namespace olbaid_mortel_7720.MVVM.View
       Canvas.SetLeft(CustomPointer, p.X - CustomPointer.Width / 2);
 
       Window window = Window.GetWindow(this);
-      window.Cursor = Cursors.None;
+      if (window != null)
+        window.Cursor = Cursors.None;
     }
 
     public async void Canvas_StartMove(object sender, KeyEventArgs e)
