@@ -16,6 +16,8 @@ namespace olbaid_mortel_7720.Engine
 
     private int health;
     private int damage;
+    private int aggroDistance;
+    private bool stayAggro;
     
     public abstract ReadOnlyCollection<CollectableObject> GetPossibleDrops();
 
@@ -31,6 +33,17 @@ namespace olbaid_mortel_7720.Engine
         health = value;
         OnPropertyChanged(nameof(Health));
       }
+    }
+    public bool StayAggro
+    {
+      get { return stayAggro; }
+      set { stayAggro = value; }
+    }
+
+    public int AggroDistance
+    {
+      get { return aggroDistance; }
+      private set { aggroDistance = value; OnPropertyChanged(nameof(AggroDistance)); }
     }
 
     private Image model;
@@ -64,6 +77,8 @@ namespace olbaid_mortel_7720.Engine
     {
       this.health = health;
       this.damage = damage;
+      this.aggroDistance = 350;
+
     }
 
     public void TakeDamage(int damage)

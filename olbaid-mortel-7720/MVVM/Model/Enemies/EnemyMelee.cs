@@ -54,13 +54,13 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       List<Direction> directions = new List<Direction>();
 
       //Compares player coordinates with enemy coordianten then decides which direction to go
-      if (player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2)
+      if (player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && (CheckForPlayerDistance(player) || this.StayAggro)) 
         directions.Add(Direction.Left);
-      if (player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2)
+      if (player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Right);
-      if (player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2)
+      if (player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Up);
-      if (player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2)
+      if (player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && (CheckForPlayerDistance(player) || this.StayAggro))
         directions.Add(Direction.Down);
 
       Direction item;
@@ -117,6 +117,18 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         string directionString = Direction.ToString().ToLower();
         Image = ImageImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
       }
+    }
+
+    private bool CheckForPlayerDistance(Player player)
+    {
+      double distance = Math.Sqrt(Math.Pow(player.XCoord - this.XCoord , 2) + Math.Pow(player.YCoord - this.YCoord, 2));
+      if (distance < this.AggroDistance)
+      {
+        this.StayAggro = true;
+        return true;
+      }
+      else
+        return false;
     }
     #endregion Methods
 
