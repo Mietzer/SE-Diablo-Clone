@@ -12,17 +12,6 @@
   <object id="16" name="Key " x="100.167" y="930.333" width="23.6667" height="19.3333"/>
   <object id="17" x="140.727" y="78.5455"/>
  </objectgroup>
- <objectgroup id="5" name="Spawn Points" locked="1">
-  <object id="2" name="Enemy Spawn" x="390.5" y="35.1667" width="131.167" height="28.5"/>
-  <object id="4" name="Player Spawn" x="35.4165" y="550" width="23.167" height="20"/>
-  <object id="5" name="Enemy Spawn" x="35.8137" y="346.597" width="131.167" height="28.5" rotation="269.944"/>
-  <object id="6" name="Enemy Spawn" x="131.416" y="991.75" width="131.167" height="28.5"/>
-  <object id="7" name="Enemy Spawn" x="1509.08" y="991.083"/>
-  <object id="8" name="Enemy Spawn" x="1855.11" y="594.94" width="71.1156" height="28.5" rotation="269.701"/>
-  <object id="9" name="Enemy Spawn" x="1443.75" y="36.4167" width="131.167" height="28.5"/>
-  <object id="10" name="Enemy Spawn" x="1879.21" y="186.336" width="131.167" height="28.5" rotation="89.6707"/>
-  <object id="12" name="Enemy Spawn" x="1022.42" y="935.083" width="90.5003" height="81.1667"/>
- </objectgroup>
  <layer id="2" name="Floor" width="60" height="33" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -319,4 +308,15 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,76,0,76,0,88,0,88,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="5" name="Spawn Points">
+  <object id="2" name="Enemy Spawn" x="390" y="64.1667" width="131.167" height="28.5"/>
+  <object id="4" name="Player Spawn" x="71.9165" y="550" width="23.167" height="20"/>
+  <object id="5" name="Enemy Spawn" x="68.7531" y="249.101" width="69.1709" height="32.5606" rotation="269.944"/>
+  <object id="6" name="Enemy Spawn" x="130.916" y="962.417" width="124.167" height="28.5"/>
+  <object id="7" name="Enemy Spawn" x="1547.83" y="974.083" width="9.5" height="15"/>
+  <object id="8" name="Enemy Spawn" x="1858.2" y="595.849" width="71.1156" height="28.5" rotation="269.701"/>
+  <object id="9" name="Enemy Spawn" x="1443.75" y="36.4167" width="131.167" height="28.5"/>
+  <object id="10" name="Enemy Spawn" x="1886.21" y="181.586" width="131.167" height="28.5" rotation="89.6707"/>
+  <object id="12" name="Enemy Spawn" x="1022.42" y="935.083" width="90.5003" height="81.1667"/>
+ </objectgroup>
 </map>

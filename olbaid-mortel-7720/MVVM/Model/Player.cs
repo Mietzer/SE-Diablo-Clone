@@ -198,7 +198,6 @@ namespace olbaid_mortel_7720.MVVM.Model
         foreach (var item in e.OldItems)
           if ((item as Bullet).HasHit)
             ShotHits++;
-
     }
     #endregion Events
   }
