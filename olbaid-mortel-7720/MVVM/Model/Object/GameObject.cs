@@ -1,6 +1,6 @@
 ﻿namespace olbaid_mortel_7720.MVVM.Model.Object
 {
-  public abstract class Object
+  public abstract class GameObject
   {
     #region Properties
     public string Name;
@@ -8,7 +8,7 @@
     public bool Penetrable;
     #endregion Properties
 
-    public Object(string name, bool visible, bool penetrable)
+    public GameObject(string name, bool visible, bool penetrable)
     {
       Name = name;
       this.Visible = visible;

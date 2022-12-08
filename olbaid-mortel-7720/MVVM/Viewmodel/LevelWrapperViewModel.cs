@@ -56,6 +56,16 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       set { currentLevel = value; }
     }
 
+    private bool isRunning;
+    public bool IsRunning
+    {
+      get { return isRunning; }
+      set
+      {
+        isRunning = value;
+        OnPropertyChanged(nameof(IsRunning));
+      }
+    }
 
     #endregion Properties
 
@@ -63,6 +73,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public LevelWrapperViewModel(int selectedLevel)
     {
       usedLevelID = selectedLevel;
+      IsRunning = GameTimer.Instance.IsRunning;
       Setup();
     }
     #endregion Constructor
@@ -70,14 +81,20 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #region Methods
     public void Setup()
     {
+      InitCommands();
       AddLevel();
       AddPlayer();
       AddEnemy();
     }
+    private void InitCommands()
+    {
+      ResumeGameCommand = new RelayCommand(ResumeGame, CanResumeGame);
+      LeaveGameCommand = new RelayCommand(LeaveGame, CanLeaveGame);
+    }
 
     private void AddPlayer()
     {
-      Player p = new Player(100, 100, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
+      Player p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
       PlayerView = new PlayerCanvas(p);
 
       Gui = new UserControl();
@@ -182,10 +199,27 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void AddLevel1Data()
     {
       // TODO: Add spawnlists with random choice out of a list of possible lists
-      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx")); ;
+      Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).Vm, 2, 2, 3, 1, 0);
       usedLevel = level1;
+    }
+
+    /// <summary>
+    /// Method to Pause/ Resume Game, depending on current state
+    /// </summary>
+    public void PauseLevel()
+    {
+      GameTimer timer = GameTimer.Instance;
+
+      if (IsRunning)
+        timer.Stop();
+      else
+        timer.Start();
+
+      IsRunning = !IsRunning;
+
+      OnPropertyChanged(nameof(timer.IsRunning));
     }
 
     /// <summary>
@@ -199,7 +233,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #endregion Methods
 
     #region Commands
+    public RelayCommand ResumeGameCommand { get; set; }
 
+    public void ResumeGame(object sender)
+    {
+      PauseLevel();
+    }
+
+    public bool CanResumeGame() => !IsRunning;
+
+    public RelayCommand LeaveGameCommand { get; set; }
+    public void LeaveGame(object sender)
+    {
+      //TODO: Ask user if he really wants to leave
+      LeaveMatch();
+    }
+
+    public bool CanLeaveGame() => !IsRunning;
     #endregion Commands
   }
 }

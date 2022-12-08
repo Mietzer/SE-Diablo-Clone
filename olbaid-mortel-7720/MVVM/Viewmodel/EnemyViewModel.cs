@@ -2,6 +2,7 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Utils;
 using System;
 using System.Collections.Generic;
@@ -95,7 +96,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         //Checks if Enemy hits Playerhitbox
         if (enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
-          enemy.Attack(MyPlayer);
+          if((enemy as EnemyMelee).IsAttacking)
+          {
+            enemy.Attack(MyPlayer);
+            (enemy as EnemyMelee).AttackCoolDown();
+          }
         }
 
         if (enemy is EnemyRanged)
@@ -132,6 +137,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         // Search for Enemies with 0 or less health
         if (enemy.Health <= 0)
         {
+          Random rnd = new Random();
+          CollectableObject collectable = enemy.GetPossibleDrops()[rnd.Next(0, enemy.GetPossibleDrops().Count)];
+          collectable.Spawn(MyEnemyCanvas, enemy.XCoord - enemy.Width / 2, enemy.YCoord - enemy.Height / 2);
+        
           DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
           animation.Completed += delegate
           {
@@ -216,7 +225,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
               if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
                || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
-               || b.HasHit)
+               || b.HasHit
+               || enemy.Barriers.Any(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox)))
               {
                 //Remove from List and Register Rectangle to remove from Canvas
                 deleteList.Add(item);

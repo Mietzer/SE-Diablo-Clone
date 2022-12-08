@@ -5,12 +5,15 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "Furniture.tsx": {
+            "scaleInDock": 1
+        },
         "Level1.tmx": {
             "scale": 1,
-            "selectedLayer": 8,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 959.5,
-                "y": 528.5
+                "x": 1524,
+                "y": 416
             }
         },
         "Level1.tsx": {

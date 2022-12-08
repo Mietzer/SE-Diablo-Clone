@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
@@ -85,7 +86,7 @@ namespace olbaid_mortel_7720.Engine
       }
     }
 
-    protected List<Rect> Walls { get; private set; }
+    public List<Barrier> Barriers { get; private set; }
     #endregion Properties
 
     protected Entity(int x, int y, int height, int width, int stepLength, MapViewModel mapModel)
@@ -102,8 +103,8 @@ namespace olbaid_mortel_7720.Engine
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
 
-      if (mapModel == null) Walls = new();
-      else Walls = mapModel.Walls;
+      if (mapModel == null) Barriers = new();
+      else Barriers = mapModel.Barriers;
     }
 
     #region Methods
@@ -148,7 +149,11 @@ namespace olbaid_mortel_7720.Engine
     /// <param name="e"></param>
     public abstract void StopMovement(EventArgs e);
 
-    private bool VerifyNoCollision()
+    /// <summary>
+    /// Checks if there is a collision with a barrier
+    /// </summary>
+    /// <returns></returns>
+    protected bool VerifyNoCollision()
     {
       Rect testHitbox = new Rect(Hitbox.X, Hitbox.Y, Hitbox.Width, Hitbox.Height);
       switch (Direction)
@@ -166,7 +171,7 @@ namespace olbaid_mortel_7720.Engine
           testHitbox.Y += StepLength;
           break;
       }
-      return !Walls.Any(w => w.IntersectsWith(testHitbox));
+      return !Barriers.Any(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
     }
     #endregion Methods
 

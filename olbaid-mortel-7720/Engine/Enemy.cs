@@ -1,5 +1,8 @@
 ﻿using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 
@@ -13,6 +16,8 @@ namespace olbaid_mortel_7720.Engine
 
     private int health;
     private int damage;
+    
+    public abstract ReadOnlyCollection<CollectableObject> GetPossibleDrops();
 
     public int Health
     {
