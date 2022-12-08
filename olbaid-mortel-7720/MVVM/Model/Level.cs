@@ -33,13 +33,14 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #region Methods
     //TODO: Add WIN/LOSE Game 
-    public void SpawnEnemies(MapViewModel mapModel, uint melees, uint rareMelees, uint ranged, uint rareRanged, uint bossStage)
+    public void SpawnEnemies(MapViewModel mapModel, uint enemyCount)
     {
       Random rnd = new Random();
       List<Enemy> spawnList = new List<Enemy>();
       List<SpawnObject> objectList = this.Map.LoadObjects();
       List<SpawnObject> spawnPoints = new List<SpawnObject>();
       int index;
+      int spawnGen;
 
       foreach(SpawnObject x in objectList)
       {
@@ -51,25 +52,29 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       spawnPoints = FixCoordinates(spawnPoints);
 
-      for (int i = 0; i < melees; i++)
+      for(int i = 0; i < enemyCount; i++)
       {
-        index = rnd.Next(0, spawnPoints.Count - 1);
-        spawnList.Add(new EnemyMelee(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
-      }
-      for (int i = 0; i < rareMelees; i++)
-      {
-        index = rnd.Next(0, spawnPoints.Count - 1);
-        spawnList.Add(new EnemyRareMelee(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
-      }
-      for (int i = 0; i < ranged; i++)
-      {
-        index = rnd.Next(0, spawnPoints.Count - 1);
-        spawnList.Add(new EnemyRanged(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
-      }
-      for (int i = 0; i < rareRanged; i++)
-      {
-        index = rnd.Next(0, spawnPoints.Count - 1);
-        spawnList.Add(new EnemyRareRanged(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+        spawnGen = rnd.Next(0, 100);
+        if(spawnGen <= 35)
+        {
+          index = rnd.Next(0, spawnPoints.Count);
+          spawnList.Add(new EnemyMelee(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+        }
+        else if(spawnGen > 35 && spawnGen <= 70)
+        {
+          index = rnd.Next(0, spawnPoints.Count);
+          spawnList.Add(new EnemyRanged(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+        }
+        else if(spawnGen > 70 && spawnGen <= 80)
+        {
+          index = rnd.Next(0, spawnPoints.Count);
+          spawnList.Add(new EnemyRareMelee(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+        }
+        else if(spawnGen > 80 && spawnGen <= 100)
+        {
+          index = rnd.Next(0, spawnPoints.Count);
+          spawnList.Add(new EnemyRareRanged(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+        }
       }
       EnemySpawnList = spawnList;
     }
@@ -99,6 +104,10 @@ namespace olbaid_mortel_7720.MVVM.Model
         else if(count == 6)
         {
           obj.X = obj.X - 150;
+        }
+        else if(count == 7)
+        {
+          obj.Y = obj.Y - 60;
         }
         count++;
       }

@@ -20,7 +20,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Properties
 
     #region Constructor
-    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 150, 2, mapModel)
+    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
