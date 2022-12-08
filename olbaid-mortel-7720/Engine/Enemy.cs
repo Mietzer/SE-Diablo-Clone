@@ -1,8 +1,11 @@
 ﻿using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Numerics;
+using System.Windows;
 using System.Windows.Controls;
 
 
@@ -16,6 +19,7 @@ namespace olbaid_mortel_7720.Engine
 
     private int health;
     private int damage;
+    private static Pathfinder pathfinder;
     
     public abstract ReadOnlyCollection<CollectableObject> GetPossibleDrops();
 
@@ -57,8 +61,6 @@ namespace olbaid_mortel_7720.Engine
     }
 
     public bool IsAttacking { get; protected set; }
-
-    public abstract void Attack(Player player);
     #endregion Properties
 
     #region Methods
@@ -66,6 +68,7 @@ namespace olbaid_mortel_7720.Engine
     {
       this.health = health;
       this.damage = damage;
+      pathfinder = Pathfinder.Initialize(this.Barriers);
     }
 
     public void TakeDamage(int damage)
@@ -78,28 +81,36 @@ namespace olbaid_mortel_7720.Engine
       const int tolerance = 5;
       List<Direction> directions = new();
       
-      int xDistance = player.XCoord - x;
-      int yDistance = player.YCoord - y;
+      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord));
       
-      if (xDistance > tolerance + nearest)
+      int xDiff = Math.Abs(player.XCoord - x);
+      if (xDiff > farthest)
       {
-        directions.Add(Direction.Right);
+        if (targetVector.X > tolerance + nearest) directions.Add(Direction.Right);
+        else if (targetVector.X < -tolerance - nearest) directions.Add(Direction.Left);
       }
-      else if (xDistance < -tolerance - nearest)
+      else if (xDiff < nearest)
       {
-        directions.Add(Direction.Left);
+        if (targetVector.X > tolerance) directions.Add(Direction.Left);
+        else if (targetVector.X < -tolerance) directions.Add(Direction.Right);
       }
-      if (yDistance > tolerance + nearest)
+      
+      int yDiff = Math.Abs(player.YCoord - y);
+      if (yDiff > farthest)
       {
-        directions.Add(Direction.Down);
+        if (targetVector.Y > tolerance + nearest) directions.Add(Direction.Down);
+        else if (targetVector.Y < -tolerance - nearest) directions.Add(Direction.Up);
       }
-      else if (yDistance < -tolerance - nearest)
+      else if (yDiff < nearest)
       {
-        directions.Add(Direction.Up);
+        if (targetVector.Y > tolerance) directions.Add(Direction.Up);
+        else if (targetVector.Y < -tolerance) directions.Add(Direction.Down);
       }
-
+      
       return directions;
     }
+    
+    public abstract void Attack(Player player);
     #endregion Methods
   }
 }
