@@ -8,8 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
+
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -88,13 +88,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void Shoot(Point p)
     {
       double playerShootX = MyPlayer.XCoord + MyPlayer.Width / 2
-           , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
+         , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png"));
-      Bullet bullet = new Bullet(3, 6, vector, bulletImage, shotName);
+      Bullet bullet = new Bullet(MyPlayer.currentWeapon.Munition.Height, MyPlayer.currentWeapon.Munition.Width, vector, MyPlayer.currentWeapon.Munition.BulletImage, MyPlayer.currentWeapon.Munition.Name);
 
       //Add to Player
       MyPlayer.IsShooting = true;
