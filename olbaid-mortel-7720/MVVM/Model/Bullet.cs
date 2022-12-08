@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
+
 namespace olbaid_mortel_7720.MVVM.Model
 {
   public class Bullet : NotifyObject
