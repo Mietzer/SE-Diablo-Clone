@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 
 namespace olbaid_mortel_7720.Object
 {
@@ -7,32 +8,33 @@ namespace olbaid_mortel_7720.Object
   /// </summary>
   public abstract class Weapon
   {
+    #region Properties
     protected string shotname = "ShotPlayer";
-    protected int reloadtime;
-    //TODO: Image for Bullets
+    protected int reloadtime = 1;
     protected ImageCategory category;
     protected string imageString;
-
+    public Munition Munition;
+    protected int munitioncount;
     public int Damage { get; protected set; }
 
     //optional Munitons Munition 
+    #endregion Properties
 
-    public Weapon()
+    public Weapon(Munition munition)
     {
+      Munition = munition;
     }
 
-    public void Shot() { }
-
-    public void Reload() { }
-
+    #region Methods
     public ImageCategory GetCategory()
     {
       return category;
     }
-
     public string GetImageString()
     {
       return imageString;
     }
+    #endregion Methods
+
   }
 }

@@ -95,7 +95,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
       Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png"));
-      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
+      Bullet bullet = new Bullet(MyPlayer.currentWeapon.Munition.Height, MyPlayer.currentWeapon.Munition.Width, vector, MyPlayer.currentWeapon.Munition.BulletImage, MyPlayer.currentWeapon.Munition.Name);
 
       //Add to Player
       MyPlayer.IsShooting = true;

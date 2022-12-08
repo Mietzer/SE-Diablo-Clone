@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 
 namespace olbaid_mortel_7720.Object
 {
@@ -7,18 +8,15 @@ namespace olbaid_mortel_7720.Object
     #region Properties
 
     #endregion Properties
-    public Handgun()
+    public Handgun(Munition munition) : base(munition)
     {
       Damage = 20;
       reloadtime = 2;
       category = ImageCategory.WEAPONS_PLAYER_HANDGUN;
       imageString = "handgun.png";
     }
+    #region Methods
 
-    public void Reload()
-    {
-      //TODO: Wait x Time 
-      //player.IsShooting = false;
-    }
+    #endregion Methods
   }
 }
