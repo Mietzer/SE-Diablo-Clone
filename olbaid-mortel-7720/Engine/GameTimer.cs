@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Threading;
 
 namespace olbaid_mortel_7720.Engine
@@ -10,23 +9,25 @@ namespace olbaid_mortel_7720.Engine
   public class GameTimer
   {
     private DispatcherTimer _timer;
-    
+
     /// <summary>
     /// Delegate for the Tick event.
     /// </summary>
     public delegate void GameTickHandler(EventArgs e);
-    
+
     /// <summary>
     /// Event that is fired when the timer ticks.
     /// </summary>
     public event GameTickHandler? GameTick;
+
+    public bool IsRunning { get => _timer.IsEnabled; }
 
     /// <summary>
     /// Static instance of the GameTimer.
     /// Please do only use this instance!
     /// </summary>
     public static GameTimer Instance = new GameTimer();
-    
+
     /// <summary>
     /// Private constructor to prevent multiple instances.
     /// Please use the static Instance property instead!
@@ -38,13 +39,13 @@ namespace olbaid_mortel_7720.Engine
       _timer.Tick += new EventHandler(TimerTick);
       _timer.Start();
     }
-    
+
     private void TimerTick(object? sender, EventArgs e)
     {
       if (GameTick != null)
         GameTick(e);
     }
-    
+
     /// <summary>
     /// Start the timer (if it is not already running).
     /// </summary>
@@ -52,7 +53,7 @@ namespace olbaid_mortel_7720.Engine
     {
       _timer.Start();
     }
-    
+
     /// <summary>
     /// Stop the timer (if it is running).
     /// </summary>
@@ -60,7 +61,7 @@ namespace olbaid_mortel_7720.Engine
     {
       _timer.Stop();
     }
-    
+
     /// <summary>
     /// Execute a task in a interval of game ticks.
     /// </summary>
@@ -70,12 +71,12 @@ namespace olbaid_mortel_7720.Engine
     {
       ExecuteWithInterval(interval, callback, null, removeAfterExecution);
     }
-    
+
     /// <summary>
     /// Delegate for a callback that displays the current progress of the interval.
     /// </summary>
     public delegate void IntervalProgressHandler(double progress);
-    
+
     /// <summary>
     /// Execute a task in a interval of game ticks.
     /// </summary>
@@ -87,13 +88,13 @@ namespace olbaid_mortel_7720.Engine
       int counter = 0;
       GameTimer timer = new GameTimer();
       GameTickHandler? handler = null;
-      handler = delegate(EventArgs e)
+      handler = delegate (EventArgs e)
       {
         if (counter >= interval)
         {
           callback(e);
           counter = 0;
-          
+
           if (removeAfterExecution && handler != null)
             timer.GameTick -= handler;
         }
@@ -101,9 +102,9 @@ namespace olbaid_mortel_7720.Engine
         {
           counter++;
         }
-        
+
         if (progress != null)
-          progress((double) counter/interval);
+          progress((double)counter / interval);
       };
       timer.GameTick += handler;
     }
