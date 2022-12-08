@@ -10,10 +10,10 @@
         },
         "Level1.tmx": {
             "scale": 1,
-            "selectedLayer": 6,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 1524,
-                "y": 416
+                "x": 1394,
+                "y": 591.5
             }
         },
         "Level1.tsx": {
