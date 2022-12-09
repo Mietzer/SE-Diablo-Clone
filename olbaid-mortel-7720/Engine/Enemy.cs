@@ -68,12 +68,14 @@ namespace olbaid_mortel_7720.Engine
     {
       this.health = health;
       this.damage = damage;
-      pathfinder = Pathfinder.Initialize(this.Barriers);
+      
+      if (pathfinder == null)
+        pathfinder = Pathfinder.Initialize(this.Barriers);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int points)
     {
-      health = health - damage;
+      Health -= points;
     }
 
     protected List<Direction> DecideDirectionPath(Player player, int x, int y, int nearest = 0, int farthest = 0)
@@ -81,8 +83,8 @@ namespace olbaid_mortel_7720.Engine
       const int tolerance = 5;
       List<Direction> directions = new();
       
-      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord));
-      
+      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord), Direction);
+
       int xDiff = Math.Abs(player.XCoord - x);
       if (xDiff > farthest)
       {
