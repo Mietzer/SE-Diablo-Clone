@@ -79,8 +79,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
-      primaryweapon = new Handgun(new Munition(6, 12, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
-      secondaryweapon = new Rifle(new Munition(8, 14, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      primaryweapon = new Handgun(new Munition(3, 6, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      secondaryweapon = new Rifle(new Munition(4, 8, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
       currentWeapon = secondaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
     }

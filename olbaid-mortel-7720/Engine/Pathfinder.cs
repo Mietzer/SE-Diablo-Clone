@@ -15,7 +15,7 @@ namespace olbaid_mortel_7720.Engine
     private const int STANDARD_TILE_SIZE = 32;
     private const int MAX_ITERATIONS = 50;
     private const int MAX_DEPTH = 100;
-    private const int MAX_PLAYER_DISTANCE = 500;
+    private const int MAX_PLAYER_DISTANCE = 350;
     private static List<Rect>? obstacles;
 
     /// <summary>

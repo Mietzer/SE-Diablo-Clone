@@ -16,6 +16,7 @@ namespace olbaid_mortel_7720.Engine
       None,
       Wall,
       Furniture,
+      Hole,
       Floor
     }
     
