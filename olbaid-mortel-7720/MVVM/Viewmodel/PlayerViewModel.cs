@@ -10,7 +10,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
@@ -21,21 +20,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public Player MyPlayer { get; set; }
 
     //Movement Direction
-    public bool moveLeft { get; set; }
-    public bool moveRight { get; set; }
-    public bool moveUp { get; set; }
-    public bool moveDown { get; set; }
+    public bool MoveLeft { get; set; }
+    public bool MoveRight { get; set; }
+    public bool MoveUp { get; set; }
+    public bool MoveDown { get; set; }
 
-    private readonly string ShotName = "ShotPlayer";
+    private readonly string shotName = "ShotPlayer";
 
-    private Canvas MyPlayerCanvas;
+    private Canvas myPlayerCanvas;
     #endregion Properties
 
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
       MyPlayer.StopMovement(new InitialEventArgs());
-      MyPlayerCanvas = playerCanvas;
+      myPlayerCanvas = playerCanvas;
 
       InitTimer();
     }
@@ -60,9 +59,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       int velocity = 10;
       List<FrameworkElement> deleteList = new List<FrameworkElement>();
 
-      foreach (FrameworkElement item in MyPlayerCanvas.Children)
+      foreach (FrameworkElement item in myPlayerCanvas.Children)
       {
-        if (item is Rectangle && item.Name == ShotName) //Find shots for our Player
+        if (item is Rectangle && item.Name == shotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
           b?.Move(velocity);
@@ -87,7 +86,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
       //Now delete
       foreach (FrameworkElement item in deleteList)
-        MyPlayerCanvas.Children.Remove(item);
+        myPlayerCanvas.Children.Remove(item);
     }
 
     /// <summary>
@@ -97,13 +96,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void Shoot(Point p)
     {
       double playerShootX = MyPlayer.XCoord + MyPlayer.Width / 2
-           , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
+         , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png"));
-      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
+      Bullet bullet = new Bullet(MyPlayer.currentWeapon.Munition.Height, MyPlayer.currentWeapon.Munition.Width, vector, MyPlayer.currentWeapon.Munition.BulletImage, MyPlayer.currentWeapon.Munition.Name);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -128,7 +126,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
 
       // Add to Canvas
-      bullet.Show(MyPlayerCanvas, playerShootX, playerShootY);
+      bullet.Show(myPlayerCanvas, playerShootX, playerShootY);
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 
@@ -177,17 +175,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <param name="e"></param>
     private void Move(EventArgs e)
     {
-      if (moveDown)
+      if (MoveDown)
         MyPlayer.Move(Key.S);
-      else if (moveUp)
+      else if (MoveUp)
         MyPlayer.Move(Key.W);
 
-      if (moveLeft)
+      if (MoveLeft)
         MyPlayer.Move(Key.A);
-      else if (moveRight)
+      else if (MoveRight)
         MyPlayer.Move(Key.D);
 
-      if (!moveDown && !moveUp && !moveLeft && !moveRight)
+      if (!MoveDown && !MoveUp && !MoveLeft && !MoveRight)
         MyPlayer.StopMovement(e);
     }
     #endregion Methods

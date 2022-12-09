@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
@@ -8,7 +9,9 @@ using System;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -50,8 +53,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
-    private Weapon currentWeapon;
-
+    public Weapon currentWeapon;
+    private Weapon primaryweapon;
+    private Weapon secondaryweapon;
     public Weapon CurrentWeapon
     {
       get { return currentWeapon; }
@@ -75,7 +79,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
-      CurrentWeapon = new Rifle();
+      primaryweapon = new Handgun(new Munition(3, 6, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      secondaryweapon = new Rifle(new Munition(4, 8, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      currentWeapon = secondaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
 
@@ -165,7 +171,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints -= damage;
     }
-    
+
     /// <summary>
     /// Player is being healed
     /// </summary>
@@ -173,7 +179,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public void Heal(int amount)
     {
       Effect = PlayerEffect.Healing;
-      GameTimer.ExecuteWithInterval(amount, delegate(EventArgs args) {}, progress => { HealthPoints += 1; }, true);
+      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints += 1; }, true);
     }
 
     #endregion Methods
