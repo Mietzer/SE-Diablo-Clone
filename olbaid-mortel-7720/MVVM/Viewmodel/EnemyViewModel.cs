@@ -12,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 using WpfAnimatedGif;
 //TODO: CodeCleanup, Regions, Kommentare
 namespace olbaid_mortel_7720.MVVM.Viewmodel
@@ -41,7 +40,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       InitTimer();
     }
-
     #endregion Constructor
 
     #region Methods 
@@ -54,6 +52,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.GameTick += CheckforHit;
     }
 
+    /// <summary>
+    /// Method for Cleanups on Closing
+    /// </summary>
+    public void Dispose()
+    {
+      GameTimer timer = GameTimer.Instance;
+      timer.GameTick -= Move;
+      timer.GameTick -= RemoveEnemy;
+      timer.GameTick -= MoveShots;
+      timer.GameTick -= CheckforHit;
+    }
     private void Move(EventArgs e)
     {
       foreach (Enemy enemy in MyEnemies)
@@ -77,7 +86,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       }
     }
-    
+
     private void CheckforHit(EventArgs e)
     {
       //Hit on enemmy
@@ -97,7 +106,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         //Checks if Enemy hits Playerhitbox
         if (enemy != null && enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
-          if((enemy as EnemyMelee).IsAttacking)
+          if ((enemy as EnemyMelee).IsAttacking)
           {
             enemy.Attack(MyPlayer);
             (enemy as EnemyMelee).AttackCoolDown();
@@ -141,7 +150,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           Random rnd = new Random();
           CollectableObject collectable = enemy.GetPossibleDrops()[rnd.Next(0, enemy.GetPossibleDrops().Count)];
           collectable.Spawn(MyEnemyCanvas, enemy.XCoord - enemy.Width / 2, enemy.YCoord - enemy.Height / 2);
-        
+
           DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
           animation.Completed += delegate
           {
@@ -171,7 +180,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyEnemyCanvas.Children.Remove(bullet.Rectangle);
       }
     }
-    
+
     private void Shoot(EnemyRanged enemy, Point p)
     {
       double enemyShootX = enemy.XCoord + MyPlayer.Width / 2;
@@ -207,7 +216,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Add to Canvas
       bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
     }
-      
+
 
     private void MoveShots(EventArgs e)
     {

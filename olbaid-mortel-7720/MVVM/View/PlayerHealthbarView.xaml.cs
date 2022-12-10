@@ -29,6 +29,7 @@ namespace olbaid_mortel_7720.MVVM.View
       _model.PropertyChanged += OnModelPropertyChanged;
     }
 
+    ~PlayerHealthbarView() { }
     #region EventHandlers
     /// <summary>
     ///   Should update the healthbar's design when the player's effect changes.
@@ -80,5 +81,10 @@ namespace olbaid_mortel_7720.MVVM.View
       TxtPercentage.Margin = new Thickness(0, 0, sizeOfText, 0);
     }
     #endregion
+
+    private void CtlHealthbar_Unloaded(object sender, RoutedEventArgs e)
+    {
+      _model.PropertyChanged -= OnModelPropertyChanged;
+    }
   }
 }

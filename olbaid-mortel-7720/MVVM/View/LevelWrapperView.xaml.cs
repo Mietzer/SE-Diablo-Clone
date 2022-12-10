@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.MVVM.Utils;
+﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Windows;
@@ -18,6 +19,11 @@ namespace olbaid_mortel_7720.MVVM.View
       InitializeComponent();
     }
 
+    /// <summary>
+    /// Add Event to View
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
       double x = GlobalVariables.MaxX * PlayerControl.ActualWidth / ScalingViewBox.ActualWidth;
@@ -30,10 +36,22 @@ namespace olbaid_mortel_7720.MVVM.View
       window.KeyDown += PauseLevel;
     }
 
+    /// <summary>
+    /// Remove Event from Window as it's not used anymore
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+      Window window = NavigationLocator.MainViewModel as Window;
+      window.KeyDown -= PauseLevel;
+    }
     private void PauseLevel(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Space)
-        (DataContext as LevelWrapperViewModel).PauseLevel();
+      if (e.Key == Key.Space || e.Key == Key.Escape || e.Key == Key.P)
+        (DataContext as LevelWrapperViewModel).TogglePause();
     }
+
+
   }
 }
