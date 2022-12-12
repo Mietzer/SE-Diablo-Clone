@@ -4,19 +4,95 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
+             xmlns:conv="clr-namespace:olbaid_mortel_7720.MVVM.Utils"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800">
-  <Grid>
-
-    <Viewbox>
-      <ContentControl Content="{Binding CurrentLevel}" />
-    </Viewbox>
-
-    <ContentControl Content="{Binding PlayerView}" />
-
-    <ContentControl Content="{Binding EnemyView}" />
+             Loaded="UserControl_Loaded"
+             Background="{StaticResource MapBackgroundGradient}">
+  <UserControl.Resources>
+    <conv:BoolToVisibilityInverterConverter x:Key="BoolVisIC" />
+    <BooleanToVisibilityConverter x:Key="BoolVisC" />
     
-    <ContentControl Content="{Binding Gui}" />
-  </Grid>
+    <!--#region Pause Style for Visibilty-->
+    <Style x:Key="PauseScreen"
+           TargetType="{x:Type Grid}">
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.IsRunning}"
+                     Value="False">
+          <DataTrigger.EnterActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                 Duration="0:0:1.5"
+                                 To="1050"/>
+              </Storyboard>
+            </BeginStoryboard>
+          </DataTrigger.EnterActions>
+          <DataTrigger.ExitActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                 Duration="0:0:0.5"
+                                 To="0" />
+              </Storyboard>
+            </BeginStoryboard>
+          </DataTrigger.ExitActions>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+    <!--#endregion Pause Style for Visibilty-->
+  </UserControl.Resources>
+  <Viewbox x:Name="ScalingViewBox">
+    <Grid>
+      <ContentControl Content="{Binding CurrentLevel}"
+                      x:Name="LevelControl" />
+
+      <ContentControl Content="{Binding PlayerView}"
+                      x:Name="PlayerControl" />
+
+      <ContentControl Content="{Binding EnemyView}"
+                      x:Name="EnemyControl" />
+
+      <ContentControl Content="{Binding Gui}" />
+
+      
+      <!--#region PauseScreen-->
+      <Grid Height="0"
+            Style="{StaticResource PauseScreen}"
+            Cursor="Arrow">
+        <Grid.Background>
+          <SolidColorBrush Color="Black"
+                           Opacity="0.7" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="PAUSE"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="White"
+                   FontSize="200" />
+
+        <Button Content="Resume"
+                Width="600"
+                Grid.Row="1"
+                FontSize="130"
+                Command="{Binding ResumeGameCommand}"
+                Style="{StaticResource TitlescreenButton}"/>
+        
+        <Button Content="Leave Game"
+                Width="600"
+                Grid.Row="2"
+                FontSize="130"
+                Command="{Binding LeaveGameCommand}"
+                Style="{StaticResource TitlescreenButton}" />
+
+      </Grid>
+      <!--#endregion PauseScreen-->
+
+    </Grid>
+  </Viewbox>
+ 
 </UserControl>

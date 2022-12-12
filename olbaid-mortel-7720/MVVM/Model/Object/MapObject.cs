@@ -6,7 +6,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   /// <summary>
   ///  Basic Class for all types of Object 
   /// </summary>
-  public class MapObject : Object
+  public class MapObject : GameObject
   {
     #region Properties
     public Graphics Graphic;

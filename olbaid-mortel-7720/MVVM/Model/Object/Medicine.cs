@@ -1,12 +1,21 @@
-﻿namespace olbaid_mortel_7720.Object
+﻿
+namespace olbaid_mortel_7720.MVVM.Model.Object
 {
     /// <summary>
     /// Class Medicine for all Object that Heal the Player
     /// </summary>
-    internal class Medicine : CollectableObject
+    public class Medicine : CollectableObject
     {
-        int Lifepoints;
+        private int lifepoints;
 
-        public void RestoreHealthPoints() { }
+        public Medicine(int lifetime, int lifepoints) : base("Medicine", true, lifetime)
+        {
+          this.lifepoints = lifepoints;
+        }
+
+        public override void WhenCollected(Player player)
+        {
+          player.Heal(lifepoints);
+        }
     }
 }

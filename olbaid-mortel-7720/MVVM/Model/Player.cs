@@ -1,15 +1,17 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
+using olbaid_mortel_7720.Object.Weapons;
 using System;
-using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Linq;
+
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -51,8 +53,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
-    private Weapon currentWeapon;
-
+    public Weapon currentWeapon;
+    private Weapon primaryweapon;
+    private Weapon secondaryweapon;
     public Weapon CurrentWeapon
     {
       get { return currentWeapon; }
@@ -67,6 +70,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public bool IsShooting { get; set; }
     public int OverallShots { get; private set; } = 0;
     public int ShotHits { get; private set; } = 0;
+
     #endregion Properties
 
     public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
@@ -75,7 +79,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
-      CurrentWeapon = new Handgun();
+      primaryweapon = new Handgun(new Munition(3, 6, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      secondaryweapon = new Rifle(new Munition(4, 8, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      currentWeapon = secondaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
 
@@ -157,9 +163,23 @@ namespace olbaid_mortel_7720.MVVM.Model
       Direction = newDirection;
     }
 
+    /// <summary>
+    /// Player is takes damage
+    /// </summary>
+    /// <param name="damage">How much</param>
     public void TakeDamage(int damage)
     {
       HealthPoints -= damage;
+    }
+
+    /// <summary>
+    /// Player is being healed
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void Heal(int amount)
+    {
+      Effect = PlayerEffect.Healing;
+      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints += 1; }, true);
     }
 
     #endregion Methods
