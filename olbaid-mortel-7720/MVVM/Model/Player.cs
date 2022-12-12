@@ -25,10 +25,10 @@ namespace olbaid_mortel_7720.MVVM.Model
       private set
       {
         healthPoints = value;
-        if (healthPoints < 0)
+        if (healthPoints <= 0)
         {
           Bullets.CollectionChanged -= Bullets_CollectionChanged;
-          //base.Dispose();
+          base.Dispose();
         }
         OnPropertyChanged(nameof(HealthPoints));
       }
@@ -178,7 +178,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="damage">How much</param>
     public void TakeDamage(int damage)
     {
-      HealthPoints -= damage;
+      if (HealthPoints > 0)
+        HealthPoints -= damage;
     }
 
     /// <summary>
