@@ -4,7 +4,6 @@ using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -31,23 +30,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
-    //TODO: Add WIN/LOSE Game 
-    public void Win()
-    {
-      if (EnemySpawnList != null)
-      {
-        MessageBox.Show("You Have WON!!!");
-      }
-    }
-    public void Lose(Player player)
-    {
-      if (player.HealthPoints <= 0)
-      {
-        MessageBox.Show("You Have Lost!!!");
-      }
-    }
-
-    //If Player <= 0 Heath
     public void SpawnEnemies(MapViewModel mapModel, uint melees, uint rareMelees, uint ranged, uint rareRanged, uint bossStage)
     {
       Random rnd = new Random();

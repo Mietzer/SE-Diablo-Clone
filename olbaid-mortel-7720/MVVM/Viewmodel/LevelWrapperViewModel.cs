@@ -231,6 +231,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //TODO: Clearup, handle win/loose (saving data of win and unlock new level)
       NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
+
+    /// <summary>
+    /// Method to Win Game
+    /// </summary>
+    private void Win()
+    {
+      //TODO: Wenn Bosse Besigt WON
+
+    }
+
+
     #endregion Methods
 
     #region Commands
