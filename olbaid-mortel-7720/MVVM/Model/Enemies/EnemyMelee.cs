@@ -47,21 +47,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
     public virtual void MoveToPlayer(Player player)
     {
-      const int tolerance = 5;
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
       bool oldIsAttacking = IsAttacking;
-      List<Direction> directions = new List<Direction>();
-
-      //Compares player coordinates with enemy coordianten then decides which direction to go
-      if (player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2)
-        directions.Add(Direction.Left);
-      if (player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2)
-        directions.Add(Direction.Right);
-      if (player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2)
-        directions.Add(Direction.Up);
-      if (player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2)
-        directions.Add(Direction.Down);
+      List<Direction> directions = DecideDirectionPath(player, XCoord, YCoord);
 
       Direction item;
       if (directions.Count == 0)

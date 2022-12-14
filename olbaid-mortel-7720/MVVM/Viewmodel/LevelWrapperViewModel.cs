@@ -2,6 +2,8 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.View;
+using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -47,6 +49,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    private int enemyPlaced;
+    private uint maxEnemies = 50;
+    private List<Enemy> spawnList;
+
     private int usedLevelID;
     private Level usedLevel;
     private UserControl currentLevel;
@@ -85,7 +91,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitCommands();
       AddLevel();
       AddPlayer();
-      AddEnemy();
+      InitTimer();
     }
     private void InitCommands()
     {
@@ -93,6 +99,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       LeaveGameCommand = new RelayCommand(LeaveGame, CanLeaveGame);
     }
 
+    private void InitTimer()
+    {
+      GameTimer timer = GameTimer.Instance;
+      timer.GameTick += AddEnemy;
+    }
     private void AddPlayer()
     {
       Player p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
@@ -133,18 +144,25 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    private void AddEnemy()
+    private void AddEnemy(EventArgs spawn)
     {
-      //Creating View to display Enemies
-      EnemyView = new EnemyCanvas(usedLevel.EnemySpawnList, PlayerView.MyPlayer);
 
-      foreach (Enemy e in usedLevel.EnemySpawnList)
+      if (enemyPlaced == 0 || (enemyPlaced < maxEnemies && CheckifDead(spawnList)))
+      {
+        //Creating View to display Enemies
+        spawnList = CreateSpawnList(10);
+        EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
+      }
+      else
+        return;
+      
+
+      foreach (Enemy e in spawnList)
       {
         Image enemyImage = new Image();
         enemyImage.Height = e.Height;
         enemyImage.Width = e.Width;
         ImageBehavior.SetAnimatedSource(enemyImage, e.Image);
-
         //Placing Enemies and Adding them to the Canvas
         e.Model = enemyImage;
         Canvas.SetTop(e.Model, e.YCoord);
@@ -181,9 +199,42 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           enemyHealth.SetBinding(Canvas.TopProperty, bindEnemyY);
           EnemyView.EnemyCanvasObject.Children.Add(enemyHealth);
         }
+        enemyPlaced++;
       }
     }
+    
+    private List<Enemy> CreateSpawnList(int spawnCount)
+    {
+      List<Enemy> spawnList = new List<Enemy>();
+      int count = 0;
+      foreach(Enemy enemy in usedLevel.EnemySpawnList)
+      {
+        spawnList.Add(enemy);
+        count++;
+        if(count == spawnCount)
+        {
+          break;
+        }
+      }
+      foreach(Enemy enemy in spawnList)
+      {
+        usedLevel.EnemySpawnList.Remove(enemy);
+      }
 
+      return spawnList;
+    }
+
+    private bool CheckifDead(List<Enemy> enemyList)
+    {
+      foreach(Enemy enemy in enemyList)
+      {
+        if(enemy.Health > 0)
+        {
+          return false;
+        }
+      }
+      return true;
+    }
     private void AddLevel()
     {
       // TODO: Depending on some Variable, using of Level 1,2 or 3
@@ -202,7 +253,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
-      level1.SpawnEnemies((CurrentLevel as MapView).Vm, 2, 2, 3, 1, 0);
+      level1.SpawnEnemies((CurrentLevel as MapView).Vm, maxEnemies);
       usedLevel = level1;
     }
 

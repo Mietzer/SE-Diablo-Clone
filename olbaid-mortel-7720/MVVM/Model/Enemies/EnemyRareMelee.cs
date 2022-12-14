@@ -14,7 +14,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
   {
     public EnemyRareMelee(int x, int y, MapViewModel mapModel) : base(x, y, mapModel)
     {
-      this.Health = base.Health * 10;
+      this.Health = base.Health * 2;
       this.Damage = base.Damage * 2;
       Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);

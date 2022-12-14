@@ -11,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class MapViewModel : NotifyObject
@@ -75,7 +74,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.Children.Add(Rectangles[i]);
 
         MapObject mapObject = rednermap[i];
-        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIRS))
+        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIR))
         {
           Rect barrierCollision = mapObject.CollisionBox ?? Rect.Empty;
           if (System.Diagnostics.Debugger.IsAttached)

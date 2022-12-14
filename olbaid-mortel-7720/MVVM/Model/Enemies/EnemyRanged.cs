@@ -58,7 +58,6 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
     public virtual void KeepDistance(Player player)
     {
-      const int tolerance = 5;
       const int nearestDistance = 150;
       const int farthestDistance = 200;
       Direction lastDirection = Direction;
@@ -66,33 +65,15 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       bool oldIsAttacking = base.IsAttacking;
       int xDistance = Math.Abs(player.XCoord - this.XCoord);
       int yDistance = Math.Abs(player.YCoord - this.YCoord);
-
-      List<Direction> directions = new List<Direction>();
-
+      
       //Checks distance between player and enemy and checks where to move
-
       if(xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
       {
         StopMovement(EventArgs.Empty);
         return;
       }
-      if (xDistance < nearestDistance&& player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
-        directions.Add(Direction.Right);
-      if (xDistance < nearestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
-        directions.Add(Direction.Left);
-      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
-        directions.Add(Direction.Down);
-      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
-        directions.Add(Direction.Up);
-      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
-        directions.Add(Direction.Left);
-      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX)
-        directions.Add(Direction.Right);
-      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
-        directions.Add(Direction.Up);
-      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
-        directions.Add(Direction.Down);
-
+      
+      List<Direction> directions = DecideDirectionPath(player, XCoord, YCoord, nearestDistance, farthestDistance);
 
       Direction item;
       if (directions.Count == 0)

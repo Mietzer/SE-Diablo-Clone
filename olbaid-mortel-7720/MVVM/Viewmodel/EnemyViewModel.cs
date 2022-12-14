@@ -58,7 +58,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       foreach (Enemy enemy in MyEnemies)
       {
-        if (enemy is EnemyMelee)
+        if (enemy != null && enemy is EnemyMelee)
         {
           (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
 
@@ -67,7 +67,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           Canvas.SetTop(enemy.Model, enemy.YCoord);
           Canvas.SetLeft(enemy.Model, enemy.XCoord);
         }
-        if (enemy is EnemyRanged)
+        if (enemy != null && enemy is EnemyRanged)
         {
           (enemy as EnemyRanged).KeepDistance(MyPlayer);
           ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
@@ -77,6 +77,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       }
     }
+    
     private void CheckforHit(EventArgs e)
     {
       //Hit on enemmy
@@ -94,7 +95,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       foreach (Enemy enemy in MyEnemies)
       {
         //Checks if Enemy hits Playerhitbox
-        if (enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
+        if (enemy != null && enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
           if((enemy as EnemyMelee).IsAttacking)
           {
@@ -103,7 +104,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           }
         }
 
-        if (enemy is EnemyRanged)
+        if (enemy != null && enemy is EnemyRanged)
         {
           if ((enemy as EnemyRanged).IsAttacking)
           {
@@ -135,7 +136,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       foreach (Enemy enemy in MyEnemies)
       {
         // Search for Enemies with 0 or less health
-        if (enemy.Health <= 0)
+        if (enemy != null && enemy.Health <= 0)
         {
           Random rnd = new Random();
           CollectableObject collectable = enemy.GetPossibleDrops()[rnd.Next(0, enemy.GetPossibleDrops().Count)];
@@ -170,6 +171,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyEnemyCanvas.Children.Remove(bullet.Rectangle);
       }
     }
+    
     private void Shoot(EnemyRanged enemy, Point p)
     {
       double enemyShootX = enemy.XCoord + MyPlayer.Width / 2;
@@ -205,6 +207,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Add to Canvas
       bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
     }
+      
 
     private void MoveShots(EventArgs e)
     {
@@ -216,7 +219,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       {
         foreach (Enemy enemy in MyEnemies)
         {
-          if (item is Rectangle && item.Name == ShotName) //Find shots for each enemy
+          if (item is Rectangle && item.Name == ShotName && enemy != null) //Find shots for each enemy
           {
             Bullet b = enemy.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
             if (b != null)
