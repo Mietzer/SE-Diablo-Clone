@@ -100,12 +100,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void Shoot(Point p)
     {
       double playerShootX = MyPlayer.XCoord + MyPlayer.Width / 2
-         , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
+         , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 2;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Bullet bullet = new Bullet(MyPlayer.currentWeapon.Munition.Height, MyPlayer.currentWeapon.Munition.Width, vector, MyPlayer.currentWeapon.Munition.BulletImage, MyPlayer.currentWeapon.Munition.Name);
+      Bullet bullet = new Bullet(vector, MyPlayer.currentWeapon.Munition);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -131,6 +131,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       // Add to Canvas
       bullet.Show(myPlayerCanvas, playerShootX, playerShootY);
+
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 

@@ -4,6 +4,7 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -50,6 +51,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
 
     private int enemyPlaced;
+
+    /// <summary>
+    /// How many ticks the spawning of new enemies should wait 
+    /// </summary>
+    private uint timerTicksToWaitEnemySpawning = 100;
     private uint maxEnemies = 50;
     private List<Enemy> spawnList;
 
@@ -119,12 +125,16 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       GC.Collect();
     }
+
     private void InitCommands()
     {
       ResumeGameCommand = new RelayCommand(ResumeGame, CanResumeGame);
       LeaveGameCommand = new RelayCommand(LeaveGame, CanLeaveGame);
     }
 
+    /// <summary>
+    /// Add method(s) to timer
+    /// </summary>
     private void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
@@ -134,23 +144,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddPlayer()
     {
-      Player p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).Vm);
+      Player p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).ViewModel);
       PlayerView = new PlayerCanvas(p);
 
       Gui = new UserControl();
       Canvas guiCanvas = new Canvas();
       Gui.Content = guiCanvas;
+      int guiHeight = 40;
 
       PlayerHealthbarView playerHealthbar = new PlayerHealthbarView(p);
-      playerHealthbar.Height = 40;
-      playerHealthbar.Width = playerHealthbar.Height * 6;
+      playerHealthbar.Height = guiHeight;
+      playerHealthbar.Width = guiHeight * 6;
       Canvas.SetTop(playerHealthbar, 20);
       Canvas.SetLeft(playerHealthbar, 20);
       guiCanvas.Children.Add(playerHealthbar);
 
       PlayerWeaponView weaponImage = new PlayerWeaponView(p);
-      weaponImage.Height = 40;
-      weaponImage.Width = weaponImage.Height * 2;
+      weaponImage.Height = guiHeight;
+      weaponImage.Width = guiHeight * 2;
       Canvas.SetTop(weaponImage, 20);
       Canvas.SetLeft(weaponImage, 20 + playerHealthbar.Width + 20);
       guiCanvas.Children.Add(weaponImage);
@@ -174,9 +185,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddEnemy(EventArgs spawn)
     {
-
-      if (enemyPlaced == 0 || (enemyPlaced < maxEnemies && CheckifDead(spawnList)))
+      if (enemyPlaced == 0 || (enemyPlaced < maxEnemies && !CheckIfNotDead(spawnList)))
       {
+        //Wait some time for spawning
+        if (timerTicksToWaitEnemySpawning != 0)
+        {
+          timerTicksToWaitEnemySpawning--;
+          return;
+        }
+        timerTicksToWaitEnemySpawning = 100;
         //Creating View to display Enemies
         spawnList = CreateSpawnList(10);
         EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
@@ -231,38 +248,25 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    /// <summary>
+    /// Loads the next enemies for this map
+    /// </summary>
+    /// <param name="spawnCount">size of next enemy wave</param>
+    /// <returns></returns>
     private List<Enemy> CreateSpawnList(int spawnCount)
     {
-      List<Enemy> spawnList = new List<Enemy>();
-      int count = 0;
-      foreach (Enemy enemy in usedLevel.EnemySpawnList)
-      {
-        spawnList.Add(enemy);
-        count++;
-        if (count == spawnCount)
-        {
-          break;
-        }
-      }
-      foreach (Enemy enemy in spawnList)
-      {
+      Enemy[] enemies = new Enemy[spawnCount];
+      usedLevel.EnemySpawnList.CopyTo(0, enemies, 0, spawnCount);
+
+      foreach (Enemy enemy in enemies)
         usedLevel.EnemySpawnList.Remove(enemy);
-      }
 
-      return spawnList;
+      return enemies.ToList();
     }
 
-    private bool CheckifDead(List<Enemy> enemyList)
-    {
-      foreach (Enemy enemy in enemyList)
-      {
-        if (enemy.Health > 0)
-        {
-          return false;
-        }
-      }
-      return true;
-    }
+    private bool CheckIfNotDead(List<Enemy> enemyList)
+      => enemyList.Any(e => e.Health > 0);
+
     private void AddLevel()
     {
       // TODO: Depending on some Variable, using of Level 1,2 or 3
@@ -281,7 +285,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
-      level1.SpawnEnemies((CurrentLevel as MapView).Vm, maxEnemies);
+      level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
       usedLevel = level1;
     }
 
@@ -298,7 +302,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         timer.Start();
 
       IsRunning = !IsRunning;
-
       OnPropertyChanged(nameof(timer.IsRunning));
     }
 
@@ -307,8 +310,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// </summary>
     private void LeaveMatch()
     {
-      //TODO: Clearup, handle win/loose (saving data of win and unlock new level)
-
+      //TODO: handle win/loose (saving data of win and unlock new level)
+      Dispose();
 
       NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
@@ -328,7 +331,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void LeaveGame(object sender)
     {
       //TODO: Ask user if he really wants to leave
-      Dispose();
       LeaveMatch();
     }
 

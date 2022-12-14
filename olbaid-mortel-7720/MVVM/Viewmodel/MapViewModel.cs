@@ -4,7 +4,6 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -47,10 +46,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       {
         Rectangles.Add(new Rectangle());
 
-        double Wert = 42.74;
+        double renderValue = 42.74;
 
-        Rectangles[i].Width = Wert * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
-        Rectangles[i].Height = Wert * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
+        Rectangles[i].Width = renderValue * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
+        Rectangles[i].Height = renderValue * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
         string ImageName = rednermap[i].Graphic.PathtoGraphics.Substring(19, rednermap[i].Graphic.PathtoGraphics.Length - 19).Replace(".png", "");
         BitmapImage tilesetImage = tilesets[ImageName];

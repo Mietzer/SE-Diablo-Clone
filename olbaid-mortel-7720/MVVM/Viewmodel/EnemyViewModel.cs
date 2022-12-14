@@ -81,22 +81,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       foreach (Enemy enemy in MyEnemies)
       {
         if (enemy != null && enemy is EnemyMelee)
-        {
           (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
 
-          //Places enemy Image at new Position
-          ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
-          Canvas.SetTop(enemy.Model, enemy.YCoord);
-          Canvas.SetLeft(enemy.Model, enemy.XCoord);
-        }
         if (enemy != null && enemy is EnemyRanged)
-        {
           (enemy as EnemyRanged).KeepDistance(MyPlayer);
-          ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
-          Canvas.SetTop(enemy.Model, enemy.YCoord);
-          Canvas.SetLeft(enemy.Model, enemy.XCoord);
-        }
 
+        //Places enemy Image at new Position
+        ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
+        Canvas.SetTop(enemy.Model, enemy.YCoord);
+        Canvas.SetLeft(enemy.Model, enemy.XCoord);
       }
     }
 
@@ -153,7 +146,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void RemoveEnemy(EventArgs e)
     {
-      List<Enemy> deleteList = new List<Enemy>();
+      List<Enemy> deleteEnemies = new List<Enemy>();
       List<Bullet> deleteBullets = new List<Bullet>();
       foreach (Enemy enemy in MyEnemies)
       {
@@ -171,18 +164,19 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           };
           enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList
-          deleteList.Add(enemy);
+          deleteEnemies.Add(enemy);
 
           //Deletes bullets, that would not be deleted because of enemy deletion
           foreach (Bullet bullet in enemy.Bullets)
           {
+            //TODO: Maybe no instant delete, but a extra list for bullets with dead origin
             deleteBullets.Add(bullet);
           }
         }
       }
 
       // Delete them off the canvas
-      foreach (Enemy enemy in deleteList)
+      foreach (Enemy enemy in deleteEnemies)
       {
         MyEnemies.Remove(enemy);
       }
@@ -203,12 +197,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
       vector.Normalize();
       Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
-      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
+      Bullet bullet = new Bullet(vector, 3, 6, bulletImage, ShotName);
+
+      //TODO: Check for walls
 
       //Add to Enemies
       enemy.Bullets.Add(bullet);
 
-      //Shot on Enemies left
+      //Shot on Enemies left     
       if (vector.X < 0)
       {
         enemyShootX -= bullet.Rectangle.Width;
