@@ -1,6 +1,5 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
-using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.MVVM.Model
@@ -78,8 +76,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
-      primaryweapon = new Handgun(new Munition(3, 6, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
-      secondaryweapon = new Rifle(new Munition(4, 8, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
+      primaryweapon = new Handgun();
+      secondaryweapon = new Rifle();
       currentWeapon = secondaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
@@ -120,6 +118,23 @@ namespace olbaid_mortel_7720.MVVM.Model
         string directionString = this.Direction.ToString().ToLower();
         Image = ImageImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
         WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
+      }
+    }
+
+    /// <summary>
+    /// Weapon Selection with Key 1 and 2 for Player
+    /// </summary>
+    /// <param name="key"></param>
+    public void WeaponSelection(Key key)
+    {
+      switch (key)
+      {
+        case Key.D1:
+          this.currentWeapon = this.primaryweapon;
+          break;
+        case Key.D2:
+          this.currentWeapon = this.secondaryweapon;
+          break;
       }
     }
 

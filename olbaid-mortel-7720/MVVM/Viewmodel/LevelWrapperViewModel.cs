@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using WpfAnimatedGif;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
@@ -155,7 +156,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
       else
         return;
-      
+
 
       foreach (Enemy e in spawnList)
       {
@@ -202,21 +203,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         enemyPlaced++;
       }
     }
-    
+
     private List<Enemy> CreateSpawnList(int spawnCount)
     {
       List<Enemy> spawnList = new List<Enemy>();
       int count = 0;
-      foreach(Enemy enemy in usedLevel.EnemySpawnList)
+      foreach (Enemy enemy in usedLevel.EnemySpawnList)
       {
         spawnList.Add(enemy);
         count++;
-        if(count == spawnCount)
+        if (count == spawnCount)
         {
           break;
         }
       }
-      foreach(Enemy enemy in spawnList)
+      foreach (Enemy enemy in spawnList)
       {
         usedLevel.EnemySpawnList.Remove(enemy);
       }
@@ -224,11 +225,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       return spawnList;
     }
 
+
+
     private bool CheckifDead(List<Enemy> enemyList)
     {
-      foreach(Enemy enemy in enemyList)
+      foreach (Enemy enemy in enemyList)
       {
-        if(enemy.Health > 0)
+        if (enemy.Health > 0)
         {
           return false;
         }
