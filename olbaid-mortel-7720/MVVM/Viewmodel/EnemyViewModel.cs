@@ -40,6 +40,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       InitTimer();
     }
+
+    ~EnemyViewModel() { }
     #endregion Constructor
 
     #region Methods 
@@ -62,6 +64,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.GameTick -= RemoveEnemy;
       timer.GameTick -= MoveShots;
       timer.GameTick -= CheckforHit;
+
+
+      foreach (Enemy enemy in MyEnemies)
+        enemy.Health = -10;
+
+      MyEnemies?.Clear();
+      MyEnemies = null;
+
+      MyPlayer = null;
+
+      GC.Collect();
     }
     private void Move(EventArgs e)
     {
@@ -216,7 +229,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Add to Canvas
       bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
     }
-
 
     private void MoveShots(EventArgs e)
     {

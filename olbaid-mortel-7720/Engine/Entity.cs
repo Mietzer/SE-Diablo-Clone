@@ -177,8 +177,8 @@ namespace olbaid_mortel_7720.Engine
 
     protected void Dispose()
     {
-      Barriers?.Clear();
-      Barriers = null;
+      //Barriers?.Clear();
+      //Barriers = null;
       PropertyChanged -= Entity_PropertyChanged;
     }
     #endregion Methods

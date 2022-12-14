@@ -54,6 +54,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       GameTimer timer = GameTimer.Instance;
       timer.GameTick -= Move;
       timer.GameTick -= MoveShots;
+
+      //Kill Player
+      MyPlayer.TakeDamage(MyPlayer.HealthPoints);
+      MyPlayer = null;
     }
 
     /// <summary>
