@@ -4,5 +4,10 @@
   /// Instance for Viewmodelnavigation
   /// </summary>
   public abstract class BaseViewModel : NotifyObject
-  { }
+  {
+    /// <summary>
+    /// Method to clean up and remove Events
+    /// </summary>
+    protected virtual void Dispose() { }
+  }
 }

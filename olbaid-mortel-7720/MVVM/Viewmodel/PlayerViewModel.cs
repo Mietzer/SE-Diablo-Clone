@@ -48,6 +48,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.GameTick += MoveShots;
     }
 
+    public void Dispose()
+    {
+      //Remove from timer
+      GameTimer timer = GameTimer.Instance;
+      timer.GameTick -= Move;
+      timer.GameTick -= MoveShots;
+    }
+
     /// <summary>
     /// Event to move the shots
     /// </summary>

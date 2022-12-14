@@ -41,6 +41,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       OpenStartscreenCommand = new RelayCommand(OpenStartscreen, CanOpenStartscreen);
     }
 
+    private new void Dispose()
+    {
+      Levellist?.Clear();
+      Levellist = null;
+
+      GC.Collect();
+    }
     /// <summary>
     /// Creates the first instance of all Levels
     /// </summary>
@@ -65,6 +72,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void SelectLevel(object sender)
     {
+      Dispose();
       NavigationLocator.MainViewModel.SwitchView(new LevelWrapperViewModel((int)sender));
     }
 
@@ -74,6 +82,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void OpenStartscreen(object sender)
     {
+      Dispose();
       NavigationLocator.MainViewModel.SwitchView(new StartscreenViewModel());
     }
 
