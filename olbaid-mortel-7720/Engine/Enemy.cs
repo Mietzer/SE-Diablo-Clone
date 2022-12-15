@@ -65,7 +65,6 @@ namespace olbaid_mortel_7720.Engine
     public bool IsAttacking { get; protected set; }
     #endregion Properties
 
-    #region Methods
     protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage, MapViewModel mapModel) : base(x, y, height, width, steplength, mapModel)
     {
       this.health = health;
@@ -75,6 +74,7 @@ namespace olbaid_mortel_7720.Engine
         pathfinder = Pathfinder.Initialize(this.Barriers);
     }
 
+    #region Methods
     ~Enemy() { }
     public void TakeDamage(int points)
     {

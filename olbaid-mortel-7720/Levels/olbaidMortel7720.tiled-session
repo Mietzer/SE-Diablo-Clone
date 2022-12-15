@@ -1,5 +1,5 @@
 {
-    "activeFile": "Furniture.tsx",
+    "activeFile": "Level1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -10,11 +10,11 @@
             "scaleInEditor": 4
         },
         "Level1.tmx": {
-            "scale": 1,
-            "selectedLayer": 5,
+            "scale": 0.75,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 1105.5,
-                "y": 915
+                "x": 905.3333333333333,
+                "y": 459.33333333333326
             }
         },
         "Level1.tsx": {
@@ -35,9 +35,9 @@
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level1.tmx",
-        "Level1.tsx",
         "Furniture.tsx",
+        "Level1.tsx",
+        "Level1.tmx",
         "Level1_old.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled-Kachelsatzdateien (*.tsx *.xml)",

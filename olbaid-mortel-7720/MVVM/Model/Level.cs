@@ -1,11 +1,9 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
-using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
-using olbaid_mortel_7720.MVVM.Model.Object;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
@@ -16,7 +14,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     //TODO: ADD Progperties for Level
 
     public Map Map;
-    
+
     private List<Enemy> _enemySpawnList;
     public List<Enemy> EnemySpawnList
     {
@@ -42,9 +40,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       int index;
       int spawnGen;
 
-      foreach(SpawnObject x in objectList)
+      foreach (SpawnObject x in objectList)
       {
-        if(x.Name == "Enemy Spawn")
+        if (x.Name.Contains("Enemy Spawn"))
         {
           spawnPoints.Add(x);
         }
@@ -52,28 +50,28 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       spawnPoints = FixCoordinates(spawnPoints);
 
-      for(int i = 0; i < enemyCount; i++)
+      for (int i = 0; i < enemyCount; i++)
       {
         spawnGen = rnd.Next(0, 100);
-        if(spawnGen <= 35)
+        if (spawnGen <= 35)
         {
           index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyMelee(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+          spawnList.Add(new EnemyMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
         }
-        else if(spawnGen > 35 && spawnGen <= 70)
+        else if (spawnGen > 35 && spawnGen <= 70)
         {
           index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyRanged(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+          spawnList.Add(new EnemyRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
         }
-        else if(spawnGen > 70 && spawnGen <= 80)
+        else if (spawnGen > 70 && spawnGen <= 80)
         {
           index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyRareMelee(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+          spawnList.Add(new EnemyRareMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
         }
-        else if(spawnGen > 80 && spawnGen <= 100)
+        else if (spawnGen > 80 && spawnGen <= 100)
         {
           index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyRareRanged(Convert.ToInt32(spawnPoints[index].X), Convert.ToInt32(spawnPoints[index].Y), mapModel));
+          spawnList.Add(new EnemyRareRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
         }
       }
       EnemySpawnList = spawnList;
@@ -82,30 +80,30 @@ namespace olbaid_mortel_7720.MVVM.Model
     private static List<SpawnObject> FixCoordinates(List<SpawnObject> list)
     {
       int count = 0;
-      foreach(SpawnObject obj in list)
+      foreach (SpawnObject obj in list)
       {
-        if(count == 1)
+        if (count == 1)
         {
           obj.Y = obj.Y - 20;
         }
-        else if(count == 2)
+        else if (count == 2)
         {
           obj.Y = obj.Y - 100;
         }
-        else if(count == 3)
+        else if (count == 3)
         {
           obj.Y = obj.Y - 40;
           obj.X = obj.X + 50;
         }
-        else if(count == 4)
+        else if (count == 4)
         {
           obj.X = obj.X - 150;
         }
-        else if(count == 6)
+        else if (count == 6)
         {
           obj.X = obj.X - 150;
         }
-        else if(count == 7)
+        else if (count == 7)
         {
           obj.Y = obj.Y - 60;
         }
