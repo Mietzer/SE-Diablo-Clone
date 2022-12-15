@@ -7,10 +7,14 @@
              xmlns:model="clr-namespace:olbaid_mortel_7720.MVVM.Model"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d"
-             d:DesignWidth="720" d:DesignHeight="120" RenderOptions.BitmapScalingMode="NearestNeighbor"
+             d:DesignWidth="720" 
+             d:DesignHeight="120"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
              x:Name="CtlHealthbar"
-             Background="Transparent" FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
-             Loaded="OnViewLoaded">
+             Background="Transparent" 
+             FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
+             Loaded="OnViewLoaded"
+             Unloaded="CtlHealthbar_Unloaded">
     <!-- #region Resources -->
     <UserControl.Resources>
         <utils:PercentageToSizeConverter x:Key="PercentageToSizeConverter" />

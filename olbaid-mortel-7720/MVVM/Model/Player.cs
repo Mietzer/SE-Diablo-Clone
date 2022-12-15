@@ -25,6 +25,11 @@ namespace olbaid_mortel_7720.MVVM.Model
       private set
       {
         healthPoints = value;
+        if (healthPoints <= 0)
+        {
+          Bullets.CollectionChanged -= Bullets_CollectionChanged;
+          base.Dispose();
+        }
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
@@ -83,6 +88,10 @@ namespace olbaid_mortel_7720.MVVM.Model
       secondaryweapon = new Rifle(new Munition(4, 8, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
       currentWeapon = secondaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
+    }
+
+    ~Player()
+    {
     }
 
     #region Methods
@@ -169,7 +178,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="damage">How much</param>
     public void TakeDamage(int damage)
     {
-      HealthPoints -= damage;
+      if (HealthPoints > 0)
+        HealthPoints -= damage;
     }
 
     /// <summary>

@@ -1,6 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
@@ -107,6 +106,8 @@ namespace olbaid_mortel_7720.Engine
       else Barriers = mapModel.Barriers;
     }
 
+    ~Entity() { }
+
     #region Methods
     private void Entity_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -172,6 +173,13 @@ namespace olbaid_mortel_7720.Engine
           break;
       }
       return !Barriers.Any(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
+    }
+
+    protected void Dispose()
+    {
+      //Barriers?.Clear();
+      //Barriers = null;
+      PropertyChanged -= Entity_PropertyChanged;
     }
     #endregion Methods
 
