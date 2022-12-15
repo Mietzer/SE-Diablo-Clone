@@ -11,22 +11,22 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       return true;
     }
-    
+
     public void OnDestroy()
     {
       this.Remove();
     }
-    
+
     public DestroyableObject(string name, bool visible) : base(name, visible, true)
     {
       this.Add();
     }
-    
+
     private void Add()
     {
       // TODO: Add to canvas
     }
-    
+
     private void Remove()
     {
       // TODO: remove from canvas
