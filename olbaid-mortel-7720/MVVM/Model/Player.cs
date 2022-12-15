@@ -60,6 +60,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         if (value == currentWeapon) return;
         currentWeapon = value;
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + this.Direction.ToString().ToLower() + ".gif");
         OnPropertyChanged(nameof(CurrentWeapon));
       }
     }
@@ -130,10 +131,10 @@ namespace olbaid_mortel_7720.MVVM.Model
       switch (key)
       {
         case Key.D1:
-          this.currentWeapon = this.primaryweapon;
+          CurrentWeapon = this.primaryweapon;
           break;
         case Key.D2:
-          this.currentWeapon = this.secondaryweapon;
+          CurrentWeapon = this.secondaryweapon;
           break;
       }
     }
