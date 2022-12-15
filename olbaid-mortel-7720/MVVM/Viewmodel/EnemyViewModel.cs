@@ -48,10 +48,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick += Move;
-      timer.GameTick += RemoveEnemy;
-      timer.GameTick += MoveShots;
-      timer.GameTick += CheckforHit;
+      timer.Execute(Move, nameof(this.Move) + GetHashCode());
+      timer.Execute(RemoveEnemy, nameof(this.RemoveEnemy) + GetHashCode());
+      timer.Execute(MoveShots, nameof(this.MoveShots) + GetHashCode());
+      timer.Execute(CheckforHit, nameof(this.CheckforHit) + GetHashCode());
     }
 
     /// <summary>
@@ -60,10 +60,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void Dispose()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick -= Move;
-      timer.GameTick -= RemoveEnemy;
-      timer.GameTick -= MoveShots;
-      timer.GameTick -= CheckforHit;
+      timer.RemoveByName(nameof(this.Move) + GetHashCode());
+      timer.RemoveByName(nameof(this.RemoveEnemy) + GetHashCode());
+      timer.RemoveByName(nameof(this.MoveShots) + GetHashCode());
+      timer.RemoveByName(nameof(this.CheckforHit) + GetHashCode());
 
 
       foreach (Enemy enemy in MyEnemies)

@@ -85,9 +85,10 @@ namespace olbaid_mortel_7720.Engine
     protected List<Direction> DecideDirectionPath(Player player, int x, int y, int nearest = 0, int farthest = 0)
     {
       const int tolerance = 5;
+      Direction lastDirection = Direction;
       List<Direction> directions = new();
 
-      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord), Direction);
+      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord), lastDirection);
 
       int xDiff = Math.Abs(player.XCoord - x);
       if (xDiff > farthest)
@@ -111,6 +112,25 @@ namespace olbaid_mortel_7720.Engine
       {
         if (targetVector.Y > tolerance) directions.Add(Direction.Up);
         else if (targetVector.Y < -tolerance) directions.Add(Direction.Down);
+      }
+
+      if (directions.Count > 0)
+      {
+        switch (lastDirection)
+        {
+          case Direction.Down:
+            directions.RemoveAll(dir => dir == Direction.Up);
+            break;
+          case Direction.Up:
+            directions.RemoveAll(dir => dir == Direction.Down);
+            break;
+          case Direction.Left:
+            directions.RemoveAll(dir => dir == Direction.Right);
+            break;
+          case Direction.Right:
+            directions.RemoveAll(dir => dir == Direction.Left);
+            break;
+        }
       }
 
       return directions;
