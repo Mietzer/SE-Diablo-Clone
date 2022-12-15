@@ -44,16 +44,16 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick += Move;
-      timer.GameTick += MoveShots;
+      timer.Execute(Move, nameof(this.Move) + GetHashCode());
+      timer.Execute(MoveShots, nameof(this.MoveShots) + GetHashCode());
     }
 
     public void Dispose()
     {
       //Remove from timer
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick -= Move;
-      timer.GameTick -= MoveShots;
+      timer.RemoveByName(nameof(this.Move) + GetHashCode());
+      timer.RemoveByName(nameof(this.MoveShots) + GetHashCode());
 
       //Kill Player
       MyPlayer.TakeDamage(MyPlayer.HealthPoints);

@@ -102,17 +102,20 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       //Remove from timer
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick -= AddEnemy;
+      timer.RemoveByName(nameof(this.AddEnemy) + GetHashCode());
 
       //Dispose in SubViewModels
-      (EnemyView.DataContext as EnemyViewModel).Dispose();
+      if (EnemyView != null)
+      {
+        (EnemyView.DataContext as EnemyViewModel)?.Dispose();
+        EnemyView.DataContext = null;
+        EnemyView = null;
+      }
       (PlayerView.DataContext as PlayerViewModel).Dispose();
 
       spawnList?.Clear();
       spawnList = null;
 
-      EnemyView.DataContext = null;
-      EnemyView = null;
 
       PlayerView.DataContext = null;
       PlayerView = null;
@@ -138,7 +141,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick += AddEnemy;
+      timer.Execute(AddEnemy, nameof(this.AddEnemy) + GetHashCode());
       timer.Start();
       IsRunning = GameTimer.Instance.IsRunning;
     }
@@ -312,7 +315,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       //TODO: handle win/loose (saving data of win and unlock new level)
       Dispose();
-
+      GameTimer.Instance.CleanUp();
       NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
     #endregion Methods
