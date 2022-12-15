@@ -11,6 +11,7 @@
     public static int MaxY;
 
     public static bool InGame;
+    public static bool FirstTime = true;
 
     #endregion Properties
 
