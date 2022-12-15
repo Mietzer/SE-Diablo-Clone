@@ -161,6 +161,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           animation.Completed += delegate
           {
             MyEnemyCanvas.Children.Remove(enemy.Model);
+            enemy.Die();
           };
           enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList

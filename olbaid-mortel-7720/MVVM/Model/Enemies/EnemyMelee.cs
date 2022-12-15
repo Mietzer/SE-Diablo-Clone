@@ -74,7 +74,6 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       IsAttacking = false;
 
       //Switch-Case for enemy movement
-
       switch (item)
       {
         case Direction.Up:
@@ -114,10 +113,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, Width, Height - 27);
-      GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
+      intervalIdList.Add(GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
       {
         IsAttacking = true;
-      });
+      }));
     }
 
     #endregion Constructor

@@ -26,15 +26,14 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
       IsAttacking = false;
       Random random = new Random();
-      GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate(EventArgs e)
+      intervalIdList.Add(GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate(EventArgs e)
       {
-        GameTimer.ExecuteWithInterval(40, delegate(EventArgs e)
+        intervalIdList.Add(GameTimer.ExecuteWithInterval(40, delegate(EventArgs e)
         {
           IsAttacking = true;
-        });
-      }, true);
+        }));
+      }, true));
     }
-
     #endregion Constructor
 
     #region Methods
@@ -134,7 +133,6 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-standing-" + directionString + ".gif");
       }
     }
-
     #endregion Methods
   }
 }

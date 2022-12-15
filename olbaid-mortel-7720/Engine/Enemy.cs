@@ -16,6 +16,7 @@ namespace olbaid_mortel_7720.Engine
     #region Properties
     protected const int MAX_SAME_DIRECTION = 13;
     protected int sameDirectionCounter = 0;
+    protected List<string> intervalIdList = new List<string>();
 
     private int health;
     private int damage;
@@ -137,7 +138,19 @@ namespace olbaid_mortel_7720.Engine
     }
 
     public abstract void Attack(Player player);
-
+    
+    public void Die()
+    {
+      GameTimer timer = GameTimer.Instance;
+      List<string> copy = new(intervalIdList);
+      foreach (string id in copy)
+      {
+        if (timer.RemoveByName(id))
+        {
+          intervalIdList.Remove(id);
+        }
+      }
+    }
     #endregion Methods
   }
 }

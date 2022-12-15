@@ -11,7 +11,7 @@ namespace olbaid_mortel_7720.Engine
   {
     #region Properties
     private DispatcherTimer _timer;
-    private Dictionary<string, GameTickHandler> _tickHandlers = new Dictionary<string, GameTickHandler>();
+    private static Dictionary<string, GameTickHandler> _tickHandlers = new Dictionary<string, GameTickHandler>();
     private static uint numOfIntervals = 0;
     
     /// <summary>
@@ -85,9 +85,11 @@ namespace olbaid_mortel_7720.Engine
     /// </summary>
     /// <param name="interval">Interval of ticks</param>
     /// <param name="callback">Task to be fired</param>
-    public static void ExecuteWithInterval(int interval, GameTickHandler callback, bool removeAfterExecution = false)
+    /// <param name="removeAfterExecution">Task should be deleted after first execution</param>
+    /// <returns>the id of the interval callback</returns>
+    public static string ExecuteWithInterval(int interval, GameTickHandler callback, bool removeAfterExecution = false)
     {
-      ExecuteWithInterval(interval, callback, null, removeAfterExecution);
+      return ExecuteWithInterval(interval, callback, null, removeAfterExecution);
     }
     
     /// <summary>
@@ -96,10 +98,12 @@ namespace olbaid_mortel_7720.Engine
     /// <param name="interval">Interval of ticks</param>
     /// <param name="callback">Task to be fired</param>
     /// <param name="progress">Progress of the interval</param>
-    public static void ExecuteWithInterval(int interval, GameTickHandler callback, IntervalProgressHandler? progress, bool removeAfterExecution = false)
+    /// <param name="removeAfterExecution">Task should be deleted after first execution</param>
+    /// <returns>the id of the interval callback</returns>
+    public static string ExecuteWithInterval(int interval, GameTickHandler callback, IntervalProgressHandler? progress, bool removeAfterExecution = false)
     {
       numOfIntervals++;
-      uint internalNumOfIntervals = numOfIntervals;
+      string internalNumOfIntervals = $"interval-{numOfIntervals}-{callback.Target}";
       int counter = 0;
       GameTimer timer = new GameTimer();
       GameTickHandler handler = delegate (EventArgs e)
@@ -110,7 +114,7 @@ namespace olbaid_mortel_7720.Engine
           counter = 0;
 
           if (removeAfterExecution)
-            timer.RemoveByName("interval" + internalNumOfIntervals);
+            timer.RemoveByName(internalNumOfIntervals);
         }
         else
         {
@@ -120,7 +124,8 @@ namespace olbaid_mortel_7720.Engine
         if (progress != null)
           progress((double)counter / interval);
       };
-      timer.Execute(handler, "interval" + internalNumOfIntervals);
+      timer.Execute(handler, internalNumOfIntervals);
+      return internalNumOfIntervals;
     }
     
     /// <summary>
@@ -130,7 +135,7 @@ namespace olbaid_mortel_7720.Engine
     /// <param name="name">a name for the dictionary key</param>
     public void Execute(GameTickHandler callback, string? name)
     {
-      string key = name ?? callback.Method.Name + Guid.NewGuid();
+      string key = name ?? callback.Target?.ToString() + Guid.NewGuid();
       _tickHandlers.Add(key, callback);
       GameTick += _tickHandlers[key];
     }
@@ -139,13 +144,16 @@ namespace olbaid_mortel_7720.Engine
     /// Removes a method from the timer.
     /// </summary>
     /// <param name="name">the dictionary key to remove</param>
-    public void RemoveByName(string name)
+    /// <returns>if the callback could be removed</returns>
+    public bool RemoveByName(string name)
     {
       if (_tickHandlers.ContainsKey(name))
       {
         Remove(_tickHandlers[name]);
         _tickHandlers.Remove(name);
+        return true;
       }
+      return false;
     }
     
     /// <summary>
@@ -166,8 +174,11 @@ namespace olbaid_mortel_7720.Engine
     /// </summary>
     public void CleanUp()
     {
-      _tickHandlers.Clear();
-      GameTick = null;
+      List<string> keys = new List<string>(_tickHandlers.Keys);
+      foreach (string key in keys)
+      {
+        RemoveByName(key);
+      }
     }
     #endregion Methods
   }

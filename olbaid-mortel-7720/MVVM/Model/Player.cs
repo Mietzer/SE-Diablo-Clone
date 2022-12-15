@@ -7,6 +7,7 @@ using olbaid_mortel_7720.Object;
 using olbaid_mortel_7720.Object.Weapons;
 using System;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
