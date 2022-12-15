@@ -60,10 +60,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void Dispose()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick -= Move;
-      timer.GameTick -= RemoveEnemy;
-      timer.GameTick -= MoveShots;
-      timer.GameTick -= CheckforHit;
+      timer.RemoveByName(nameof(this.Move) + GetHashCode());
+      timer.RemoveByName(nameof(this.RemoveEnemy) + GetHashCode());
+      timer.RemoveByName(nameof(this.MoveShots) + GetHashCode());
+      timer.RemoveByName(nameof(this.CheckforHit) + GetHashCode());
 
 
       foreach (Enemy enemy in MyEnemies)

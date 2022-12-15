@@ -52,8 +52,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       //Remove from timer
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick -= Move;
-      timer.GameTick -= MoveShots;
+      timer.RemoveByName(nameof(this.Move) + GetHashCode());
+      timer.RemoveByName(nameof(this.MoveShots) + GetHashCode());
 
       //Kill Player
       MyPlayer.TakeDamage(MyPlayer.HealthPoints);
