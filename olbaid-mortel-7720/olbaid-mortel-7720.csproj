@@ -6,6 +6,7 @@
         <RootNamespace>olbaid_mortel_7720</RootNamespace>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>Images\logo.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>

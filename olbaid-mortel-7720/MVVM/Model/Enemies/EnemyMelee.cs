@@ -114,13 +114,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, Width, Height - 27);
-      GameTimer.ExecuteWithInterval(10 , delegate (EventArgs e)
+      GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
       {
-        GameTimer.ExecuteWithInterval(10, delegate (EventArgs e)
-        {
-          IsAttacking = true;
-        });
-      }, true);
+        IsAttacking = true;
+      });
     }
 
     #endregion Constructor

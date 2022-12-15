@@ -79,7 +79,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public LevelWrapperViewModel(int selectedLevel)
     {
       usedLevelID = selectedLevel;
-      IsRunning = GameTimer.Instance.IsRunning;
       Setup();
     }
     #endregion Constructor
@@ -92,6 +91,35 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       AddPlayer();
       InitTimer();
     }
+
+    private new void Dispose()
+    {
+      //Remove from timer
+      GameTimer timer = GameTimer.Instance;
+      timer.RemoveByName(nameof(this.AddEnemy) + GetHashCode());
+
+      //Dispose in SubViewModels
+      (EnemyView.DataContext as EnemyViewModel).Dispose();
+      (PlayerView.DataContext as PlayerViewModel).Dispose();
+
+      spawnList?.Clear();
+      spawnList = null;
+
+      EnemyView.DataContext = null;
+      EnemyView = null;
+
+      PlayerView.DataContext = null;
+      PlayerView = null;
+
+      CurrentLevel.DataContext = null;
+      CurrentLevel = null;
+
+      Gui.Content = null;
+      Gui = null;
+
+      GC.Collect();
+    }
+    
     private void InitCommands()
     {
       ResumeGameCommand = new RelayCommand(ResumeGame, CanResumeGame);
@@ -101,7 +129,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick += AddEnemy;
+      timer.Execute(AddEnemy, nameof(this.AddEnemy) + GetHashCode());
+      timer.Start();
+      IsRunning = GameTimer.Instance.IsRunning;
     }
     private void AddPlayer()
     {
@@ -154,7 +184,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
       else
         return;
-      
+
 
       foreach (Enemy e in spawnList)
       {
@@ -201,21 +231,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         enemyPlaced++;
       }
     }
-    
+
     private List<Enemy> CreateSpawnList(int spawnCount)
     {
       List<Enemy> spawnList = new List<Enemy>();
       int count = 0;
-      foreach(Enemy enemy in usedLevel.EnemySpawnList)
+      foreach (Enemy enemy in usedLevel.EnemySpawnList)
       {
         spawnList.Add(enemy);
         count++;
-        if(count == spawnCount)
+        if (count == spawnCount)
         {
           break;
         }
       }
-      foreach(Enemy enemy in spawnList)
+      foreach (Enemy enemy in spawnList)
       {
         usedLevel.EnemySpawnList.Remove(enemy);
       }
@@ -225,9 +255,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private bool CheckifDead(List<Enemy> enemyList)
     {
-      foreach(Enemy enemy in enemyList)
+      foreach (Enemy enemy in enemyList)
       {
-        if(enemy.Health > 0)
+        if (enemy.Health > 0)
         {
           return false;
         }
@@ -259,7 +289,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <summary>
     /// Method to Pause/ Resume Game, depending on current state
     /// </summary>
-    public void PauseLevel()
+    public void TogglePause()
     {
       GameTimer timer = GameTimer.Instance;
 
@@ -279,6 +309,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void LeaveMatch()
     {
       //TODO: Clearup, handle win/loose (saving data of win and unlock new level)
+      GameTimer.Instance.CleanUp();
       NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
     #endregion Methods
@@ -288,7 +319,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void ResumeGame(object sender)
     {
-      PauseLevel();
+      TogglePause();
     }
 
     public bool CanResumeGame() => !IsRunning;
@@ -297,6 +328,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void LeaveGame(object sender)
     {
       //TODO: Ask user if he really wants to leave
+      Dispose();
       LeaveMatch();
     }
 

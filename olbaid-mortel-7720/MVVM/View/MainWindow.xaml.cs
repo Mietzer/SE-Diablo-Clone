@@ -98,14 +98,11 @@ namespace olbaid_mortel_7720.MVVM.View
       OnPropertyChanged(nameof(CurrentViewModel));
 
       if (GlobalVariables.InGame)
-      {
-        BtnPanel.Children.Remove(BtnMaximize);
-      }
+        BtnMaximize.Visibility = Visibility.Collapsed;
+
       else
-      {
-        if (BtnPanel.Children.Contains(BtnMaximize) == false)
-          BtnPanel.Children.Add(BtnMaximize);
-      }
+        BtnMaximize.Visibility = Visibility.Visible;
+
     }
 
     #endregion Methods
