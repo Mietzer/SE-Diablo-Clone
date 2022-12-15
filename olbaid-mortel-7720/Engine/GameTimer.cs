@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Threading;
 
 namespace olbaid_mortel_7720.Engine
@@ -8,26 +9,41 @@ namespace olbaid_mortel_7720.Engine
   /// </summary>
   public class GameTimer
   {
+    #region Properties
     private DispatcherTimer _timer;
-
+    private Dictionary<string, GameTickHandler> _tickHandlers = new Dictionary<string, GameTickHandler>();
+    private static uint numOfIntervals = 0;
+    
     /// <summary>
-    /// Delegate for the Tick event.
+    /// Checks if timer is enabled.
     /// </summary>
-    public delegate void GameTickHandler(EventArgs e);
-
-    /// <summary>
-    /// Event that is fired when the timer ticks.
-    /// </summary>
-    public event GameTickHandler? GameTick;
-
     public bool IsRunning { get => _timer.IsEnabled; }
-
+    
     /// <summary>
     /// Static instance of the GameTimer.
     /// Please do only use this instance!
     /// </summary>
     public static GameTimer Instance = new GameTimer();
+    #endregion Properties
 
+    #region Events
+    /// <summary>
+    /// Delegate for the Tick event.
+    /// </summary>
+    public delegate void GameTickHandler(EventArgs e);
+    
+    /// <summary>
+    /// Event that is fired when the timer ticks.
+    /// </summary>
+    private event GameTickHandler? GameTick;
+    
+    /// <summary>
+    /// Delegate for a callback that displays the current progress of the interval.
+    /// </summary>
+    public delegate void IntervalProgressHandler(double progress);
+    #endregion Events
+    
+    #region Constructor
     /// <summary>
     /// Private constructor to prevent multiple instances.
     /// Please use the static Instance property instead!
@@ -39,7 +55,9 @@ namespace olbaid_mortel_7720.Engine
       _timer.Tick += new EventHandler(TimerTick);
       _timer.Start();
     }
+    #endregion Constructor
 
+    #region Methods
     private void TimerTick(object? sender, EventArgs e)
     {
       if (GameTick != null)
@@ -71,12 +89,7 @@ namespace olbaid_mortel_7720.Engine
     {
       ExecuteWithInterval(interval, callback, null, removeAfterExecution);
     }
-
-    /// <summary>
-    /// Delegate for a callback that displays the current progress of the interval.
-    /// </summary>
-    public delegate void IntervalProgressHandler(double progress);
-
+    
     /// <summary>
     /// Execute a task in a interval of game ticks.
     /// </summary>
@@ -85,18 +98,19 @@ namespace olbaid_mortel_7720.Engine
     /// <param name="progress">Progress of the interval</param>
     public static void ExecuteWithInterval(int interval, GameTickHandler callback, IntervalProgressHandler? progress, bool removeAfterExecution = false)
     {
+      numOfIntervals++;
+      uint internalNumOfIntervals = numOfIntervals;
       int counter = 0;
       GameTimer timer = new GameTimer();
-      GameTickHandler? handler = null;
-      handler = delegate (EventArgs e)
+      GameTickHandler handler = delegate (EventArgs e)
       {
         if (counter >= interval)
         {
           callback(e);
           counter = 0;
 
-          if (removeAfterExecution && handler != null)
-            timer.GameTick -= handler;
+          if (removeAfterExecution)
+            timer.RemoveByName("interval" + internalNumOfIntervals);
         }
         else
         {
@@ -106,7 +120,55 @@ namespace olbaid_mortel_7720.Engine
         if (progress != null)
           progress((double)counter / interval);
       };
-      timer.GameTick += handler;
+      timer.Execute(handler, "interval" + internalNumOfIntervals);
     }
+    
+    /// <summary>
+    /// Add a task to the timer.
+    /// </summary>
+    /// <param name="callback">the method to add</param>
+    /// <param name="name">a name for the dictionary key</param>
+    public void Execute(GameTickHandler callback, string? name)
+    {
+      string key = name ?? callback.Method.Name + Guid.NewGuid();
+      _tickHandlers.Add(key, callback);
+      GameTick += _tickHandlers[key];
+    }
+    
+    /// <summary>
+    /// Removes a method from the timer.
+    /// </summary>
+    /// <param name="name">the dictionary key to remove</param>
+    public void RemoveByName(string name)
+    {
+      if (_tickHandlers.ContainsKey(name))
+      {
+        Remove(_tickHandlers[name]);
+        _tickHandlers.Remove(name);
+      }
+    }
+    
+    /// <summary>
+    /// Removes a method from the timer.
+    /// </summary>
+    /// <param name="callback">the method to remove</param>
+    public void Remove(GameTickHandler callback)
+    {
+      GameTick -= callback;
+      if (_tickHandlers.ContainsKey(callback.Method.Name))
+      {
+        _tickHandlers.Remove(callback.Method.Name);
+      }
+    }
+    
+    /// <summary>
+    /// Cleans up the timer.
+    /// </summary>
+    public void CleanUp()
+    {
+      _tickHandlers.Clear();
+      GameTick = null;
+    }
+    #endregion Methods
   }
 }

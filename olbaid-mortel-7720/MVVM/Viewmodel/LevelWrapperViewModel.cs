@@ -101,7 +101,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick += AddEnemy;
+      timer.Execute(AddEnemy, nameof(this.AddEnemy) + GetHashCode());
     }
     private void AddPlayer()
     {
@@ -279,6 +279,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void LeaveMatch()
     {
       //TODO: Clearup, handle win/loose (saving data of win and unlock new level)
+      GameTimer.Instance.CleanUp();
       NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
     #endregion Methods

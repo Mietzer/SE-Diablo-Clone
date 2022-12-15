@@ -21,7 +21,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     public CollectableObject(string name, bool visible, int lifetime) : base(name, visible, false)
     {
       this.overallLifetime = this.remainingLifetime = lifetime;
-      GameTimer.Instance.GameTick += this.OnGameTick;
+      GameTimer.Instance.Execute(OnGameTick, Name + GetHashCode());
     }
     
     private void OnGameTick(EventArgs e)
@@ -50,7 +50,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     
     private void Remove()
     {
-      GameTimer.Instance.GameTick -= this.OnGameTick;
+      GameTimer.Instance.RemoveByName(Name + GetHashCode());
       // TODO: remove from canvas
     }
   }

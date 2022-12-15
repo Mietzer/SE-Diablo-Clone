@@ -48,10 +48,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void InitTimer()
     {
       GameTimer timer = GameTimer.Instance;
-      timer.GameTick += Move;
-      timer.GameTick += RemoveEnemy;
-      timer.GameTick += MoveShots;
-      timer.GameTick += CheckforHit;
+      timer.Execute(Move, nameof(this.Move) + GetHashCode());
+      timer.Execute(RemoveEnemy, nameof(this.RemoveEnemy) + GetHashCode());
+      timer.Execute(MoveShots, nameof(this.MoveShots) + GetHashCode());
+      timer.Execute(CheckforHit, nameof(this.CheckforHit) + GetHashCode());
     }
 
     private void Move(EventArgs e)
