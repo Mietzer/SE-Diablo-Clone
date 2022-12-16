@@ -103,7 +103,7 @@ namespace olbaid_mortel_7720.Engine
     public static string ExecuteWithInterval(int interval, GameTickHandler callback, IntervalProgressHandler? progress, bool removeAfterExecution = false)
     {
       numOfIntervals++;
-      string internalNumOfIntervals = $"interval-{numOfIntervals}-{callback.Target}";
+      string newIntervalId = $"interval-{numOfIntervals}-{callback.Target?.ToString()?.Split('.')[^1]}-{interval}t";
       int counter = 0;
       GameTimer timer = new GameTimer();
       GameTickHandler handler = delegate (EventArgs e)
@@ -114,7 +114,7 @@ namespace olbaid_mortel_7720.Engine
           counter = 0;
 
           if (removeAfterExecution)
-            timer.RemoveByName(internalNumOfIntervals);
+            timer.RemoveByName(newIntervalId);
         }
         else
         {
@@ -124,8 +124,8 @@ namespace olbaid_mortel_7720.Engine
         if (progress != null)
           progress((double)counter / interval);
       };
-      timer.Execute(handler, internalNumOfIntervals);
-      return internalNumOfIntervals;
+      timer.Execute(handler, newIntervalId);
+      return newIntervalId;
     }
     
     /// <summary>
@@ -179,6 +179,7 @@ namespace olbaid_mortel_7720.Engine
       {
         RemoveByName(key);
       }
+      this.GameTick = null;
     }
     #endregion Methods
   }
