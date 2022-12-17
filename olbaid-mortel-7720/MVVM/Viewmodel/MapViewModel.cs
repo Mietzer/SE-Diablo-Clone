@@ -95,4 +95,3 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
   #endregion Methods
 }
-}
