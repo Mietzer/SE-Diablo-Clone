@@ -1,18 +1,15 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-
-namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
+﻿namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
 {
   public class SpawnObject : GameObject
   {
     #region Properties
-    
-    public float X;
-    public float Y;
-    
+
+    public int X;
+    public int Y;
+
     #endregion Properties
-    
-    public SpawnObject(string name, bool visible, bool penetrable, float x, float y) : base(name, visible, penetrable)
+
+    public SpawnObject(string name, bool visible, bool penetrable, int x, int y) : base(name, visible, penetrable)
     {
       X = x;
       Y = y;

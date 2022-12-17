@@ -43,6 +43,21 @@ namespace olbaid_mortel_7720.MVVM.View
       window.KeyDown += Canvas_WeaponSelection;
     }
 
+    /// <summary>
+    /// Remove Event from Window as it's not used anymore
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+      Window window = NavigationLocator.MainViewModel as Window;
+      window.KeyDown -= Canvas_StartMove;
+      window.KeyUp -= Canvas_StopMove;
+      window.MouseLeftButtonDown -= Canvas_Shoot;
+      window.MouseLeftButtonUp -= Canvas_MouseUp;
+      window.MouseMove -= Canvas_MouseMove;
+    }
+
     private void Canvas_MouseMove(object sender, MouseEventArgs e)
     {
       Point p = e.GetPosition(PlayerCanvasObject);
@@ -124,5 +139,7 @@ namespace olbaid_mortel_7720.MVVM.View
       (DataContext as PlayerViewModel).Shoot(p);
     }
     #endregion shooting
+
+
   }
 }

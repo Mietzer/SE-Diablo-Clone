@@ -17,13 +17,13 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       return remainingLifetime > 0;
     }
-    
+
     public CollectableObject(string name, bool visible, int lifetime) : base(name, visible, false)
     {
       this.overallLifetime = this.remainingLifetime = lifetime;
-      GameTimer.Instance.GameTick += this.OnGameTick;
+      GameTimer.Instance.Execute(OnGameTick, Name + GetHashCode());
     }
-    
+
     private void OnGameTick(EventArgs e)
     {
       this.remainingLifetime--;
@@ -32,7 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
         this.Remove();
       }
     }
-    
+
     public void OnCollect(Player player)
     {
       Debug.WriteLine(this.Name + " collected");
@@ -47,10 +47,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
       Debug.WriteLine(this.Name + " spawned");
       // TODO: Add to canvas
     }
-    
+
     private void Remove()
     {
-      GameTimer.Instance.GameTick -= this.OnGameTick;
+      GameTimer.Instance.RemoveByName(Name + GetHashCode());
       // TODO: remove from canvas
     }
   }

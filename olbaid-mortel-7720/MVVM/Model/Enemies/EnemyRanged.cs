@@ -26,7 +26,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
       IsAttacking = false;
       Random random = new Random();
-      GameTimer.ExecuteWithInterval(random.Next(0, 50), delegate(EventArgs e)
+      GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate(EventArgs e)
       {
         GameTimer.ExecuteWithInterval(40, delegate(EventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Rect Hitbox { get; set; }
 
     private bool hasHit;
+    private Vector vector;
+
     public bool HasHit
     {
       get { return hasHit; }
@@ -29,7 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #endregion Properties
 
-    public Bullet(int height, int width, Vector direction, Brush brush, string name)
+    public Bullet(Vector direction, int height, int width, Brush brush, string name)
     {
       Rectangle = new Rectangle();
       Rectangle.Height = height;
@@ -39,6 +42,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       Direction = direction;
       Hitbox = new Rect(0, 0, width, height);
     }
+
+    public Bullet(Vector vector, Munition munition) : this(vector, munition.Height, munition.Width, munition.BulletImage, munition.Name)
+    { }
 
     #region Methods
     /// <summary>

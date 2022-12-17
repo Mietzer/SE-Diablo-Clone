@@ -20,7 +20,7 @@ namespace olbaid_mortel_7720.Engine
     private int health;
     private int damage;
     private static Pathfinder pathfinder;
-    
+
     public abstract ReadOnlyCollection<CollectableObject> GetPossibleDrops();
 
     public int Health
@@ -29,10 +29,12 @@ namespace olbaid_mortel_7720.Engine
       set
       {
         if (value == health) return;
+        health = value;
+
         //Delete Picture if Enemy dies
         if (health <= 0)
-          Model = null;
-        health = value;
+          base.Dispose();
+
         OnPropertyChanged(nameof(Health));
       }
     }
@@ -63,27 +65,30 @@ namespace olbaid_mortel_7720.Engine
     public bool IsAttacking { get; protected set; }
     #endregion Properties
 
-    #region Methods
     protected Enemy(int x, int y, int height, int width, int steplength, int health, int damage, MapViewModel mapModel) : base(x, y, height, width, steplength, mapModel)
     {
       this.health = health;
       this.damage = damage;
-      
+
       if (pathfinder == null)
         pathfinder = Pathfinder.Initialize(this.Barriers);
     }
 
+    #region Methods
+    ~Enemy() { }
     public void TakeDamage(int points)
     {
-      Health -= points;
+      if (Health > 0)
+        Health -= points;
     }
 
     protected List<Direction> DecideDirectionPath(Player player, int x, int y, int nearest = 0, int farthest = 0)
     {
       const int tolerance = 5;
+      Direction lastDirection = Direction;
       List<Direction> directions = new();
-      
-      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord), Direction);
+
+      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.XCoord, player.YCoord), lastDirection);
 
       int xDiff = Math.Abs(player.XCoord - x);
       if (xDiff > farthest)
@@ -96,7 +101,7 @@ namespace olbaid_mortel_7720.Engine
         if (targetVector.X > tolerance) directions.Add(Direction.Left);
         else if (targetVector.X < -tolerance) directions.Add(Direction.Right);
       }
-      
+
       int yDiff = Math.Abs(player.YCoord - y);
       if (yDiff > farthest)
       {
@@ -108,11 +113,31 @@ namespace olbaid_mortel_7720.Engine
         if (targetVector.Y > tolerance) directions.Add(Direction.Up);
         else if (targetVector.Y < -tolerance) directions.Add(Direction.Down);
       }
-      
+
+      if (directions.Count > 0)
+      {
+        switch (lastDirection)
+        {
+          case Direction.Down:
+            directions.RemoveAll(dir => dir == Direction.Up);
+            break;
+          case Direction.Up:
+            directions.RemoveAll(dir => dir == Direction.Down);
+            break;
+          case Direction.Left:
+            directions.RemoveAll(dir => dir == Direction.Right);
+            break;
+          case Direction.Right:
+            directions.RemoveAll(dir => dir == Direction.Left);
+            break;
+        }
+      }
+
       return directions;
     }
-    
+
     public abstract void Attack(Player player);
+
     #endregion Methods
   }
 }
