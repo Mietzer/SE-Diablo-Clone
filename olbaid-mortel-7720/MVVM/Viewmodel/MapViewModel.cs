@@ -2,9 +2,7 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
-using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -31,7 +29,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       this.map = map;
       Canvas = canvas;
       RenderMap();
-      CreatObjects();
     }
 
     #region Methods
@@ -93,15 +90,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    public void CreatObjects()
-    {
-      List<SpawnObject> rednerobjects = map.LoadObjects();
 
-      for (int i = 0; i < rednerobjects.Count; i++)
-      {
-      }
-    }
-
-    #endregion Methods
   }
+
+  #endregion Methods
+}
 }

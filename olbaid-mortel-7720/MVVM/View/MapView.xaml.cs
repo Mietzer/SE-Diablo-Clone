@@ -13,7 +13,6 @@ namespace olbaid_mortel_7720.MVVM.View
     public MapView(Map map)
     {
       InitializeComponent();
-      //myGrid
       Vm = new MapViewModel(MyCanvas, map);
     }
   }

@@ -14,9 +14,5 @@
       this.Visible = visible;
       Penetrable = penetrable;
     }
-
-    #region Methods
-
-    #endregion Methods
   }
 }
