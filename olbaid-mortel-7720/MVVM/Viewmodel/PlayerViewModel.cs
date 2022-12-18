@@ -1,7 +1,6 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,17 +74,18 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         if (item is Rectangle && item.Name == shotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
-          b?.Move(velocity);
 
-          if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
-           || b.HasHit
+          if (b.HasHit
            || MyPlayer.Barriers.Any(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox)))
           {
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
+            b.Rectangle.Height = 0;
+            b.Rectangle.Width = 0;
             MyPlayer.Bullets.Remove(b);
           }
+          else
+            b?.Move(velocity);
         }
       }
       //Now delete
@@ -99,8 +99,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <param name="p">Targetpoint for Bullet</param>
     public void Shoot(Point p)
     {
-      double playerShootX = MyPlayer.XCoord + MyPlayer.Width / 2
-         , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 2;
+
+      double playerShootX = MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2
+         , playerShootY = MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
