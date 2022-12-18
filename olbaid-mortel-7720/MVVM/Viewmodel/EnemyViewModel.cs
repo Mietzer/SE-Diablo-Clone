@@ -124,7 +124,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           if ((enemy as EnemyRanged).IsAttacking)
           {
             //TODO: Maybe some randomness to weaken Enemys (Maybe own Property for Enemy for shot accuracy (Boss and Rare -> Better, Normal ->worse)
-            Point p = new Point(MyPlayer.XCoord + MyPlayer.Width / 2, MyPlayer.YCoord + MyPlayer.Height / 2);
+            Point p = new Point(MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2, MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2);
             Shoot(enemy as EnemyRanged, p);
             (enemy as EnemyRanged).ShotCoolDown();
           }
@@ -155,7 +155,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           Random rnd = new Random();
           CollectableObject collectable = enemy.GetPossibleDrops()[rnd.Next(0, enemy.GetPossibleDrops().Count)];
-          collectable.Spawn(MyEnemyCanvas, enemy.XCoord - enemy.Width / 2, enemy.YCoord - enemy.Height / 2);
+          collectable.Spawn(MyEnemyCanvas, (int)enemy.Hitbox.X - (int)enemy.Hitbox.Width / 2, (int)enemy.Hitbox.Y - (int)enemy.Hitbox.Height / 2);
 
           DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
           animation.Completed += delegate
@@ -190,8 +190,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void Shoot(EnemyRanged enemy, Point p)
     {
-      double enemyShootX = enemy.XCoord + MyPlayer.Width / 2;
-      double enemyShootY = enemy.YCoord + MyPlayer.Height / 4 * 3;
+      double enemyShootX = enemy.Hitbox.X + MyPlayer.Hitbox.Width / 2;
+      double enemyShootY = enemy.Hitbox.Y + MyPlayer.Hitbox.Height / 2;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
