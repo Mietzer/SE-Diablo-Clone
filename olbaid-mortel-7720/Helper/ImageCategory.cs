@@ -18,6 +18,7 @@
     internal static readonly ImageCategory PLAYER = new ImageCategory("Entities/Player/");
     internal static readonly ImageCategory MELEE = new ImageCategory("Entities/Melee/");
     internal static readonly ImageCategory RANGED = new ImageCategory("Entities/Ranged/");
+    internal static readonly ImageCategory BOSS = new ImageCategory("Entities/Boss/");
     internal static readonly ImageCategory BULLETS = new ImageCategory("Entities/Bullets/");
     internal static readonly ImageCategory HEALTHBAR = new ImageCategory("Healthbar/");
     internal static readonly ImageCategory HEALTHBAR_ICONS = new ImageCategory("Healthbar/Icons/");
