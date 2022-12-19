@@ -11,10 +11,10 @@
         },
         "Level1.tmx": {
             "scale": 0.75,
-            "selectedLayer": 11,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 905.3333333333333,
-                "y": 459.33333333333326
+                "x": 539.3333333333333,
+                "y": 131.33333333333326
             }
         },
         "Level1.tsx": {
@@ -24,6 +24,9 @@
         "Level1_old.tsx": {
             "scaleInDock": 2,
             "scaleInEditor": 4
+        },
+        "Level2.tsx": {
+            "scaleInDock": 2
         }
     },
     "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Levels",

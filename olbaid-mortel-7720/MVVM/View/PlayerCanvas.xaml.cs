@@ -107,6 +107,8 @@ namespace olbaid_mortel_7720.MVVM.View
         vm.MoveRight = false;
     }
 
+
+
     #region shooting
     private async void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
     {

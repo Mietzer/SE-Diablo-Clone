@@ -344,7 +344,7 @@
  <objectgroup id="7" name="Finish Point" locked="1">
   <object id="11" name="Finish Point" x="929.313" y="32.9375" width="30" height="30"/>
  </objectgroup>
- <objectgroup id="5" name="Spawn Points">
+ <objectgroup id="5" name="Spawn Points" visible="0">
   <object id="72" name="Enemy Spawn" x="95.25" y="240.25">
    <point/>
   </object>

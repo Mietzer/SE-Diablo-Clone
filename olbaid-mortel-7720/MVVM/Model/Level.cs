@@ -5,6 +5,8 @@ using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 
+
+
 namespace olbaid_mortel_7720.MVVM.Model
 {
   public class Level
@@ -30,7 +32,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
-    //TODO: Add WIN/LOSE Game 
     public void SpawnEnemies(MapViewModel mapModel, uint enemyCount)
     {
       Random rnd = new Random();

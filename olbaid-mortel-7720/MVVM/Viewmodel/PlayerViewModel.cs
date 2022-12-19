@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 
 
+
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class PlayerViewModel : NotifyObject
@@ -106,7 +107,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Bullet bullet = new Bullet(vector, MyPlayer.currentWeapon.Munition);
+      Bullet bullet = new Bullet(vector, MyPlayer.CurrentWeapon.Munition);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -194,6 +195,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (!MoveDown && !MoveUp && !MoveLeft && !MoveRight)
         MyPlayer.StopMovement(e);
     }
+
     #endregion Methods
 
     #region Commands
