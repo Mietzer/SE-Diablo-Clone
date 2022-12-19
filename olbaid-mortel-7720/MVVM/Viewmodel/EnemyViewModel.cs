@@ -198,7 +198,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
       vector.Normalize();
       Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
-      Bullet bullet = new Bullet(vector, 3, 6, bulletImage, ShotName);
+      Bullet bullet = new Bullet(vector, 5, 10, bulletImage, ShotName);
 
       //TODO: Check for walls
 

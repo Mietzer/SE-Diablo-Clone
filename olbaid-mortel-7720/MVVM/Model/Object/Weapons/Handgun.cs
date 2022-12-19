@@ -15,7 +15,7 @@ namespace olbaid_mortel_7720.Object
       reloadtime = 2;
       category = ImageCategory.WEAPONS_PLAYER_HANDGUN;
       imageString = "handgun.png";
-      this.Munition = new Munition(3, 6, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer");
+      this.Munition = new Munition(5, 10, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "handgun-bullet.png")), "ShotPlayer");
     }
     #region Methods
 
