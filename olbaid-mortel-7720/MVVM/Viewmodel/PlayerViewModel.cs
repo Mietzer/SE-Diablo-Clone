@@ -25,9 +25,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public bool MoveUp { get; set; }
     public bool MoveDown { get; set; }
 
-    public bool PrimaryWeapon { get; set; }
-    public bool SecondaryWeapon { get; set; }
-
     private string shotName = "ShotPlayer";
 
     private Canvas myPlayerCanvas;
@@ -109,7 +106,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Bullet bullet = new Bullet(vector, MyPlayer.currentWeapon.Munition);
+      Bullet bullet = new Bullet(vector, MyPlayer.CurrentWeapon.Munition);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -198,25 +195,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.StopMovement(e);
     }
 
-    /// <summary>
-    /// Method to Select the Player Weapon
-    /// </summary>
-    /// <param name="e"></param>
-    private void WeaponSelection(EventArgs e)
-    {
-      if (PrimaryWeapon)
-      {
-        MyPlayer.WeaponSelection(Key.D1);
-        PrimaryWeapon = false;
-      }
-
-      else if (SecondaryWeapon)
-      {
-        MyPlayer.WeaponSelection(Key.D2);
-        SecondaryWeapon = false;
-      }
-
-    }
     #endregion Methods
 
     #region Commands

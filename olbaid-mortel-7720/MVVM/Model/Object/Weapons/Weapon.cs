@@ -34,6 +34,8 @@ namespace olbaid_mortel_7720.Object
     {
       return imageString;
     }
+
+
     #endregion Methods
 
   }

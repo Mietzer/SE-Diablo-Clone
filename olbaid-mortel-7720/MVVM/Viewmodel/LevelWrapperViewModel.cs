@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using WpfAnimatedGif;
@@ -80,6 +81,28 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    private Player p;
+
+    public Player Player
+    {
+      get { return p; }
+      set
+      {
+        p = value;
+        OnPropertyChanged(nameof(Player));
+      }
+    }
+
+    private PlayerWeaponView weaponImage;
+    public PlayerWeaponView WeaponImage
+    {
+      get { return weaponImage; }
+      set
+      {
+        weaponImage = value;
+        OnPropertyChanged(nameof(WeaponImage));
+      }
+    }
 
     #endregion Properties
 
@@ -149,7 +172,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddPlayer()
     {
-      Player p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).ViewModel);
+      p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).ViewModel);
       PlayerView = new PlayerCanvas(p);
 
       Gui = new UserControl();
@@ -164,7 +187,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Canvas.SetLeft(playerHealthbar, 20);
       guiCanvas.Children.Add(playerHealthbar);
 
-      PlayerWeaponView weaponImage = new PlayerWeaponView(p);
+      weaponImage = new PlayerWeaponView(p);
       weaponImage.Height = guiHeight;
       weaponImage.Width = guiHeight * 2;
       Canvas.SetTop(weaponImage, 20);
@@ -329,8 +352,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //TODO: Wenn Bosse Besigt WON
 
     }
-
-
+    /*
+    public void WeaponSelection(Key k)
+    {
+      WeaponImage.Update(Player);
+    }
+    */
     #endregion Methods
 
     #region Commands
@@ -348,6 +375,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       //TODO: Ask user if he really wants to leave
       LeaveMatch();
+    }
+
+    /// <summary>
+    /// Method to Select the Player Weapon
+    /// </summary>
+    /// <param name="e"></param>
+    public void WeaponSelection(Key k)
+    {
+      if (k == Key.D1)
+      {
+        Player.WeaponSelection(Key.D1);
+        WeaponImage.Update(Player.CurrentWeapon);
+      }
+      else
+      {
+        Player.WeaponSelection(Key.D2);
+        WeaponImage.Update(Player.CurrentWeapon);
+      }
     }
 
     public bool CanLeaveGame() => !IsRunning;

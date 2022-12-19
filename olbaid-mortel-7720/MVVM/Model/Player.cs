@@ -56,7 +56,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
-    public Weapon currentWeapon;
+    private Weapon currentWeapon;
     private Weapon primaryweapon;
     private Weapon secondaryweapon;
     public Weapon CurrentWeapon
@@ -85,7 +85,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       WeaponOverlay = null;
       primaryweapon = new Handgun();
       secondaryweapon = new Rifle();
-      currentWeapon = secondaryweapon;
+      CurrentWeapon = primaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
     }
 
