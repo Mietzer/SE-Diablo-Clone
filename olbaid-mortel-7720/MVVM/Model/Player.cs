@@ -1,6 +1,5 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
-using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using olbaid_mortel_7720.Object;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 
@@ -25,6 +23,11 @@ namespace olbaid_mortel_7720.MVVM.Model
       private set
       {
         healthPoints = value;
+        if (healthPoints <= 0)
+        {
+          Bullets.CollectionChanged -= Bullets_CollectionChanged;
+          base.Dispose();
+        }
         OnPropertyChanged(nameof(HealthPoints));
       }
     }
@@ -53,7 +56,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
-    public Weapon currentWeapon;
+    private Weapon currentWeapon;
     private Weapon primaryweapon;
     private Weapon secondaryweapon;
     public Weapon CurrentWeapon
@@ -63,6 +66,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         if (value == currentWeapon) return;
         currentWeapon = value;
+        WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + this.Direction.ToString().ToLower() + ".gif");
         OnPropertyChanged(nameof(CurrentWeapon));
       }
     }
@@ -79,10 +83,14 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
-      primaryweapon = new Handgun(new Munition(3, 6, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
-      secondaryweapon = new Rifle(new Munition(4, 8, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer"));
-      currentWeapon = secondaryweapon;
+      primaryweapon = new Handgun();
+      secondaryweapon = new Rifle();
+      CurrentWeapon = primaryweapon;
       Bullets.CollectionChanged += Bullets_CollectionChanged;
+    }
+
+    ~Player()
+    {
     }
 
     #region Methods
@@ -121,6 +129,23 @@ namespace olbaid_mortel_7720.MVVM.Model
         string directionString = this.Direction.ToString().ToLower();
         Image = ImageImporter.Import(ImageCategory.PLAYER, "player-walking-" + directionString + ".gif");
         WeaponOverlay = ImageImporter.Import(CurrentWeapon.GetCategory(), "walking-" + directionString + ".gif");
+      }
+    }
+
+    /// <summary>
+    /// Weapon Selection with Key 1 and 2 for Player
+    /// </summary>
+    /// <param name="key"></param>
+    public void WeaponSelection(Key key)
+    {
+      switch (key)
+      {
+        case Key.D1:
+          CurrentWeapon = this.primaryweapon;
+          break;
+        case Key.D2:
+          CurrentWeapon = this.secondaryweapon;
+          break;
       }
     }
 
@@ -170,6 +195,11 @@ namespace olbaid_mortel_7720.MVVM.Model
     public void TakeDamage(int damage)
     {
       HealthPoints -= damage;
+
+      if (HealthPoints <= 0)
+      {
+        Death();
+      }
     }
 
     /// <summary>
@@ -198,8 +228,15 @@ namespace olbaid_mortel_7720.MVVM.Model
         foreach (var item in e.OldItems)
           if ((item as Bullet).HasHit)
             ShotHits++;
-
     }
+
+    private void Death()
+    {
+      //TODO: Rest Clean Up Impelemtieren von Bluescren View 
+      HealthPoints = 10;
+      NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
+    }
+
     #endregion Events
   }
 }

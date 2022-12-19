@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Utils;
 using System.Windows;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
@@ -6,12 +7,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
   public class StartscreenViewModel : BaseViewModel
   {
     #region Properties
-
+    public bool FirstTime => GlobalVariables.FirstTime;
     #endregion Properties
 
     #region Constructor
     public StartscreenViewModel()
     {
+
       InitCommands();
     }
     #endregion Constructor
@@ -29,6 +31,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     public void OpenLevelView(object sender)
     {
+      GlobalVariables.FirstTime = false;
       NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
     }
 

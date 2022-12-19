@@ -9,12 +9,12 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class MapView : UserControl
   {
-    public MapViewModel Vm;
+    public MapViewModel ViewModel;
     public MapView(Map map)
     {
       InitializeComponent();
       //myGrid
-      Vm = new MapViewModel(MyCanvas, map);
+      ViewModel = new MapViewModel(MyCanvas, map);
     }
   }
 }

@@ -101,7 +101,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         foreach (var obj in layer.objects)
         {
           // Todo: Impelmentierung vpn Objecten z.b. Spawn Points
-          spawnObjects.Add(new SpawnObject(obj.name, true, true, Convert.ToInt32(obj.x + obj.width / 2), Convert.ToInt32(obj.y + obj.height / 2)));
+          spawnObjects.Add(new SpawnObject(obj.name, true, true, Convert.ToInt32(obj.x), Convert.ToInt32(obj.y)));
         }
       }
 
