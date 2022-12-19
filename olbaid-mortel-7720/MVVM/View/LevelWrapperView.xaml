@@ -12,7 +12,7 @@
   <UserControl.Resources>
     <conv:BoolToVisibilityInverterConverter x:Key="BoolVisIC" />
     <BooleanToVisibilityConverter x:Key="BoolVisC" />
-    
+
     <!--#region Pause Style for Visibilty-->
     <Style x:Key="PauseScreen"
            TargetType="{x:Type Grid}">
@@ -24,7 +24,7 @@
               <Storyboard>
                 <DoubleAnimation Storyboard.TargetProperty="Height"
                                  Duration="0:0:1.5"
-                                 To="1050"/>
+                                 To="1050" />
               </Storyboard>
             </BeginStoryboard>
           </DataTrigger.EnterActions>
@@ -41,6 +41,7 @@
       </Style.Triggers>
     </Style>
     <!--#endregion Pause Style for Visibilty-->
+
   </UserControl.Resources>
   <Viewbox x:Name="ScalingViewBox">
     <Grid>
@@ -55,7 +56,7 @@
 
       <ContentControl Content="{Binding Gui}" />
 
-      
+
       <!--#region PauseScreen-->
       <Grid Height="0"
             Style="{StaticResource PauseScreen}"
@@ -68,7 +69,7 @@
           <RowDefinition />
           <RowDefinition />
           <RowDefinition />
-          <RowDefinition Height="50"/>
+          <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <TextBlock Text="PAUSE"
                    HorizontalAlignment="Center"
@@ -81,8 +82,8 @@
                 Grid.Row="1"
                 FontSize="130"
                 Command="{Binding ResumeGameCommand}"
-                Style="{StaticResource TitlescreenButton}"/>
-        
+                Style="{StaticResource TitlescreenButton}" />
+
         <Button Content="Leave Game"
                 Width="600"
                 Grid.Row="2"
@@ -93,7 +94,115 @@
       </Grid>
       <!--#endregion PauseScreen-->
 
+      <!--#region DeathScreen-->
+      <Grid Visibility="{Binding Path=PlayerAlive, Converter={StaticResource BoolVisIC}}"
+            Width="1920"
+            Height="1050"
+            Cursor="Arrow">
+        <Grid.Background>
+          <SolidColorBrush Color="{StaticResource BluescreenBlue}"
+                           Opacity="1.0" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="3*" />
+          <RowDefinition Height="2*" />
+          <RowDefinition Height="2*" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="10*" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text=": ("
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Foreground="White"
+                   FontSize="320" />
+
+        <TextBlock Text="{Binding DeathscreenText}"
+                   TextWrapping="Wrap"
+                   Grid.Row="2"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Foreground="White"
+                   FontSize="60" />
+        <TextBlock Text="{Binding DeathscreenInfo}"
+                   TextWrapping="Wrap"
+                   Grid.Row="3"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Foreground="White"
+                   FontSize="40" />
+
+      </Grid>
+      <!--#endregion DeathScreen-->
+
+      <!--#region Victory Screen-->
+      <Grid Visibility="{Binding Path=PlayerHasWon, Converter={StaticResource BoolVisC}}"
+            Width="1920"
+            Height="1050"
+            Cursor="Arrow">
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="10*" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="10*" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Congrats"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="350"
+                   FontWeight="ExtraBold"
+                   Grid.Column="1"
+                   Grid.Row="1">
+          <TextBlock.Foreground>
+            <RadialGradientBrush>
+              <GradientStop Color="Black" />
+            </RadialGradientBrush>
+          </TextBlock.Foreground>
+          <TextBlock.Effect>
+            <DropShadowEffect ShadowDepth="0"
+                              Color="White"
+                              Opacity="0.5"
+                              BlurRadius="880" />
+          </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock Text="Congrats"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="350"
+                   FontWeight="ExtraBold"
+                   Grid.Column="1"
+                   Grid.Row="1">
+          <TextBlock.Foreground>
+            <RadialGradientBrush>
+              <GradientStop Color="DarkGoldenrod" />
+            </RadialGradientBrush>
+          </TextBlock.Foreground>
+          <TextBlock.Effect>
+            <DropShadowEffect ShadowDepth="0"
+                              Color="White"
+                              Opacity="0.5"
+                              BlurRadius="880" />
+          </TextBlock.Effect>
+          <TextBlock.RenderTransform>
+            <TranslateTransform X="5" Y="5"></TranslateTransform>
+          </TextBlock.RenderTransform>
+        </TextBlock>
+      </Grid>
+      <!--#endregion Victory Screen-->
     </Grid>
   </Viewbox>
- 
+
 </UserControl>

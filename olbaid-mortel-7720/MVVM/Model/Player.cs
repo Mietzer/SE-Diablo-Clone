@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
+  public delegate void DeathEvent();
+
   public class Player : Entity
   {
     #region Properties
@@ -25,7 +27,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         healthPoints = value;
         if (healthPoints <= 0)
         {
-          Bullets.CollectionChanged -= Bullets_CollectionChanged;
+          Die();
           base.Dispose();
         }
         OnPropertyChanged(nameof(HealthPoints));
@@ -195,11 +197,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     public void TakeDamage(int damage)
     {
       HealthPoints -= damage;
-
-      if (HealthPoints <= 0)
-      {
-        Death();
-      }
     }
 
     /// <summary>
@@ -230,11 +227,14 @@ namespace olbaid_mortel_7720.MVVM.Model
             ShotHits++;
     }
 
-    private void Death()
+    public event DeathEvent PlayerDied;
+
+    protected virtual void Die()
     {
       //TODO: Rest Clean Up Impelemtieren von Bluescren View 
+      Bullets.CollectionChanged -= Bullets_CollectionChanged;
       HealthPoints = 10;
-      NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
+      PlayerDied?.Invoke();
     }
 
     #endregion Events

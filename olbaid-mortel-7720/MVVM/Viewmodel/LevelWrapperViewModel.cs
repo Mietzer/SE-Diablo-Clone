@@ -4,6 +4,7 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -63,6 +64,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private int usedLevelID;
     private Level usedLevel;
+    private double bluescreenPercent { get; set; } = 0.0;
     private UserControl currentLevel;
     public UserControl CurrentLevel
     {
@@ -81,14 +83,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    private Player p;
-
+    private Player player;
     public Player Player
     {
-      get { return p; }
+      get { return player; }
       set
       {
-        p = value;
+        player = value;
         OnPropertyChanged(nameof(Player));
       }
     }
@@ -104,6 +105,43 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
+    private string deathscreenText;
+    public string DeathscreenText
+    {
+      get { return deathscreenText; }
+      set
+      {
+        deathscreenText = value;
+        OnPropertyChanged(nameof(DeathscreenText));
+      }
+    }
+
+    public string DeathscreenInfo { get; private set; } = "Press SPACE or ENTER to go to Levelselection. Press R to restart. You can't search online" +
+                                                          " later for this Error: HAL_GOODGAMEPLAY-Failed " +
+                                                          " If you like to resolve the issue over the phone you can't call our support at 1-234-567-890";
+    private bool playerAlive = true;
+    public bool PlayerAlive
+    {
+      get { return playerAlive; }
+      set
+      {
+        playerAlive = value;
+        OnPropertyChanged(nameof(PlayerAlive));
+      }
+    }
+
+    private bool playerHasWon = false;
+    public bool PlayerHasWon
+    {
+      get { return playerHasWon; }
+      set
+      {
+        playerHasWon = value;
+        OnPropertyChanged(nameof(PlayerHasWon));
+      }
+    }
+
+    private long timestampStart;
     #endregion Properties
 
     #region Constructor
@@ -128,6 +166,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       //Remove from timer
       GameTimer timer = GameTimer.Instance;
       timer.RemoveByName(nameof(this.AddEnemy) + GetHashCode());
+      timer.RemoveByName(nameof(this.PlayerDied) + GetHashCode());
 
       //Dispose in SubViewModels
       if (EnemyView != null)
@@ -172,22 +211,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddPlayer()
     {
-      p = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).ViewModel);
-      PlayerView = new PlayerCanvas(p);
+      player = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).ViewModel);
+      PlayerView = new PlayerCanvas(player);
+      player.PlayerDied += PlayerDied;
 
       Gui = new UserControl();
       Canvas guiCanvas = new Canvas();
       Gui.Content = guiCanvas;
       int guiHeight = 40;
 
-      PlayerHealthbarView playerHealthbar = new PlayerHealthbarView(p);
+      PlayerHealthbarView playerHealthbar = new PlayerHealthbarView(player);
       playerHealthbar.Height = guiHeight;
       playerHealthbar.Width = guiHeight * 6;
       Canvas.SetTop(playerHealthbar, 20);
       Canvas.SetLeft(playerHealthbar, 20);
       guiCanvas.Children.Add(playerHealthbar);
 
-      weaponImage = new PlayerWeaponView(p);
+      weaponImage = new PlayerWeaponView(player);
       weaponImage.Height = guiHeight;
       weaponImage.Width = guiHeight * 2;
       Canvas.SetTop(weaponImage, 20);
@@ -197,20 +237,29 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (System.Diagnostics.Debugger.IsAttached)
       {
         Rectangle hitbox = new Rectangle();
-        hitbox.Height = (int)p.Hitbox.Height;
-        hitbox.Width = (int)p.Hitbox.Width;
+        hitbox.Height = (int)player.Hitbox.Height;
+        hitbox.Width = (int)player.Hitbox.Width;
         hitbox.Stroke = Brushes.DodgerBlue;
         hitbox.StrokeThickness = 1;
         Binding xBind = new Binding("Hitbox.X");
-        xBind.Source = p;
+        xBind.Source = player;
         hitbox.SetBinding(Canvas.LeftProperty, xBind);
         Binding yBind = new Binding("Hitbox.Y");
-        yBind.Source = p;
+        yBind.Source = player;
         hitbox.SetBinding(Canvas.TopProperty, yBind);
         PlayerView.PlayerCanvasObject.Children.Add(hitbox);
       }
     }
 
+    private void PlayerDied()
+    {
+      //Remove Event
+      player.PlayerDied -= PlayerDied;
+      PlayerAlive = false;
+
+      GameTimer timer = GameTimer.Instance;
+      timer.Execute(ChangeBluescreenText, nameof(this.PlayerDied) + GetHashCode());
+    }
     private void AddEnemy(EventArgs spawn)
     {
       if (enemyPlaced == 0 || (enemyPlaced < maxEnemies && !CheckIfNotDead(spawnList)))
@@ -222,6 +271,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           return;
         }
         timerTicksToWaitEnemySpawning = 60;
+        if (timestampStart == 0) //First Waves
+          timestampStart = DateTime.UtcNow.Ticks;
         //Creating View to display Enemies
         spawnList = CreateSpawnList(10);
         EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
@@ -274,6 +325,30 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         }
         enemyPlaced++;
       }
+
+      //TODO: If Enemy is Boss add BossDied Method to Win Event (like Player)
+    }
+
+    private void Win()
+    {
+      //Remove Event
+      // TODO -= Win;
+
+      TogglePause(); //Pause game
+      PlayerHasWon = true;
+
+      //Save stats of level
+      DataProvider dataProvider = new();
+      ObservableCollection<LevelModel> loadedLevels = dataProvider.LoadData<ObservableCollection<LevelModel>>("Leveldata");
+      LevelModel loadedCurrentLevel = loadedLevels.First(l => l.LevelID == usedLevelID);
+
+      CheckLevelStats(loadedCurrentLevel);
+
+      LevelModel loadedNextLevel = loadedLevels.FirstOrDefault(l => l.LevelID == usedLevelID);
+      if (loadedNextLevel != null)
+        loadedNextLevel.IsUnlocked = true;
+
+      dataProvider.SaveData(loadedLevels, "Leveldata");
     }
 
     /// <summary>
@@ -317,47 +392,83 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       usedLevel = level1;
     }
 
+    private void CheckLevelStats(LevelModel levelModel)
+    {
+      levelModel.BestTime = new(DateTime.UtcNow.Ticks - timestampStart);
+      TimeSpan goodTime = new(0, 0, 0);
+      double goodShotRatio = 1.0;
+      int goodRemainignHealth = 100;
+      switch (levelModel.LevelID)
+      {
+        //TODO: Find some good values for all 3 levels
+        case 1:
+          goodTime = new(0, 7, 0);
+          goodShotRatio = 0.8;
+          goodRemainignHealth = 80;
+          break;
+        case 2: break;
+        case 3: break;
+      }
+      if (levelModel.BestTime < goodTime || Player.ShotHits / Player.OverallShots >= goodShotRatio || Player.HealthPoints > goodRemainignHealth)
+        levelModel.Star1 = true;
+      if ((levelModel.BestTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio) ||
+          (Player.HealthPoints > goodRemainignHealth && levelModel.BestTime < goodTime) ||
+          (Player.HealthPoints > goodRemainignHealth && Player.ShotHits / Player.OverallShots >= goodShotRatio))
+        levelModel.Star1 = levelModel.Star2 = true;
+
+      if (levelModel.BestTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio && Player.HealthPoints > goodRemainignHealth)
+        levelModel.Star1 = levelModel.Star2 = levelModel.Star3 = true;
+    }
     /// <summary>
     /// Method to Pause/ Resume Game, depending on current state
     /// </summary>
     public void TogglePause()
     {
+      if (PlayerHasWon) return;
       GameTimer timer = GameTimer.Instance;
 
-      if (IsRunning)
-        timer.Stop();
-      else
+      if (!IsRunning)
         timer.Start();
+      else
+        timer.Stop();
 
-      IsRunning = !IsRunning;
+      IsRunning = timer.IsRunning;
       OnPropertyChanged(nameof(timer.IsRunning));
     }
 
     /// <summary>
     /// Sets view back to Levelselection
     /// </summary>
-    private void LeaveMatch()
+    public void LeaveMatch()
     {
-      //TODO: handle win/loose (saving data of win and unlock new level)
-      Dispose();
-      GameTimer.Instance.CleanUp();
-      NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
+      if (!PlayerAlive)
+      {
+        //TODO: handle win/loose (saving data of win and unlock new level)
+        Dispose();
+        GameTimer.Instance.CleanUp();
+        NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
+      }
     }
 
-    /// <summary>
-    /// Method to Win Game
-    /// </summary>
-    private void Win()
+    public void RestartMatch()
     {
-      //TODO: Wenn Bosse Besigt WON
+      if (!PlayerAlive)
+      {
+        LeaveMatch();
+        NavigationLocator.MainViewModel.SwitchView(new LevelWrapperViewModel(usedLevelID));
+      }
+    }
 
-    }
-    /*
-    public void WeaponSelection(Key k)
+
+    private void ChangeBluescreenText(EventArgs e)
     {
-      WeaponImage.Update(Player);
+      bluescreenPercent += 0.05;
+      DeathscreenText = $"Your Level run into a problem and needs to restart. We're just collecting some error" +
+                                               $" info, and then you'll restart {(int)bluescreenPercent}% complete)";
+
+      if (bluescreenPercent > 100)
+        LeaveMatch();
     }
-    */
     #endregion Methods
 
     #region Commands
@@ -374,6 +485,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public void LeaveGame(object sender)
     {
       //TODO: Ask user if he really wants to leave
+      PlayerAlive = false;
       LeaveMatch();
     }
 
