@@ -55,9 +55,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="y">Y Coordinate</param>
     public void Show(Canvas canvas, double x, double y)
     {
-      // Adjust the hitbox
-      Hitbox = new Rect(x, y, Rectangle.Width, Rectangle.Height);
-
       //Add to View
       canvas.Children.Add(Rectangle);
 
@@ -66,8 +63,11 @@ namespace olbaid_mortel_7720.MVVM.Model
       Rectangle.RenderTransform = new RotateTransform(angle, Rectangle.Width / 2, Rectangle.Height / 2);
 
       //Set Position
-      Canvas.SetLeft(Rectangle, x + Direction.X * 50);
-      Canvas.SetTop(Rectangle, y + Direction.Y * 50);
+      Canvas.SetLeft(Rectangle, x);
+      Canvas.SetTop(Rectangle, y);
+
+      // Adjust the hitbox
+      Hitbox = new Rect(Canvas.GetLeft(Rectangle), Canvas.GetTop(Rectangle), Rectangle.Width, Rectangle.Height);
     }
 
     /// <summary>
@@ -82,6 +82,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       // Adjust the hitbox
       Hitbox = new Rect(Canvas.GetLeft(Rectangle), Canvas.GetTop(Rectangle), Rectangle.Width, Rectangle.Height);
+
     }
     #endregion Methods
   }
