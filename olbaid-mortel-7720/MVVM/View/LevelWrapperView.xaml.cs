@@ -34,7 +34,6 @@ namespace olbaid_mortel_7720.MVVM.View
 
       Window window = Window.GetWindow(this);
       window.KeyDown += PauseLevel;
-      window.KeyDown += Canvas_WeaponSelection;
     }
 
     /// <summary>
@@ -46,7 +45,6 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       Window window = NavigationLocator.MainViewModel as Window;
       window.KeyDown -= PauseLevel;
-      window.KeyDown -= Canvas_WeaponSelection;
     }
     private void PauseLevel(object sender, KeyEventArgs e)
     {
@@ -54,13 +52,7 @@ namespace olbaid_mortel_7720.MVVM.View
         (DataContext as LevelWrapperViewModel).TogglePause();
     }
 
-    private void Canvas_WeaponSelection(object sender, KeyEventArgs e)
-    {
-      if (e.Key == Key.D1 || e.Key == Key.D2)
-      {
-        (DataContext as LevelWrapperViewModel).WeaponSelection(e.Key);
-      }
-    }
+
 
   }
 }

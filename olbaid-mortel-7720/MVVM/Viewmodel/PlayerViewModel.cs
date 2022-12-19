@@ -4,6 +4,7 @@ using olbaid_mortel_7720.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -196,6 +197,21 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.StopMovement(e);
     }
 
+    /// <summary>
+    /// Method to Select the Player Weapon
+    /// </summary>
+    /// <param name="e"></param>
+    public void WeaponSelection(Key k)
+    {
+      if (k == Key.D1)
+      {
+        MyPlayer.WeaponSelection(Key.D1);
+      }
+      else
+      {
+        MyPlayer.WeaponSelection(Key.D2);
+      }
+    }
     #endregion Methods
 
     #region Commands

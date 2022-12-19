@@ -1,5 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
@@ -13,9 +15,11 @@ namespace olbaid_mortel_7720.MVVM.Model
   {
     #region Properties
 
-    //TODO: ADD Progperties for Level
+    //TODO: ADD Properties for Level
 
     public Map Map;
+
+    public List<DropObject> DropObjects;
 
     private List<Enemy> _enemySpawnList;
     public List<Enemy> EnemySpawnList
@@ -29,6 +33,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Level(Map map)
     {
       Map = map;
+      DropObjects = new List<DropObject>();
     }
 
     #region Methods
@@ -58,6 +63,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         {
           index = rnd.Next(0, spawnPoints.Count);
           spawnList.Add(new EnemyMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
+
         }
         else if (spawnGen > 35 && spawnGen <= 70)
         {
@@ -74,6 +80,7 @@ namespace olbaid_mortel_7720.MVVM.Model
           index = rnd.Next(0, spawnPoints.Count);
           spawnList.Add(new EnemyRareRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
         }
+        spawnList[i].IsDeath += RandomDrop;
       }
       EnemySpawnList = spawnList;
     }
@@ -114,6 +121,44 @@ namespace olbaid_mortel_7720.MVVM.Model
       return list;
     }
 
+
+    private void RandomDrop(object sender, EnemyDeathPoint e)
+    {
+      Random rnd = new Random();
+      int DropNummer = rnd.Next(0, 1);
+
+      if (DropNummer >= 0 && 4 >= DropNummer)
+      {
+        DropObject dropObject = new DropObject(e.X, e.Y, "DropObject", true);
+        switch (DropNummer)
+        {
+          case 0:
+            dropObject.AddAsLoot(new Medicine(10, 20));
+            DropObjects.Add(dropObject);
+            break;
+          case 1:
+            dropObject.AddAsLoot(new Paralysis(10, 20));
+            DropObjects.Add(dropObject);
+            break;
+          case 2:
+            //Armor
+            break;
+          case 3:
+            //Protection 
+            break;
+          case 4:
+            //upgrade +1 Damage 
+            break;
+        }
+        ObjectDropt?.Invoke(this, EventArgs.Empty);
+      }
+
+    }
     #endregion Methods
+    #region Events
+
+    public event EventHandler ObjectDropt;
+
+    #endregion Events
   }
 }
