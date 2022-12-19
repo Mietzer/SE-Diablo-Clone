@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using WpfAnimatedGif;
@@ -50,6 +49,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       {
         enemyView = value;
         OnPropertyChanged(nameof(EnemyView));
+      }
+    }
+
+    private DropObjectCanvas dropobjects;
+    public DropObjectCanvas DropObjcects
+    {
+      get { return dropobjects; }
+      set
+      {
+        dropobjects = value;
+        OnPropertyChanged(nameof(DropObjcects));
       }
     }
 
@@ -206,6 +216,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       GameTimer timer = GameTimer.Instance;
       timer.Execute(AddEnemy, nameof(this.AddEnemy) + GetHashCode());
+
       timer.Start();
       IsRunning = GameTimer.Instance.IsRunning;
     }
@@ -389,9 +400,15 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
+      level1.ObjectDropt += UpdateDropObjectView; ;
       usedLevel = level1;
     }
 
+      private void UpdateDropObjectView(object sender, EventArgs e)
+    {
+      DropObjcects = new DropObjectCanvas(usedLevel.DropObjects, Player);
+    }
+    
     private void CheckLevelStats(LevelModel levelModel)
     {
       levelModel.BestTime = new(DateTime.UtcNow.Ticks - timestampStart);
@@ -489,23 +506,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       LeaveMatch();
     }
 
-    /// <summary>
-    /// Method to Select the Player Weapon
-    /// </summary>
-    /// <param name="e"></param>
-    public void WeaponSelection(Key k)
-    {
-      if (k == Key.D1)
-      {
-        Player.WeaponSelection(Key.D1);
-        WeaponImage.Update(Player.CurrentWeapon);
-      }
-      else
-      {
-        Player.WeaponSelection(Key.D2);
-        WeaponImage.Update(Player.CurrentWeapon);
-      }
-    }
 
     public bool CanLeaveGame() => !IsRunning;
     #endregion Commands

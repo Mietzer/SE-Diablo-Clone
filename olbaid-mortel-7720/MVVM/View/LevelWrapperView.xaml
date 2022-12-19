@@ -48,6 +48,8 @@
       <ContentControl Content="{Binding CurrentLevel}"
                       x:Name="LevelControl" />
 
+      <ContentControl Content="{Binding DropObjcects}"/>
+
       <ContentControl Content="{Binding PlayerView}"
                       x:Name="PlayerControl" />
 

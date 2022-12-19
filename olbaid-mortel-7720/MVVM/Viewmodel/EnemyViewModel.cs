@@ -53,6 +53,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.Execute(RemoveEnemy, nameof(this.RemoveEnemy) + GetHashCode());
       timer.Execute(MoveShots, nameof(this.MoveShots) + GetHashCode());
       timer.Execute(CheckforHit, nameof(this.CheckforHit) + GetHashCode());
+
     }
 
     /// <summary>
@@ -65,6 +66,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.RemoveByName(nameof(this.RemoveEnemy) + GetHashCode());
       timer.RemoveByName(nameof(this.MoveShots) + GetHashCode());
       timer.RemoveByName(nameof(this.CheckforHit) + GetHashCode());
+
 
 
       foreach (Enemy enemy in MyEnemies)

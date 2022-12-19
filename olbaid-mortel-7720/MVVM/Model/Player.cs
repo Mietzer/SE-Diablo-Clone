@@ -149,6 +149,7 @@ namespace olbaid_mortel_7720.MVVM.Model
           CurrentWeapon = this.secondaryweapon;
           break;
       }
+      WeaponSwap?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -237,6 +238,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       PlayerDied?.Invoke();
     }
 
+    public event EventHandler WeaponSwap;
     #endregion Events
   }
 }
