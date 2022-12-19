@@ -1,4 +1,5 @@
-﻿using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
@@ -23,6 +24,7 @@ namespace olbaid_mortel_7720.Engine
 
     public abstract ReadOnlyCollection<CollectableObject> GetPossibleDrops();
 
+    public string DeathPoint { get; set; }
     public int Health
     {
       get { return health; }
@@ -80,6 +82,14 @@ namespace olbaid_mortel_7720.Engine
     {
       if (Health > 0)
         Health -= points;
+      if (Health <= 0)
+      {
+        EnemyDeathPoint edp = new EnemyDeathPoint();
+        edp.X = this.XCoord;
+        edp.Y = this.YCoord;
+        OnDeath(edp);
+      }
+
     }
 
     protected List<Direction> DecideDirectionPath(Player player, int x, int y, int nearest = 0, int farthest = 0)
@@ -138,6 +148,29 @@ namespace olbaid_mortel_7720.Engine
 
     public abstract void Attack(Player player);
 
+    public event EventHandler EventDeath;
+    /*
+    public void Death()
+    {
+      DeathPoint = $"X: {this.XCoord} Y:{this.YCoord} Enemy is Death";
+      MessageBox.Show(DeathPoint);
+
+    }
+    */
     #endregion Methods
+
+    #region Events
+    protected virtual void OnDeath(EnemyDeathPoint e)
+    {
+      EventHandler<EnemyDeathPoint> handler = IsDeath;
+      if (handler != null)
+      {
+        handler(this, e);
+      }
+    }
+
+    public event EventHandler<EnemyDeathPoint> IsDeath;
+
+    #endregion Events
   }
 }

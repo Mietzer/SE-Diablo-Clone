@@ -40,6 +40,7 @@ namespace olbaid_mortel_7720.MVVM.View
       window.MouseLeftButtonDown += Canvas_Shoot;
       window.MouseLeftButtonUp += Canvas_MouseUp;
       window.MouseMove += Canvas_MouseMove;
+      window.KeyDown += Canvas_WeaponSelection;
     }
 
     /// <summary>
@@ -55,6 +56,7 @@ namespace olbaid_mortel_7720.MVVM.View
       window.MouseLeftButtonDown -= Canvas_Shoot;
       window.MouseLeftButtonUp -= Canvas_MouseUp;
       window.MouseMove -= Canvas_MouseMove;
+      window.KeyDown -= Canvas_WeaponSelection;
     }
 
     private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -107,7 +109,13 @@ namespace olbaid_mortel_7720.MVVM.View
         vm.MoveRight = false;
     }
 
-
+    private void Canvas_WeaponSelection(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.D1 || e.Key == Key.D2)
+      {
+        (DataContext as PlayerViewModel).WeaponSelection(e.Key);
+      }
+    }
 
     #region shooting
     private async void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
