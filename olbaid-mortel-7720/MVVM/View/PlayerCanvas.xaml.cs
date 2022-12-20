@@ -1,7 +1,9 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,12 +17,14 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class PlayerCanvas : UserControl
   {
-    public Player MyPlayer { get; set; }
-    public Rectangle CustomPointer { get; set; }
+    public Player MyPlayer { get; private set; }
+    public Rectangle CustomPointer { get; private set; }
+    public List<GameObject> currentObjects { get; private set; }
 
-    public PlayerCanvas(Player player)
+    public PlayerCanvas(Player player, List<GameObject> gameObjects)
     {
       MyPlayer = player;
+      currentObjects = gameObjects;
       InitializeComponent();
       PlayerViewModel vm = new(player, PlayerCanvasObject);
       DataContext = vm;
@@ -41,6 +45,7 @@ namespace olbaid_mortel_7720.MVVM.View
       window.MouseLeftButtonUp += Canvas_MouseUp;
       window.MouseMove += Canvas_MouseMove;
       window.KeyDown += Canvas_WeaponSelection;
+      window.KeyDown += Canvas_ObjectInteraction;
     }
 
     /// <summary>
@@ -52,11 +57,12 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       Window window = NavigationLocator.MainViewModel as Window;
       window.KeyDown -= Canvas_StartMove;
+      window.KeyDown -= Canvas_WeaponSelection;
+      window.KeyDown -= Canvas_ObjectInteraction;
       window.KeyUp -= Canvas_StopMove;
       window.MouseLeftButtonDown -= Canvas_Shoot;
       window.MouseLeftButtonUp -= Canvas_MouseUp;
       window.MouseMove -= Canvas_MouseMove;
-      window.KeyDown -= Canvas_WeaponSelection;
     }
 
     private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -129,6 +135,14 @@ namespace olbaid_mortel_7720.MVVM.View
       if (p.X < 0 || p.Y < 0 || !GameTimer.Instance.IsRunning)
         return;
       (DataContext as PlayerViewModel).Shoot(p);
+    }
+    
+    private void Canvas_ObjectInteraction(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.E)
+      {
+        (DataContext as PlayerViewModel).TryCollection(currentObjects);
+      }
     }
     #endregion shooting
 

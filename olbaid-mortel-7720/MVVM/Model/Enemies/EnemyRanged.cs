@@ -38,9 +38,11 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #region Methods
     public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
     {
+      int x = (int)(Hitbox.X + Hitbox.Width / 2);
+      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
       List<CollectableObject> drops = new List<CollectableObject>();
-      drops.Add(new Medicine(200, 25));
-      drops.Add(new Paralysis(200, 100));
+      drops.Add(new Medicine(200, 40, x, y));
+      drops.Add(new Paralysis(200, 150, x, y));
       return drops.AsReadOnly();
     }
 
@@ -71,7 +73,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         return;
       }
 
-      List<Direction> directions = DecideDirectionPath(player, XCoord, YCoord, nearestDistance, farthestDistance);
+      List<Direction> directions = DecideDirectionPath(player, Hitbox.X + Hitbox.Width / 2, Hitbox.Y + Hitbox.Height / 2, nearestDistance, farthestDistance);
 
       Direction item;
       if (directions.Count == 0)

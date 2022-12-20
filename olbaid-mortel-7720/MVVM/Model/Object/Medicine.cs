@@ -10,7 +10,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   {
     private int lifepoints;
 
-    public Medicine(int lifetime, int lifepoints) : base("Medicine", true, lifetime)
+    public Medicine(int lifetime, int lifepoints, int x, int y) : base("Medicine", true, lifetime, x, y)
     {
       this.lifepoints = lifepoints;
       category = ImageCategory.ITEMS;

@@ -20,7 +20,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       foreach (CollectableObject item in Items)
       {
-        item.Spawn(canvas, x, y);
+        item.Spawn(canvas);
       }
     }
 

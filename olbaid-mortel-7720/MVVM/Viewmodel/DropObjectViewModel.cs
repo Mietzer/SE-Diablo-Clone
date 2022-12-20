@@ -9,7 +9,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
   public class DropObjectViewModel : NotifyObject
   {
     #region Properties
-    public List<DropObject> DropObjects;
+    public List<GameObject> DropObjects;
     private Player MyPlayer { get; set; }
 
     private Canvas DropObjectCanvas;
@@ -19,7 +19,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #endregion Properties
 
     #region Constructor
-    public DropObjectViewModel(List<DropObject> dropObjects, Canvas dropObjectCanvas, Player player)
+    public DropObjectViewModel(List<GameObject> dropObjects, Canvas dropObjectCanvas, Player player)
     {
       DropObjects = dropObjects;
       this.DropObjectCanvas = dropObjectCanvas;
@@ -38,7 +38,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       foreach (var dropObject in DropObjects)
       {
-        dropObject.DropItems(DropObjectCanvas);
+        if (dropObject is DropObject)
+        {
+          (dropObject as DropObject)?.DropItems(DropObjectCanvas);
+        }
+        else if (dropObject is CollectableObject)
+        {
+          (dropObject as CollectableObject)?.Spawn(DropObjectCanvas);
+        }
       }
     }
 

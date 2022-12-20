@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
@@ -222,8 +223,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddPlayer()
     {
-      player = new Player(200, 150, 64, 32, 100, 5, (CurrentLevel as MapView).ViewModel);
-      PlayerView = new PlayerCanvas(player);
+      player = new Player(200, 150, 64, 32, (CurrentLevel as MapView).ViewModel);
+      PlayerView = new PlayerCanvas(player, usedLevel.DropObjects);
       player.PlayerDied += PlayerDied;
 
       Gui = new UserControl();
@@ -343,6 +344,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           enemyHealth.SetBinding(Canvas.TopProperty, bindEnemyY);
           EnemyView.EnemyCanvasObject.Children.Add(enemyHealth);
         }
+
+        if (e is EnemyBoss)
+        {
+          BossHealthbarView bossHealthbar = new BossHealthbarView();
+          bossHealthbar.Width = 32 * 2;
+          bossHealthbar.Height = bossHealthbar.Width / 12;
+          bossHealthbar.Tag = "BossHealthbar";
+          bossHealthbar.DataContext = e as EnemyBoss;
+          Binding bindBossHealthbarX = new Binding("Hitbox.X");
+          bindBossHealthbarX.Source = e;
+          bossHealthbar.SetBinding(Canvas.LeftProperty, bindBossHealthbarX);
+          Binding bindBossHealthbarY = new Binding("Hitbox.Y");
+          bindBossHealthbarY.Source = e;
+          bossHealthbar.SetBinding(Canvas.TopProperty, bindBossHealthbarY);
+          EnemyView.EnemyCanvasObject.Children.Add(bossHealthbar);
+        }
+        
         enemyPlaced++;
       }
 
@@ -409,11 +427,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
-      level1.ObjectDropt += UpdateDropObjectView; ;
+      level1.DroppedObjectsChanged += UpdateDropObjectView;
       usedLevel = level1;
     }
 
-      private void UpdateDropObjectView(object sender, EventArgs e)
+    private void UpdateDropObjectView(object? sender, EventArgs e)
     {
       DropObjcects = new DropObjectCanvas(usedLevel.DropObjects, Player);
     }

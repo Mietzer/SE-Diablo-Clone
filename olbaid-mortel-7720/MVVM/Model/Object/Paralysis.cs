@@ -10,7 +10,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   {
     private int duration;
 
-    public Paralysis(int lifetime, int duration) : base("Paralysis", true, lifetime)
+    public Paralysis(int lifetime, int duration, int x, int y) : base("Paralysis", true, lifetime, x, y)
     {
       this.duration = duration;
       category = ImageCategory.ITEMS;
@@ -19,8 +19,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
 
     public override void WhenCollected(Player player)
     {
-      player.Effect = PlayerEffect.Poisoned;
-      // TODO: method with timer in player class
+      player.Poison(duration);
     }
   }
 }

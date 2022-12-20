@@ -1,16 +1,16 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
+using olbaid_mortel_7720.MVVM.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-
-
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -25,7 +25,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public bool MoveUp { get; set; }
     public bool MoveDown { get; set; }
 
-    private string shotName = "ShotPlayer";
+    private readonly string shotName = "ShotPlayer";
 
     private Canvas myPlayerCanvas;
     #endregion Properties
@@ -77,9 +77,18 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
 
-          if (b.HasHit
-           || MyPlayer.Barriers.Any(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox)))
+          List<Barrier> barriers = MyPlayer.Barriers.FindAll(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox));
+
+          if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
+           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
+           || b.HasHit 
+           || barriers.Count > 0)
           {
+            if (barriers.Any(barrier => barrier.Tag == Barrier.BarrierTag.Destroyable))
+            {
+              // TODO: Decrease healthpoints of barrier
+            }
+            
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
             b.Rectangle.Height = 0;
@@ -210,6 +219,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       else
       {
         MyPlayer.WeaponSelection(Key.D2);
+      }
+    }
+
+    /// <summary>
+    /// Try to pick up a item
+    /// </summary>
+    /// <param name="objects">currently visible objects</param>
+    public void TryCollection(List<GameObject> objects)
+    {
+      List<GameObject> collectables = objects.FindAll(delegate(GameObject obj)
+      {
+        return obj as CollectableObject != null
+        && MyPlayer.Hitbox.IntersectsWith((obj as CollectableObject).Hitbox);
+      });
+      
+      foreach (GameObject obj in collectables)
+      {
+        (obj as CollectableObject)?.OnCollect(MyPlayer);
       }
     }
     #endregion Methods

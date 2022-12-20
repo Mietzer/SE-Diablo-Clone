@@ -19,7 +19,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     public Map Map;
 
-    public List<DropObject> DropObjects;
+    public List<GameObject> DropObjects;
 
     private List<Enemy> _enemySpawnList;
     public List<Enemy> EnemySpawnList
@@ -32,7 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Level(Map map)
     {
       Map = map;
-      DropObjects = new List<DropObject>();
+      DropObjects = new List<GameObject>();
     }
 
     #region Methods
@@ -54,33 +54,51 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
 
       //Generates Spawnlist by generating random numbers and using a range to determine which enemy has to be added
-      for (int i = 0; i < enemyCount; i++)
+      for (int i = 0; i < enemyCount + 1; i++)
       {
-        spawnGen = rnd.Next(0, 100);
-        if (spawnGen <= 35)
+        if (i == enemyCount)
         {
-          index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
+          spawnList.Add(new EnemyBoss(1920 / 2, 1080 / 2, mapModel));
+        }
+        else
+        {
+          spawnGen = rnd.Next(0, 100);
+          if (spawnGen <= 35)
+          {
+            index = rnd.Next(0, spawnPoints.Count);
+            spawnList.Add(new EnemyMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
 
+          }
+          else if (spawnGen > 35 && spawnGen <= 70)
+          {
+            index = rnd.Next(0, spawnPoints.Count);
+            spawnList.Add(new EnemyRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
+          }
+          else if (spawnGen > 70 && spawnGen <= 80)
+          {
+            index = rnd.Next(0, spawnPoints.Count);
+            spawnList.Add(new EnemyRareMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
+          }
+          else if (spawnGen > 80 && spawnGen <= 100)
+          {
+            index = rnd.Next(0, spawnPoints.Count);
+            spawnList.Add(new EnemyRareRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
+          }
         }
-        else if (spawnGen > 35 && spawnGen <= 70)
+        // spawnList[i].IsDeath += RandomDrop;
+        spawnList[i].IsDeath += delegate(object? sender, EnemyDeathPoint point)
         {
-          index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
-        }
-        else if (spawnGen > 70 && spawnGen <= 80)
-        {
-          index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyRareMelee(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
-        }
-        else if (spawnGen > 80 && spawnGen <= 100)
-        {
-          index = rnd.Next(0, spawnPoints.Count);
-          spawnList.Add(new EnemyRareRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
-        }
-        spawnList[i].IsDeath += RandomDrop;
+          Random rnd = new Random();
+          CollectableObject collectable = point.Drops[rnd.Next(0, point.Drops.Count)];
+          collectable.OnRemoveEvent += delegate(CollectableObject obj)
+          {
+            DropObjects.Remove(obj);
+            DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
+          };
+          DropObjects.Add(collectable);
+          DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
+        };
       }
-      spawnList.Add(new EnemyBoss(1920 / 2, 1080 / 2, mapModel));
       //Corrects Width and Height incorrection in X and Y Coordinates
       spawnList = FixCoordinates(spawnList);
       EnemySpawnList = spawnList;
@@ -109,11 +127,11 @@ namespace olbaid_mortel_7720.MVVM.Model
         switch (DropNummer)
         {
           case 0:
-            dropObject.AddAsLoot(new Medicine(10, 20));
+            dropObject.AddAsLoot(new Medicine(10, 20, e.X, e.Y));
             DropObjects.Add(dropObject);
             break;
           case 1:
-            dropObject.AddAsLoot(new Paralysis(10, 20));
+            dropObject.AddAsLoot(new Paralysis(10, 20, e.X, e.Y));
             DropObjects.Add(dropObject);
             break;
           case 2:
@@ -126,14 +144,14 @@ namespace olbaid_mortel_7720.MVVM.Model
             //upgrade +1 Damage 
             break;
         }
-        ObjectDropt?.Invoke(this, EventArgs.Empty);
+        DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
       }
 
     }
     #endregion Methods
     #region Events
 
-    public event EventHandler ObjectDropt;
+    public event EventHandler DroppedObjectsChanged;
 
     #endregion Events
   }

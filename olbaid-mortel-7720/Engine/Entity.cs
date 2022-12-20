@@ -1,5 +1,6 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
@@ -172,7 +173,12 @@ namespace olbaid_mortel_7720.Engine
           testHitbox.Y += StepLength;
           break;
       }
-      return !Barriers.Any(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
+      List<Barrier> intersections = Barriers.FindAll(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
+      if (this is EnemyBoss)
+      {
+        intersections.RemoveAll(barrier => barrier.Type == Barrier.BarrierType.Hole);
+      }
+      return intersections.Count == 0;
     }
 
     protected void Dispose()
