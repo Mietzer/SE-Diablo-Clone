@@ -5,6 +5,7 @@ using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,15 +15,39 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyBoss : Enemy
   {
+    private int _healthPercentage;
+    public int HealthPercentage
+    {
+      get
+      {
+        return _healthPercentage;
+      }
+      set
+      {
+        if (_healthPercentage == value) return;
+        _healthPercentage = value;
+        OnPropertyChanged(nameof(HealthPercentage));  
+      }
+    }
 
     public EnemyBoss(int x, int y, MapViewModel mapModel) : base(x, y, 64 * 2, 32 * 2, 5, 1000, 10, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.BOSS, "boss-walking-left.gif");
+      HealthPercentage = 100;
       Hitbox = new Rect(x, y + 21 * 2, Width, Height - 21 * 2);
       GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
       {
         IsAttacking = true;
       });
+      this.PropertyChanged += EnemyBoss_PropertyChanged;
+    }
+    
+    private void EnemyBoss_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == nameof(Health))
+      {
+        HealthPercentage = (int)Math.Round((double)Health / 1000 * 100);
+      }
     }
 
     public override void RefreshHitbox()

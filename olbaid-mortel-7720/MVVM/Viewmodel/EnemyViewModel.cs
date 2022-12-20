@@ -4,6 +4,7 @@ using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Utils;
+using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,6 +176,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           animation.Completed += delegate
           {
             MyEnemyCanvas.Children.Remove(enemy.Model);
+            UIElement element = MyEnemyCanvas.Children.Cast<UIElement>().FirstOrDefault(e => e is BossHealthbarView && (string)e.GetValue(Canvas.TagProperty) == "BossHealthbar");
+            if (element != null)
+            {
+              MyEnemyCanvas.Children.Remove(element);
+            }
           };
           enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList

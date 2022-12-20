@@ -11,9 +11,6 @@
              x:Name="CtlHealthbar"
              Background="Transparent">
     <!-- #region Datacontext and Resources -->
-    <UserControl.DataContext>
-        <local:BossHealthbarModel />
-    </UserControl.DataContext>
     <UserControl.Resources>
         <utils:PercentageToSizeConverter x:Key="PercentageToSizeConverter" />
     </UserControl.Resources>
@@ -29,7 +26,7 @@
             <Image.Width>
                 <MultiBinding Converter="{StaticResource PercentageToSizeConverter}">
                     <Binding ElementName="CtlHealthbar" Path="ActualWidth" />
-                    <Binding Path="Health" />
+                    <Binding Path="HealthPercentage" />
                 </MultiBinding>
             </Image.Width>
         </Image>

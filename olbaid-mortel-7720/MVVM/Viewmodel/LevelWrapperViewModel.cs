@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
@@ -343,6 +344,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           enemyHealth.SetBinding(Canvas.TopProperty, bindEnemyY);
           EnemyView.EnemyCanvasObject.Children.Add(enemyHealth);
         }
+
+        if (e is EnemyBoss)
+        {
+          BossHealthbarView bossHealthbar = new BossHealthbarView();
+          bossHealthbar.Width = 32 * 2;
+          bossHealthbar.Height = bossHealthbar.Width / 12;
+          bossHealthbar.Tag = "BossHealthbar";
+          bossHealthbar.DataContext = e as EnemyBoss;
+          Binding bindBossHealthbarX = new Binding("Hitbox.X");
+          bindBossHealthbarX.Source = e;
+          bossHealthbar.SetBinding(Canvas.LeftProperty, bindBossHealthbarX);
+          Binding bindBossHealthbarY = new Binding("Hitbox.Y");
+          bindBossHealthbarY.Source = e;
+          bossHealthbar.SetBinding(Canvas.TopProperty, bindBossHealthbarY);
+          EnemyView.EnemyCanvasObject.Children.Add(bossHealthbar);
+        }
+        
         enemyPlaced++;
       }
 

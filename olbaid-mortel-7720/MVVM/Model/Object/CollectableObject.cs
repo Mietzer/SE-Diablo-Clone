@@ -91,7 +91,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
       GameTimer.Instance.RemoveByName(Name + GetHashCode());
       if (Canvas != null)
       {
-        var element = Canvas.Children.Cast<UIElement>().FirstOrDefault(e => e is Rectangle && (int)e.GetValue(Canvas.TagProperty) == GetHashCode());
+        UIElement element = Canvas.Children.Cast<UIElement>().FirstOrDefault(e => e is Rectangle && (int)e.GetValue(Canvas.TagProperty) == GetHashCode());
         if (element != null)
         {
           Canvas.Children.Remove(element);
