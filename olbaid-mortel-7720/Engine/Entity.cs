@@ -21,7 +21,7 @@ namespace olbaid_mortel_7720.Engine
     public int XCoord
     {
       get { return xCoord; }
-      private set
+      internal set
       {
         if (value == xCoord) return;
         xCoord = value;
@@ -33,7 +33,7 @@ namespace olbaid_mortel_7720.Engine
     public int YCoord
     {
       get { return yCoord; }
-      private set
+      internal set
       {
         if (value == yCoord) return;
         yCoord = value;
@@ -50,7 +50,7 @@ namespace olbaid_mortel_7720.Engine
     public int StepLength
     {
       get { return stepLength; }
-      private set
+      protected set
       {
         stepLength = value;
         OnPropertyChanged(nameof(stepLength));

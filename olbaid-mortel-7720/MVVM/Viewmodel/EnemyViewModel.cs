@@ -89,6 +89,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         if (enemy != null && enemy is EnemyRanged)
           (enemy as EnemyRanged).KeepDistance(MyPlayer);
 
+        if (enemy != null && enemy is EnemyBoss)
+          (enemy as EnemyBoss).MoveToPlayer(MyPlayer);
+
         //Places enemy Image at new Position
         ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
         Canvas.SetTop(enemy.Model, enemy.YCoord);
@@ -104,6 +107,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         // Checks if bullet hits Enemyhitbox
         Enemy enemy = MyEnemies?.FirstOrDefault(ene => ene.Hitbox.IntersectsWith(bullet.Hitbox));
         enemy?.TakeDamage(MyPlayer.CurrentWeapon.Damage);
+        if(enemy is EnemyBoss)
+          (enemy as EnemyBoss).ChangePhase();
         //Mark Bullet as deletable
         if (enemy != null)
           bullet.HasHit = true;
@@ -113,12 +118,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       foreach (Enemy enemy in MyEnemies)
       {
         //Checks if Enemy hits Playerhitbox
-        if (enemy != null && enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
+        if (enemy != null && (enemy is EnemyMelee || enemy is EnemyBoss) && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
-          if ((enemy as EnemyMelee).IsAttacking)
+          if (enemy as EnemyMelee != null && (enemy as EnemyMelee).IsAttacking)
           {
             enemy.Attack(MyPlayer);
             (enemy as EnemyMelee).AttackCoolDown();
+          }
+          else if(enemy as EnemyBoss != null && (enemy as EnemyBoss).IsAttacking)
+          {
+            enemy.Attack(MyPlayer);
+            (enemy as EnemyBoss).AttackCoolDown();
           }
         }
 
