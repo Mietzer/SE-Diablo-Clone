@@ -9,11 +9,11 @@ using System.Windows.Controls;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
-  public class DropObjectViewModel : NotifyObject
+  public class DroppedObjectsViewModel : NotifyObject
   {
     #region Properties
-    public List<GameObject> DropObjects;
-    private List<GameObject> _dropObjects;
+    public List<GameObject> DroppedObjects;
+    private List<GameObject> _droppedObjects;
     private Player MyPlayer { get; set; }
 
     private Canvas DropObjectCanvas;
@@ -23,10 +23,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #endregion Properties
 
     #region Constructor
-    public DropObjectViewModel(List<GameObject> dropObjects, Canvas dropObjectCanvas, Player player)
+    public DroppedObjectsViewModel(List<GameObject> droppedObjects, Canvas dropObjectCanvas, Player player)
     {
-      DropObjects = dropObjects;
-      this._dropObjects = new List<GameObject>();
+      DroppedObjects = droppedObjects;
+      this._droppedObjects = new List<GameObject>();
       this.DropObjectCanvas = dropObjectCanvas;
       this.DropObjectCanvas.Name = "DropObjectCanvas";
       this.MyPlayer = player;
@@ -34,7 +34,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitTimer();
     }
 
-    ~DropObjectViewModel() { }
+    ~DroppedObjectsViewModel() { }
     #endregion Constructor
 
     #region Methods 
@@ -52,8 +52,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       GameTimer timer = GameTimer.Instance;
       timer.RemoveByName(nameof(this.SpawnItems) + GetHashCode());
 
-      DropObjects?.Clear();
-      DropObjects = null;
+      DroppedObjects?.Clear();
+      DroppedObjects = null;
 
       MyPlayer = null;
 
@@ -65,9 +65,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// </summary>
     private void SpawnItems(EventArgs e)
     {
-      foreach (var dropObject in DropObjects)
+      foreach (var dropObject in DroppedObjects)
       {
-        if (!_dropObjects.Contains(dropObject))
+        if (!_droppedObjects.Contains(dropObject))
         {
           if (dropObject is DropObject)
           {
@@ -77,7 +77,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           {
             (dropObject as CollectableObject)?.Spawn(DropObjectCanvas);
           }
-          _dropObjects.Add(dropObject);
+          _droppedObjects.Add(dropObject);
         }
       }
     }

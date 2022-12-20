@@ -8,14 +8,11 @@ using System;
 using System.Collections.Generic;
 
 
-
-
 namespace olbaid_mortel_7720.MVVM.Model
 {
   public class Level
   {
     #region Properties
-
     public Map Map;
 
     public List<GameObject> DropObjects;
@@ -26,8 +23,8 @@ namespace olbaid_mortel_7720.MVVM.Model
       get { return _enemySpawnList; }
       private set { _enemySpawnList = value; }
     }
-
     #endregion Properties
+    
     public Level(Map map)
     {
       Map = map;
@@ -111,7 +108,6 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       return list;
     }
-
+    #endregion Methods
   }
-  #endregion Methods
 }

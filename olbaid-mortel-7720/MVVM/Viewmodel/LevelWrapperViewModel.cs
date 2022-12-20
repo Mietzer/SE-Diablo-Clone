@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using WpfAnimatedGif;
 
 
-
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class LevelWrapperViewModel : BaseViewModel
@@ -54,8 +53,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    private DropObjectCanvas dropobjects;
-    public DropObjectCanvas DropObjcects
+    private DroppedObjectsCanvas dropobjects;
+    public DroppedObjectsCanvas DropObjcects
     {
       get { return dropobjects; }
       set
@@ -434,7 +433,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddDropObject()
     {
-      DropObjcects = new DropObjectCanvas(usedLevel.DropObjects, Player);
+      DropObjcects = new DroppedObjectsCanvas(usedLevel.DropObjects, Player);
     }
 
     private void CheckLevelStats(LevelModel levelModel)
