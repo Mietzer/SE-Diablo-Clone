@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 
-
 namespace olbaid_mortel_7720.MVVM.Model
 {
   public delegate void EndingEvent();
@@ -19,9 +18,8 @@ namespace olbaid_mortel_7720.MVVM.Model
   public class Player : Entity
   {
     #region Properties
-
     private int healthPoints;
-    private bool armor;
+    private bool oneShotProtection;
     public int HealthPoints
     {
       get { return healthPoints; }
@@ -79,13 +77,12 @@ namespace olbaid_mortel_7720.MVVM.Model
     public bool IsShooting { get; set; }
     public int OverallShots { get; private set; } = 0;
     public int ShotHits { get; private set; } = 0;
-
     #endregion Properties
 
     public Player(int x, int y, int height, int width, MapViewModel mapModel) : base(x, y, height, width, 5, mapModel)
     {
       HealthPoints = 100;
-      armor = false;
+      oneShotProtection = false;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
@@ -100,7 +97,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #region Methods
-
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
@@ -206,7 +202,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints -= damage;
 
-      if (!armor)
+      if (!oneShotProtection)
       {
         HealthPoints -= damage;
 
@@ -217,12 +213,11 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
       else
       {
-        armor = false;
+        oneShotProtection = false;
         Effect = PlayerEffect.None;
       }
     }
-
-
+    
     /// <summary>
     /// Player is being healed
     /// </summary>
@@ -233,6 +228,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { if (HealthPoints < 100) HealthPoints += 1; }, true);
       GameTimer.ExecuteWithInterval(50 + amount, delegate (EventArgs args) { Effect = PlayerEffect.None; }, true);
     }
+    
     /// <summary>
     /// Player is being Poisoned
     /// </summary>
@@ -247,28 +243,33 @@ namespace olbaid_mortel_7720.MVVM.Model
         StepLength += 2;
       }, progress => { if (HealthPoints > 15 && (int)progress % 5 == 0) HealthPoints -= 1; }, true);
     }
+    
     /// <summary>
     /// Player is gets Armor
     /// </summary>
     /// <param name="amount">How much</param>
-    public void Armor()
+    public void BeProtected()
     {
       Effect = PlayerEffect.Protected;
-      armor = true;
+      oneShotProtection = true;
     }
+    
     /// <summary>
     /// Player Weapon gets Bonus Damage 
     /// </summary>
     /// <param name="amount">How much</param>
-    public void WeaponUpgrade(int damage)
+    public void UpgradeWeapon(int damage)
     {
-      currentWeapon.DamageUpgrade(damage);
+      currentWeapon.UpgradeDamage(damage);
     }
+    
+    /// <summary>
+    /// Player has got the level key
+    /// </summary>
     public void GetKey()
     {
       Won();
     }
-
     #endregion Methods
 
     #region Events
@@ -287,7 +288,14 @@ namespace olbaid_mortel_7720.MVVM.Model
             ShotHits++;
     }
 
+    /// <summary>
+    /// Event for the Player to die -> Game Over
+    /// </summary>
     public event EndingEvent PlayerDied;
+    
+    /// <summary>
+    /// Event for the Player to win -> Next Level
+    /// </summary>
     public event EndingEvent PlayerWon;
 
     protected virtual void Die()

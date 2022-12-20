@@ -6,17 +6,17 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   /// <summary>
   /// Class Armor for all Object that give the Player Armor
   /// </summary>
-  public class Armor : CollectableObject
+  public class Protection : CollectableObject
   {
-    public Armor(int lifetime, int x, int y) : base("Medicine", true, lifetime, x, y)
+    public Protection(int lifetime, int x, int y) : base("Protection", true, lifetime, x, y)
     {
       category = ImageCategory.ITEMS;
-      imageString = "helmet.png";
+      imageString = "protection.png";
     }
 
     public override void WhenCollected(Player player)
     {
-      player.Armor();
+      player.BeProtected();
     }
   }
 }

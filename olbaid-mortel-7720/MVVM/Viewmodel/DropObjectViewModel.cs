@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 
 
-
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class DropObjectViewModel : NotifyObject
@@ -43,7 +42,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       GameTimer timer = GameTimer.Instance;
       timer.Execute(SpawnItems, nameof(this.SpawnItems) + GetHashCode());
-      timer.Execute(CheckforHit, nameof(this.CheckforHit) + GetHashCode());
     }
 
     /// <summary>
@@ -53,7 +51,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       GameTimer timer = GameTimer.Instance;
       timer.RemoveByName(nameof(this.SpawnItems) + GetHashCode());
-      timer.RemoveByName(nameof(this.CheckforHit) + GetHashCode());
 
       DropObjects?.Clear();
       DropObjects = null;
@@ -62,27 +59,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       GC.Collect();
     }
-    /// <summary>
-    /// Method for Check if Player Hit Object
-    /// </summary>
-    private void CheckforHit(EventArgs e)
-    {
-      foreach (var dropObject in DropObjects)
-      {
-        if (dropObject is DropObject)
-        {
-
-        }
-        else if (dropObject is CollectableObject)
-        {
-          if ((dropObject as CollectableObject).Hitbox.IntersectsWith(MyPlayer.Hitbox))
-          {
-            (dropObject as CollectableObject).OnCollect(MyPlayer);
-            return;
-          }
-        }
-      }
-    }
+    
     /// <summary>
     /// Method for Spwaning Items 
     /// </summary>
@@ -102,10 +79,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           }
           _dropObjects.Add(dropObject);
         }
-
       }
     }
-
     #endregion Methods
   }
 }
