@@ -48,7 +48,7 @@
       <ContentControl Content="{Binding CurrentLevel}"
                       x:Name="LevelControl" />
 
-      <ContentControl Content="{Binding DropObjcects}"/>
+      <ContentControl Content="{Binding DropObjcects}" />
 
       <ContentControl Content="{Binding PlayerView}"
                       x:Name="PlayerControl" />
@@ -153,6 +153,7 @@
         <Grid.RowDefinitions>
           <RowDefinition />
           <RowDefinition Height="10*" />
+          <RowDefinition Height="2*" />
           <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -167,12 +168,8 @@
                    FontSize="350"
                    FontWeight="ExtraBold"
                    Grid.Column="1"
-                   Grid.Row="1">
-          <TextBlock.Foreground>
-            <RadialGradientBrush>
-              <GradientStop Color="Black" />
-            </RadialGradientBrush>
-          </TextBlock.Foreground>
+                   Grid.Row="1"
+                   Foreground="Black">
           <TextBlock.Effect>
             <DropShadowEffect ShadowDepth="0"
                               Color="White"
@@ -186,12 +183,9 @@
                    FontSize="350"
                    FontWeight="ExtraBold"
                    Grid.Column="1"
-                   Grid.Row="1">
-          <TextBlock.Foreground>
-            <RadialGradientBrush>
-              <GradientStop Color="DarkGoldenrod" />
-            </RadialGradientBrush>
-          </TextBlock.Foreground>
+                   Grid.Row="1"
+                   Foreground="DarkGoldenrod">
+
           <TextBlock.Effect>
             <DropShadowEffect ShadowDepth="0"
                               Color="White"
@@ -199,9 +193,19 @@
                               BlurRadius="880" />
           </TextBlock.Effect>
           <TextBlock.RenderTransform>
-            <TranslateTransform X="5" Y="5"></TranslateTransform>
+            <TranslateTransform X="5"
+                                Y="5"></TranslateTransform>
           </TextBlock.RenderTransform>
         </TextBlock>
+        
+        <TextBlock Text="Press ENTER or SPACE to continue"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="80"
+                    FontWeight="ExtraBold"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Foreground="Black" />
       </Grid>
       <!--#endregion Victory Screen-->
     </Grid>

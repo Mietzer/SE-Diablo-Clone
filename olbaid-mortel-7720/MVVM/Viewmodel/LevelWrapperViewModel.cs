@@ -281,17 +281,19 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       player.PlayerWon -= PlayerWon;
       PlayerAlive = true;
 
-      TogglePause(); //Pause game
+      GameTimer.Instance.Stop(); //Pause game
       PlayerHasWon = true;
 
       //Save stats of level
       DataProvider dataProvider = new DataProvider();
       ObservableCollection<LevelModel> loadedLevels = dataProvider.LoadData<ObservableCollection<LevelModel>>("Leveldata");
+      if (loadedLevels == null) return;
+
       LevelModel loadedCurrentLevel = loadedLevels.First(l => l.LevelID == usedLevelID);
 
       CheckLevelStats(loadedCurrentLevel);
 
-      LevelModel loadedNextLevel = loadedLevels.FirstOrDefault(l => l.LevelID == usedLevelID);
+      LevelModel loadedNextLevel = loadedLevels.FirstOrDefault(l => l.LevelID == usedLevelID + 1);
       if (loadedNextLevel != null)
         loadedNextLevel.IsUnlocked = true;
 
@@ -437,7 +439,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void CheckLevelStats(LevelModel levelModel)
     {
-      levelModel.BestTime = new(DateTime.UtcNow.Ticks - timestampStart);
+      TimeSpan levelTime = new(DateTime.UtcNow.Ticks - timestampStart - TimeSpan.TicksPerSecond);
+      if (levelTime < levelModel.BestTime || levelModel.BestTime == new TimeSpan(0))
+        levelModel.BestTime = levelTime;
+
       TimeSpan goodTime = new(0, 0, 0);
       double goodShotRatio = 1.0;
       int goodRemainignHealth = 100;
@@ -452,14 +457,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         case 2: break;
         case 3: break;
       }
-      if (levelModel.BestTime < goodTime || Player.ShotHits / Player.OverallShots >= goodShotRatio || Player.HealthPoints > goodRemainignHealth)
+      if (levelTime < goodTime || Player.ShotHits / Player.OverallShots >= goodShotRatio || Player.HealthPoints > goodRemainignHealth)
         levelModel.Star1 = true;
-      if ((levelModel.BestTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio) ||
-          (Player.HealthPoints > goodRemainignHealth && levelModel.BestTime < goodTime) ||
+      if ((levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio) ||
+          (Player.HealthPoints > goodRemainignHealth && levelTime < goodTime) ||
           (Player.HealthPoints > goodRemainignHealth && Player.ShotHits / Player.OverallShots >= goodShotRatio))
         levelModel.Star1 = levelModel.Star2 = true;
 
-      if (levelModel.BestTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio && Player.HealthPoints > goodRemainignHealth)
+      if (levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio && Player.HealthPoints > goodRemainignHealth)
         levelModel.Star1 = levelModel.Star2 = levelModel.Star3 = true;
     }
     /// <summary>
@@ -484,9 +489,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// </summary>
     public void LeaveMatch()
     {
-      if (!PlayerAlive)
+      if (!PlayerAlive || PlayerHasWon)
       {
-        //TODO: handle win/loose (saving data of win and unlock new level)
         Dispose();
         GameTimer.Instance.CleanUp();
         NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());

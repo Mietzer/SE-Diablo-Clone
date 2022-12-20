@@ -15,8 +15,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     #endregion Properties
     public LevelSelectionViewModel()
     {
-      App.Current.Exit += SaveEvent;
-
       InitLevels();
       Levellist.OrderBy(x => x.LevelID);
       ObservableCollection<LevelModel> loadedLevels = dataProvider.LoadData<ObservableCollection<LevelModel>>("Leveldata");
@@ -27,7 +25,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           LevelModel relatedLevel = loadedLevels.FirstOrDefault(x => x.LevelID == item.LevelID);
           item.RefreshData(relatedLevel);
         }
-
       //Save Data for next start
       dataProvider.SaveData(Levellist, "Leveldata");
 
@@ -90,12 +87,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     #endregion Commands
 
-    #region Events
-    public void SaveEvent(object sender, EventArgs e)
-    {
-      dataProvider.SaveData(Levellist, "Leveldata");
-    }
-    #endregion Events
+
 
   }
 }

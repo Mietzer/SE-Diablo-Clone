@@ -34,8 +34,8 @@ namespace olbaid_mortel_7720.Helper
       File.WriteAllText(path, jsonString);
 
       //Prevent external changes
-      File.SetAttributes(path, FileAttributes.ReadOnly);
       File.SetAttributes(path, FileAttributes.Hidden);
+      File.SetAttributes(path, FileAttributes.ReadOnly);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ namespace olbaid_mortel_7720.Helper
       if (!File.Exists(path))
         return default(T);
 
-      //Check weather file was changed or not
+      //Check wether file was changed or not
       if ((File.GetAttributes(path) & FileAttributes.ReadOnly) != FileAttributes.ReadOnly)
         return default(T);
 
