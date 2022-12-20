@@ -6,9 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
@@ -26,7 +23,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       {
         if (_healthPercentage == value) return;
         _healthPercentage = value;
-        OnPropertyChanged(nameof(HealthPercentage));  
+        OnPropertyChanged(nameof(HealthPercentage));
       }
     }
 
@@ -41,7 +38,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       });
       this.PropertyChanged += EnemyBoss_PropertyChanged;
     }
-    
+
     private void EnemyBoss_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
       if (e.PropertyName == nameof(Health))
@@ -57,17 +54,17 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
     public void ChangePhase()
     {
-      if(Health <= 750 && Health > 500)
+      if (Health <= 750 && Health > 500)
       {
         StepLength = 6;
         Damage = 12;
       }
-      else if(Health <= 500 && Health > 250)
+      else if (Health <= 500 && Health > 250)
       {
         StepLength = 7;
         Damage = 14;
       }
-      else if(Health <= 250)
+      else if (Health <= 250)
       {
         StepLength = 10;
         Damage = 18;
@@ -96,7 +93,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       drops.Add(new LevelKey(1920 / 2, 1080 / 2));
       return drops.AsReadOnly();
     }
-    
+
     public virtual void MoveToPlayer(Player player)
     {
       Direction lastDirection = Direction;

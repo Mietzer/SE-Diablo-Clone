@@ -8,6 +8,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     private int damage;
     public WeaponUpgrade(int lifetime, int damage, int x, int y) : base("Medicine", true, lifetime, x, y)
     {
+      this.damage = damage;
       category = ImageCategory.ITEMS;
       imageString = "upgrade.png";
     }

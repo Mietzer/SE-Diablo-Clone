@@ -17,7 +17,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
 
     public override void WhenCollected(Player player)
     {
-      // TODO: Maybe add this as winning criteria
+      player.GetKey();
     }
   }
 }

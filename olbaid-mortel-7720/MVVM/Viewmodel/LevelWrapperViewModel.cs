@@ -228,6 +228,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       player = new Player(200, 150, 64, 32, (CurrentLevel as MapView).ViewModel);
       PlayerView = new PlayerCanvas(player, usedLevel.DropObjects);
       player.PlayerDied += PlayerDied;
+      player.PlayerWon += PlayerWon;
 
       Gui = new UserControl();
       Canvas guiCanvas = new Canvas();
@@ -274,12 +275,31 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       GameTimer timer = GameTimer.Instance;
       timer.Execute(ChangeBluescreenText, nameof(this.PlayerDied) + GetHashCode());
     }
+    private void PlayerWon()
+    {
+      //Remove Event
+      player.PlayerWon -= PlayerWon;
+      PlayerAlive = true;
+
+      TogglePause(); //Pause game
+      PlayerHasWon = true;
+
+      //Save stats of level
+      DataProvider dataProvider = new DataProvider();
+      ObservableCollection<LevelModel> loadedLevels = dataProvider.LoadData<ObservableCollection<LevelModel>>("Leveldata");
+      LevelModel loadedCurrentLevel = loadedLevels.First(l => l.LevelID == usedLevelID);
+
+      CheckLevelStats(loadedCurrentLevel);
+
+      LevelModel loadedNextLevel = loadedLevels.FirstOrDefault(l => l.LevelID == usedLevelID);
+      if (loadedNextLevel != null)
+        loadedNextLevel.IsUnlocked = true;
+
+      dataProvider.SaveData(loadedLevels, "Leveldata");
+    }
+
     private void AddEnemy(EventArgs spawn)
     {
-      //if(enemyPlaced > maxEnemies && !CheckIfNotDead(spawnList))
-      //{
-      //Win();
-      //}
       if (enemyPlaced == 0 || (enemyPlaced < maxEnemies && !CheckIfNotDead(spawnList)))
       {
         //Wait some time for spawning
@@ -365,31 +385,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
         enemyPlaced++;
       }
-
-      //TODO: If Enemy is Boss add BossDied Method to Win Event (like Player)
     }
 
-    private void Win()
-    {
-      //Remove Event
-      // TODO -= Win;
 
-      TogglePause(); //Pause game
-      PlayerHasWon = true;
-
-      //Save stats of level
-      DataProvider dataProvider = new();
-      ObservableCollection<LevelModel> loadedLevels = dataProvider.LoadData<ObservableCollection<LevelModel>>("Leveldata");
-      LevelModel loadedCurrentLevel = loadedLevels.First(l => l.LevelID == usedLevelID);
-
-      CheckLevelStats(loadedCurrentLevel);
-
-      LevelModel loadedNextLevel = loadedLevels.FirstOrDefault(l => l.LevelID == usedLevelID);
-      if (loadedNextLevel != null)
-        loadedNextLevel.IsUnlocked = true;
-
-      dataProvider.SaveData(loadedLevels, "Leveldata");
-    }
 
     /// <summary>
     /// Loads the next enemies for this map

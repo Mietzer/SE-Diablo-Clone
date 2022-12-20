@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
-  public delegate void DeathEvent();
+  public delegate void EndingEvent();
 
   public class Player : Entity
   {
@@ -264,6 +264,11 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       currentWeapon.DamageUpgrade(damage);
     }
+    public void GetKey()
+    {
+      Won();
+    }
+
     #endregion Methods
 
     #region Events
@@ -282,7 +287,8 @@ namespace olbaid_mortel_7720.MVVM.Model
             ShotHits++;
     }
 
-    public event DeathEvent PlayerDied;
+    public event EndingEvent PlayerDied;
+    public event EndingEvent PlayerWon;
 
     protected virtual void Die()
     {
@@ -290,6 +296,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       Bullets.CollectionChanged -= Bullets_CollectionChanged;
       HealthPoints = 10;
       PlayerDied?.Invoke();
+    }
+    protected virtual void Won()
+    {
+      //TODO: Rest Clean Up Impelemtieren von Bluescren View 
+      Bullets.CollectionChanged -= Bullets_CollectionChanged;
+      HealthPoints = 10;
+      PlayerWon?.Invoke();
     }
 
     public event EventHandler WeaponSwap;
