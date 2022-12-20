@@ -22,7 +22,7 @@ namespace olbaid_mortel_7720.Engine
     private int damage;
     private static Pathfinder pathfinder;
 
-    public abstract ReadOnlyCollection<CollectableObject> GetPossibleDrops();
+    public virtual ReadOnlyCollection<CollectableObject> GetPossibleDrops() { return new ReadOnlyCollection<CollectableObject>(new List<CollectableObject>()); }
 
     public string DeathPoint { get; set; }
     public int Health
@@ -87,12 +87,12 @@ namespace olbaid_mortel_7720.Engine
         EnemyDeathPoint edp = new EnemyDeathPoint();
         edp.X = this.XCoord;
         edp.Y = this.YCoord;
+        edp.Drops = GetPossibleDrops();
         OnDeath(edp);
       }
-
     }
 
-    protected List<Direction> DecideDirectionPath(Player player, int x, int y, int nearest = 0, int farthest = 0)
+    protected List<Direction> DecideDirectionPath(Player player, double x, double y, int nearest = 0, int farthest = 0)
     {
       const int tolerance = 5;
       Direction lastDirection = Direction;
@@ -100,7 +100,7 @@ namespace olbaid_mortel_7720.Engine
 
       Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.Hitbox.X, player.Hitbox.Y), lastDirection);
 
-      int xDiff = Math.Abs((int)player.Hitbox.X - x);
+      int xDiff = (int)Math.Abs(player.Hitbox.X - x);
       if (xDiff > farthest)
       {
         if (targetVector.X > tolerance + nearest) directions.Add(Direction.Right);
@@ -112,7 +112,7 @@ namespace olbaid_mortel_7720.Engine
         else if (targetVector.X < -tolerance) directions.Add(Direction.Right);
       }
 
-      int yDiff = Math.Abs((int)player.Hitbox.Y - y);
+      int yDiff = (int)Math.Abs(player.Hitbox.Y - y);
       if (yDiff > farthest)
       {
         if (targetVector.Y > tolerance + nearest) directions.Add(Direction.Down);
@@ -149,14 +149,6 @@ namespace olbaid_mortel_7720.Engine
     public abstract void Attack(Player player);
 
     public event EventHandler EventDeath;
-    /*
-    public void Death()
-    {
-      DeathPoint = $"X: {this.XCoord} Y:{this.YCoord} Enemy is Death";
-      MessageBox.Show(DeathPoint);
-
-    }
-    */
     #endregion Methods
 
     #region Events

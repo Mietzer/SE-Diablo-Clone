@@ -1,10 +1,10 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -210,6 +210,24 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       else
       {
         MyPlayer.WeaponSelection(Key.D2);
+      }
+    }
+
+    /// <summary>
+    /// Try to pick up a item
+    /// </summary>
+    /// <param name="objects">currently visible objects</param>
+    public void TryCollection(List<GameObject> objects)
+    {
+      List<GameObject> collectables = objects.FindAll(delegate(GameObject obj)
+      {
+        return obj as CollectableObject != null
+        && MyPlayer.Hitbox.IntersectsWith((obj as CollectableObject).Hitbox);
+      });
+      
+      foreach (GameObject obj in collectables)
+      {
+        (obj as CollectableObject)?.OnCollect(MyPlayer);
       }
     }
     #endregion Methods

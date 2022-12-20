@@ -16,6 +16,7 @@ namespace olbaid_mortel_7720.Engine
     private const int MAX_ITERATIONS = 50;
     private const int MAX_DEPTH = 500;
     private const int MAX_PLAYER_DISTANCE = 350;
+    private const int TOLERANCE = 16;
     private static List<Rect>? obstacles;
 
     /// <summary>
@@ -113,20 +114,29 @@ namespace olbaid_mortel_7720.Engine
     private Point GetWalkableNeighbour(Point node, Point target, Vector2 before)
     {
       Vector2 vector = new Vector2((float)(target.X - node.X), (float)(target.Y - node.Y));
-      
-      // get the vertical vector in both directions
-      Vector2 v1 = new Vector2(vector.Y, -vector.X);
-      Vector2 v2 = new Vector2(-vector.Y, vector.X);
-      Vector2.Normalize(v1);
-      Vector2.Normalize(v2);
-      v1 *= STANDARD_TILE_SIZE;
-      v2 *= STANDARD_TILE_SIZE;
 
-      // test points in the direction of the vertical vectors
-      Point p1 = new Point(node.X + v1.X, node.Y + v1.Y);
+      // test points and vertical vectors in both directions
+      Point p1;
+      Point p2;
+      Vector2 v1;
+      Vector2 v2;
+      int distance = STANDARD_TILE_SIZE + TOLERANCE;
+      if (Math.Abs(vector.Y) > Math.Abs(vector.X))
+      {
+        p1 = new Point(node.X + distance, node.Y);
+        p2 = new Point(node.X - distance, node.Y);
+        v1 = new Vector2(distance, 0);
+        v2 = new Vector2(-distance, 0);
+      }
+      else
+      {
+        p1 = new Point(node.X, node.Y + distance);
+        p2 = new Point(node.X, node.Y - distance);
+        v1 = new Vector2(0, distance);
+        v2 = new Vector2(0, -distance);
+      }
+
       int dir1 = TraverseNextWalkableNeighbour(p1, v1, 0);
-        
-      Point p2 = new Point(node.X + v2.X, node.Y + v2.Y);
       int dir2 = TraverseNextWalkableNeighbour(p2, v2, 0);
       
       if (dir1 == -1 && dir2 == -1)
@@ -141,9 +151,9 @@ namespace olbaid_mortel_7720.Engine
         else
           return p2;
       }
-      if (dir1 > dir2 || dir2 == -1)
-        return p1;
-      return p2;
+      if (dir1 > dir2 || dir1 == -1)
+        return p2;
+      return p1;
     }
 
     /// <summary>
@@ -158,7 +168,7 @@ namespace olbaid_mortel_7720.Engine
       if (iter > MAX_DEPTH) return -1;
       if (node.X > GlobalVariables.MaxX || node.X < GlobalVariables.MinX || node.Y > GlobalVariables.MaxY || node.Y < GlobalVariables.MinY) return -1;
       
-      if (obstacles != null && obstacles.Any(obstacle => obstacle.IntersectsWith(new Rect(node.X, node.Y, STANDARD_TILE_SIZE, STANDARD_TILE_SIZE))))
+      if (obstacles != null && obstacles.Any(obstacle => obstacle.IntersectsWith(new Rect(node.X, node.Y, STANDARD_TILE_SIZE, STANDARD_TILE_SIZE * 2))))
       {
         node = new Point(node.X + direction.X, node.Y + direction.Y);
         return TraverseNextWalkableNeighbour(node, direction, iter + 1);

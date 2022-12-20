@@ -19,7 +19,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     public Map Map;
 
-    public List<DropObject> DropObjects;
+    public List<GameObject> DropObjects;
 
     private List<Enemy> _enemySpawnList;
     public List<Enemy> EnemySpawnList
@@ -33,7 +33,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Level(Map map)
     {
       Map = map;
-      DropObjects = new List<DropObject>();
+      DropObjects = new List<GameObject>();
     }
 
     #region Methods
@@ -80,7 +80,19 @@ namespace olbaid_mortel_7720.MVVM.Model
           index = rnd.Next(0, spawnPoints.Count);
           spawnList.Add(new EnemyRareRanged(spawnPoints[index].X, spawnPoints[index].Y, mapModel));
         }
-        spawnList[i].IsDeath += RandomDrop;
+        // spawnList[i].IsDeath += RandomDrop;
+        spawnList[i].IsDeath += delegate(object? sender, EnemyDeathPoint point)
+        {
+          Random rnd = new Random();
+          CollectableObject collectable = point.Drops[rnd.Next(0, point.Drops.Count)];
+          collectable.OnRemoveEvent += delegate(CollectableObject obj)
+          {
+            DropObjects.Remove(obj);
+            DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
+          };
+          DropObjects.Add(collectable);
+          DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
+        };
       }
       EnemySpawnList = spawnList;
     }
@@ -133,11 +145,11 @@ namespace olbaid_mortel_7720.MVVM.Model
         switch (DropNummer)
         {
           case 0:
-            dropObject.AddAsLoot(new Medicine(10, 20));
+            dropObject.AddAsLoot(new Medicine(10, 20, e.X, e.Y));
             DropObjects.Add(dropObject);
             break;
           case 1:
-            dropObject.AddAsLoot(new Paralysis(10, 20));
+            dropObject.AddAsLoot(new Paralysis(10, 20, e.X, e.Y));
             DropObjects.Add(dropObject);
             break;
           case 2:
@@ -150,14 +162,14 @@ namespace olbaid_mortel_7720.MVVM.Model
             //upgrade +1 Damage 
             break;
         }
-        ObjectDropt?.Invoke(this, EventArgs.Empty);
+        DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
       }
 
     }
     #endregion Methods
     #region Events
 
-    public event EventHandler ObjectDropt;
+    public event EventHandler DroppedObjectsChanged;
 
     #endregion Events
   }

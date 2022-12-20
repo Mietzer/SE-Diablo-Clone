@@ -79,9 +79,9 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #endregion Properties
 
-    public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
+    public Player(int x, int y, int height, int width, MapViewModel mapModel) : base(x, y, height, width, 5, mapModel)
     {
-      HealthPoints = health;
+      HealthPoints = 100;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
@@ -207,9 +207,24 @@ namespace olbaid_mortel_7720.MVVM.Model
     public void Heal(int amount)
     {
       Effect = PlayerEffect.Healing;
-      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints += 1; }, true);
+      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { if (HealthPoints < 100) HealthPoints += 1; }, true);
+      GameTimer.ExecuteWithInterval(50 + amount, delegate (EventArgs args) { Effect = PlayerEffect.None; }, true);
     }
-
+    
+    /// <summary>
+    /// Player is being poisoned
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void Poison(int amount)
+    {
+      Effect = PlayerEffect.Poisoned;
+      StepLength -= 2;
+      GameTimer.ExecuteWithInterval(amount, delegate(EventArgs args)
+      {
+        Effect = PlayerEffect.None;
+        StepLength += 2;
+      }, progress => { if (HealthPoints > 15 && (int)progress % 5 == 0) HealthPoints -= 1; }, true);
+    }
     #endregion Methods
 
     #region Events
