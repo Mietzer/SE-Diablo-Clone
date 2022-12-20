@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace olbaid_mortel_7720.MVVM.Model.Object
@@ -11,6 +12,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   {
     private int x;
     private int y;
+
+    //private Rect hitbox;
+    public Rect Hitbox { get; set; }
 
     private List<CollectableObject> items = new List<CollectableObject>();
 
@@ -28,6 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       this.x = x;
       this.y = y;
+      Hitbox = new Rect(x, y, 40, 40);
     }
 
     public void AddAsLoot(CollectableObject item)

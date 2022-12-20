@@ -34,6 +34,10 @@ namespace olbaid_mortel_7720.Object
     {
       return imageString;
     }
+    public void DamageUpgrade(int damage)
+    {
+      Damage += damage;
+    }
 
 
     #endregion Methods
