@@ -53,14 +53,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
 
-    private DroppedObjectsCanvas droppedObjectsView;
-    public DroppedObjectsCanvas DroppedObjectsView
+    private DropObjectCanvas dropobjects;
+    public DropObjectCanvas DropObjcects
     {
-      get { return droppedObjectsView; }
+      get { return dropobjects; }
       set
       {
-        droppedObjectsView = value;
-        OnPropertyChanged(nameof(DroppedObjectsView));
+        dropobjects = value;
+        OnPropertyChanged(nameof(DropObjcects));
       }
     }
 
@@ -433,7 +433,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddDroppedObjectsView()
     {
-      DroppedObjectsView = new DroppedObjectsCanvas(usedLevel.DroppedObjects, Player);
+      DropObjcects = new DropObjectCanvas(usedLevel.DroppedObjects, Player);
     }
 
     private void CheckLevelStats(LevelModel levelModel)

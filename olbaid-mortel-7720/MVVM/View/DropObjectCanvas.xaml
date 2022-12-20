@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="olbaid_mortel_7720.MVVM.View.DroppedObjectsCanvas"
+﻿<UserControl x:Class="olbaid_mortel_7720.MVVM.View.DropObjectCanvas"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
              mc:Ignorable="d" 
              RenderOptions.BitmapScalingMode="NearestNeighbor">
-    <Canvas x:Name="DroppedObjectsCanvasObject"
+    <Canvas x:Name="EnemyCanvasObject"
           Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Height}"
           Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Width}" >
     </Canvas>

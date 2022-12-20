@@ -9,12 +9,12 @@ namespace olbaid_mortel_7720.MVVM.View
   /// <summary>
   /// Interaktionslogik für DropObjectCanvas.xaml
   /// </summary>
-  public partial class DroppedObjectsCanvas : UserControl
+  public partial class DropObjectCanvas : UserControl
   {
-    public DroppedObjectsCanvas(List<GameObject> droppedObjects, Player player)
+    public DropObjectCanvas(List<GameObject> dropObjects, Player player)
     {
       InitializeComponent();
-      DroppedObjectsViewModel vm = new(droppedObjects, DroppedObjectsCanvasObject, player);
+      DroppedObjectsViewModel vm = new(dropObjects, EnemyCanvasObject, player);
       DataContext = vm;
     }
   }
