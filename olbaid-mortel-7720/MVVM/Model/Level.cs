@@ -29,7 +29,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
 
     #endregion Properties
-
     public Level(Map map)
     {
       Map = map;
@@ -54,8 +53,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         }
       }
 
-      spawnPoints = FixCoordinates(spawnPoints);
-
+      //Generates Spawnlist by generating random numbers and using a range to determine which enemy has to be added
       for (int i = 0; i < enemyCount; i++)
       {
         spawnGen = rnd.Next(0, 100);
@@ -94,40 +92,18 @@ namespace olbaid_mortel_7720.MVVM.Model
           DroppedObjectsChanged?.Invoke(this, EventArgs.Empty);
         };
       }
+      spawnList.Add(new EnemyBoss(1920 / 2, 1080 / 2, mapModel));
+      //Corrects Width and Height incorrection in X and Y Coordinates
+      spawnList = FixCoordinates(spawnList);
       EnemySpawnList = spawnList;
     }
 
-    private static List<SpawnObject> FixCoordinates(List<SpawnObject> list)
+    private static List<Enemy> FixCoordinates(List<Enemy> list)
     {
-      int count = 0;
-      foreach (SpawnObject obj in list)
+      foreach(Enemy e in list)
       {
-        if (count == 1)
-        {
-          obj.Y = obj.Y - 20;
-        }
-        else if (count == 2)
-        {
-          obj.Y = obj.Y - 100;
-        }
-        else if (count == 3)
-        {
-          obj.Y = obj.Y - 40;
-          obj.X = obj.X + 50;
-        }
-        else if (count == 4)
-        {
-          obj.X = obj.X - 150;
-        }
-        else if (count == 6)
-        {
-          obj.X = obj.X - 150;
-        }
-        else if (count == 7)
-        {
-          obj.Y = obj.Y - 60;
-        }
-        count++;
+        e.XCoord = e.XCoord - e.Width;
+        e.YCoord = e.YCoord - e.Height;
       }
 
       return list;
