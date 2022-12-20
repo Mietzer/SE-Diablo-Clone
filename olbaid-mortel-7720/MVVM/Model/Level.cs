@@ -8,17 +8,14 @@ using System;
 using System.Collections.Generic;
 
 
-
-
 namespace olbaid_mortel_7720.MVVM.Model
 {
   public class Level
   {
     #region Properties
-
     public Map Map;
 
-    public List<GameObject> DropObjects;
+    public List<GameObject> DroppedObjects;
 
     private List<Enemy> _enemySpawnList;
     public List<Enemy> EnemySpawnList
@@ -26,12 +23,12 @@ namespace olbaid_mortel_7720.MVVM.Model
       get { return _enemySpawnList; }
       private set { _enemySpawnList = value; }
     }
-
     #endregion Properties
+    
     public Level(Map map)
     {
       Map = map;
-      DropObjects = new List<GameObject>();
+      DroppedObjects = new List<GameObject>();
     }
 
     #region Methods
@@ -91,9 +88,9 @@ namespace olbaid_mortel_7720.MVVM.Model
           CollectableObject collectable = point.Drops[rnd.Next(0, point.Drops.Count)];
           collectable.OnRemoveEvent += delegate (CollectableObject obj)
           {
-            DropObjects.Remove(obj);
+            DroppedObjects.Remove(obj);
           };
-          DropObjects.Add(collectable);
+          DroppedObjects.Add(collectable);
         };
       }
       //Corrects Width and Height incorrection in X and Y Coordinates
@@ -111,7 +108,6 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       return list;
     }
-
+    #endregion Methods
   }
-  #endregion Methods
 }

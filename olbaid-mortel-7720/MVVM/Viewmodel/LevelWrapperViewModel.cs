@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using WpfAnimatedGif;
 
 
-
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class LevelWrapperViewModel : BaseViewModel
@@ -170,7 +169,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitCommands();
       AddLevel();
       AddPlayer();
-      AddDropObject();
+      AddDroppedObjectsView();
       InitTimer();
     }
 
@@ -226,7 +225,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void AddPlayer()
     {
       player = new Player(200, 150, 64, 32, (CurrentLevel as MapView).ViewModel);
-      PlayerView = new PlayerCanvas(player, usedLevel.DropObjects);
+      PlayerView = new PlayerCanvas(player, usedLevel.DroppedObjects);
       player.PlayerDied += PlayerDied;
       player.PlayerWon += PlayerWon;
 
@@ -432,9 +431,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       usedLevel = level1;
     }
 
-    private void AddDropObject()
+    private void AddDroppedObjectsView()
     {
-      DropObjcects = new DropObjectCanvas(usedLevel.DropObjects, Player);
+      DropObjcects = new DropObjectCanvas(usedLevel.DroppedObjects, Player);
     }
 
     private void CheckLevelStats(LevelModel levelModel)
@@ -445,26 +444,26 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       TimeSpan goodTime = new(0, 0, 0);
       double goodShotRatio = 1.0;
-      int goodRemainignHealth = 100;
+      int goodRemainingHealth = 100;
       switch (levelModel.LevelID)
       {
         //TODO: Find some good values for all 3 levels
         case 1:
           goodTime = new(0, 7, 0);
           goodShotRatio = 0.8;
-          goodRemainignHealth = 80;
+          goodRemainingHealth = 80;
           break;
         case 2: break;
         case 3: break;
       }
-      if (levelTime < goodTime || Player.ShotHits / Player.OverallShots >= goodShotRatio || Player.HealthPoints > goodRemainignHealth)
+      if (levelTime < goodTime || Player.ShotHits / Player.OverallShots >= goodShotRatio || Player.HealthPoints > goodRemainingHealth)
         levelModel.Star1 = true;
       if ((levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio) ||
-          (Player.HealthPoints > goodRemainignHealth && levelTime < goodTime) ||
-          (Player.HealthPoints > goodRemainignHealth && Player.ShotHits / Player.OverallShots >= goodShotRatio))
+          (Player.HealthPoints > goodRemainingHealth && levelTime < goodTime) ||
+          (Player.HealthPoints > goodRemainingHealth && Player.ShotHits / Player.OverallShots >= goodShotRatio))
         levelModel.Star1 = levelModel.Star2 = true;
 
-      if (levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio && Player.HealthPoints > goodRemainignHealth)
+      if (levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio && Player.HealthPoints > goodRemainingHealth)
         levelModel.Star1 = levelModel.Star2 = levelModel.Star3 = true;
     }
     /// <summary>

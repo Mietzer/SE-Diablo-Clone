@@ -30,7 +30,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       List<CollectableObject> drops = new List<CollectableObject>();
       drops.Add(new Medicine(200, 30, x, y));
       drops.Add(new Paralysis(200, 100, x, y));
-      drops.Add(new Armor(200, x, y));
+      drops.Add(new Protection(200, x, y));
       drops.Add(new WeaponUpgrade(200, 5, x, y));
       return drops.AsReadOnly();
     }

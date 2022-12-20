@@ -14,7 +14,7 @@ namespace olbaid_mortel_7720.MVVM.View
     public DropObjectCanvas(List<GameObject> dropObjects, Player player)
     {
       InitializeComponent();
-      DropObjectViewModel vm = new(dropObjects, EnemyCanvasObject, player);
+      DroppedObjectsViewModel vm = new(dropObjects, EnemyCanvasObject, player);
       DataContext = vm;
     }
   }
