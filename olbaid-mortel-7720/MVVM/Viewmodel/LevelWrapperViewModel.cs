@@ -130,6 +130,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitCommands();
       AddLevel();
       AddPlayer();
+      AddDropObject();
       InitTimer();
     }
 
@@ -327,14 +328,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
-      level1.ObjectDropt += UpdateDropObjectView; ;
       usedLevel = level1;
     }
 
-    private void UpdateDropObjectView(object sender, EventArgs e)
+    private void AddDropObject()
     {
       DropObjcects = new DropObjectCanvas(usedLevel.DropObjects, Player);
     }
+
 
     /// <summary>
     /// Method to Pause/ Resume Game, depending on current state

@@ -21,6 +21,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       player.Effect = PlayerEffect.Poisoned;
       // TODO: method with timer in player class
+      player.Poisoned(duration);
     }
   }
 }

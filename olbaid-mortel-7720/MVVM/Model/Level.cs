@@ -125,7 +125,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     private void RandomDrop(object sender, EnemyDeathPoint e)
     {
       Random rnd = new Random();
-      int DropNummer = rnd.Next(0, 1);
+      int DropNummer = rnd.Next(0, 5);
 
       if (DropNummer >= 0 && 4 >= DropNummer)
       {
@@ -133,32 +133,25 @@ namespace olbaid_mortel_7720.MVVM.Model
         switch (DropNummer)
         {
           case 0:
-            dropObject.AddAsLoot(new Medicine(10, 20));
+            dropObject.AddAsLoot(new Medicine(200, 20));
             DropObjects.Add(dropObject);
             break;
           case 1:
-            dropObject.AddAsLoot(new Paralysis(10, 20));
+            dropObject.AddAsLoot(new Paralysis(200, 20));
             DropObjects.Add(dropObject);
             break;
           case 2:
-            //Armor
-            break;
-          case 3:
-            //Protection 
+            dropObject.AddAsLoot(new Armor(200));
+            DropObjects.Add(dropObject);
             break;
           case 4:
-            //upgrade +1 Damage 
+            dropObject.AddAsLoot(new WeaponUpgrade(200, 5));
+            DropObjects.Add(dropObject);
             break;
         }
-        ObjectDropt?.Invoke(this, EventArgs.Empty);
       }
 
     }
     #endregion Methods
-    #region Events
-
-    public event EventHandler ObjectDropt;
-
-    #endregion Events
   }
 }

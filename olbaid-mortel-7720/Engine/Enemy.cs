@@ -148,18 +148,10 @@ namespace olbaid_mortel_7720.Engine
 
     public abstract void Attack(Player player);
 
-    public event EventHandler EventDeath;
-    /*
-    public void Death()
-    {
-      DeathPoint = $"X: {this.XCoord} Y:{this.YCoord} Enemy is Death";
-      MessageBox.Show(DeathPoint);
-
-    }
-    */
     #endregion Methods
 
     #region Events
+    public event EventHandler EventDeath;
     protected virtual void OnDeath(EnemyDeathPoint e)
     {
       EventHandler<EnemyDeathPoint> handler = IsDeath;

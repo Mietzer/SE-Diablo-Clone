@@ -16,7 +16,10 @@ namespace olbaid_mortel_7720.MVVM.Model
   public class Player : Entity
   {
     #region Properties
+
+    private int maxhealthPoints;
     private int healthPoints;
+    private bool armor;
     public int HealthPoints
     {
       get { return healthPoints; }
@@ -80,6 +83,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
     {
       HealthPoints = health;
+      maxhealthPoints = health;
+      armor = false;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
@@ -141,10 +146,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       switch (key)
       {
         case Key.D1:
+          this.secondaryweapon = CurrentWeapon;
           CurrentWeapon = this.primaryweapon;
           break;
         case Key.D2:
+          this.primaryweapon = CurrentWeapon;
           CurrentWeapon = this.secondaryweapon;
+
           break;
       }
       WeaponSwap?.Invoke(this, EventArgs.Empty);
@@ -195,11 +203,19 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="damage">How much</param>
     public void TakeDamage(int damage)
     {
-      HealthPoints -= damage;
-
-      if (HealthPoints <= 0)
+      if (!armor)
       {
-        Death();
+        HealthPoints -= damage;
+
+        if (HealthPoints <= 0)
+        {
+          Death();
+        }
+      }
+      else
+      {
+        armor = false;
+        Effect = PlayerEffect.None;
       }
     }
 
@@ -209,10 +225,38 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="amount">How much</param>
     public void Heal(int amount)
     {
-      Effect = PlayerEffect.Healing;
-      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints += 1; }, true);
+      if (maxhealthPoints != HealthPoints && maxhealthPoints > HealthPoints)
+      {
+        Effect = PlayerEffect.Healing;
+        GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints += 1; }, true);
+      }
     }
-
+    /// <summary>
+    /// Player is being Poisoned
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void Poisoned(int amount)
+    {
+      Effect = PlayerEffect.Poisoned;
+      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints -= 1; }, true);
+    }
+    /// <summary>
+    /// Player is gets Armor
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void Armor()
+    {
+      Effect = PlayerEffect.Protected;
+      armor = true;
+    }
+    /// <summary>
+    /// Player Weapon gets Bonus Damage 
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void WeaponUpgrade(int damage)
+    {
+      currentWeapon.DamageUpgrade(damage);
+    }
     #endregion Methods
 
     #region Events

@@ -53,7 +53,8 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
 
         rectangle.Width = 40;
         rectangle.Height = 40;
-        rectangle.Stroke = Brushes.Blue;
+        if (System.Diagnostics.Debugger.IsAttached)
+          rectangle.Stroke = Brushes.Blue;
 
         ImageBrush myImageBrush = new ImageBrush();
         myImageBrush.ImageSource = ImageImporter.Import(this.category, this.imageString);
@@ -65,7 +66,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
 
         rectangle.Fill = myImageBrush;
 
-        Canvas.SetTop(rectangle, y + 20);
+        Canvas.SetTop(rectangle, y);
         Canvas.SetLeft(rectangle, x);
         canvas.Children.Add(rectangle);
       }
@@ -74,7 +75,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     private void Remove()
     {
       GameTimer.Instance.RemoveByName(Name + GetHashCode());
-      // TODO: remove from canvas
+      remainingLifetime = 0;
     }
   }
 }
