@@ -85,7 +85,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             Canvas.SetLeft(rect, barrierCollision.X);
             Canvas.Children.Add(rect);
           }
-          Barriers.Add(new Barrier(barrierCollision, MapLayerType.GetBarrierType(mapObject.Name)));
+          Barriers.Add(new Barrier(barrierCollision, MapLayerType.GetBarrierType(mapObject.Name), mapObject.Penetrable ? Barrier.BarrierTag.Destroyable : Barrier.BarrierTag.None));
         }
       }
     }

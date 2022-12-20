@@ -5,35 +5,78 @@ using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-//TODO: CodeCleanup, Regions, Kommentare
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
-  public class EnemyMelee : Enemy
+  public class EnemyBoss : Enemy
   {
-    #region Methods
+    private int _healthPercentage;
+    public int HealthPercentage
+    {
+      get
+      {
+        return _healthPercentage;
+      }
+      set
+      {
+        if (_healthPercentage == value) return;
+        _healthPercentage = value;
+        OnPropertyChanged(nameof(HealthPercentage));  
+      }
+    }
+
+    public EnemyBoss(int x, int y, MapViewModel mapModel) : base(x, y, 64 * 2, 32 * 2, 5, 1000, 10, mapModel)
+    {
+      Image = ImageImporter.Import(ImageCategory.BOSS, "boss-walking-left.gif");
+      HealthPercentage = 100;
+      Hitbox = new Rect(x, y + 21 * 2, Width, Height - 21 * 2);
+      GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
+      {
+        IsAttacking = true;
+      });
+      this.PropertyChanged += EnemyBoss_PropertyChanged;
+    }
+    
+    private void EnemyBoss_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == nameof(Health))
+      {
+        HealthPercentage = (int)Math.Round((double)Health / 1000 * 100);
+      }
+    }
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
     }
 
+    public void ChangePhase()
+    {
+      if(Health <= 750 && Health > 500)
+      {
+        StepLength = 6;
+        Damage = 12;
+      }
+      else if(Health <= 500 && Health > 250)
+      {
+        StepLength = 7;
+        Damage = 14;
+      }
+      else if(Health <= 250)
+      {
+        StepLength = 10;
+        Damage = 18;
+      }
+    }
     public void AttackCoolDown()
     {
       this.IsAttacking = false;
     }
-
-    public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
-    {
-      int x = (int)(Hitbox.X + Hitbox.Width / 2);
-      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
-      List<CollectableObject> drops = new List<CollectableObject>();
-      drops.Add(new Medicine(200, 30, x, y));
-      drops.Add(new Paralysis(200, 100, x, y));
-      return drops.AsReadOnly();
-    }
-    
     public override void Attack(Player player)
     {
       bool oldIsAttacking = IsAttacking;
@@ -42,11 +85,18 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsAttacking != IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = ImageImporter.Import(ImageCategory.MELEE, "melee-attacking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.BOSS, "boss-attacking-" + directionString + ".gif");
       }
       player.TakeDamage(Damage);
     }
 
+    public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
+    {
+      List<CollectableObject> drops = new List<CollectableObject>();
+      drops.Add(new LevelKey(1920 / 2, 1080 / 2));
+      return drops.AsReadOnly();
+    }
+    
     public virtual void MoveToPlayer(Player player)
     {
       Direction lastDirection = Direction;
@@ -95,7 +145,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (lastDirection != item || oldIsMoving != IsMoving || oldIsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.BOSS, "boss-walking-" + directionString + ".gif");
       }
     }
 
@@ -106,22 +156,8 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       if (oldIsMoving != IsMoving && !IsAttacking)
       {
         string directionString = Direction.ToString().ToLower();
-        Image = ImageImporter.Import(ImageCategory.MELEE, "melee-standing-" + directionString + ".gif");
+        Image = ImageImporter.Import(ImageCategory.BOSS, "boss-standing-" + directionString + ".gif");
       }
     }
-    #endregion Methods
-
-    #region Constructor
-    public EnemyMelee(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 100, 2, mapModel)
-    {
-      Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
-      Hitbox = new Rect(x, y + 27, Width, Height - 27);
-      GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
-      {
-        IsAttacking = true;
-      });
-    }
-
-    #endregion Constructor
   }
 }

@@ -50,6 +50,12 @@ namespace olbaid_mortel_7720.MVVM.View
     {
       if (e.Key == Key.Space || e.Key == Key.Escape || e.Key == Key.P)
         (DataContext as LevelWrapperViewModel).TogglePause();
+
+      if (e.Key == Key.Space || e.Key == Key.Enter)
+        (DataContext as LevelWrapperViewModel).LeaveMatch();
+
+      if (e.Key == Key.R)
+        (DataContext as LevelWrapperViewModel).RestartMatch();
     }
 
 

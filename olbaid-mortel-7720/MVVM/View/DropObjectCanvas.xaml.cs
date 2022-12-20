@@ -11,7 +11,7 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class DropObjectCanvas : UserControl
   {
-    public DropObjectCanvas(List<DropObject> dropObjects, Player player)
+    public DropObjectCanvas(List<GameObject> dropObjects, Player player)
     {
       InitializeComponent();
       DropObjectViewModel vm = new(dropObjects, EnemyCanvasObject, player);
