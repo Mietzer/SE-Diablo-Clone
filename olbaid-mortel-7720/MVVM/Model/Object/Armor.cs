@@ -8,7 +8,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   /// </summary>
   public class Armor : CollectableObject
   {
-    public Armor(int lifetime) : base("Medicine", true, lifetime)
+    public Armor(int lifetime, int x, int y) : base("Medicine", true, lifetime, x, y)
     {
       category = ImageCategory.ITEMS;
       imageString = "helmet.png";
