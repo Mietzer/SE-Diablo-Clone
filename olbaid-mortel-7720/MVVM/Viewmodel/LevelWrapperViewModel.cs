@@ -169,7 +169,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitCommands();
       AddLevel();
       AddPlayer();
-      AddDropObject();
+      AddDroppedObjectsView();
       InitTimer();
     }
 
@@ -225,7 +225,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private void AddPlayer()
     {
       player = new Player(200, 150, 64, 32, (CurrentLevel as MapView).ViewModel);
-      PlayerView = new PlayerCanvas(player, usedLevel.DropObjects);
+      PlayerView = new PlayerCanvas(player, usedLevel.DroppedObjects);
       player.PlayerDied += PlayerDied;
       player.PlayerWon += PlayerWon;
 
@@ -431,9 +431,9 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       usedLevel = level1;
     }
 
-    private void AddDropObject()
+    private void AddDroppedObjectsView()
     {
-      DroppedObjectsView = new DroppedObjectsCanvas(usedLevel.DropObjects, Player);
+      DroppedObjectsView = new DroppedObjectsCanvas(usedLevel.DroppedObjects, Player);
     }
 
     private void CheckLevelStats(LevelModel levelModel)

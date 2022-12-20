@@ -61,7 +61,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     
     /// <summary>
-    /// Method for Spwaning Items 
+    /// Method for Spawning Items 
     /// </summary>
     private void SpawnItems(EventArgs e)
     {

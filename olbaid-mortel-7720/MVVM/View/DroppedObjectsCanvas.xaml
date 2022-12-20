@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
              mc:Ignorable="d" 
              RenderOptions.BitmapScalingMode="NearestNeighbor">
-    <Canvas x:Name="EnemyCanvasObject"
+    <Canvas x:Name="DroppedObjectsCanvasObject"
           Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Height}"
           Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Width}" >
     </Canvas>
