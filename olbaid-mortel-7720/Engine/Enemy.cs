@@ -98,7 +98,7 @@ namespace olbaid_mortel_7720.Engine
       Direction lastDirection = Direction;
       List<Direction> directions = new();
 
-      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.Hitbox.X, player.Hitbox.Y), lastDirection);
+      Vector2 targetVector = pathfinder.FindPath(new Point(x, y), new Point(player.Hitbox.X + player.Hitbox.Width / 2, player.Hitbox.Y + player.Hitbox.Height), lastDirection);
 
       int xDiff = (int)Math.Abs(player.Hitbox.X - x);
       if (xDiff > farthest)
