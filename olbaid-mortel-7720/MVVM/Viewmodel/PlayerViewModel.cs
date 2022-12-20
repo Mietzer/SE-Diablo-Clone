@@ -76,7 +76,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         if (item is Rectangle && item.Name == shotName) //Find shots for our Player
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
-          b?.Move(velocity);
 
           List<Barrier> barriers = MyPlayer.Barriers.FindAll(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox));
 
@@ -92,8 +91,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
+            b.Rectangle.Height = 0;
+            b.Rectangle.Width = 0;
             MyPlayer.Bullets.Remove(b);
           }
+          else
+            b?.Move(velocity);
         }
       }
       //Now delete
@@ -107,13 +110,14 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <param name="p">Targetpoint for Bullet</param>
     public void Shoot(Point p)
     {
-      double playerShootX = MyPlayer.XCoord + MyPlayer.Width / 2
-         , playerShootY = MyPlayer.YCoord + MyPlayer.Height / 4 * 3;
+
+      double playerShootX = MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2
+         , playerShootY = MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - playerShootX, p.Y - playerShootY);
       vector.Normalize();
-      Bullet bullet = new Bullet(MyPlayer.currentWeapon.Munition.Height, MyPlayer.currentWeapon.Munition.Width, vector, MyPlayer.currentWeapon.Munition.BulletImage, MyPlayer.currentWeapon.Munition.Name);
+      Bullet bullet = new Bullet(vector, MyPlayer.CurrentWeapon.Munition);
 
       //Add to Player
       MyPlayer.IsShooting = true;
@@ -139,6 +143,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       // Add to Canvas
       bullet.Show(myPlayerCanvas, playerShootX, playerShootY);
+
       MyPlayer.UpdateViewDirection(GetPlayerView(vector.X, vector.Y));
     }
 
@@ -199,6 +204,40 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       if (!MoveDown && !MoveUp && !MoveLeft && !MoveRight)
         MyPlayer.StopMovement(e);
+    }
+
+    /// <summary>
+    /// Method to Select the Player Weapon
+    /// </summary>
+    /// <param name="e"></param>
+    public void WeaponSelection(Key k)
+    {
+      if (k == Key.D1)
+      {
+        MyPlayer.WeaponSelection(Key.D1);
+      }
+      else
+      {
+        MyPlayer.WeaponSelection(Key.D2);
+      }
+    }
+
+    /// <summary>
+    /// Try to pick up a item
+    /// </summary>
+    /// <param name="objects">currently visible objects</param>
+    public void TryCollection(List<GameObject> objects)
+    {
+      List<GameObject> collectables = objects.FindAll(delegate(GameObject obj)
+      {
+        return obj as CollectableObject != null
+        && MyPlayer.Hitbox.IntersectsWith((obj as CollectableObject).Hitbox);
+      });
+      
+      foreach (GameObject obj in collectables)
+      {
+        (obj as CollectableObject)?.OnCollect(MyPlayer);
+      }
     }
     #endregion Methods
 

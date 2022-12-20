@@ -1,4 +1,6 @@
-﻿namespace olbaid_mortel_7720.MVVM.Model.Object
+﻿using olbaid_mortel_7720.Helper;
+
+namespace olbaid_mortel_7720.MVVM.Model.Object
 {
   public abstract class GameObject
   {
@@ -6,6 +8,8 @@
     public string Name;
     bool Visible;
     public bool Penetrable;
+    protected ImageCategory category;
+    protected string imageString;
     #endregion Properties
 
     public GameObject(string name, bool visible, bool penetrable)
@@ -15,8 +19,13 @@
       Penetrable = penetrable;
     }
 
-    #region Methods
-
-    #endregion Methods
+    public ImageCategory GetCategory()
+    {
+      return category;
+    }
+    public string GetImageString()
+    {
+      return imageString;
+    }
   }
 }

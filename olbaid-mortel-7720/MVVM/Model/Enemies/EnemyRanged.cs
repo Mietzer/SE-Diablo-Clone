@@ -1,10 +1,8 @@
-﻿using olbaid_mortel_7720.Helper;
-using System.Timers;
-using System;
-using olbaid_mortel_7720.MVVM.Utils;
-using olbaid_mortel_7720.Engine;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -26,9 +24,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
       IsAttacking = false;
       Random random = new Random();
-      GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate(EventArgs e)
+      GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate (EventArgs e)
       {
-        GameTimer.ExecuteWithInterval(40, delegate(EventArgs e)
+        GameTimer.ExecuteWithInterval(40, delegate (EventArgs e)
         {
           IsAttacking = true;
         });
@@ -40,17 +38,19 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #region Methods
     public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
     {
+      int x = (int)(Hitbox.X + Hitbox.Width / 2);
+      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
       List<CollectableObject> drops = new List<CollectableObject>();
-      drops.Add(new Medicine(200, 25));
-      drops.Add(new Paralysis(200, 100));
+      drops.Add(new Medicine(200, 40, x, y));
+      drops.Add(new Paralysis(200, 150, x, y));
       return drops.AsReadOnly();
     }
-    
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 22, Width, Height - 22);
     }
-    
+
     public virtual void ShotCoolDown() // Starts shot timer for enemies
     {
       IsAttacking = false;
@@ -63,17 +63,17 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
       bool oldIsAttacking = base.IsAttacking;
-      int xDistance = Math.Abs(player.XCoord - this.XCoord);
-      int yDistance = Math.Abs(player.YCoord - this.YCoord);
-      
+      int xDistance = Math.Abs((int)(player.Hitbox.X - this.Hitbox.X));
+      int yDistance = Math.Abs((int)(player.Hitbox.Y - this.Hitbox.Y));
+
       //Checks distance between player and enemy and checks where to move
-      if(xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
+      if (xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
       {
         StopMovement(EventArgs.Empty);
         return;
       }
-      
-      List<Direction> directions = DecideDirectionPath(player, XCoord, YCoord, nearestDistance, farthestDistance);
+
+      List<Direction> directions = DecideDirectionPath(player, Hitbox.X + Hitbox.Width / 2, Hitbox.Y + Hitbox.Height / 2, nearestDistance, farthestDistance);
 
       Direction item;
       if (directions.Count == 0)

@@ -61,7 +61,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Levellist.Add(level1);
       Levellist.Add(level2);
       Levellist.Add(level3);
-
     }
 
     #endregion Methods

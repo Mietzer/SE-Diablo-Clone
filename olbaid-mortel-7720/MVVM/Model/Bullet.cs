@@ -1,4 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,8 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Rect Hitbox { get; set; }
 
     private bool hasHit;
+    private Vector vector;
+
     public bool HasHit
     {
       get { return hasHit; }
@@ -29,7 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #endregion Properties
 
-    public Bullet(int height, int width, Vector direction, Brush brush, string name)
+    public Bullet(Vector direction, int height, int width, Brush brush, string name)
     {
       Rectangle = new Rectangle();
       Rectangle.Height = height;
@@ -40,6 +43,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       Hitbox = new Rect(0, 0, width, height);
     }
 
+    public Bullet(Vector vector, Munition munition) : this(vector, munition.Height, munition.Width, munition.BulletImage, munition.Name)
+    { }
+
     #region Methods
     /// <summary>
     /// Shows the bullet on the canvas
@@ -49,9 +55,6 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// <param name="y">Y Coordinate</param>
     public void Show(Canvas canvas, double x, double y)
     {
-      // Adjust the hitbox
-      Hitbox = new Rect(x, y, Rectangle.Width, Rectangle.Height);
-
       //Add to View
       canvas.Children.Add(Rectangle);
 
@@ -60,8 +63,11 @@ namespace olbaid_mortel_7720.MVVM.Model
       Rectangle.RenderTransform = new RotateTransform(angle, Rectangle.Width / 2, Rectangle.Height / 2);
 
       //Set Position
-      Canvas.SetLeft(Rectangle, x + Direction.X * 50);
-      Canvas.SetTop(Rectangle, y + Direction.Y * 50);
+      Canvas.SetLeft(Rectangle, x);
+      Canvas.SetTop(Rectangle, y);
+
+      // Adjust the hitbox
+      Hitbox = new Rect(Canvas.GetLeft(Rectangle), Canvas.GetTop(Rectangle), Rectangle.Width, Rectangle.Height);
     }
 
     /// <summary>
@@ -76,6 +82,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
       // Adjust the hitbox
       Hitbox = new Rect(Canvas.GetLeft(Rectangle), Canvas.GetTop(Rectangle), Rectangle.Width, Rectangle.Height);
+
     }
     #endregion Methods
   }

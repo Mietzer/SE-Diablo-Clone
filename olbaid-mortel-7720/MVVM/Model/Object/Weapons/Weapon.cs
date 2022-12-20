@@ -20,9 +20,9 @@ namespace olbaid_mortel_7720.Object
     //optional Munitons Munition 
     #endregion Properties
 
-    public Weapon(Munition munition)
+    public Weapon()
     {
-      Munition = munition;
+
     }
 
     #region Methods
@@ -34,6 +34,8 @@ namespace olbaid_mortel_7720.Object
     {
       return imageString;
     }
+
+
     #endregion Methods
 
   }

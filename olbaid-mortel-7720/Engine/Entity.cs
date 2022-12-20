@@ -50,7 +50,7 @@ namespace olbaid_mortel_7720.Engine
     public int StepLength
     {
       get { return stepLength; }
-      private set
+      protected set
       {
         stepLength = value;
         OnPropertyChanged(nameof(stepLength));
