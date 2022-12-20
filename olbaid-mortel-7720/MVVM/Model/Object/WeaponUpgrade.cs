@@ -6,7 +6,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   public class WeaponUpgrade : CollectableObject
   {
     private int damage;
-    public WeaponUpgrade(int lifetime, int damage) : base("Medicine", true, lifetime)
+    public WeaponUpgrade(int lifetime, int damage, int x, int y) : base("Medicine", true, lifetime, x, y)
     {
       category = ImageCategory.ITEMS;
       imageString = "upgrade.png";
