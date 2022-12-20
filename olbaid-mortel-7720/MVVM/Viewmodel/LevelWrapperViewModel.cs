@@ -69,7 +69,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// How many ticks the spawning of new enemies should wait 
     /// </summary>
     private uint timerTicksToWaitEnemySpawning = 60;
-    private uint maxEnemies = 50;
+    private uint maxEnemies = 10;
     private List<Enemy> spawnList;
 
     private int usedLevelID;
@@ -273,6 +273,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddEnemy(EventArgs spawn)
     {
+      //if(enemyPlaced > maxEnemies && !CheckIfNotDead(spawnList))
+      //{
+        //Win();
+      //}
       if (enemyPlaced == 0 || (enemyPlaced < maxEnemies && !CheckIfNotDead(spawnList)))
       {
         //Wait some time for spawning
@@ -286,6 +290,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           timestampStart = DateTime.UtcNow.Ticks;
         //Creating View to display Enemies
         spawnList = CreateSpawnList(10);
+        EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
+      }
+      else if(enemyPlaced == maxEnemies && !CheckIfNotDead(spawnList))
+      {
+        spawnList = CreateSpawnList(1);
         EnemyView = new EnemyCanvas(spawnList, PlayerView.MyPlayer);
       }
       else
