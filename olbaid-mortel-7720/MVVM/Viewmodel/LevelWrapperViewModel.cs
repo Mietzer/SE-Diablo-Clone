@@ -63,6 +63,17 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         OnPropertyChanged(nameof(DropObjcects));
       }
     }
+    
+    private ManualCanvas manual;
+    public ManualCanvas Manual
+    {
+      get { return manual; }
+      set
+      {
+        manual = value;
+        OnPropertyChanged(nameof(Manual));
+      }
+    }
 
     private int enemyPlaced;
 
@@ -170,6 +181,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       AddLevel();
       AddPlayer();
       AddDroppedObjectsView();
+      InitManual();
       InitTimer();
     }
 
@@ -191,8 +203,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       spawnList?.Clear();
       spawnList = null;
-
-
+      
       PlayerView.DataContext = null;
       PlayerView = null;
 
@@ -201,6 +212,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       Gui.Content = null;
       Gui = null;
+      
+      Manual = null;
 
       GC.Collect();
     }
@@ -209,6 +222,23 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       ResumeGameCommand = new RelayCommand(ResumeGame, CanResumeGame);
       LeaveGameCommand = new RelayCommand(LeaveGame, CanLeaveGame);
+    }
+    
+    private void InitManual()
+    {
+      DataProvider dataProvider = new DataProvider();
+      string firstTime = dataProvider.LoadData<string>("Manual");
+      if (firstTime == null || firstTime.Equals("true"))
+      {
+        dataProvider.SaveData("false", "Manual");
+        
+        Manual = new ManualCanvas();
+        GameTimer.ExecuteWithInterval(250, args =>
+        {
+          Manual.Content = null;
+          Manual = null;
+        }, true);
+      }
     }
 
     /// <summary>
@@ -274,6 +304,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       GameTimer timer = GameTimer.Instance;
       timer.Execute(ChangeBluescreenText, nameof(this.PlayerDied) + GetHashCode());
     }
+    
     private void PlayerWon()
     {
       //Remove Event
@@ -387,8 +418,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         enemyPlaced++;
       }
     }
-
-
 
     /// <summary>
     /// Loads the next enemies for this map

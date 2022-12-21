@@ -41,4 +41,17 @@
       <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Page Update="MVVM\View\ManualCanvas.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="MVVM\View\ManualCanvas.xaml.cs">
+        <SubType>Code</SubType>
+        <DependentUpon>ManualCanvas.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

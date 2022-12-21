@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="olbaid_mortel_7720.MVVM.View.ManualCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:olbaid_mortel_7720.MVVM.View"
+             mc:Ignorable="d" 
+             RenderOptions.BitmapScalingMode="NearestNeighbor">
+  <UserControl.Resources>
+    <Style TargetType="Label">
+      <Setter Property="Foreground" Value="#cacaca" />
+      <Setter Property="FontSize" Value="28" />
+      <Setter Property="FontFamily" Value="/Fonts/VT323/VT323-Regular.ttf #VT323"></Setter>
+    </Style>
+  </UserControl.Resources>
+  <Canvas x:Name="ManualCanvasObject"
+          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Height}"
+          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=Width}" >
+    </Canvas>
+</UserControl>

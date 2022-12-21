@@ -47,6 +47,8 @@
     <Grid>
       <ContentControl Content="{Binding CurrentLevel}"
                       x:Name="LevelControl" />
+      
+      <ContentControl Content="{Binding Manual}" />
 
       <ContentControl Content="{Binding DropObjcects}" />
 
@@ -57,7 +59,6 @@
                       x:Name="EnemyControl" />
 
       <ContentControl Content="{Binding Gui}" />
-
 
       <!--#region PauseScreen-->
       <Grid Height="0"
