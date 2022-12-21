@@ -27,7 +27,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
     }
 
-    public EnemyBoss(int x, int y, MapViewModel mapModel) : base(x, y, 64 * 2, 32 * 2, 5, 1000, 10, mapModel)
+    public EnemyBoss(int x, int y, MapViewModel mapModel) : base(x, y, 64 * 2, 32 * 2, 5, 1800, 10, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.BOSS, "boss-walking-left.gif");
       HealthPercentage = 100;
