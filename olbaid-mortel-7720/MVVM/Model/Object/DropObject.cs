@@ -6,7 +6,7 @@ using System.Windows.Controls;
 namespace olbaid_mortel_7720.MVVM.Model.Object
 {
   /// <summary>
-  ///  Class DropObject Dopts Items on Destruction
+  ///  Class DropObject drops Items on Destruction or on Interaction
   /// </summary>
   public class DropObject : GameObject
   {

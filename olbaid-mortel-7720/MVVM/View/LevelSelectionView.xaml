@@ -62,7 +62,7 @@
       </Setter>
     </Style>
     <!--#endregion TriangleButton-->
-    
+
     <!--#region Levelbutton-->
 
     <!--#region StarCheckbox -->
@@ -104,7 +104,7 @@
       </Setter>
     </Style>
     <!--#endregion StarCheckbox-->
-    
+
     <Style x:Key="Levelbutton"
            TargetType="{x:Type Button}">
       <Setter Property="FontFamily"
@@ -168,13 +168,14 @@
                                  Grid.Column="1"
                                  Foreground="White"
                                  TextWrapping="WrapWithOverflow"
-                                 HorizontalAlignment="Center"/>
+                                 HorizontalAlignment="Center" />
 
-                      <TextBlock Text="{Binding Path=BestTime}"
-                                 Grid.Column="1"
-                                 HorizontalAlignment="Center"
-                                 Grid.Row="1">
+                      <TextBlock  Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  Grid.Row="1">
                         <Run Text="Best Time: " />
+                         <Run Text="{Binding Path=BestTime}"
+                              FontWeight="Bold" />
                       </TextBlock>
                       <Grid Grid.Row="2"
                             Grid.Column="1"
@@ -239,7 +240,9 @@
 
   </UserControl.Resources>
   <Grid Background="MidnightBlue">
-    <Image Source="../../Images/background.png" ClipToBounds="True" Stretch="UniformToFill">
+    <Image Source="../../Images/background.png"
+           ClipToBounds="True"
+           Stretch="UniformToFill">
       <Image.Effect>
         <BlurEffect Radius="{Binding ElementName=ViewLevelSelect, Path=ActualHeight, Converter={StaticResource SizeToBlurIC}}" />
       </Image.Effect>
@@ -249,12 +252,13 @@
               BorderThickness="0"
               Background="Transparent"
               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+              ScrollViewer.VerticalScrollBarVisibility="Hidden"
               Margin="20,0">
       <ListView.ItemsPanel>
         <ItemsPanelTemplate>
-          <StackPanel Orientation="Horizontal" 
+          <StackPanel Orientation="Horizontal"
                       HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
+                      VerticalAlignment="Center" />
         </ItemsPanelTemplate>
       </ListView.ItemsPanel>
       <ListView.ItemTemplate>

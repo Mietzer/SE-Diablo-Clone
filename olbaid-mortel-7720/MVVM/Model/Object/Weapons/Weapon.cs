@@ -34,7 +34,7 @@ namespace olbaid_mortel_7720.Object
     {
       return imageString;
     }
-    public void DamageUpgrade(int damage)
+    public void UpgradeDamage(int damage)
     {
       Damage += damage;
     }

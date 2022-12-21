@@ -56,9 +56,7 @@ namespace olbaid_mortel_7720.MVVM.View
 
       if (e.Key == Key.R)
         (DataContext as LevelWrapperViewModel).RestartMatch();
+      
     }
-
-
-
   }
 }
