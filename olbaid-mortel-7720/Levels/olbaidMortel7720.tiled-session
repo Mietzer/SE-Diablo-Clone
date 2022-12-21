@@ -18,9 +18,9 @@
                 5
             ],
             "scale": 0.75,
-            "selectedLayer": 8,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 683.3333333333334,
+                "x": 193.99999999999994,
                 "y": 619.3333333333333
             }
         },
@@ -48,16 +48,19 @@
             "scaleInEditor": 4
         },
         "Level3.tmx": {
-            "scale": 0.604140625,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                10
+            ],
+            "scale": 0.75,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1368.8865899392215,
-                "y": 527.1951377214534
+                "x": 664.6666666666667,
+                "y": 583.3333333333333
             }
         },
         "Level3.tsx": {
             "scaleInDock": 2,
-            "scaleInEditor": 1
+            "scaleInEditor": 4
         }
     },
     "last.externalTilesetPath": "C:/Users/Konsti/OneDrive - Technische Hochschule Nürnberg Georg Simon Ohm/Documents/Studium/Semester 3/SE Praktikum/git/olbaid-mortel-7720/Levels",
@@ -67,17 +70,17 @@
     "map.width": 60,
     "openFiles": [
         "Level1.tmx",
-        "Level1.tsx",
-        "Furniture.tsx"
+        "Level3.tmx"
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level2.tmx",
-        "Furniture.tsx",
-        "Level2.tsx",
+        "Level3.tmx",
         "Level1.tmx",
-        "Level1.tsx",
+        "Furniture.tsx",
         "Level3.tsx",
+        "Level1.tsx",
+        "Level2.tmx",
+        "Level2.tsx",
         "Level1_old.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled-Kachelsatzdateien (*.tsx *.xml)",
