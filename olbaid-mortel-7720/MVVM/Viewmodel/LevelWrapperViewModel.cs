@@ -63,7 +63,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         OnPropertyChanged(nameof(DropObjcects));
       }
     }
-    
+
     private ManualCanvas manual;
     public ManualCanvas Manual
     {
@@ -203,7 +203,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       spawnList?.Clear();
       spawnList = null;
-      
+
       PlayerView.DataContext = null;
       PlayerView = null;
 
@@ -212,7 +212,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       Gui.Content = null;
       Gui = null;
-      
+
       Manual = null;
 
       GC.Collect();
@@ -223,7 +223,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       ResumeGameCommand = new RelayCommand(ResumeGame, CanResumeGame);
       LeaveGameCommand = new RelayCommand(LeaveGame, CanLeaveGame);
     }
-    
+
     private void InitManual()
     {
       DataProvider dataProvider = new DataProvider();
@@ -231,7 +231,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       if (firstTime == null || firstTime.Equals("true"))
       {
         dataProvider.SaveData("false", "Manual");
-        
+
         Manual = new ManualCanvas();
         GameTimer.ExecuteWithInterval(250, args =>
         {
@@ -304,7 +304,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       GameTimer timer = GameTimer.Instance;
       timer.Execute(ChangeBluescreenText, nameof(this.PlayerDied) + GetHashCode());
     }
-    
+
     private void PlayerWon()
     {
       //Remove Event
@@ -446,7 +446,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         case 1:
           AddLevel1Data();
           break;
-        default:
+        case 2:
+          AddLevel2Data();
+          break;
+        case 3:
+          AddLevel3Data();
           break;
       }
     }
@@ -459,7 +463,22 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
       usedLevel = level1;
     }
-
+    private void AddLevel2Data()
+    {
+      // TODO: Add spawnlists with random choice out of a list of possible lists
+      Level level2 = new Level(new Map("./Levels/Level2.tmx", "./Levels/Level2.tsx"));
+      CurrentLevel = new MapView(level2.Map);
+      level2.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
+      usedLevel = level2;
+    }
+    private void AddLevel3Data()
+    {
+      // TODO: Add spawnlists with random choice out of a list of possible lists
+      Level level1 = new Level(new Map("./Levels/Level3.tmx", "./Levels/Level3.tsx"));
+      CurrentLevel = new MapView(level1.Map);
+      level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
+      usedLevel = level1;
+    }
     private void AddDroppedObjectsView()
     {
       DropObjcects = new DropObjectCanvas(usedLevel.DroppedObjects, Player);

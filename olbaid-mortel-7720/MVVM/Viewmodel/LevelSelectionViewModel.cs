@@ -52,8 +52,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       //TODO: Right Category for LevelModelImages
       LevelModel level1 = new LevelModel(1, "LEVEL 1 Name", ImageImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), true);
-      LevelModel level2 = new LevelModel(2, "Das ist mein LEVEL 2.", ImageImporter.Import(ImageCategory.ITEMS, "healthpack.png"), false);
-      LevelModel level3 = new LevelModel(3, "LEVEL 3", ImageImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), false);
+      LevelModel level2 = new LevelModel(2, "Das ist mein LEVEL 2.", ImageImporter.Import(ImageCategory.ITEMS, "healthpack.png"), true);
+      LevelModel level3 = new LevelModel(3, "LEVEL 3", ImageImporter.Import(ImageCategory.ITEMS, "paralysispotion.png"), true);
 
       Levellist.Add(level1);
       Levellist.Add(level2);
