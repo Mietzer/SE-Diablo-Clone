@@ -11,7 +11,7 @@ namespace olbaid_mortel_7720.Object.Weapons
     #endregion Properties
     public Rifle() : base()
     {
-      Damage = 300;
+      Damage = 30;
       reloadtime = 4;
       category = ImageCategory.WEAPONS_PLAYER_RIFLE;
       imageString = "rifle.png";
