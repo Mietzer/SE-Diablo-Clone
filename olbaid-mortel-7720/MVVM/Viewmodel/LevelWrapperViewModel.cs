@@ -2,6 +2,7 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
@@ -252,9 +253,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.Start();
       IsRunning = GameTimer.Instance.IsRunning;
     }
+
     private void AddPlayer()
     {
-      player = new Player(200, 150, 64, 32, (CurrentLevel as MapView).ViewModel);
+      SpawnObject PlayerSpawnObject = usedLevel.Map.PlayerSpawnPoint();
+      player = new Player(PlayerSpawnObject.X, PlayerSpawnObject.Y, 64, 32, (CurrentLevel as MapView).ViewModel);
       PlayerView = new PlayerCanvas(player, usedLevel.DroppedObjects);
       player.PlayerDied += PlayerDied;
       player.PlayerWon += PlayerWon;

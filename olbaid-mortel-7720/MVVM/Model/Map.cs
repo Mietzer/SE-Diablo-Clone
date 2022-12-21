@@ -108,6 +108,17 @@ namespace olbaid_mortel_7720.MVVM.Model
       return spawnObjects;
     }
 
+    public SpawnObject PlayerSpawnPoint()
+    {
+      List<SpawnObject> spawnObjects = LoadObjects();
+
+      foreach (var obj in spawnObjects)
+      {
+        if (obj.Name == "Player Spawn")
+          return obj;
+      }
+      return null;
+    }
 
     public int GetHeight()
     {
