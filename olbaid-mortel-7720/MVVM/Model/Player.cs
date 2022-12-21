@@ -59,6 +59,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
+    private bool weapononcooldown;
     private Weapon currentWeapon;
     private Weapon primaryweapon;
     private Weapon secondaryweapon;
@@ -82,6 +83,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public Player(int x, int y, int height, int width, MapViewModel mapModel) : base(x, y, height, width, 5, mapModel)
     {
       HealthPoints = 100;
+      weapononcooldown = false;
       oneShotProtection = false;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
@@ -147,9 +149,14 @@ namespace olbaid_mortel_7720.MVVM.Model
           CurrentWeapon = this.primaryweapon;
           break;
         case Key.D2:
-          this.primaryweapon = CurrentWeapon;
-          CurrentWeapon = this.secondaryweapon;
-
+          if (!weapononcooldown)
+          {
+            weapononcooldown = true;
+            this.primaryweapon = CurrentWeapon;
+            CurrentWeapon = this.secondaryweapon;
+            GameTimer.ExecuteWithInterval(50, delegate (EventArgs args) { this.secondaryweapon = CurrentWeapon; CurrentWeapon = this.primaryweapon; WeaponSwap?.Invoke(this, EventArgs.Empty); }, true);
+            GameTimer.ExecuteWithInterval(200, delegate (EventArgs args) { this.weapononcooldown = false; }, true);
+          }
           break;
       }
       WeaponSwap?.Invoke(this, EventArgs.Empty);
@@ -217,7 +224,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         Effect = PlayerEffect.None;
       }
     }
-    
+
     /// <summary>
     /// Player is being healed
     /// </summary>
@@ -228,7 +235,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { if (HealthPoints < 100) HealthPoints += 1; }, true);
       GameTimer.ExecuteWithInterval(50 + amount, delegate (EventArgs args) { Effect = PlayerEffect.None; }, true);
     }
-    
+
     /// <summary>
     /// Player is being Poisoned
     /// </summary>
@@ -243,7 +250,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         StepLength += 2;
       }, progress => { if (HealthPoints > 15 && (int)progress % 5 == 0) HealthPoints -= 1; }, true);
     }
-    
+
     /// <summary>
     /// Player is gets Armor
     /// </summary>
@@ -253,7 +260,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       Effect = PlayerEffect.Protected;
       oneShotProtection = true;
     }
-    
+
     /// <summary>
     /// Player Weapon gets Bonus Damage 
     /// </summary>
@@ -262,7 +269,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       currentWeapon.UpgradeDamage(damage);
     }
-    
+
     /// <summary>
     /// Player has got the level key
     /// </summary>
@@ -292,7 +299,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     /// Event for the Player to die -> Game Over
     /// </summary>
     public event EndingEvent PlayerDied;
-    
+
     /// <summary>
     /// Event for the Player to win -> Next Level
     /// </summary>

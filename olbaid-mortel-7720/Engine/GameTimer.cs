@@ -13,12 +13,12 @@ namespace olbaid_mortel_7720.Engine
     private DispatcherTimer _timer;
     private Dictionary<string, GameTickHandler> _tickHandlers = new Dictionary<string, GameTickHandler>();
     private static uint numOfIntervals = 0;
-    
+
     /// <summary>
     /// Checks if timer is enabled.
     /// </summary>
     public bool IsRunning { get => _timer.IsEnabled; }
-    
+
     /// <summary>
     /// Static instance of the GameTimer.
     /// Please do only use this instance!
@@ -31,18 +31,18 @@ namespace olbaid_mortel_7720.Engine
     /// Delegate for the Tick event.
     /// </summary>
     public delegate void GameTickHandler(EventArgs e);
-    
+
     /// <summary>
     /// Event that is fired when the timer ticks.
     /// </summary>
     private event GameTickHandler? GameTick;
-    
+
     /// <summary>
     /// Delegate for a callback that displays the current progress of the interval.
     /// </summary>
     public delegate void IntervalProgressHandler(double progress);
     #endregion Events
-    
+
     #region Constructor
     /// <summary>
     /// Private constructor to prevent multiple instances.
@@ -89,7 +89,7 @@ namespace olbaid_mortel_7720.Engine
     {
       ExecuteWithInterval(interval, callback, null, removeAfterExecution);
     }
-    
+
     /// <summary>
     /// Execute a task in a interval of game ticks.
     /// </summary>
@@ -122,7 +122,7 @@ namespace olbaid_mortel_7720.Engine
       };
       timer.Execute(handler, "interval" + internalNumOfIntervals);
     }
-    
+
     /// <summary>
     /// Add a task to the timer.
     /// </summary>
@@ -134,7 +134,7 @@ namespace olbaid_mortel_7720.Engine
       _tickHandlers.Add(key, callback);
       GameTick += _tickHandlers[key];
     }
-    
+
     /// <summary>
     /// Removes a method from the timer.
     /// </summary>
@@ -147,7 +147,7 @@ namespace olbaid_mortel_7720.Engine
         _tickHandlers.Remove(name);
       }
     }
-    
+
     /// <summary>
     /// Removes a method from the timer.
     /// </summary>
@@ -160,7 +160,7 @@ namespace olbaid_mortel_7720.Engine
         _tickHandlers.Remove(callback.Method.Name);
       }
     }
-    
+
     /// <summary>
     /// Cleans up the timer.
     /// </summary>
