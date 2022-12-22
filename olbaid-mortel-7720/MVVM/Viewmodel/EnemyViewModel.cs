@@ -2,7 +2,6 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
-using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.View;
 using System;
@@ -108,7 +107,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         // Checks if bullet hits Enemyhitbox
         Enemy enemy = MyEnemies?.FirstOrDefault(ene => ene.Hitbox.IntersectsWith(bullet.Hitbox));
         enemy?.TakeDamage(MyPlayer.CurrentWeapon.Damage);
-        if(enemy is EnemyBoss)
+        if (enemy is EnemyBoss)
           (enemy as EnemyBoss).ChangePhase();
         //Mark Bullet as deletable
         if (enemy != null)
@@ -126,7 +125,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             enemy.Attack(MyPlayer);
             (enemy as EnemyMelee).AttackCoolDown();
           }
-          else if(enemy as EnemyBoss != null && (enemy as EnemyBoss).IsAttacking)
+          else if (enemy as EnemyBoss != null && (enemy as EnemyBoss).IsAttacking)
           {
             enemy.Attack(MyPlayer);
             (enemy as EnemyBoss).AttackCoolDown();
@@ -137,7 +136,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           if ((enemy as EnemyRanged).IsAttacking)
           {
-            //TODO: Maybe some randomness to weaken Enemys (Maybe own Property for Enemy for shot accuracy (Boss and Rare -> Better, Normal ->worse)
             Point p = new Point(MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2, MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2);
             Shoot(enemy as EnemyRanged, p);
             (enemy as EnemyRanged).ShotCoolDown();
@@ -168,9 +166,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         if (enemy != null && enemy.Health <= 0)
         {
           Random rnd = new Random();
-          // TODO: A clean drop system
-          // CollectableObject collectable = enemy.GetPossibleDrops()[rnd.Next(0, enemy.GetPossibleDrops().Count)];
-          // collectable.Spawn(MyEnemyCanvas, (int)enemy.Hitbox.X + (int)enemy.Hitbox.Width / 2, (int)enemy.Hitbox.Y + (int)enemy.Hitbox.Height / 2);
+
 
           DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
           animation.Completed += delegate

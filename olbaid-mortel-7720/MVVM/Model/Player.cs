@@ -314,9 +314,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
     protected virtual void Won()
     {
-      //TODO: Rest Clean Up Impelemtieren von Bluescren View 
       Bullets.CollectionChanged -= Bullets_CollectionChanged;
-      HealthPoints = 10;
       PlayerWon?.Invoke();
     }
 

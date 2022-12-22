@@ -17,11 +17,11 @@
             "expandedObjectLayers": [
                 5
             ],
-            "scale": 3,
+            "scale": 0.33,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 959.9999999999999,
-                "y": 527.8333333333333
+                "x": -286.3636363636364,
+                "y": 730.3030303030305
             }
         },
         "Level1.tsx": {
@@ -36,11 +36,11 @@
             "expandedObjectLayers": [
                 10
             ],
-            "scale": 1.5,
+            "scale": 1,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 529.9999999999999,
-                "y": 445.66666666666663
+                "x": 969,
+                "y": 479.5
             }
         },
         "Level2.tsx": {
@@ -54,8 +54,8 @@
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 959.3333333333333,
-                "y": 528
+                "x": 901.9999999999999,
+                "y": 226
             }
         },
         "Level3.tsx": {
