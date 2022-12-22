@@ -8,9 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using WpfAnimatedGif;
 
@@ -236,8 +238,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Manual = new ManualCanvas();
         GameTimer.ExecuteWithInterval(250, args =>
         {
-          Manual.Content = null;
-          Manual = null;
+          DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(200), FillBehavior.Stop);
+          animation.Completed += delegate
+          {
+            Manual.Content = null;
+            Manual = null;
+          };
+          Manual.BeginAnimation(UIElement.OpacityProperty, animation);
         }, true);
       }
     }
