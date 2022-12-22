@@ -13,7 +13,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     public const string HOLE = "Holes";
     public const string FURNITURE_DECORATION = "Furniture on Top";
     public const string DOOR = "outer Door";
-    
+    public const string TREE = "Trees";
+    public const string LAMP = "Lamp";
+
     public static Barrier.BarrierType GetBarrierType(string layerName)
     {
       switch (layerName)
@@ -30,6 +32,10 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
         case FURNITURE:
         case FURNITURE_DECORATION:
           return Barrier.BarrierType.Furniture;
+        case TREE:
+          return Barrier.BarrierType.Tree;
+        case LAMP:
+          return Barrier.BarrierType.Lamp;
         default:
           return Barrier.BarrierType.None;
       }
