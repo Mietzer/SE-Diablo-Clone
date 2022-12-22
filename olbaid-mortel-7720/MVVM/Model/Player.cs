@@ -145,17 +145,20 @@ namespace olbaid_mortel_7720.MVVM.Model
       switch (key)
       {
         case Key.D1:
-          this.secondaryweapon = CurrentWeapon;
+          if (CurrentWeapon == this.secondaryweapon)
+            this.secondaryweapon = CurrentWeapon;
           CurrentWeapon = this.primaryweapon;
           break;
         case Key.D2:
           if (!weapononcooldown)
           {
             weapononcooldown = true;
-            this.primaryweapon = CurrentWeapon;
-            CurrentWeapon = this.secondaryweapon;
-            GameTimer.ExecuteWithInterval(50, delegate (EventArgs args) { this.secondaryweapon = CurrentWeapon; CurrentWeapon = this.primaryweapon; WeaponSwap?.Invoke(this, EventArgs.Empty); }, true);
             GameTimer.ExecuteWithInterval(200, delegate (EventArgs args) { this.weapononcooldown = false; }, true);
+            if (CurrentWeapon == this.primaryweapon)
+              this.primaryweapon = CurrentWeapon;
+            CurrentWeapon = this.secondaryweapon;
+            GameTimer.ExecuteWithInterval(50, delegate (EventArgs args) { if (CurrentWeapon == this.secondaryweapon) { this.secondaryweapon = CurrentWeapon; } CurrentWeapon = this.primaryweapon; WeaponSwap?.Invoke(this, EventArgs.Empty); }, true);
+
           }
           break;
       }
@@ -314,9 +317,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     }
     protected virtual void Won()
     {
-      //TODO: Rest Clean Up Impelemtieren von Bluescren View 
       Bullets.CollectionChanged -= Bullets_CollectionChanged;
-      HealthPoints = 10;
       PlayerWon?.Invoke();
     }
 

@@ -77,10 +77,12 @@ namespace olbaid_mortel_7720.Engine
       if (pathfinder == null)
         pathfinder = Pathfinder.Initialize(this.Barriers);
     }
+
+    ~Enemy() { }
     #endregion Constructor
 
     #region Methods
-    ~Enemy() { }
+
     public void TakeDamage(int points)
     {
       if (Health > 0)

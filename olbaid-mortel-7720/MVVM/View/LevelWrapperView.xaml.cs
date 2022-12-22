@@ -1,7 +1,5 @@
 ﻿using olbaid_mortel_7720.Helper;
-using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,12 +24,6 @@ namespace olbaid_mortel_7720.MVVM.View
     /// <param name="e"></param>
     private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
-      double x = GlobalVariables.MaxX * PlayerControl.ActualWidth / ScalingViewBox.ActualWidth;
-      double y = GlobalVariables.MaxY * PlayerControl.ActualWidth / ScalingViewBox.ActualWidth;
-
-      GlobalVariables.MaxX = Convert.ToInt32(x);
-      GlobalVariables.MaxY = Convert.ToInt32(y);
-
       Window window = Window.GetWindow(this);
       window.KeyDown += PauseLevel;
     }
@@ -56,7 +48,7 @@ namespace olbaid_mortel_7720.MVVM.View
 
       if (e.Key == Key.R)
         (DataContext as LevelWrapperViewModel).RestartMatch();
-      
+
     }
   }
 }

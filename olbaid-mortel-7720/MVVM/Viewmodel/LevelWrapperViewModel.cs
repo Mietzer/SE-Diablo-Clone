@@ -450,7 +450,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddLevel()
     {
-      // TODO: Depending on some Variable, using of Level 1,2 or 3
       switch (usedLevelID)
       {
         case 1:
@@ -467,7 +466,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddLevel1Data()
     {
-      // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
@@ -475,7 +473,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddLevel2Data()
     {
-      // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level2 = new Level(new Map("./Levels/Level2.tmx", "./Levels/Level2.tsx"));
       CurrentLevel = new MapView(level2.Map);
       level2.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
@@ -483,7 +480,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddLevel3Data()
     {
-      // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level1 = new Level(new Map("./Levels/Level3.tmx", "./Levels/Level3.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);

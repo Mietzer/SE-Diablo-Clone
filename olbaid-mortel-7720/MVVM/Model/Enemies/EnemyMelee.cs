@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-//TODO: CodeCleanup, Regions, Kommentare
+
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
