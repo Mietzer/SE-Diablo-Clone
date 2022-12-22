@@ -1,13 +1,11 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
-using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -123,25 +121,25 @@ namespace olbaid_mortel_7720.Engine
     protected void MoveLeft()
     {
       Direction = Direction.Left;
-      if (XCoord - StepLength >= GlobalVariables.MinX && VerifyNoCollision())
+      if (VerifyNoCollision())
         XCoord -= StepLength;
     }
     protected void MoveRight()
     {
       Direction = Direction.Right;
-      if (XCoord + StepLength + Width <= GlobalVariables.MaxX && VerifyNoCollision())
+      if (VerifyNoCollision())
         XCoord += StepLength;
     }
     protected void MoveUp()
     {
       Direction = Direction.Up;
-      if (YCoord - StepLength >= GlobalVariables.MinY && VerifyNoCollision())
+      if (VerifyNoCollision())
         YCoord -= StepLength;
     }
     protected void MoveDown()
     {
       Direction = Direction.Down;
-      if (YCoord + StepLength + Height <= GlobalVariables.MaxY && VerifyNoCollision())
+      if (VerifyNoCollision())
         YCoord += StepLength;
     }
 

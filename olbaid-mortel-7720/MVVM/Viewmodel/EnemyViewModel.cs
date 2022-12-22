@@ -2,7 +2,6 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
-using olbaid_mortel_7720.MVVM.Utils;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
@@ -259,9 +258,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             {
               b.Move(velocity);
 
-              if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-               || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
-               || b.HasHit
+              if (b.HasHit
                || enemy.Barriers.Any(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox)))
               {
                 //Remove from List and Register Rectangle to remove from Canvas

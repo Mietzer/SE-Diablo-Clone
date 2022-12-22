@@ -1,5 +1,4 @@
-﻿using olbaid_mortel_7720.MVVM.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -51,19 +50,19 @@ namespace olbaid_mortel_7720.Engine
     {
       double distance = Math.Sqrt((end.X - start.X) * (end.X - start.X) + (end.Y - start.Y) * (end.Y - start.Y));
       if (distance > MAX_PLAYER_DISTANCE) return DirectionAsVector(directionBefore);
-      
+
       int iterations = 0;
       Point current = end;
-      while(distance > STANDARD_TILE_SIZE * 1.5 && iterations <= MAX_ITERATIONS)
+      while (distance > STANDARD_TILE_SIZE * 1.5 && iterations <= MAX_ITERATIONS)
       {
         // Get the middle point between the start and the current point
-        current = new Point((start.X + current.X) / 2, (start.Y + current.Y) / 2); 
+        current = new Point((start.X + current.X) / 2, (start.Y + current.Y) / 2);
 
         if (obstacles != null && obstacles.Any(obstacle => obstacle.IntersectsWith(new Rect(current.X, current.Y, STANDARD_TILE_SIZE, STANDARD_TILE_SIZE))))
         {
           current = GetWalkableNeighbour(current, end, DirectionAsVector(directionBefore));
         }
-        
+
         // calculate new distance
         double xDistance = current.X - start.X;
         double yDistance = current.Y - start.Y;
@@ -77,7 +76,7 @@ namespace olbaid_mortel_7720.Engine
       distanceVector *= (int)Math.Sqrt((end.X - start.X) * (end.X - start.X) + (end.Y - start.Y) * (end.Y - start.Y));
       return distanceVector;
     }
-    
+
     /// <summary>
     /// Returns a vector with the given direction.
     /// </summary>
@@ -138,14 +137,14 @@ namespace olbaid_mortel_7720.Engine
 
       int dir1 = TraverseNextWalkableNeighbour(p1, v1, 0);
       int dir2 = TraverseNextWalkableNeighbour(p2, v2, 0);
-      
+
       if (dir1 == -1 && dir2 == -1)
         return node;
 
       if (dir1 == dir2)
       {
         Vector2.Normalize(before);
-        
+
         if (Vector2.Dot(before, v1) > Vector2.Dot(before, v2))
           return p1;
         else
@@ -166,14 +165,13 @@ namespace olbaid_mortel_7720.Engine
     private int TraverseNextWalkableNeighbour(Point node, Vector2 direction, int iter)
     {
       if (iter > MAX_DEPTH) return -1;
-      if (node.X > GlobalVariables.MaxX || node.X < GlobalVariables.MinX || node.Y > GlobalVariables.MaxY || node.Y < GlobalVariables.MinY) return -1;
-      
+
       if (obstacles != null && obstacles.Any(obstacle => obstacle.IntersectsWith(new Rect(node.X, node.Y, STANDARD_TILE_SIZE, STANDARD_TILE_SIZE * 2))))
       {
         node = new Point(node.X + direction.X, node.Y + direction.Y);
         return TraverseNextWalkableNeighbour(node, direction, iter + 1);
       }
-      
+
       return iter;
     }
   }

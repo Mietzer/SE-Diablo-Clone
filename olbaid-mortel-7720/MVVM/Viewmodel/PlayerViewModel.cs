@@ -2,7 +2,6 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Object;
-using olbaid_mortel_7720.MVVM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,9 +77,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
           List<Barrier> barriers = MyPlayer.Barriers.FindAll(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox));
 
-          if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-           || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY
-           || b.HasHit
+          if (b.HasHit
            || barriers.Count > 0)
           {
             //Remove from List and Register Rectangle to remove from Canvas
