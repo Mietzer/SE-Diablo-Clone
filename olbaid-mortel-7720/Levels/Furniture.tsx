@@ -6,6 +6,11 @@
    <object id="1" x="0" y="0" width="32" height="31"/>
   </objectgroup>
  </tile>
+ <tile id="9">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="10" y="18" width="11" height="13"/>
+  </objectgroup>
+ </tile>
  <tile id="10">
   <objectgroup draworder="index" id="2">
    <object id="1" x="6" y="5" width="19" height="22"/>
@@ -81,6 +86,21 @@
    <object id="1" x="-0.14395" y="5.97391" width="26.1988" height="25.9829"/>
   </objectgroup>
  </tile>
+ <tile id="77">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="6" y="0" width="18.7273" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="78">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="3.81818" y="0" width="24.1818" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="79">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="4.54545" y="1.27273" width="24.9091" height="30.7273"/>
+  </objectgroup>
+ </tile>
  <tile id="81">
   <objectgroup draworder="index" id="2">
    <object id="1" x="4" y="7" width="14" height="20"/>
@@ -94,6 +114,21 @@
  <tile id="83">
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="26" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="89">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="9" y="0" width="13" height="31"/>
+  </objectgroup>
+ </tile>
+ <tile id="90">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="18.7273" y="0" width="13.2727" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="91">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="14" height="32"/>
   </objectgroup>
  </tile>
  <tile id="93">

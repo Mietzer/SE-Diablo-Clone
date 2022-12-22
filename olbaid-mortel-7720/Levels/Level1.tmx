@@ -335,16 +335,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,76,0,76,0,88,0,88,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="9" name="Key Points">
-  <object id="13" name="Key " x="1792.98" y="65.0625" width="30" height="30"/>
-  <object id="14" name="Key " x="1760.92" y="929.303" width="30" height="30"/>
-  <object id="15" name="Key " x="97.8337" y="66" width="30" height="30"/>
-  <object id="16" name="Key " x="96.8943" y="928.969" width="30" height="30"/>
- </objectgroup>
- <objectgroup id="7" name="Finish Point" locked="1">
-  <object id="11" name="Finish Point" x="929.313" y="32.9375" width="30" height="30"/>
- </objectgroup>
- <objectgroup id="5" name="Spawn Points" visible="0">
+ <objectgroup id="5" name="Spawn Points">
   <object id="72" name="Enemy Spawn" x="95.25" y="240.25">
    <point/>
   </object>
@@ -501,7 +492,7 @@
   <object id="123" name="Enemy Spawn" x="402.5" y="689">
    <point/>
   </object>
-  <object id="124" name="Player Spawn" x="68.3333" y="572">
+  <object id="124" name="Player Spawn" x="44.6666" y="527.667">
    <point/>
   </object>
  </objectgroup>

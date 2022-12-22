@@ -38,6 +38,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Dictionary<string, BitmapImage> tilesets = new Dictionary<string, BitmapImage>();
       tilesets.Add("Level1", ImageImporter.Import(ImageCategory.TILESETS, "Level1.png"));
       tilesets.Add("Furniture", ImageImporter.Import(ImageCategory.TILESETS, "Furniture.png"));
+      tilesets.Add("Level2", ImageImporter.Import(ImageCategory.TILESETS, "Level2.png"));
+      tilesets.Add("Level3", ImageImporter.Import(ImageCategory.TILESETS, "Level3.png"));
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
