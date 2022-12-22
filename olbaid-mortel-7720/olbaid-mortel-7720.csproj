@@ -59,4 +59,8 @@
     <ItemGroup>
       <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Images\Manual" />
+    </ItemGroup>
 </Project>

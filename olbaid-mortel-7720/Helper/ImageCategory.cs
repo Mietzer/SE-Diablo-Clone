@@ -15,6 +15,7 @@
     internal static readonly ImageCategory GENERAL = new ImageCategory("");
     internal static readonly ImageCategory BOSSBAR = new ImageCategory("Bossbar/");
     internal static readonly ImageCategory BUTTONS = new ImageCategory("Buttons/");
+    internal static readonly ImageCategory MANUAL = new ImageCategory("Manual/");
     internal static readonly ImageCategory PLAYER = new ImageCategory("Entities/Player/");
     internal static readonly ImageCategory MELEE = new ImageCategory("Entities/Melee/");
     internal static readonly ImageCategory RANGED = new ImageCategory("Entities/Ranged/");
