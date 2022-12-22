@@ -1,6 +1,6 @@
 ﻿namespace olbaid_mortel_7720.MVVM.Utils
 {
-  public static class GlobalVariable
+  public static class GlobalVariables
   {
     #region Properties
 
