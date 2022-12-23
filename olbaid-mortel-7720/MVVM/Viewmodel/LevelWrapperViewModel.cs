@@ -486,7 +486,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void CheckLevelStats(LevelModel levelModel)
     {
-      TimeSpan levelTime = new(DateTime.UtcNow.Ticks - timestampStart - TimeSpan.TicksPerSecond);
+      TimeSpan levelTime = new(DateTime.UtcNow.Ticks - timestampStart);
+      int seconds = (int)Math.Round(levelTime.TotalSeconds);
+      levelTime = TimeSpan.FromSeconds(seconds);
+
       if (levelTime < levelModel.BestTime || levelModel.BestTime == new TimeSpan(0))
         levelModel.BestTime = levelTime;
 
