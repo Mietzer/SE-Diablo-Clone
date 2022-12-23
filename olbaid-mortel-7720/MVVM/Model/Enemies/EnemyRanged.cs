@@ -7,15 +7,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-//TODO: CodeCleanup, Regions, Kommentare
-
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRanged : Enemy
   {
-    #region Properties
-
-    #endregion Properties
 
     #region Constructor
     public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)

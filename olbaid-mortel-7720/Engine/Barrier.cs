@@ -1,5 +1,4 @@
-﻿using olbaid_mortel_7720.MVVM.Model.Object;
-using System.Windows;
+﻿using System.Windows;
 
 namespace olbaid_mortel_7720.Engine
 {
@@ -18,9 +17,11 @@ namespace olbaid_mortel_7720.Engine
       Wall,
       Furniture,
       Hole,
-      Floor
+      Floor,
+      Lamp,
+      Tree
     }
-    
+
     /// <summary>
     /// Special tag for the barrier
     /// </summary>
@@ -49,7 +50,7 @@ namespace olbaid_mortel_7720.Engine
       Type = type;
       Tag = BarrierTag.None;
     }
-    
+
     /// <summary>
     /// Constructor
     /// </summary>

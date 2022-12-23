@@ -69,7 +69,7 @@ namespace olbaid_mortel_7720.MVVM.Model
             // Use the connection object as well as the tileset to figure out the source rectangle.
             var rect = map.GetSourceRect(mapTileset, tileset, gid);
 
-            MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false);
+            MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR || layer.name == MapLayerType.TREE || layer.name == MapLayerType.LAMP ? true : false);
 
             TiledObject[] objects = map.GetTiledTile(mapTileset, tileset, gid).objects;
             if (objects.Length > 0)
@@ -100,7 +100,6 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         foreach (var obj in layer.objects)
         {
-          // Todo: Impelmentierung vpn Objecten z.b. Spawn Points
           spawnObjects.Add(new SpawnObject(obj.name, true, true, Convert.ToInt32(obj.x), Convert.ToInt32(obj.y)));
         }
       }
@@ -108,6 +107,17 @@ namespace olbaid_mortel_7720.MVVM.Model
       return spawnObjects;
     }
 
+    public SpawnObject PlayerSpawnPoint()
+    {
+      List<SpawnObject> spawnObjects = LoadObjects();
+
+      foreach (var obj in spawnObjects)
+      {
+        if (obj.Name == "Player Spawn")
+          return obj;
+      }
+      return null;
+    }
 
     public int GetHeight()
     {

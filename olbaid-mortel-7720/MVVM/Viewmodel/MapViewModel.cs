@@ -73,7 +73,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Canvas.Children.Add(Rectangles[i]);
 
         MapObject mapObject = rednermap[i];
-        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIR))
+        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIR) && !mapObject.Name.Equals(MapLayerType.TREE) && !mapObject.Name.Equals(MapLayerType.LAMP))
         {
           Rect barrierCollision = mapObject.CollisionBox ?? Rect.Empty;
           if (System.Diagnostics.Debugger.IsAttached)

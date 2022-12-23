@@ -42,10 +42,6 @@ namespace olbaid_mortel_7720.MVVM.View
       else if (App.Current.MainWindow.WindowState == WindowState.Normal)
         App.Current.MainWindow.WindowState = WindowState.Maximized;
 
-      GlobalVariables.MaxX = (int)ActualWidth;
-      GlobalVariables.MaxY = (int)ActualHeight - menuBarHeight;
-
-
 
     }
     private void Close(object sender, RoutedEventArgs e)
@@ -72,10 +68,7 @@ namespace olbaid_mortel_7720.MVVM.View
       DependencyObject row0 = VisualTreeHelper.GetChild(d, 0);
       menuBarHeight = (int)(row0 as Grid).ActualHeight;
 
-      GlobalVariables.MinX = 0;
-      GlobalVariables.MinY = 0;
-      GlobalVariables.MaxX = (int)ActualWidth;
-      GlobalVariables.MaxY = (int)ActualHeight - menuBarHeight;
+
 
       if (Debugger.IsAttached)
       {

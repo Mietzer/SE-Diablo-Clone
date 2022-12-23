@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Level1.tmx",
+    "activeFile": "Level3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,11 +17,11 @@
             "expandedObjectLayers": [
                 5
             ],
-            "scale": 0.75,
+            "scale": 0.33,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 193.99999999999994,
-                "y": 619.3333333333333
+                "x": 957.5757575757575,
+                "y": 534.8484848484849
             }
         },
         "Level1.tsx": {
@@ -37,10 +37,10 @@
                 10
             ],
             "scale": 1.5,
-            "selectedLayer": 7,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 529.9999999999999,
-                "y": 445.66666666666663
+                "x": 952.3333333333333,
+                "y": 527.6666666666666
             }
         },
         "Level2.tsx": {
@@ -51,11 +51,11 @@
             "expandedObjectLayers": [
                 10
             ],
-            "scale": 0.75,
-            "selectedLayer": 3,
+            "scale": 1,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 664.6666666666667,
-                "y": 583.3333333333333
+                "x": 580,
+                "y": 368.5
             }
         },
         "Level3.tsx": {
@@ -70,16 +70,17 @@
     "map.width": 60,
     "openFiles": [
         "Level1.tmx",
-        "Level3.tmx"
+        "Level3.tmx",
+        "Level2.tmx"
     ],
     "project": "olbaidMortel7720.tiled-project",
     "recentFiles": [
-        "Level3.tmx",
         "Level1.tmx",
+        "Level2.tmx",
+        "Level3.tmx",
         "Furniture.tsx",
         "Level3.tsx",
         "Level1.tsx",
-        "Level2.tmx",
         "Level2.tsx",
         "Level1_old.tsx"
     ],

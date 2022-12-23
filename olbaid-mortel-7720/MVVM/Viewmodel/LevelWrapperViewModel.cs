@@ -2,14 +2,17 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
 using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using WpfAnimatedGif;
 
@@ -235,8 +238,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         Manual = new ManualCanvas();
         GameTimer.ExecuteWithInterval(250, args =>
         {
-          Manual.Content = null;
-          Manual = null;
+          DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(200), FillBehavior.Stop);
+          animation.Completed += delegate
+          {
+            Manual.Content = null;
+            Manual = null;
+          };
+          Manual.BeginAnimation(UIElement.OpacityProperty, animation);
         }, true);
       }
     }
@@ -252,9 +260,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       timer.Start();
       IsRunning = GameTimer.Instance.IsRunning;
     }
+
     private void AddPlayer()
     {
-      player = new Player(200, 150, 64, 32, (CurrentLevel as MapView).ViewModel);
+      SpawnObject PlayerSpawnObject = usedLevel.Map.PlayerSpawnPoint();
+      player = new Player(PlayerSpawnObject.X, PlayerSpawnObject.Y, 64, 32, (CurrentLevel as MapView).ViewModel);
       PlayerView = new PlayerCanvas(player, usedLevel.DroppedObjects);
       player.PlayerDied += PlayerDied;
       player.PlayerWon += PlayerWon;
@@ -440,7 +450,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddLevel()
     {
-      // TODO: Depending on some Variable, using of Level 1,2 or 3
       switch (usedLevelID)
       {
         case 1:
@@ -457,7 +466,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void AddLevel1Data()
     {
-      // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level1 = new Level(new Map("./Levels/Level1.tmx", "./Levels/Level1.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
@@ -465,7 +473,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddLevel2Data()
     {
-      // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level2 = new Level(new Map("./Levels/Level2.tmx", "./Levels/Level2.tsx"));
       CurrentLevel = new MapView(level2.Map);
       level2.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
@@ -473,7 +480,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
     private void AddLevel3Data()
     {
-      // TODO: Add spawnlists with random choice out of a list of possible lists
       Level level1 = new Level(new Map("./Levels/Level3.tmx", "./Levels/Level3.tsx"));
       CurrentLevel = new MapView(level1.Map);
       level1.SpawnEnemies((CurrentLevel as MapView).ViewModel, maxEnemies);
