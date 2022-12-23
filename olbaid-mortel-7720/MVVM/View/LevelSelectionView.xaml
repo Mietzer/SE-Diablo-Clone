@@ -66,13 +66,6 @@
     <!--#region Levelbutton-->
 
     <!--#region StarCheckbox -->
-    <Style x:Key="Star"
-           TargetType="Polygon">
-      <Setter Property="Points"
-              Value="8,0 10.5,4 15.5,5 11.5,8.5 12.5,13 
-                     8,11 3.5,13 4.5,8.5 0,5 5.5,4 " />
-    </Style>
-
     <Style x:Key="StarCheckbox"
            TargetType="{x:Type CheckBox}">
       <Setter Property="IsEnabled"
@@ -90,7 +83,7 @@
                        Value="True">
                 <Setter TargetName="levelStar"
                         Property="Fill"
-                        Value="Yellow" />
+                        Value="Goldenrod" />
               </Trigger>
               <Trigger Property="IsChecked"
                        Value="False">
