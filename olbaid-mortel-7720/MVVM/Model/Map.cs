@@ -8,6 +8,9 @@ using TiledCS;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
+  /// <summary>
+  /// Map class contains logic for the level map
+  /// </summary>
   public class Map
   {
     #region Properties
@@ -19,6 +22,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #endregion Properties
 
+    #region Constructor
     public Map(string pathmap, string pathtileset)
     {
       this.PathMap = pathmap;
@@ -26,14 +30,12 @@ namespace olbaid_mortel_7720.MVVM.Model
       this.MapHeight = this.GetHeight();
       this.MapWidth = this.GetWidth();
     }
-
-
+    #endregion Constructor
 
     #region Methods
     public List<MapObject> Load()
     {
       List<MapObject> mapObjects = new List<MapObject>();
-
 
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
@@ -43,9 +45,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       //Creat MapObjects for Rendering Map
       foreach (var layer in tileLayers)
       {
-        for (var y = 0; y < layer.height; y++) //10
+        for (var y = 0; y < layer.height; y++)
         {
-          for (var x = 0; x < layer.width; x++) //10
+          for (var x = 0; x < layer.width; x++)
           {
             var index = (y * layer.width) + x; // Assuming the default render order is used which is from right to bottom
             var gid = layer.data[index]; // The tileset tile index
@@ -57,7 +59,6 @@ namespace olbaid_mortel_7720.MVVM.Model
             {
               continue;
             }
-
 
             // Helper method to fetch the right TieldMapTileset instance. 
             // This is a connection object Tiled uses for linking the correct tileset to the gid value using the firstgid property.
@@ -81,9 +82,7 @@ namespace olbaid_mortel_7720.MVVM.Model
             mapObjects.Add(mapObject);
           }
         }
-
       }
-
       return mapObjects;
     }
 
@@ -119,13 +118,13 @@ namespace olbaid_mortel_7720.MVVM.Model
       return null;
     }
 
-    public int GetHeight()
+    private int GetHeight()
     {
       var map = new TiledMap(this.PathMap);
       return map.Height;
     }
 
-    public int GetWidth()
+    private int GetWidth()
     {
       var map = new TiledMap(this.PathMap);
       return map.Width;

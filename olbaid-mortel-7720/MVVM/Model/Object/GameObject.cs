@@ -6,19 +6,22 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   {
     #region Properties
     public string Name;
-    bool Visible;
+    bool visible;
     public bool Penetrable;
     protected ImageCategory category;
     protected string imageString;
     #endregion Properties
 
+    #region Constructor
     public GameObject(string name, bool visible, bool penetrable)
     {
       Name = name;
-      this.Visible = visible;
+      this.visible = visible;
       Penetrable = penetrable;
     }
+    #endregion Constructor
 
+    #region Methods
     public ImageCategory GetCategory()
     {
       return category;
@@ -27,5 +30,6 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       return imageString;
     }
+    #endregion Methods
   }
 }

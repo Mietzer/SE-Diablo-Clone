@@ -10,6 +10,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   /// </summary>
   public class DropObject : GameObject
   {
+    #region Properties
     private int x;
     private int y;
 
@@ -19,7 +20,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     private List<CollectableObject> items = new List<CollectableObject>();
 
     public ReadOnlyCollection<CollectableObject> Items { get => items.AsReadOnly(); }
+    #endregion Properties
 
+    #region Constructor
     public void DropItems(Canvas canvas)
     {
       foreach (CollectableObject item in Items)
@@ -27,7 +30,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
         item.Spawn(canvas);
       }
     }
+    #endregion Constructor
 
+    #region Methods
     public DropObject(int x, int y, string name, bool visible) : base(name, visible, true)
     {
       this.x = x;
@@ -39,5 +44,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     {
       items.Add(item);
     }
+    #endregion Methods
+
   }
 }

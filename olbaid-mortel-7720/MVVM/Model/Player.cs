@@ -80,6 +80,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     public int ShotHits { get; private set; } = 0;
     #endregion Properties
 
+    #region Constructor
     public Player(int x, int y, int height, int width, MapViewModel mapModel) : base(x, y, height, width, 5, mapModel)
     {
       HealthPoints = 100;
@@ -97,6 +98,7 @@ namespace olbaid_mortel_7720.MVVM.Model
     ~Player()
     {
     }
+    #endregion Constructor
 
     #region Methods
     public override void RefreshHitbox()

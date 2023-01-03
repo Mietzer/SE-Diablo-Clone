@@ -13,6 +13,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private DataProvider dataProvider { get; set; } = new();
     #endregion Properties
+
+    #region Constructor
     public LevelSelectionViewModel()
     {
       InitLevels();
@@ -30,6 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       InitCommands();
     }
+    #endregion Constructor
 
     #region Methods
     private void InitCommands()
@@ -86,8 +89,5 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       => true;
 
     #endregion Commands
-
-
-
   }
 }

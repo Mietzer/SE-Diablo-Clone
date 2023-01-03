@@ -9,6 +9,8 @@ namespace olbaid_mortel_7720.Object
     #region Properties
 
     #endregion Properties
+
+    #region Constructor
     public Handgun()
     {
       Damage = 20;
@@ -17,6 +19,8 @@ namespace olbaid_mortel_7720.Object
       imageString = "handgun.png";
       this.Munition = new Munition(5, 10, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "handgun-bullet.png")), "ShotPlayer");
     }
+    #endregion Constructor
+
     #region Methods
 
     #endregion Methods
