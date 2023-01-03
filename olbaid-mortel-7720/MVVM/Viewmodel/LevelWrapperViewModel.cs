@@ -167,6 +167,71 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     }
 
     private long timestampStart;
+    private TimeSpan levelTimespan;
+    public TimeSpan LevelTimespan
+    {
+      get { return levelTimespan; }
+      set
+      {
+        levelTimespan = value;
+        OnPropertyChanged(nameof(LevelTimespan));
+      }
+    }
+
+    private SolidColorBrush textColor = new(Colors.AntiqueWhite);
+    public SolidColorBrush TextColor
+    {
+      get { return textColor; }
+      set
+      {
+        textColor = value;
+        OnPropertyChanged(nameof(TextColor));
+      }
+    }
+    private SolidColorBrush defaultStarColor = new(Colors.DarkGoldenrod);
+
+    private SolidColorBrush firstStarColor = new(Colors.DarkGray);
+    public SolidColorBrush FirstStarColor
+    {
+      get { return firstStarColor; }
+      set
+      {
+        firstStarColor = value;
+        if (value == new SolidColorBrush(Colors.DarkGray))
+          SecondStarColor = ThirdStarColor = value;
+        OnPropertyChanged(nameof(FirstStarColor));
+      }
+    }
+
+    private SolidColorBrush secondStarColor = new(Colors.DarkGray);
+    public SolidColorBrush SecondStarColor
+    {
+      get { return secondStarColor; }
+      set
+      {
+        secondStarColor = value;
+        if (value == defaultStarColor)
+          FirstStarColor = value;
+        if (value == new SolidColorBrush(Colors.DarkGray))
+          ThirdStarColor = value;
+        OnPropertyChanged(nameof(SecondStarColor));
+      }
+    }
+
+    private SolidColorBrush thirdStarColor = new(Colors.DarkGray);
+    public SolidColorBrush ThirdStarColor
+    {
+      get { return thirdStarColor; }
+      set
+      {
+        thirdStarColor = value;
+        if (value == defaultStarColor)
+          SecondStarColor = FirstStarColor = value;
+
+        OnPropertyChanged(nameof(ThirdStarColor));
+      }
+    }
+
     #endregion Properties
 
     #region Constructor
@@ -492,7 +557,11 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
     private void CheckLevelStats(LevelModel levelModel)
     {
-      TimeSpan levelTime = new(DateTime.UtcNow.Ticks - timestampStart - TimeSpan.TicksPerSecond);
+      TimeSpan levelTime = new(DateTime.UtcNow.Ticks - timestampStart);
+      int seconds = (int)Math.Round(levelTime.TotalSeconds);
+      levelTime = TimeSpan.FromSeconds(seconds);
+      LevelTimespan = levelTime;
+
       if (levelTime < levelModel.BestTime || levelModel.BestTime == new TimeSpan(0))
         levelModel.BestTime = levelTime;
 
@@ -503,22 +572,40 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       {
         //TODO: Find some good values for all 3 levels
         case 1:
-          goodTime = new(0, 7, 0);
+          goodTime = new(0, 2, 0);
           goodShotRatio = 0.8;
           goodRemainingHealth = 80;
           break;
-        case 2: break;
-        case 3: break;
+        case 2:
+          goodTime = new(0, 2, 0);
+          goodShotRatio = 0.8;
+          goodRemainingHealth = 80;
+          break;
+        case 3:
+          goodTime = new(0, 2, 0);
+          goodShotRatio = 0.8;
+          goodRemainingHealth = 80;
+          break;
       }
+
+      //Set 0 to 3 stars, depending on Stats
       if (levelTime < goodTime || Player.ShotHits / Player.OverallShots >= goodShotRatio || Player.HealthPoints > goodRemainingHealth)
+      {
         levelModel.Star1 = true;
+        FirstStarColor = defaultStarColor;
+      }
       if ((levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio) ||
           (Player.HealthPoints > goodRemainingHealth && levelTime < goodTime) ||
           (Player.HealthPoints > goodRemainingHealth && Player.ShotHits / Player.OverallShots >= goodShotRatio))
+      {
         levelModel.Star1 = levelModel.Star2 = true;
-
+        SecondStarColor = defaultStarColor;
+      }
       if (levelTime < goodTime && Player.ShotHits / Player.OverallShots >= goodShotRatio && Player.HealthPoints > goodRemainingHealth)
+      {
         levelModel.Star1 = levelModel.Star2 = levelModel.Star3 = true;
+        ThirdStarColor = defaultStarColor;
+      }
     }
     /// <summary>
     /// Method to Pause/ Resume Game, depending on current state
