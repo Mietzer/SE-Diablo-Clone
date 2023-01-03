@@ -28,6 +28,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private Canvas myPlayerCanvas;
     #endregion Properties
 
+    #region Constructor
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
@@ -36,6 +37,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       InitTimer();
     }
+    #endregion Constructor
+
     #region Methods
     /// <summary>
     /// Initialize a dispatcher timer to move the bullets
@@ -231,9 +234,5 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       }
     }
     #endregion Methods
-
-    #region Commands
-    #endregion Commands
-
   }
 }

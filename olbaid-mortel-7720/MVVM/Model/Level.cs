@@ -24,12 +24,14 @@ namespace olbaid_mortel_7720.MVVM.Model
       private set { _enemySpawnList = value; }
     }
     #endregion Properties
-    
+
+    #region Constructor
     public Level(Map map)
     {
       Map = map;
       DroppedObjects = new List<GameObject>();
     }
+    #endregion Constructor
 
     #region Methods
     public void SpawnEnemies(MapViewModel mapModel, uint enemyCount)

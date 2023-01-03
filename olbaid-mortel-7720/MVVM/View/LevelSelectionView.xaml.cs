@@ -7,11 +7,11 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class LevelSelectionView : UserControl
   {
+    #region Constructor
     public LevelSelectionView()
     {
       InitializeComponent();
     }
-
-
+    #endregion Constructor
   }
 }

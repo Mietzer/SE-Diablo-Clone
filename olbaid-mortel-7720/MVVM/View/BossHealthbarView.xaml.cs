@@ -8,13 +8,11 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class BossHealthbarView : UserControl
   {
-
-    /// <summary>
-    ///   Constructor.
-    /// </summary>
+    #region Constructor
     public BossHealthbarView()
     {
       InitializeComponent();
     }
+    #endregion Constructor
   }
 }

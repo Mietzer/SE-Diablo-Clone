@@ -32,6 +32,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #endregion Properties
 
+    #region Constructor
     public Bullet(Vector direction, int height, int width, Brush brush, string name)
     {
       Rectangle = new Rectangle();
@@ -42,9 +43,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       Direction = direction;
       Hitbox = new Rect(0, 0, width, height);
     }
-
     public Bullet(Vector vector, Munition munition) : this(vector, munition.Height, munition.Width, munition.BulletImage, munition.Name)
     { }
+    #endregion Constructor
 
     #region Methods
     /// <summary>

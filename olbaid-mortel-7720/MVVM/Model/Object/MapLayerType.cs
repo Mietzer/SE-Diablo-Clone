@@ -4,6 +4,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
 {
   public static class MapLayerType
   {
+    #region Properties
     public const string OUTER_WALL = "outer wall";
     public const string INNER_WALL = "Inner Wall";
     public const string DESTRUCTIBLE_WALL = "Destructible Wall";
@@ -15,7 +16,9 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     public const string DOOR = "outer Door";
     public const string TREE = "Trees";
     public const string LAMP = "Lamp";
+    #endregion Properties
 
+    #region Constructor
     public static Barrier.BarrierType GetBarrierType(string layerName)
     {
       switch (layerName)
@@ -40,5 +43,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
           return Barrier.BarrierType.None;
       }
     }
+    #endregion Constructor
+
   }
 }

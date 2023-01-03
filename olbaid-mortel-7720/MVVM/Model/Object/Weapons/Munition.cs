@@ -13,6 +13,8 @@ namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
     public Brush BulletImage;
     public string Name;
     #endregion Properties
+
+    #region Constructor
     public Munition(int height, int width, Brush bulletimage, string name)
     {
       Height = height;
@@ -20,6 +22,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
       BulletImage = bulletimage;
       Name = name;
     }
+    #endregion Constructor
 
     #region Methods
 
