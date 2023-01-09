@@ -62,17 +62,10 @@
       </Setter>
     </Style>
     <!--#endregion TriangleButton-->
-    
+
     <!--#region Levelbutton-->
 
     <!--#region StarCheckbox -->
-    <Style x:Key="Star"
-           TargetType="Polygon">
-      <Setter Property="Points"
-              Value="8,0 10.5,4 15.5,5 11.5,8.5 12.5,13 
-                     8,11 3.5,13 4.5,8.5 0,5 5.5,4 " />
-    </Style>
-
     <Style x:Key="StarCheckbox"
            TargetType="{x:Type CheckBox}">
       <Setter Property="IsEnabled"
@@ -90,7 +83,7 @@
                        Value="True">
                 <Setter TargetName="levelStar"
                         Property="Fill"
-                        Value="Yellow" />
+                        Value="Goldenrod" />
               </Trigger>
               <Trigger Property="IsChecked"
                        Value="False">
@@ -104,7 +97,7 @@
       </Setter>
     </Style>
     <!--#endregion StarCheckbox-->
-    
+
     <Style x:Key="Levelbutton"
            TargetType="{x:Type Button}">
       <Setter Property="FontFamily"
@@ -168,13 +161,14 @@
                                  Grid.Column="1"
                                  Foreground="White"
                                  TextWrapping="WrapWithOverflow"
-                                 HorizontalAlignment="Center"/>
+                                 HorizontalAlignment="Center" />
 
-                      <TextBlock Text="{Binding Path=BestTime}"
-                                 Grid.Column="1"
-                                 HorizontalAlignment="Center"
-                                 Grid.Row="1">
+                      <TextBlock  Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  Grid.Row="1">
                         <Run Text="Best Time: " />
+                         <Run Text="{Binding Path=BestTime}"
+                              FontWeight="Bold" />
                       </TextBlock>
                       <Grid Grid.Row="2"
                             Grid.Column="1"
@@ -239,7 +233,9 @@
 
   </UserControl.Resources>
   <Grid Background="MidnightBlue">
-    <Image Source="../../Images/background.png" ClipToBounds="True" Stretch="UniformToFill">
+    <Image Source="../../Images/background.png"
+           ClipToBounds="True"
+           Stretch="UniformToFill">
       <Image.Effect>
         <BlurEffect Radius="{Binding ElementName=ViewLevelSelect, Path=ActualHeight, Converter={StaticResource SizeToBlurIC}}" />
       </Image.Effect>
@@ -249,12 +245,13 @@
               BorderThickness="0"
               Background="Transparent"
               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+              ScrollViewer.VerticalScrollBarVisibility="Hidden"
               Margin="20,0">
       <ListView.ItemsPanel>
         <ItemsPanelTemplate>
-          <StackPanel Orientation="Horizontal" 
+          <StackPanel Orientation="Horizontal"
                       HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
+                      VerticalAlignment="Center" />
         </ItemsPanelTemplate>
       </ListView.ItemsPanel>
       <ListView.ItemTemplate>

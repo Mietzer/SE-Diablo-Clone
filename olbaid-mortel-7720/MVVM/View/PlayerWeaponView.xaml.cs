@@ -1,6 +1,6 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.Object;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -12,7 +12,7 @@ namespace olbaid_mortel_7720.MVVM.View
   public partial class PlayerWeaponView : UserControl, INotifyPropertyChanged
   {
     private BitmapImage _image;
-
+    private Player player;
     public BitmapImage Image
     {
       get { return _image; }
@@ -29,11 +29,13 @@ namespace olbaid_mortel_7720.MVVM.View
       InitializeComponent();
       this.DataContext = this;
       Image = ImageImporter.Import(ImageCategory.ITEMS, player.CurrentWeapon.GetImageString());
+      this.player = player;
+      player.WeaponSwap += Update;
     }
 
-    public void Update(Weapon weapon)
+    private void Update(object sender, EventArgs e)
     {
-      Image = ImageImporter.Import(ImageCategory.ITEMS, weapon.GetImageString());
+      Image = ImageImporter.Import(ImageCategory.ITEMS, this.player.CurrentWeapon.GetImageString());
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

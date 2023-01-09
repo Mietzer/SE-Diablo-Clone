@@ -7,15 +7,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-//TODO: CodeCleanup, Regions, Kommentare
-
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRanged : Enemy
   {
-    #region Properties
-
-    #endregion Properties
 
     #region Constructor
     public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)
@@ -38,9 +33,13 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #region Methods
     public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
     {
+      int x = (int)(Hitbox.X + Hitbox.Width / 2);
+      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
       List<CollectableObject> drops = new List<CollectableObject>();
-      drops.Add(new Medicine(200, 25));
-      drops.Add(new Paralysis(200, 100));
+      drops.Add(new Medicine(200, 40, x, y));
+      drops.Add(new Paralysis(200, 150, x, y));
+      drops.Add(new Protection(200, x, y));
+      drops.Add(new WeaponUpgrade(200, 5, x, y));
       return drops.AsReadOnly();
     }
 
@@ -71,7 +70,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         return;
       }
 
-      List<Direction> directions = DecideDirectionPath(player, XCoord, YCoord, nearestDistance, farthestDistance);
+      List<Direction> directions = DecideDirectionPath(player, Hitbox.X + Hitbox.Width / 2, Hitbox.Y + Hitbox.Height / 2, nearestDistance, farthestDistance);
 
       Direction item;
       if (directions.Count == 0)

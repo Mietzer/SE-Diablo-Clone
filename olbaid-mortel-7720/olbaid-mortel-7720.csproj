@@ -15,6 +15,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Levels\Level2.tmx" />
+      <None Remove="Levels\Level2.tsx" />
+      <None Remove="Levels\Level3.tmx" />
+      <None Remove="Levels\Level3.tsx" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Content Include="Levels\Furniture.tsx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
@@ -30,6 +37,18 @@
       <Content Include="Levels\Level1_test.tmx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="Levels\Level2.tmx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level2.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level3.tmx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Levels\Level3.tsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -40,5 +59,4 @@
     <ItemGroup>
       <Resource Include="Fonts\VT323\VT323-Regular.ttf" />
     </ItemGroup>
-
 </Project>

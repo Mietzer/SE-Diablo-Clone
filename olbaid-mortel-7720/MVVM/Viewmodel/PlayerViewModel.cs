@@ -1,6 +1,7 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-
-
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -24,11 +23,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public bool MoveUp { get; set; }
     public bool MoveDown { get; set; }
 
-    private string shotName = "ShotPlayer";
+    private readonly string shotName = "ShotPlayer";
 
     private Canvas myPlayerCanvas;
     #endregion Properties
 
+    #region Constructor
     public PlayerViewModel(Player player, Canvas playerCanvas)
     {
       MyPlayer = player;
@@ -37,6 +37,8 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       InitTimer();
     }
+    #endregion Constructor
+
     #region Methods
     /// <summary>
     /// Initialize a dispatcher timer to move the bullets
@@ -76,8 +78,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           Bullet b = MyPlayer.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
 
+          List<Barrier> barriers = MyPlayer.Barriers.FindAll(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox));
+
           if (b.HasHit
-           || MyPlayer.Barriers.Any(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox)))
+           || barriers.Count > 0)
           {
             //Remove from List and Register Rectangle to remove from Canvas
             deleteList.Add(item);
@@ -196,10 +200,39 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         MyPlayer.StopMovement(e);
     }
 
+    /// <summary>
+    /// Method to Select the Player Weapon
+    /// </summary>
+    /// <param name="e"></param>
+    public void WeaponSelection(Key k)
+    {
+      if (k == Key.D1)
+      {
+        MyPlayer.WeaponSelection(Key.D1);
+      }
+      else
+      {
+        MyPlayer.WeaponSelection(Key.D2);
+      }
+    }
+
+    /// <summary>
+    /// Try to pick up a item
+    /// </summary>
+    /// <param name="objects">currently visible objects</param>
+    public void TryCollection(List<GameObject> objects)
+    {
+      List<GameObject> collectables = objects.FindAll(delegate (GameObject obj)
+      {
+        return obj as CollectableObject != null
+        && MyPlayer.Hitbox.IntersectsWith((obj as CollectableObject).Hitbox);
+      });
+
+      foreach (GameObject obj in collectables)
+      {
+        (obj as CollectableObject)?.OnCollect(MyPlayer);
+      }
+    }
     #endregion Methods
-
-    #region Commands
-    #endregion Commands
-
   }
 }

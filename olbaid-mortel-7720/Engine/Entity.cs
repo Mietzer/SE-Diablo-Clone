@@ -1,12 +1,11 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Utils;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -21,7 +20,7 @@ namespace olbaid_mortel_7720.Engine
     public int XCoord
     {
       get { return xCoord; }
-      private set
+      internal set
       {
         if (value == xCoord) return;
         xCoord = value;
@@ -33,7 +32,7 @@ namespace olbaid_mortel_7720.Engine
     public int YCoord
     {
       get { return yCoord; }
-      private set
+      internal set
       {
         if (value == yCoord) return;
         yCoord = value;
@@ -50,7 +49,7 @@ namespace olbaid_mortel_7720.Engine
     public int StepLength
     {
       get { return stepLength; }
-      private set
+      protected set
       {
         stepLength = value;
         OnPropertyChanged(nameof(stepLength));
@@ -122,25 +121,25 @@ namespace olbaid_mortel_7720.Engine
     protected void MoveLeft()
     {
       Direction = Direction.Left;
-      if (XCoord - StepLength >= GlobalVariables.MinX && VerifyNoCollision())
+      if (VerifyNoCollision())
         XCoord -= StepLength;
     }
     protected void MoveRight()
     {
       Direction = Direction.Right;
-      if (XCoord + StepLength + Width <= GlobalVariables.MaxX && VerifyNoCollision())
+      if (VerifyNoCollision())
         XCoord += StepLength;
     }
     protected void MoveUp()
     {
       Direction = Direction.Up;
-      if (YCoord - StepLength >= GlobalVariables.MinY && VerifyNoCollision())
+      if (VerifyNoCollision())
         YCoord -= StepLength;
     }
     protected void MoveDown()
     {
       Direction = Direction.Down;
-      if (YCoord + StepLength + Height <= GlobalVariables.MaxY && VerifyNoCollision())
+      if (VerifyNoCollision())
         YCoord += StepLength;
     }
 
@@ -172,7 +171,12 @@ namespace olbaid_mortel_7720.Engine
           testHitbox.Y += StepLength;
           break;
       }
-      return !Barriers.Any(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
+      List<Barrier> intersections = Barriers.FindAll(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
+      if (this is EnemyBoss)
+      {
+        intersections.RemoveAll(barrier => barrier.Type == Barrier.BarrierType.Hole);
+      }
+      return intersections.Count == 0;
     }
 
     protected void Dispose()

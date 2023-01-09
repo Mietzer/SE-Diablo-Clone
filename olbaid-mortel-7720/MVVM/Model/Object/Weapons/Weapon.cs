@@ -20,10 +20,9 @@ namespace olbaid_mortel_7720.Object
     //optional Munitons Munition 
     #endregion Properties
 
-    public Weapon()
-    {
-
-    }
+    #region Constructor
+    public Weapon() { }
+    #endregion Constructor
 
     #region Methods
     public ImageCategory GetCategory()
@@ -33,6 +32,10 @@ namespace olbaid_mortel_7720.Object
     public string GetImageString()
     {
       return imageString;
+    }
+    public void UpgradeDamage(int damage)
+    {
+      Damage += damage;
     }
 
 

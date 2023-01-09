@@ -5,9 +5,8 @@ using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
-//TODO: CodeCleanup, Regions, Kommentare
+
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
@@ -26,12 +25,16 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
     public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
     {
+      int x = (int)(Hitbox.X + Hitbox.Width / 2);
+      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
       List<CollectableObject> drops = new List<CollectableObject>();
-      drops.Add(new Medicine(200, 25));
-      drops.Add(new Paralysis(200, 100));
+      drops.Add(new Medicine(200, 30, x, y));
+      drops.Add(new Paralysis(200, 100, x, y));
+      drops.Add(new Protection(200, x, y));
+      drops.Add(new WeaponUpgrade(200, 5, x, y));
       return drops.AsReadOnly();
     }
-    
+
     public override void Attack(Player player)
     {
       bool oldIsAttacking = IsAttacking;
@@ -50,7 +53,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
       bool oldIsAttacking = IsAttacking;
-      List<Direction> directions = DecideDirectionPath(player, XCoord, YCoord);
+      List<Direction> directions = DecideDirectionPath(player, Hitbox.X + Hitbox.Width / 2, Hitbox.Y + Hitbox.Height / 2);
 
       Direction item;
       if (directions.Count == 0)

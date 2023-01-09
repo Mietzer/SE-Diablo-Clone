@@ -11,25 +11,26 @@ using System.Windows.Shapes;
 
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
+  /// <summary>
+  /// MapViewModel for creating the map for the view
+  /// </summary>
   public class MapViewModel : NotifyObject
   {
     #region Properties
-
-    public List<Rectangle> Rectangles;
     public List<Barrier> Barriers;
     private Map map;
     public Canvas Canvas;
-
     #endregion Properties
 
+    #region Constructor
     public MapViewModel(Canvas canvas, Map map)
     {
-      Rectangles = new List<Rectangle>();
       Barriers = new List<Barrier>();
       this.map = map;
       Canvas = canvas;
       RenderMap();
     }
+    #endregion Constructor
 
     #region Methods
     public void RenderMap()
@@ -38,16 +39,18 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       Dictionary<string, BitmapImage> tilesets = new Dictionary<string, BitmapImage>();
       tilesets.Add("Level1", ImageImporter.Import(ImageCategory.TILESETS, "Level1.png"));
       tilesets.Add("Furniture", ImageImporter.Import(ImageCategory.TILESETS, "Furniture.png"));
+      tilesets.Add("Level2", ImageImporter.Import(ImageCategory.TILESETS, "Level2.png"));
+      tilesets.Add("Level3", ImageImporter.Import(ImageCategory.TILESETS, "Level3.png"));
 
       //Randering the Map 
       for (int i = 0; i < rednermap.Count; i++)
       {
-        Rectangles.Add(new Rectangle());
+        Rectangle rectangle = new Rectangle();
 
-        double renderValue = 42.74;
+        double renderValue = 42.74; //Empirically determined will for scale size 32 = 42.74 in WPF
 
-        Rectangles[i].Width = renderValue * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);
-        Rectangles[i].Height = renderValue * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
+        rectangle.Width = renderValue * ((double)(rednermap[i].Graphic.Imagex + rednermap[i].Graphic.Imagewidth) / 32);   //Adjustment of the rectangle according to the poison of the image section if not image section is not displayed. 
+        rectangle.Height = renderValue * ((double)(rednermap[i].Graphic.Imagey + rednermap[i].Graphic.Imageheight) / 32);
 
         string ImageName = rednermap[i].Graphic.PathtoGraphics.Substring(19, rednermap[i].Graphic.PathtoGraphics.Length - 19).Replace(".png", "");
         BitmapImage tilesetImage = tilesets[ImageName];
@@ -61,17 +64,18 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
         double xImageOffset = -rednermap[i].Graphic.Imagex;
         double yImageOffset = -rednermap[i].Graphic.Imagey;
-        myImageBrush.Transform = new MatrixTransform(0.75d, 0.0d, 0.0d, 0.75d, xImageOffset, yImageOffset); //m11=default 1   m12 m21 m22=default 1 0.75 da 0.25 Skalierungfaktor rausrechnen x y 
-        Rectangles[i].Fill = myImageBrush;
+        myImageBrush.Transform = new MatrixTransform(0.75d, 0.0d, 0.0d, 0.75d, xImageOffset, yImageOffset); // 0.75 Scaling to remove WPF scaling to get actual image size. To find correct x and y coordinates.
+        rectangle.Fill = myImageBrush;
 
-        double yTileValue = ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32;
+
+        double yTileValue = ((rednermap[i].Graphic.Index - (rednermap[i].Graphic.Index % map.MapWidth)) / map.MapWidth) * 32;  //Calculates plating in the canvas
         double xTileValue = (rednermap[i].Graphic.Index % map.MapWidth) * 32;
-        Canvas.SetTop(Rectangles[i], yTileValue);
-        Canvas.SetLeft(Rectangles[i], xTileValue);
-        Canvas.Children.Add(Rectangles[i]);
+        Canvas.SetTop(rectangle, yTileValue);
+        Canvas.SetLeft(rectangle, xTileValue);
+        Canvas.Children.Add(rectangle);
 
         MapObject mapObject = rednermap[i];
-        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIR))
+        if (mapObject.HasCollision() && !mapObject.Name.Equals(MapLayerType.FLOOR) && !mapObject.Name.Equals(MapLayerType.STAIR) && !mapObject.Name.Equals(MapLayerType.TREE) && !mapObject.Name.Equals(MapLayerType.LAMP))
         {
           Rect barrierCollision = mapObject.CollisionBox ?? Rect.Empty;
           if (System.Diagnostics.Debugger.IsAttached)
@@ -85,13 +89,10 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             Canvas.SetLeft(rect, barrierCollision.X);
             Canvas.Children.Add(rect);
           }
-          Barriers.Add(new Barrier(barrierCollision, MapLayerType.GetBarrierType(mapObject.Name)));
+          Barriers.Add(new Barrier(barrierCollision, MapLayerType.GetBarrierType(mapObject.Name), mapObject.Penetrable ? Barrier.BarrierTag.Destroyable : Barrier.BarrierTag.None));
         }
       }
     }
-
-
   }
-
   #endregion Methods
 }

@@ -13,10 +13,13 @@ using System.Windows.Media.Imaging;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
+  public delegate void EndingEvent();
+
   public class Player : Entity
   {
     #region Properties
     private int healthPoints;
+    private bool oneShotProtection;
     public int HealthPoints
     {
       get { return healthPoints; }
@@ -25,7 +28,7 @@ namespace olbaid_mortel_7720.MVVM.Model
         healthPoints = value;
         if (healthPoints <= 0)
         {
-          Bullets.CollectionChanged -= Bullets_CollectionChanged;
+          Die();
           base.Dispose();
         }
         OnPropertyChanged(nameof(HealthPoints));
@@ -56,6 +59,7 @@ namespace olbaid_mortel_7720.MVVM.Model
       }
     }
 
+    private bool weapononcooldown;
     private Weapon currentWeapon;
     private Weapon primaryweapon;
     private Weapon secondaryweapon;
@@ -74,12 +78,14 @@ namespace olbaid_mortel_7720.MVVM.Model
     public bool IsShooting { get; set; }
     public int OverallShots { get; private set; } = 0;
     public int ShotHits { get; private set; } = 0;
-
     #endregion Properties
 
-    public Player(int x, int y, int height, int width, int health, int stepLength, MapViewModel mapModel) : base(x, y, height, width, stepLength, mapModel)
+    #region Constructor
+    public Player(int x, int y, int height, int width, MapViewModel mapModel) : base(x, y, height, width, 5, mapModel)
     {
-      HealthPoints = health;
+      HealthPoints = 100;
+      weapononcooldown = false;
+      oneShotProtection = false;
       Effect = PlayerEffect.None;
       Hitbox = new Rect(x, y + 25, width, height - 25);
       WeaponOverlay = null;
@@ -92,9 +98,9 @@ namespace olbaid_mortel_7720.MVVM.Model
     ~Player()
     {
     }
+    #endregion Constructor
 
     #region Methods
-
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 25, Width, Height - 25);
@@ -141,12 +147,24 @@ namespace olbaid_mortel_7720.MVVM.Model
       switch (key)
       {
         case Key.D1:
+          if (CurrentWeapon == this.secondaryweapon)
+            this.secondaryweapon = CurrentWeapon;
           CurrentWeapon = this.primaryweapon;
           break;
         case Key.D2:
-          CurrentWeapon = this.secondaryweapon;
+          if (!weapononcooldown)
+          {
+            weapononcooldown = true;
+            GameTimer.ExecuteWithInterval(200, delegate (EventArgs args) { this.weapononcooldown = false; }, true);
+            if (CurrentWeapon == this.primaryweapon)
+              this.primaryweapon = CurrentWeapon;
+            CurrentWeapon = this.secondaryweapon;
+            GameTimer.ExecuteWithInterval(50, delegate (EventArgs args) { if (CurrentWeapon == this.secondaryweapon) { this.secondaryweapon = CurrentWeapon; } CurrentWeapon = this.primaryweapon; WeaponSwap?.Invoke(this, EventArgs.Empty); }, true);
+
+          }
           break;
       }
+      WeaponSwap?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -196,9 +214,19 @@ namespace olbaid_mortel_7720.MVVM.Model
     {
       HealthPoints -= damage;
 
-      if (HealthPoints <= 0)
+      if (!oneShotProtection)
       {
-        Death();
+        HealthPoints -= damage;
+
+        if (HealthPoints <= 0)
+        {
+          Die();
+        }
+      }
+      else
+      {
+        oneShotProtection = false;
+        Effect = PlayerEffect.None;
       }
     }
 
@@ -209,9 +237,51 @@ namespace olbaid_mortel_7720.MVVM.Model
     public void Heal(int amount)
     {
       Effect = PlayerEffect.Healing;
-      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { HealthPoints += 1; }, true);
+      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args) { }, progress => { if (HealthPoints < 100) HealthPoints += 1; }, true);
+      GameTimer.ExecuteWithInterval(50 + amount, delegate (EventArgs args) { Effect = PlayerEffect.None; }, true);
     }
 
+    /// <summary>
+    /// Player is being Poisoned
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void Poison(int amount)
+    {
+      Effect = PlayerEffect.Poisoned;
+      StepLength -= 2;
+      GameTimer.ExecuteWithInterval(amount, delegate (EventArgs args)
+      {
+        Effect = PlayerEffect.None;
+        StepLength += 2;
+      }, progress => { if (HealthPoints > 15 && (int)progress % 5 == 0) HealthPoints -= 1; }, true);
+    }
+
+    /// <summary>
+    /// Player is gets Armor
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void BeProtected()
+    {
+      Effect = PlayerEffect.Protected;
+      oneShotProtection = true;
+    }
+
+    /// <summary>
+    /// Player Weapon gets Bonus Damage 
+    /// </summary>
+    /// <param name="amount">How much</param>
+    public void UpgradeWeapon(int damage)
+    {
+      currentWeapon.UpgradeDamage(damage);
+    }
+
+    /// <summary>
+    /// Player has got the level key
+    /// </summary>
+    public void GetKey()
+    {
+      Won();
+    }
     #endregion Methods
 
     #region Events
@@ -230,13 +300,30 @@ namespace olbaid_mortel_7720.MVVM.Model
             ShotHits++;
     }
 
-    private void Death()
+    /// <summary>
+    /// Event for the Player to die -> Game Over
+    /// </summary>
+    public event EndingEvent PlayerDied;
+
+    /// <summary>
+    /// Event for the Player to win -> Next Level
+    /// </summary>
+    public event EndingEvent PlayerWon;
+
+    protected virtual void Die()
     {
       //TODO: Rest Clean Up Impelemtieren von Bluescren View 
+      Bullets.CollectionChanged -= Bullets_CollectionChanged;
       HealthPoints = 10;
-      NavigationLocator.MainViewModel.SwitchView(new LevelSelectionViewModel());
+      PlayerDied?.Invoke();
+    }
+    protected virtual void Won()
+    {
+      Bullets.CollectionChanged -= Bullets_CollectionChanged;
+      PlayerWon?.Invoke();
     }
 
+    public event EventHandler WeaponSwap;
     #endregion Events
   }
 }

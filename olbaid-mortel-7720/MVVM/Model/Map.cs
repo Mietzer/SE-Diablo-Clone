@@ -8,6 +8,9 @@ using TiledCS;
 
 namespace olbaid_mortel_7720.MVVM.Model
 {
+  /// <summary>
+  /// Map class contains logic for the level map
+  /// </summary>
   public class Map
   {
     #region Properties
@@ -19,6 +22,7 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     #endregion Properties
 
+    #region Constructor
     public Map(string pathmap, string pathtileset)
     {
       this.PathMap = pathmap;
@@ -26,14 +30,12 @@ namespace olbaid_mortel_7720.MVVM.Model
       this.MapHeight = this.GetHeight();
       this.MapWidth = this.GetWidth();
     }
-
-
+    #endregion Constructor
 
     #region Methods
     public List<MapObject> Load()
     {
       List<MapObject> mapObjects = new List<MapObject>();
-
 
       //Import Tildmap
       var map = new TiledMap(this.PathMap);
@@ -43,9 +45,9 @@ namespace olbaid_mortel_7720.MVVM.Model
       //Creat MapObjects for Rendering Map
       foreach (var layer in tileLayers)
       {
-        for (var y = 0; y < layer.height; y++) //10
+        for (var y = 0; y < layer.height; y++)
         {
-          for (var x = 0; x < layer.width; x++) //10
+          for (var x = 0; x < layer.width; x++)
           {
             var index = (y * layer.width) + x; // Assuming the default render order is used which is from right to bottom
             var gid = layer.data[index]; // The tileset tile index
@@ -58,7 +60,6 @@ namespace olbaid_mortel_7720.MVVM.Model
               continue;
             }
 
-
             // Helper method to fetch the right TieldMapTileset instance. 
             // This is a connection object Tiled uses for linking the correct tileset to the gid value using the firstgid property.
             var mapTileset = map.GetTiledMapTileset(gid);
@@ -69,7 +70,7 @@ namespace olbaid_mortel_7720.MVVM.Model
             // Use the connection object as well as the tileset to figure out the source rectangle.
             var rect = map.GetSourceRect(mapTileset, tileset, gid);
 
-            MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR ? true : false);
+            MapObject mapObject = new MapObject(layer.name, new Graphics(tileset.Image.source, rect.height, rect.width, rect.x, rect.y, index), true, layer.name == MapLayerType.FLOOR || layer.name == MapLayerType.TREE || layer.name == MapLayerType.LAMP ? true : false);
 
             TiledObject[] objects = map.GetTiledTile(mapTileset, tileset, gid).objects;
             if (objects.Length > 0)
@@ -81,9 +82,7 @@ namespace olbaid_mortel_7720.MVVM.Model
             mapObjects.Add(mapObject);
           }
         }
-
       }
-
       return mapObjects;
     }
 
@@ -100,7 +99,6 @@ namespace olbaid_mortel_7720.MVVM.Model
       {
         foreach (var obj in layer.objects)
         {
-          // Todo: Impelmentierung vpn Objecten z.b. Spawn Points
           spawnObjects.Add(new SpawnObject(obj.name, true, true, Convert.ToInt32(obj.x), Convert.ToInt32(obj.y)));
         }
       }
@@ -108,14 +106,25 @@ namespace olbaid_mortel_7720.MVVM.Model
       return spawnObjects;
     }
 
+    public SpawnObject PlayerSpawnPoint()
+    {
+      List<SpawnObject> spawnObjects = LoadObjects();
 
-    public int GetHeight()
+      foreach (var obj in spawnObjects)
+      {
+        if (obj.Name == "Player Spawn")
+          return obj;
+      }
+      return null;
+    }
+
+    private int GetHeight()
     {
       var map = new TiledMap(this.PathMap);
       return map.Height;
     }
 
-    public int GetWidth()
+    private int GetWidth()
     {
       var map = new TiledMap(this.PathMap);
       return map.Width;

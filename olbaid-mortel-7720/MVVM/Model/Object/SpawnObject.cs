@@ -9,11 +9,13 @@
 
     #endregion Properties
 
+    #region Constructor
     public SpawnObject(string name, bool visible, bool penetrable, int x, int y) : base(name, visible, penetrable)
     {
       X = x;
       Y = y;
     }
+    #endregion Constructor
 
     #region Methods
     #endregion Methods

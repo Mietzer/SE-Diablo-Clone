@@ -6,17 +6,17 @@ namespace olbaid_mortel_7720.Object.Weapons
 {
   public class Rifle : Weapon
   {
-    #region Properties
-
-    #endregion Properties
+    #region Constructor
     public Rifle() : base()
     {
       Damage = 30;
       reloadtime = 4;
       category = ImageCategory.WEAPONS_PLAYER_RIFLE;
       imageString = "rifle.png";
-      this.Munition = new Munition(8, 16, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "bullet.png")), "ShotPlayer");
+      this.Munition = new Munition(5, 10, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "rifle-bullet.png")), "ShotPlayer");
     }
+    #endregion Constructor
+
     #region Methods
 
     #endregion Methods
