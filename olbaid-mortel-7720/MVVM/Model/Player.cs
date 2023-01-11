@@ -2,8 +2,7 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
-using olbaid_mortel_7720.Object;
-using olbaid_mortel_7720.Object.Weapons;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System;
 using System.Collections.Specialized;
 using System.Windows;

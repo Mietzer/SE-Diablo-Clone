@@ -2,7 +2,7 @@
 using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System.Windows.Media;
 
-namespace olbaid_mortel_7720.Object.Weapons
+namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
 {
   public class Rifle : Weapon
   {
