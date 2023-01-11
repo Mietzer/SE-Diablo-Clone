@@ -17,8 +17,6 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
   public abstract class CollectableObject : GameObject, ICollectable
   {
     #region Properties
-    
-    private int overallLifetime;
     private int remainingLifetime;
 
     public Rect Hitbox { get; private set; }
@@ -27,13 +25,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
     public Canvas Canvas { get; private set; }
     public delegate void OnRemove(CollectableObject collectableObject);
     public event OnRemove OnRemoveEvent;
-    public bool CanBeCollected() => remainingLifetime > 0;
     #endregion Properties
 
     #region Constructor
     public CollectableObject(string name, bool visible, int lifetime, int x, int y) : base(name, visible, false)
     {
-      this.overallLifetime = this.remainingLifetime = lifetime;
+      this.remainingLifetime = lifetime;
       this.X = x;
       this.Y = y;
       GameTimer.Instance.Execute(OnGameTick, Name + GetHashCode());
