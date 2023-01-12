@@ -1,9 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <LinearGradientBrush x:Key="TitlebarColor">
-    <GradientStop Color="#FF2169AC"
-                  Offset="0.05" />
-    <GradientStop Color="#000000"
+  <LinearGradientBrush x:Key="TitlebarColor" StartPoint="0,0" EndPoint="1,0">
+    <GradientStop Color="#000080"
+                  Offset="0.25" />
+    <GradientStop Color="#1084D0"
                   Offset="1" />
   </LinearGradientBrush>
+  <LinearGradientBrush x:Key="MapBackgroundGradient" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#222222" Offset="0" />
+    <GradientStop Color="#000000" Offset="1" />
+  </LinearGradientBrush>
+  <Color x:Key="BluescreenBlue">#1865B5</Color>
+
 </ResourceDictionary>

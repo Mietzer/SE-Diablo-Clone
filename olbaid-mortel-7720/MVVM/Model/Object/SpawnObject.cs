@@ -1,32 +1,23 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-
-namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
+﻿namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
 {
-  public class SpawnObject : Object
+  public class SpawnObject : GameObject
   {
     #region Properties
-    public Rectangle Hitbox;
-    public float X;
-    public float Y;
+
+    public int X;
+    public int Y;
+
     #endregion Properties
-    public SpawnObject(string name, bool visible, bool penetrable, float x, float y, float width = 1, float height = 1) : base(name, visible, penetrable)
+
+    #region Constructor
+    public SpawnObject(string name, bool visible, bool penetrable, int x, int y) : base(name, visible, penetrable)
     {
       X = x;
       Y = y;
-      Hitbox = CreatHitbox(height, width);
     }
+    #endregion Constructor
 
     #region Methods
-    Rectangle CreatHitbox(float height, float width)
-    {
-      Rectangle hitbox = new Rectangle();
-      hitbox.Height = height;
-      hitbox.Width = width;
-      //TODO: To colour the spawn zones, the following must be removed from the finished game. 
-      hitbox.Fill = Brushes.Transparent;
-      return hitbox;
-    }
     #endregion Methods
   }
 }

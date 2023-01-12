@@ -5,7 +5,7 @@
     <Setter Property="Background"
             Value="Transparent" />
     <Setter Property="Foreground"
-            Value="AntiqueWhite" />
+            Value="#FFFFFF" />
     <Setter Property="FontSize"
             Value="20" />
     <Setter Property="FontWeight"
@@ -15,7 +15,7 @@
     <Setter Property="VerticalAlignment"
             Value="Center" />
     <Setter Property="Margin"
-            Value="20,0,0,0" />
+            Value="5,3,2,3" />
   </Style>
 
 </ResourceDictionary>

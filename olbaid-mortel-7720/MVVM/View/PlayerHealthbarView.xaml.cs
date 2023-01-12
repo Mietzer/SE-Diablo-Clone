@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfAnimatedGif;
 
-namespace olbaid_mortel_7720.MVVM.Views
+namespace olbaid_mortel_7720.MVVM.View
 {
   /// <summary>
   ///   View component for the health bar in the overall player's gui.
@@ -29,6 +29,7 @@ namespace olbaid_mortel_7720.MVVM.Views
       _model.PropertyChanged += OnModelPropertyChanged;
     }
 
+    ~PlayerHealthbarView() { }
     #region EventHandlers
     /// <summary>
     ///   Should update the healthbar's design when the player's effect changes.
@@ -80,5 +81,10 @@ namespace olbaid_mortel_7720.MVVM.Views
       TxtPercentage.Margin = new Thickness(0, 0, sizeOfText, 0);
     }
     #endregion
+
+    private void CtlHealthbar_Unloaded(object sender, RoutedEventArgs e)
+    {
+      _model.PropertyChanged -= OnModelPropertyChanged;
+    }
   }
 }

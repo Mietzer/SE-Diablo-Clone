@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="MVVM\View\DropObjectCanvas.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\LevelSelectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -14,8 +17,14 @@
     <Compile Update="MVVM\View\PlayerCanvas.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\StartscreenView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="MVVM\View\DropObjectCanvas.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MVVM\View\LevelSelectionView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -26,6 +35,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\PlayerCanvas.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\StartscreenView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ButtonStyles.xaml">

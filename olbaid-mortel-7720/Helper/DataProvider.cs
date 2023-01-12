@@ -19,13 +19,13 @@ namespace olbaid_mortel_7720.Helper
     /// </summary>
     /// <typeparam name="T">Serializable objecttyp</typeparam>
     /// <param name="data">Object to save</param>
-    /// <param name="filename"=Name of file without ending</param>
+    /// <param name="fileName">Name of file without ending</param>
     public void SaveData<T>(T data, string fileName)
     {
       string path = Path.Combine(fileName + ".json");
       //Convert To Json 
       string jsonString = JsonSerializer.Serialize(data);
-      
+
       //Make file writable
       if (!File.Exists(path))
         File.Create(path).Close();
@@ -34,15 +34,15 @@ namespace olbaid_mortel_7720.Helper
       File.WriteAllText(path, jsonString);
 
       //Prevent external changes
-      File.SetAttributes(path, FileAttributes.ReadOnly);
       File.SetAttributes(path, FileAttributes.Hidden);
+      File.SetAttributes(path, FileAttributes.ReadOnly);
     }
 
     /// <summary>
     /// Loads data from a readonly JSON file
     /// </summary>
     /// <typeparam name="T">Deserializable class in file</typeparam>
-    /// <param name="filename"=Name of file without ending</param>
+    /// <param name="filename">Name of file without ending</param>
     /// <returns></returns>
     public T? LoadData<T>(string filename)
     {
@@ -50,7 +50,7 @@ namespace olbaid_mortel_7720.Helper
       if (!File.Exists(path))
         return default(T);
 
-      //Check weather file was changed or not
+      //Check wether file was changed or not
       if ((File.GetAttributes(path) & FileAttributes.ReadOnly) != FileAttributes.ReadOnly)
         return default(T);
 

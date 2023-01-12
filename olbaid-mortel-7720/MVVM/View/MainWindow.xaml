@@ -14,150 +14,172 @@
         FontFamily="/Fonts/VT323/VT323-Regular.ttf #VT323"
         Height="465"
         Width="800">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+  <DockPanel LastChildFill="True">
+    <Border DockPanel.Dock="Right" BorderThickness="1" BorderBrush="#575757" />
+    <Border DockPanel.Dock="Bottom" BorderThickness="1" BorderBrush="#575757" />
+    <Border DockPanel.Dock="Right" BorderThickness="1" BorderBrush="#939393" />
+    <Border DockPanel.Dock="Bottom" BorderThickness="1" BorderBrush="#939393" />
+    <Border DockPanel.Dock="Left" BorderThickness="1" BorderBrush="#F4F4F4" />
+    <Border DockPanel.Dock="Top" BorderThickness="1" BorderBrush="#F4F4F4" />
+    <Border DockPanel.Dock="Left" BorderThickness="1" BorderBrush="#C0C0C0" />
+    <Border DockPanel.Dock="Top" BorderThickness="1" BorderBrush="#C0C0C0" />
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
 
-    <!--#region Window menubar-->
-    <Grid Grid.Row="0"
-          MouseDown="MoveWindow"
-          Name="Menubar"
-          Cursor="Arrow"
-          Background="{StaticResource TitlebarColor}"
-          Opacity="0.7">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
+      <!--#region Window menubar-->
+      <Grid Grid.Row="0"
+            MouseDown="MoveWindow"
+            Name="Menubar"
+            Cursor="Arrow"
+            Background="{StaticResource TitlebarColor}"
+            Opacity="0.7">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="2" />
+        </Grid.RowDefinitions>
 
-      <TextBlock Text="Olbaid Mortel"
-                 Grid.Column="0"
-                 Style="{StaticResource tbHeadlineWhite}" />
-      <StackPanel Grid.Column="1"
-                  x:Name="BtnPanel"
-                  HorizontalAlignment="Right"
-                  Orientation="Horizontal">
-        <Button Click="Minimize"
-                Style="{StaticResource WindowButton}">
-          <Button.ContentTemplate>
-            <DataTemplate>
-              <Grid>
-                <Image x:Name="minimize" Source="/Images/Buttons/minimize.png" Opacity="1" />
-                <Image x:Name="minimizeActive" Source="/Images/Buttons/minimize-active.png" Opacity="0" />
-              </Grid>
-              <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="Button.MouseEnter">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="minimize"
-                                       Storyboard.TargetProperty="Opacity" To="0"
-                                       Duration="0:0:0.1" />
-                      <DoubleAnimation Storyboard.TargetName="minimizeActive"
-                                       Storyboard.TargetProperty="Opacity" To="1"
-                                       Duration="0:0:0.1" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="Button.MouseLeave">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="minimize"
-                                       Storyboard.TargetProperty="Opacity" To="1"
-                                       Duration="0:0:0.1" />
-                      <DoubleAnimation Storyboard.TargetName="minimizeActive"
-                                       Storyboard.TargetProperty="Opacity" To="0"
-                                       Duration="0:0:0.1" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-              </DataTemplate.Triggers>
-            </DataTemplate>
-          </Button.ContentTemplate>
-        </Button>
-        <Button Click="Maximize"
-                x:Name="BtnMaximize"
-                Style="{StaticResource WindowButton}">
-          <Button.ContentTemplate>
-            <DataTemplate>
-              <Grid>
-                <Image x:Name="maximize" Source="/Images/Buttons/maximize.png" Opacity="1" />
-                <Image x:Name="maximizeActive" Source="/Images/Buttons/maximize-active.png" Opacity="0" />
-              </Grid>
-              <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="Button.MouseEnter">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="maximize"
-                                       Storyboard.TargetProperty="Opacity" To="0"
-                                       Duration="0:0:0.1" />
-                      <DoubleAnimation Storyboard.TargetName="maximizeActive"
-                                       Storyboard.TargetProperty="Opacity" To="1"
-                                       Duration="0:0:0.1" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="Button.MouseLeave">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="maximize"
-                                       Storyboard.TargetProperty="Opacity" To="1"
-                                       Duration="0:0:0.1" />
-                      <DoubleAnimation Storyboard.TargetName="maximizeActive"
-                                       Storyboard.TargetProperty="Opacity" To="0"
-                                       Duration="0:0:0.1" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-              </DataTemplate.Triggers>
-            </DataTemplate>
-          </Button.ContentTemplate>
-        </Button>
-        <Button Click="Close"
-                Style="{StaticResource WindowButton}">
-          <Button.ContentTemplate>
-            <DataTemplate>
-              <Grid>
-                <Image x:Name="close" Source="/Images/Buttons/close.png" Opacity="1" />
-                <Image x:Name="closeActive" Source="/Images/Buttons/close-active.png" Opacity="0" />
-              </Grid>
-              <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="Button.MouseEnter">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="close"
-                                       Storyboard.TargetProperty="Opacity" To="0"
-                                       Duration="0:0:0.1" />
-                      <DoubleAnimation Storyboard.TargetName="closeActive"
-                                       Storyboard.TargetProperty="Opacity" To="1"
-                                       Duration="0:0:0.1" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="Button.MouseLeave">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimation Storyboard.TargetName="close"
-                                       Storyboard.TargetProperty="Opacity" To="1"
-                                       Duration="0:0:0.1" />
-                      <DoubleAnimation Storyboard.TargetName="closeActive"
-                                       Storyboard.TargetProperty="Opacity" To="0"
-                                       Duration="0:0:0.1" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-              </DataTemplate.Triggers>
-            </DataTemplate>
-          </Button.ContentTemplate>
-        </Button>
-      </StackPanel>
+        <Border Grid.Row="1" Grid.ColumnSpan="2" BorderThickness="0,0,0,2">
+          <Border.BorderBrush>
+            <LinearGradientBrush>
+              <GradientStop Color="#C0C0C0" Offset="0" />
+              <GradientStop Color="#939393" Offset="1" />
+            </LinearGradientBrush>
+          </Border.BorderBrush>
+        </Border>
+        <TextBlock Text="Olbaid Mortel"
+                   Grid.Column="0"
+                   Style="{StaticResource tbHeadlineWhite}" />
+        <StackPanel Grid.Column="1"
+                    x:Name="BtnPanel"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+          <Button Click="Minimize"
+                  Style="{StaticResource WindowButton}">
+            <Button.ContentTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Image x:Name="minimize" Source="/Images/Buttons/minimize.png" Opacity="1" />
+                  <Image x:Name="minimizeActive" Source="/Images/Buttons/minimize-active.png" Opacity="0" />
+                </Grid>
+                <DataTemplate.Triggers>
+                  <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="minimize"
+                                         Storyboard.TargetProperty="Opacity" To="0"
+                                         Duration="0:0:0.1" />
+                        <DoubleAnimation Storyboard.TargetName="minimizeActive"
+                                         Storyboard.TargetProperty="Opacity" To="1"
+                                         Duration="0:0:0.1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                  <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="minimize"
+                                         Storyboard.TargetProperty="Opacity" To="1"
+                                         Duration="0:0:0.1" />
+                        <DoubleAnimation Storyboard.TargetName="minimizeActive"
+                                         Storyboard.TargetProperty="Opacity" To="0"
+                                         Duration="0:0:0.1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                </DataTemplate.Triggers>
+              </DataTemplate>
+            </Button.ContentTemplate>
+          </Button>
+          <Button Click="Maximize"
+                  x:Name="BtnMaximize"
+                  Style="{StaticResource WindowButton}">
+            <Button.ContentTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Image x:Name="maximize" Source="/Images/Buttons/maximize.png" Opacity="1" />
+                  <Image x:Name="maximizeActive" Source="/Images/Buttons/maximize-active.png" Opacity="0" />
+                </Grid>
+                <DataTemplate.Triggers>
+                  <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="maximize"
+                                         Storyboard.TargetProperty="Opacity" To="0"
+                                         Duration="0:0:0.1" />
+                        <DoubleAnimation Storyboard.TargetName="maximizeActive"
+                                         Storyboard.TargetProperty="Opacity" To="1"
+                                         Duration="0:0:0.1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                  <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="maximize"
+                                         Storyboard.TargetProperty="Opacity" To="1"
+                                         Duration="0:0:0.1" />
+                        <DoubleAnimation Storyboard.TargetName="maximizeActive"
+                                         Storyboard.TargetProperty="Opacity" To="0"
+                                         Duration="0:0:0.1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                </DataTemplate.Triggers>
+              </DataTemplate>
+            </Button.ContentTemplate>
+          </Button>
+          <Button Click="Close"
+                  Style="{StaticResource WindowCloseButton}">
+            <Button.ContentTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Image x:Name="close" Source="/Images/Buttons/close.png" Opacity="1" />
+                  <Image x:Name="closeActive" Source="/Images/Buttons/close-active.png" Opacity="0" />
+                </Grid>
+                <DataTemplate.Triggers>
+                  <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="close"
+                                         Storyboard.TargetProperty="Opacity" To="0"
+                                         Duration="0:0:0.1" />
+                        <DoubleAnimation Storyboard.TargetName="closeActive"
+                                         Storyboard.TargetProperty="Opacity" To="1"
+                                         Duration="0:0:0.1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                  <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="close"
+                                         Storyboard.TargetProperty="Opacity" To="1"
+                                         Duration="0:0:0.1" />
+                        <DoubleAnimation Storyboard.TargetName="closeActive"
+                                         Storyboard.TargetProperty="Opacity" To="0"
+                                         Duration="0:0:0.1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                </DataTemplate.Triggers>
+              </DataTemplate>
+            </Button.ContentTemplate>
+          </Button>
+        </StackPanel>
 
+      </Grid>
+      <!--#endregion Window menubar-->
+
+      <ContentControl Grid.Row="1"
+                      ClipToBounds="True"
+                      Content="{Binding CurrentViewModel}" />
     </Grid>
-    <!--#endregion Window menubar-->
-
-    <ContentControl Grid.Row="1"
-                    ClipToBounds="True"
-                    Content="{Binding CurrentView}" />
-  </Grid>
+  </DockPanel>
 </Window>

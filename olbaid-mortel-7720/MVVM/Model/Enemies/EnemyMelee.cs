@@ -1,9 +1,12 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
-//TODO: CodeCleanup, Regions, Kommentare
+
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
@@ -14,7 +17,24 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     {
       this.Hitbox = new Rect(XCoord, YCoord + 27, Width, Height - 27);
     }
-    
+
+    public void AttackCoolDown()
+    {
+      this.IsAttacking = false;
+    }
+
+    public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
+    {
+      int x = (int)(Hitbox.X + Hitbox.Width / 2);
+      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
+      List<CollectableObject> drops = new List<CollectableObject>();
+      drops.Add(new Medicine(200, 30, x, y));
+      drops.Add(new Paralysis(200, 100, x, y));
+      drops.Add(new Protection(200, x, y));
+      drops.Add(new WeaponUpgrade(200, 5, x, y));
+      return drops.AsReadOnly();
+    }
+
     public override void Attack(Player player)
     {
       bool oldIsAttacking = IsAttacking;
@@ -30,26 +50,15 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
 
     public virtual void MoveToPlayer(Player player)
     {
-      const int tolerance = 5;
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
       bool oldIsAttacking = IsAttacking;
-      List<Direction> directions = new List<Direction>();
-
-      //Compares player coordinates with enemy coordianten then decides which direction to go
-      if (player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2)
-        directions.Add(Direction.Left);
-      if (player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2)
-        directions.Add(Direction.Right);
-      if (player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2)
-        directions.Add(Direction.Up);
-      if (player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2)
-        directions.Add(Direction.Down);
+      List<Direction> directions = DecideDirectionPath(player, Hitbox.X + Hitbox.Width / 2, Hitbox.Y + Hitbox.Height / 2);
 
       Direction item;
       if (directions.Count == 0)
       {
-        StopMovement(null, null);
+        StopMovement(EventArgs.Empty);
         return;
       }
       if (directions.Contains(lastDirection) && sameDirectionCounter <= MAX_SAME_DIRECTION)
@@ -91,7 +100,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       }
     }
 
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;
@@ -104,10 +113,14 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
     #endregion Methods
 
     #region Constructor
-    public EnemyMelee(int x, int y) : base(x, y, 64, 32, 3, 100, 2)
+    public EnemyMelee(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 100, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.MELEE, "melee-walking-left.gif");
       Hitbox = new Rect(x, y + 27, Width, Height - 27);
+      GameTimer.ExecuteWithInterval(15, delegate (EventArgs e)
+      {
+        IsAttacking = true;
+      });
     }
 
     #endregion Constructor

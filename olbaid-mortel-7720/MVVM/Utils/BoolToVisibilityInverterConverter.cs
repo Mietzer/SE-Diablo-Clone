@@ -13,7 +13,7 @@ namespace olbaid_mortel_7720.MVVM.Utils
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       if ((bool)value)
-        return Visibility.Hidden;
+        return Visibility.Collapsed;
       else
         return Visibility.Visible;
     }

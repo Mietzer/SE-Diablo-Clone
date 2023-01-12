@@ -1,96 +1,81 @@
-﻿using olbaid_mortel_7720.Helper;
-using System.Timers;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
-using olbaid_mortel_7720.MVVM.Utils;
-using olbaid_mortel_7720.Engine;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
-
-//TODO: CodeCleanup, Regions, Kommentare
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRanged : Enemy
   {
-    #region Properties
-    
-    private readonly Timer shootCooldownTimer;
-    
-    #endregion Properties
 
     #region Constructor
-    public EnemyRanged(int x, int y) : base(x, y, 64, 32, 3, 50, 2)
+    public EnemyRanged(int x, int y, MapViewModel mapModel) : base(x, y, 64, 32, 3, 50, 2, mapModel)
     {
       Image = ImageImporter.Import(ImageCategory.RANGED, "ranged-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
-      shootCooldownTimer = new Timer();
-      shootCooldownTimer.Interval = 3000;
-      shootCooldownTimer.AutoReset = false;
       IsAttacking = false;
+      Random random = new Random();
+      GameTimer.ExecuteWithInterval(random.Next(0, 100), delegate (EventArgs e)
+      {
+        GameTimer.ExecuteWithInterval(40, delegate (EventArgs e)
+        {
+          IsAttacking = true;
+        });
+      }, true);
     }
 
     #endregion Constructor
 
     #region Methods
+    public override ReadOnlyCollection<CollectableObject> GetPossibleDrops()
+    {
+      int x = (int)(Hitbox.X + Hitbox.Width / 2);
+      int y = (int)(Hitbox.Y + Hitbox.Height / 2);
+      List<CollectableObject> drops = new List<CollectableObject>();
+      drops.Add(new Medicine(200, 40, x, y));
+      drops.Add(new Paralysis(200, 150, x, y));
+      drops.Add(new Protection(200, x, y));
+      drops.Add(new WeaponUpgrade(200, 5, x, y));
+      return drops.AsReadOnly();
+    }
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 22, Width, Height - 22);
     }
-    
-    public void ShotCoolDown() // Starts shot timer for enemies
-    {
-      shootCooldownTimer.Start();
-      IsAttacking = false;
-      shootCooldownTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-    }
 
-    private void OnTimedEvent(object source, ElapsedEventArgs e) // Shoots then resets timer
+    public virtual void ShotCoolDown() // Starts shot timer for enemies
     {
-      IsAttacking = true;
-      shootCooldownTimer.Stop();
+      IsAttacking = false;
     }
 
     public virtual void KeepDistance(Player player)
     {
-      const int tolerance = 5;
       const int nearestDistance = 150;
       const int farthestDistance = 200;
       Direction lastDirection = Direction;
       bool oldIsMoving = IsMoving;
       bool oldIsAttacking = base.IsAttacking;
-      int xDistance = Math.Abs(player.XCoord - this.XCoord);
-      int yDistance = Math.Abs(player.YCoord - this.YCoord);
-
-      List<Direction> directions = new List<Direction>();
+      int xDistance = Math.Abs((int)(player.Hitbox.X - this.Hitbox.X));
+      int yDistance = Math.Abs((int)(player.Hitbox.Y - this.Hitbox.Y));
 
       //Checks distance between player and enemy and checks where to move
-
-      if(xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
+      if (xDistance >= nearestDistance && xDistance <= farthestDistance && yDistance >= nearestDistance && yDistance <= farthestDistance)
       {
+        StopMovement(EventArgs.Empty);
         return;
       }
-      if (xDistance < nearestDistance&& player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
-        directions.Add(Direction.Right);
-      if (xDistance < nearestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord > GlobalVariables.MinX)
-        directions.Add(Direction.Left);
-      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
-        directions.Add(Direction.Down);
-      if (yDistance < nearestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
-        directions.Add(Direction.Up);
-      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 + tolerance * 2 < XCoord + Width / 2 && XCoord < GlobalVariables.MaxX)
-        directions.Add(Direction.Left);
-      if (xDistance > farthestDistance && player.XCoord + player.Width / 2 - tolerance * 2 > XCoord + Width / 2 && XCoord >= GlobalVariables.MinX)
-        directions.Add(Direction.Right);
-      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 + tolerance < YCoord + Height / 2 && YCoord < GlobalVariables.MaxY)
-        directions.Add(Direction.Up);
-      if (yDistance > farthestDistance && player.YCoord + player.Height / 2 - tolerance > YCoord + Height / 2 && YCoord > GlobalVariables.MinY)
-        directions.Add(Direction.Down);
 
+      List<Direction> directions = DecideDirectionPath(player, Hitbox.X + Hitbox.Width / 2, Hitbox.Y + Hitbox.Height / 2, nearestDistance, farthestDistance);
 
       Direction item;
       if (directions.Count == 0)
       {
-        StopMovement(null, null);
+        StopMovement(EventArgs.Empty);
         return;
       }
       if (directions.Contains(lastDirection) && sameDirectionCounter <= MAX_SAME_DIRECTION)
@@ -136,7 +121,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       player.TakeDamage(Damage);
     }
 
-    public override void StopMovement(object? sender, EventArgs e)
+    public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;
       IsMoving = false;

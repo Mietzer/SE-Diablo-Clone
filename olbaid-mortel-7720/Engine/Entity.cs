@@ -1,7 +1,9 @@
 ﻿using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
-using olbaid_mortel_7720.MVVM.Utils;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -18,7 +20,7 @@ namespace olbaid_mortel_7720.Engine
     public int XCoord
     {
       get { return xCoord; }
-      private set
+      internal set
       {
         if (value == xCoord) return;
         xCoord = value;
@@ -30,7 +32,7 @@ namespace olbaid_mortel_7720.Engine
     public int YCoord
     {
       get { return yCoord; }
-      private set
+      internal set
       {
         if (value == yCoord) return;
         yCoord = value;
@@ -47,12 +49,13 @@ namespace olbaid_mortel_7720.Engine
     public int StepLength
     {
       get { return stepLength; }
-      private set
+      protected set
       {
         stepLength = value;
         OnPropertyChanged(nameof(stepLength));
       }
     }
+
     #endregion Movement
 
     public ObservableCollection<Bullet> Bullets;
@@ -80,10 +83,8 @@ namespace olbaid_mortel_7720.Engine
         OnPropertyChanged(nameof(Image));
       }
     }
-
-    #endregion Properties
-
-    private int viewRange;
+    
+  private int viewRange;
     public int ViewRange
     {
       get { return viewRange; }
@@ -93,8 +94,12 @@ namespace olbaid_mortel_7720.Engine
         OnPropertyChanged(nameof(ViewRange));
       }
     }
+    
+    public List<Barrier> Barriers { get; private set; }
+    #endregion Properties
 
-    protected Entity(int x, int y, int height, int width, int stepLength)
+    protected Entity(int x, int y, int height, int width, int stepLength, MapViewModel mapModel)
+
     {
       this.xCoord = x;
       this.yCoord = y;
@@ -107,7 +112,12 @@ namespace olbaid_mortel_7720.Engine
       this.hitbox = new Rect(XCoord, YCoord, Width, Height);
       Bullets = new();
       PropertyChanged += Entity_PropertyChanged;
+
+      if (mapModel == null) Barriers = new();
+      else Barriers = mapModel.Barriers;
     }
+
+    ~Entity() { }
 
     #region Methods
     private void Entity_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -123,35 +133,70 @@ namespace olbaid_mortel_7720.Engine
     protected void MoveLeft()
     {
       Direction = Direction.Left;
-      if (XCoord - StepLength >= GlobalVariables.MinX)
+      if (VerifyNoCollision())
         XCoord -= StepLength;
     }
     protected void MoveRight()
     {
       Direction = Direction.Right;
-      if (XCoord + StepLength + Width <= GlobalVariables.MaxX)
+      if (VerifyNoCollision())
         XCoord += StepLength;
     }
     protected void MoveUp()
     {
       Direction = Direction.Up;
-      if (YCoord - StepLength >= GlobalVariables.MinY)
+      if (VerifyNoCollision())
         YCoord -= StepLength;
     }
     protected void MoveDown()
     {
       Direction = Direction.Down;
-      if (YCoord + StepLength + Height <= GlobalVariables.MaxY)
+      if (VerifyNoCollision())
         YCoord += StepLength;
     }
 
     /// <summary>
     /// Defines a action happening when entity is stopping a movement
     /// </summary>
-    /// <param name="sender"></param>
     /// <param name="e"></param>
-    public abstract void StopMovement(object? sender, EventArgs e);
+    public abstract void StopMovement(EventArgs e);
 
+    /// <summary>
+    /// Checks if there is a collision with a barrier
+    /// </summary>
+    /// <returns></returns>
+    protected bool VerifyNoCollision()
+    {
+      Rect testHitbox = new Rect(Hitbox.X, Hitbox.Y, Hitbox.Width, Hitbox.Height);
+      switch (Direction)
+      {
+        case Direction.Left:
+          testHitbox.X -= StepLength;
+          break;
+        case Direction.Right:
+          testHitbox.X += StepLength;
+          break;
+        case Direction.Up:
+          testHitbox.Y -= StepLength;
+          break;
+        case Direction.Down:
+          testHitbox.Y += StepLength;
+          break;
+      }
+      List<Barrier> intersections = Barriers.FindAll(barrier => barrier.Hitbox.IntersectsWith(testHitbox));
+      if (this is EnemyBoss)
+      {
+        intersections.RemoveAll(barrier => barrier.Type == Barrier.BarrierType.Hole);
+      }
+      return intersections.Count == 0;
+    }
+
+    protected void Dispose()
+    {
+      //Barriers?.Clear();
+      //Barriers = null;
+      PropertyChanged -= Entity_PropertyChanged;
+    }
     #endregion Methods
 
   }

@@ -1,18 +1,18 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Enemies;
+using olbaid_mortel_7720.MVVM.View;
 using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Threading;
-using WpfAnimatedGif;
-using System.Windows;
-using System.Windows.Media;
-using olbaid_mortel_7720.MVVM.Utils;
 using System.Linq;
-using System.Windows.Shapes;
-using olbaid_mortel_7720.MVVM.Model.Enemies;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using WpfAnimatedGif;
+
 //TODO: CodeCleanup, Regions, Kommentare
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
@@ -23,7 +23,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     private Player MyPlayer { get; set; }
 
     private Canvas MyEnemyCanvas;
-    
+
     private string ShotName = "ShotEnemy";
 
     private string Tag;
@@ -41,82 +41,101 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       InitTimer();
     }
 
+    ~EnemyViewModel() { }
     #endregion Constructor
 
     #region Methods 
     public void InitTimer()
     {
-      //Tick for EnemyRemoval if health <= 0
-      DispatcherTimer removeEnemy = new();
-      removeEnemy.Tick += new EventHandler(RemoveEnemy);
-      removeEnemy.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      removeEnemy.Start();
+      GameTimer timer = GameTimer.Instance;
+      timer.Execute(Move, nameof(this.Move) + GetHashCode());
+      timer.Execute(RemoveEnemy, nameof(this.RemoveEnemy) + GetHashCode());
+      timer.Execute(MoveShots, nameof(this.MoveShots) + GetHashCode());
+      timer.Execute(CheckforHit, nameof(this.CheckforHit) + GetHashCode());
 
-      //Tick for EnemyMovement
-      DispatcherTimer movementTimer = new();
-      movementTimer.Tick += new EventHandler(Move);
-      movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      movementTimer.Start();
-
-      //Tick for HitReg
-      DispatcherTimer checkforHit = new();
-      checkforHit.Tick += new EventHandler(CheckforHit);
-      checkforHit.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      checkforHit.Start();
-
-      DispatcherTimer movementShots = new();
-      movementTimer.Tick += new EventHandler(MoveShots);
-      movementTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
-      movementTimer.Start();
     }
 
-    private void Move(object sender, EventArgs e)
+    /// <summary>
+    /// Method for Cleanups on Closing
+    /// </summary>
+    public void Dispose()
     {
-      foreach(Enemy enemy in MyEnemies)
-      {
-        if(enemy is EnemyMelee)
-        {
-          (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
+      GameTimer timer = GameTimer.Instance;
+      timer.RemoveByName(nameof(this.Move) + GetHashCode());
+      timer.RemoveByName(nameof(this.RemoveEnemy) + GetHashCode());
+      timer.RemoveByName(nameof(this.MoveShots) + GetHashCode());
+      timer.RemoveByName(nameof(this.CheckforHit) + GetHashCode());
 
-          //Places enemy Image at new Position
-          ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
-          Canvas.SetTop(enemy.Model, enemy.YCoord);
-          Canvas.SetLeft(enemy.Model, enemy.XCoord);
-        }
-        if(enemy is EnemyRanged)
-        {
-          (enemy as EnemyRanged).KeepDistance(MyPlayer);
-          ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
-          Canvas.SetTop(enemy.Model, enemy.YCoord);
-          Canvas.SetLeft(enemy.Model, enemy.XCoord);
-        }
-        
-      }
+
+
+      foreach (Enemy enemy in MyEnemies)
+        enemy.Health = -10;
+
+      MyEnemies?.Clear();
+      MyEnemies = null;
+
+      MyPlayer = null;
+
+      GC.Collect();
     }
-    private void CheckforHit(object sender, EventArgs e)
+    private void Move(EventArgs e)
     {
       foreach (Enemy enemy in MyEnemies)
       {
-        foreach(Bullet bullet in MyPlayer.Bullets)
+        if (enemy != null && enemy is EnemyMelee)
+          (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
+
+        if (enemy != null && enemy is EnemyRanged)
+          (enemy as EnemyRanged).KeepDistance(MyPlayer);
+
+        if (enemy != null && enemy is EnemyBoss)
+          (enemy as EnemyBoss).MoveToPlayer(MyPlayer);
+
+        //Places enemy Image at new Position
+        ImageBehavior.SetAnimatedSource(enemy.Model, enemy.Image);
+        Canvas.SetTop(enemy.Model, enemy.YCoord);
+        Canvas.SetLeft(enemy.Model, enemy.XCoord);
+      }
+    }
+
+    private void CheckforHit(EventArgs e)
+    {
+      //Hit on enemmy
+      foreach (Bullet bullet in MyPlayer.Bullets.Where(b => !b.HasHit))
+      {
+        // Checks if bullet hits Enemyhitbox
+        Enemy enemy = MyEnemies?.FirstOrDefault(ene => ene.Hitbox.IntersectsWith(bullet.Hitbox));
+        enemy?.TakeDamage(MyPlayer.CurrentWeapon.Damage);
+        if (enemy is EnemyBoss)
+          (enemy as EnemyBoss).ChangePhase();
+        //Mark Bullet as deletable
+        if (enemy != null)
+          bullet.HasHit = true;
+      }
+
+      //Hit on Player
+      foreach (Enemy enemy in MyEnemies)
+      {
+        //Checks if Enemy hits Playerhitbox
+        if (enemy != null && (enemy is EnemyMelee || enemy is EnemyBoss) && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
         {
-          // Checks if bullet hits Enemyhitbox
-          if (enemy.Hitbox.IntersectsWith(bullet.Hitbox))
+          if (enemy as EnemyMelee != null && (enemy as EnemyMelee).IsAttacking)
           {
-            enemy.TakeDamage(MyPlayer.CurrentWeapon.Damage);
+            enemy.Attack(MyPlayer);
+            (enemy as EnemyMelee).AttackCoolDown();
+          }
+          else if (enemy as EnemyBoss != null && (enemy as EnemyBoss).IsAttacking)
+          {
+            enemy.Attack(MyPlayer);
+            (enemy as EnemyBoss).AttackCoolDown();
           }
         }
-        //Checks if Enemy hits Playerhitbox
-        if (enemy is EnemyMelee && enemy.Hitbox.IntersectsWith(MyPlayer.Hitbox))
-        {
-          enemy.Attack(MyPlayer);
-        }
 
-        if(enemy is EnemyRanged)
+        if (enemy != null && enemy is EnemyRanged)
         {
           if ((enemy as EnemyRanged).IsAttacking)
           {
-            
-            Point p = new Point(MyPlayer.XCoord + MyPlayer.Width / 2 , MyPlayer.YCoord + MyPlayer.Height / 2);
+            Point p = new Point(MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2, MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2);
             Shoot(enemy as EnemyRanged, p);
             (enemy as EnemyRanged).ShotCoolDown();
           }
@@ -124,70 +143,83 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
             (enemy as EnemyRanged).ShotCoolDown();
         }
 
-        foreach(Bullet bullet in enemy.Bullets)
+        //Checks if enemy bullet hits Playerhitbox
+        foreach (Bullet bullet in enemy.Bullets)
         {
-          //Checks if enemy bullet hits Playerhitbox
-          if (bullet.Hitbox.IntersectsWith(MyPlayer.Hitbox))
+          if (!bullet.HasHit && bullet.Hitbox.IntersectsWith(MyPlayer.Hitbox))
           {
             enemy.Attack(MyPlayer);
+            bullet.HasHit = true;
           }
         }
       }
     }
 
-    private void RemoveEnemy(object sender, EventArgs e)
+    private void RemoveEnemy(EventArgs e)
     {
-      List<Enemy> deleteList = new List<Enemy>();
+      List<Enemy> deleteEnemies = new List<Enemy>();
       List<Bullet> deleteBullets = new List<Bullet>();
-      foreach(Enemy enemy in MyEnemies)
+      foreach (Enemy enemy in MyEnemies)
       {
         // Search for Enemies with 0 or less health
-        if(enemy.Health <= 0)
+        if (enemy != null && enemy.Health <= 0)
         {
+          Random rnd = new Random();
+
+
           DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(350), FillBehavior.Stop);
           animation.Completed += delegate
           {
             MyEnemyCanvas.Children.Remove(enemy.Model);
+            UIElement element = MyEnemyCanvas.Children.Cast<UIElement>().FirstOrDefault(e => e is BossHealthbarView && (string)e.GetValue(Canvas.TagProperty) == "BossHealthbar");
+            if (element != null)
+            {
+              MyEnemyCanvas.Children.Remove(element);
+            }
           };
           enemy.Model.BeginAnimation(UIElement.OpacityProperty, animation);
           //Add them to deleteList
-          deleteList.Add(enemy);
+          deleteEnemies.Add(enemy);
 
           //Deletes bullets, that would not be deleted because of enemy deletion
-          foreach(Bullet bullet in enemy.Bullets)
+          foreach (Bullet bullet in enemy.Bullets)
           {
+            //TODO: Maybe no instant delete, but a extra list for bullets with dead origin
             deleteBullets.Add(bullet);
           }
         }
       }
 
-     // Delete them off the canvas
-     foreach(Enemy enemy in deleteList)
-     {
-       MyEnemies.Remove(enemy);
-     }
+      // Delete them off the canvas
+      foreach (Enemy enemy in deleteEnemies)
+      {
+        MyEnemies.Remove(enemy);
+      }
 
-     //Delete bullets of the canvas
-     foreach(Bullet bullet in deleteBullets)
-     {
+      //Delete bullets of the canvas
+      foreach (Bullet bullet in deleteBullets)
+      {
         MyEnemyCanvas.Children.Remove(bullet.Rectangle);
-     }
+      }
     }
+
     private void Shoot(EnemyRanged enemy, Point p)
     {
-      double enemyShootX = enemy.XCoord + MyPlayer.Width / 2;
-      double enemyShootY = enemy.YCoord + MyPlayer.Height / 4 * 3;
+      double enemyShootX = enemy.Hitbox.X + MyPlayer.Hitbox.Width / 2;
+      double enemyShootY = enemy.Hitbox.Y + MyPlayer.Hitbox.Height / 2;
 
       // Direction the bullet is going
       Vector vector = new Vector(p.X - enemyShootX, p.Y - enemyShootY);
       vector.Normalize();
       Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
-      Bullet bullet = new Bullet(3, 6, vector, bulletImage, ShotName);
+      Bullet bullet = new Bullet(vector, 5, 10, bulletImage, ShotName);
+
+      //TODO: Check for walls
 
       //Add to Enemies
       enemy.Bullets.Add(bullet);
 
-      //Shot on Enemies left
+      //Shot on Enemies left     
       if (vector.X < 0)
       {
         enemyShootX -= bullet.Rectangle.Width;
@@ -209,7 +241,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       bullet.Show(MyEnemyCanvas, enemyShootX, enemyShootY);
     }
 
-    private void MoveShots(object sender, EventArgs e)
+    private void MoveShots(EventArgs e)
     {
       //How many Pixels the bullet should move everytime
       int velocity = 10;
@@ -217,19 +249,22 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       foreach (FrameworkElement item in MyEnemyCanvas.Children)
       {
-        foreach(Enemy enemy in MyEnemies)
+        foreach (Enemy enemy in MyEnemies)
         {
-          if (item is Rectangle && item.Name == ShotName) //Find shots for each enemy
+          if (item is Rectangle && item.Name == ShotName && enemy != null) //Find shots for each enemy
           {
             Bullet b = enemy.Bullets.Where(s => s.Rectangle == item).FirstOrDefault();
-            b?.Move(velocity);
-
-            if (Canvas.GetLeft(item) < GlobalVariables.MinX - item.Width || Canvas.GetLeft(item) > GlobalVariables.MaxX
-             || Canvas.GetTop(item) < GlobalVariables.MinY - item.Height || Canvas.GetTop(item) > GlobalVariables.MaxY)
+            if (b != null)
             {
-              //Remove from List and Register Rectangle to remove from Canvas
-              deleteList.Add(item);
-              enemy.Bullets.Remove(b);
+              b.Move(velocity);
+
+              if (b.HasHit
+               || enemy.Barriers.Any(barrier => barrier.Type == Barrier.BarrierType.Wall && barrier.Hitbox.IntersectsWith(b.Hitbox)))
+              {
+                //Remove from List and Register Rectangle to remove from Canvas
+                deleteList.Add(item);
+                enemy.Bullets.Remove(b);
+              }
             }
           }
         }

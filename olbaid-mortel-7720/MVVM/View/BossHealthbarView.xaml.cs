@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace olbaid_mortel_7720.MVVM.Views
+namespace olbaid_mortel_7720.MVVM.View
 {
   /// <summary>
   ///   View component for the health bar boss fight.
@@ -8,13 +8,11 @@ namespace olbaid_mortel_7720.MVVM.Views
   /// </summary>
   public partial class BossHealthbarView : UserControl
   {
-
-    /// <summary>
-    ///   Constructor.
-    /// </summary>
+    #region Constructor
     public BossHealthbarView()
     {
       InitializeComponent();
     }
+    #endregion Constructor
   }
 }

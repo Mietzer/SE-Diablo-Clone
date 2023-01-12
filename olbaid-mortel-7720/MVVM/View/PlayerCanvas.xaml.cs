@@ -1,23 +1,14 @@
-﻿using olbaid_mortel_7720.MVVM.Model;
+﻿using olbaid_mortel_7720.Engine;
+using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model;
+using olbaid_mortel_7720.MVVM.Model.Object;
 using olbaid_mortel_7720.MVVM.Viewmodel;
-using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Xaml.Schema;
 
 namespace olbaid_mortel_7720.MVVM.View
 {
@@ -26,25 +17,63 @@ namespace olbaid_mortel_7720.MVVM.View
   /// </summary>
   public partial class PlayerCanvas : UserControl
   {
-    public Player MyPlayer { get; set; }
+    public Player MyPlayer { get; private set; }
+    public Rectangle CustomPointer { get; private set; }
+    public List<GameObject> currentObjects { get; private set; }
 
-    public PlayerCanvas(Player player)
+    public PlayerCanvas(Player player, List<GameObject> gameObjects)
     {
       MyPlayer = player;
+      currentObjects = gameObjects;
       InitializeComponent();
       PlayerViewModel vm = new(player, PlayerCanvasObject);
       DataContext = vm;
+      CustomPointer = new Rectangle();
+      CustomPointer.Width = 32;
+      CustomPointer.Height = 32;
+      CustomPointer.Fill = new ImageBrush(ImageImporter.Import(ImageCategory.GENERAL, "crosshair.png"));
+      PlayerCanvasObject.Children.Add(CustomPointer);
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       //Init Events
       Window window = Window.GetWindow(this);
-      window.Cursor = Cursors.Cross;
       window.KeyDown += Canvas_StartMove;
       window.KeyUp += Canvas_StopMove;
       window.MouseLeftButtonDown += Canvas_Shoot;
       window.MouseLeftButtonUp += Canvas_MouseUp;
+      window.MouseMove += Canvas_MouseMove;
+      window.KeyDown += Canvas_WeaponSelection;
+      window.KeyDown += Canvas_ObjectInteraction;
+    }
+
+    /// <summary>
+    /// Remove Event from Window as it's not used anymore
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+      Window window = NavigationLocator.MainViewModel as Window;
+      window.KeyDown -= Canvas_StartMove;
+      window.KeyDown -= Canvas_WeaponSelection;
+      window.KeyDown -= Canvas_ObjectInteraction;
+      window.KeyUp -= Canvas_StopMove;
+      window.MouseLeftButtonDown -= Canvas_Shoot;
+      window.MouseLeftButtonUp -= Canvas_MouseUp;
+      window.MouseMove -= Canvas_MouseMove;
+    }
+
+    private void Canvas_MouseMove(object sender, MouseEventArgs e)
+    {
+      Point p = e.GetPosition(PlayerCanvasObject);
+      Canvas.SetTop(CustomPointer, p.Y - CustomPointer.Height / 2);
+      Canvas.SetLeft(CustomPointer, p.X - CustomPointer.Width / 2);
+
+      Window window = Window.GetWindow(this);
+      if (window != null)
+        window.Cursor = Cursors.None;
     }
 
     public async void Canvas_StartMove(object sender, KeyEventArgs e)
@@ -52,23 +81,23 @@ namespace olbaid_mortel_7720.MVVM.View
       PlayerViewModel vm = DataContext as PlayerViewModel;
       if (e.Key == Key.W)
       {
-        vm.moveDown = false;
-        vm.moveUp = true;
+        vm.MoveDown = false;
+        vm.MoveUp = true;
       }
       else if (e.Key == Key.S)
       {
-        vm.moveUp = false;
-        vm.moveDown = true;
+        vm.MoveUp = false;
+        vm.MoveDown = true;
       }
       else if (e.Key == Key.A)
       {
-       vm.moveRight = false;
-        vm.moveLeft = true;
+        vm.MoveRight = false;
+        vm.MoveLeft = true;
       }
       else if (e.Key == Key.D)
       {
-        vm.moveLeft = false;
-        vm.moveRight = true;
+        vm.MoveLeft = false;
+        vm.MoveRight = true;
       }
     }
 
@@ -77,13 +106,21 @@ namespace olbaid_mortel_7720.MVVM.View
       PlayerViewModel vm = DataContext as PlayerViewModel;
 
       if (e.Key == Key.W)
-        vm.moveUp = false;
+        vm.MoveUp = false;
       else if (e.Key == Key.S)
-        vm.moveDown = false;
+        vm.MoveDown = false;
       else if (e.Key == Key.A)
-        vm.moveLeft = false;
+        vm.MoveLeft = false;
       else if (e.Key == Key.D)
-        vm.moveRight = false;
+        vm.MoveRight = false;
+    }
+
+    private void Canvas_WeaponSelection(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.D1 || e.Key == Key.D2)
+      {
+        (DataContext as PlayerViewModel).WeaponSelection(e.Key);
+      }
     }
 
     #region shooting
@@ -95,10 +132,20 @@ namespace olbaid_mortel_7720.MVVM.View
     private async void Canvas_Shoot(object sender, MouseButtonEventArgs e)
     {
       Point p = e.GetPosition(this);
-      if (p.X < 0 || p.Y < 0)
+      if (p.X < 0 || p.Y < 0 || !GameTimer.Instance.IsRunning)
         return;
       (DataContext as PlayerViewModel).Shoot(p);
     }
+    
+    private void Canvas_ObjectInteraction(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.E)
+      {
+        (DataContext as PlayerViewModel).TryCollection(currentObjects);
+      }
+    }
     #endregion shooting
+
+
   }
 }

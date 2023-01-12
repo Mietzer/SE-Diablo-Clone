@@ -1,14 +1,24 @@
 ﻿using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
+using System.Windows.Media;
 
-namespace olbaid_mortel_7720.Object.Weapons
+namespace olbaid_mortel_7720.MVVM.Model.Object.Weapons
 {
-    public class Rifle : Weapon
+  public class Rifle : Weapon
+  {
+    #region Constructor
+    public Rifle() : base()
     {
-      public Rifle()
-      {
-        category = ImageCategory.WEAPONS_PLAYER_HANDGUN;
-        imageString = "rifle.png";
-        Damage = 30;
-      }
+      Damage = 30;
+      reloadtime = 4;
+      category = ImageCategory.WEAPONS_PLAYER_RIFLE;
+      imageString = "rifle.png";
+      this.Munition = new Munition(5, 10, new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "rifle-bullet.png")), "ShotPlayer");
     }
+    #endregion Constructor
+
+    #region Methods
+
+    #endregion Methods
+  }
 }
