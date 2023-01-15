@@ -82,13 +82,13 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     {
       foreach (Enemy enemy in MyEnemies)
       {
-        if (enemy != null && enemy is EnemyMelee)
+        if (enemy != null && enemy is EnemyMelee && enemy.GetDist(MyPlayer) < 450)
           (enemy as EnemyMelee).MoveToPlayer(MyPlayer);
 
         if (enemy != null && enemy is EnemyRanged)
           (enemy as EnemyRanged).KeepDistance(MyPlayer);
 
-        if (enemy != null && enemy is EnemyBoss)
+        if (enemy != null && enemy is EnemyBoss && enemy.GetDist(MyPlayer) < 450)
           (enemy as EnemyBoss).MoveToPlayer(MyPlayer);
 
         //Places enemy Image at new Position
@@ -135,9 +135,12 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           if ((enemy as EnemyRanged).IsAttacking)
           {
-            Point p = new Point(MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2, MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2);
-            Shoot(enemy as EnemyRanged, p);
-            (enemy as EnemyRanged).ShotCoolDown();
+            if((enemy as EnemyRanged).GetDist(MyPlayer) < 500)
+            {
+              Point p = new Point(MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2, MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2);
+              Shoot(enemy as EnemyRanged, p);
+              (enemy as EnemyRanged).ShotCoolDown();
+            }
           }
           else
             (enemy as EnemyRanged).ShotCoolDown();
