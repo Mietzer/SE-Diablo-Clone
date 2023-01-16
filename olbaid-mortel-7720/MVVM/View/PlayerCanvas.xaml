@@ -20,7 +20,7 @@
     <!--#region Player Field of View-->
     <Rectangle Width="2000"
                Height="2000"
-               Opacity="0.9"
+               Opacity="0.7"
                Fill="Black">
       <Rectangle.Clip>
         <CombinedGeometry GeometryCombineMode="Exclude">
