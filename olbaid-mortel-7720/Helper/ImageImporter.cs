@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Media.Imaging;
-using TiledCS;
 
 namespace olbaid_mortel_7720.Helper
 {
@@ -27,7 +26,7 @@ namespace olbaid_mortel_7720.Helper
         throw new FileLoadException($"Image '{filePath}' not found!");
       }
     }
-    
+
     /// <summary>
     /// Import a bitmap image from a file
     /// </summary>

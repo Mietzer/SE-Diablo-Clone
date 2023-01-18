@@ -59,7 +59,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
 
       GC.Collect();
     }
-    
+
     /// <summary>
     /// Method for Spawning Items 
     /// </summary>

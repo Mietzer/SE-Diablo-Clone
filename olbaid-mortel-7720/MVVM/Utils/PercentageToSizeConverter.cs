@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -32,7 +31,7 @@ namespace olbaid_mortel_7720.MVVM.Utils
     }
 
     /// <summary>
-    ///   Convert a size to a percentage.
+    /// Convert a size to a percentage.
     /// </summary>
     /// <exception>Otherwise there would be a missing value to perform a calculation.</exception>
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

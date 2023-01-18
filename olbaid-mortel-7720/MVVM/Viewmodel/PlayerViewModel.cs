@@ -104,7 +104,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// <param name="p">Targetpoint for Bullet</param>
     public void Shoot(Point p)
     {
-
       double playerShootX = MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2
          , playerShootY = MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2;
 

@@ -566,25 +566,25 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         levelModel.BestTime = levelTime;
 
       TimeSpan goodTime = new(0, 0, 0);
+      //Ratio of Hits and overall shots
       double goodShotRatio = 1.0;
       int goodRemainingHealth = 100;
       switch (levelModel.LevelID)
       {
-        //TODO: Find some good values for all 3 levels
         case 1:
-          goodTime = new(0, 2, 0);
-          goodShotRatio = 0.8;
+          goodTime = new(0, 2, 20);
+          goodShotRatio = 0.7;
           goodRemainingHealth = 80;
           break;
         case 2:
-          goodTime = new(0, 2, 0);
-          goodShotRatio = 0.8;
-          goodRemainingHealth = 80;
+          goodTime = new(0, 1, 55);
+          goodShotRatio = 0.72;
+          goodRemainingHealth = 85;
           break;
         case 3:
-          goodTime = new(0, 2, 0);
-          goodShotRatio = 0.8;
-          goodRemainingHealth = 80;
+          goodTime = new(0, 2, 15);
+          goodShotRatio = 0.69;
+          goodRemainingHealth = 77;
           break;
       }
 
@@ -671,7 +671,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     public RelayCommand LeaveGameCommand { get; set; }
     public void LeaveGame(object sender)
     {
-      //TODO: Ask user if he really wants to leave
       PlayerAlive = false;
       LeaveMatch();
     }
