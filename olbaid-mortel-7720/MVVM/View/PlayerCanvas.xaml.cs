@@ -136,7 +136,7 @@ namespace olbaid_mortel_7720.MVVM.View
         return;
       (DataContext as PlayerViewModel).Shoot(p);
     }
-    
+
     private void Canvas_ObjectInteraction(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.E)

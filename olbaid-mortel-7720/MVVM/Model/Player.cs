@@ -1,8 +1,8 @@
 ﻿using olbaid_mortel_7720.Engine;
 using olbaid_mortel_7720.Helper;
+using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using olbaid_mortel_7720.MVVM.Models;
 using olbaid_mortel_7720.MVVM.Viewmodel;
-using olbaid_mortel_7720.MVVM.Model.Object.Weapons;
 using System;
 using System.Collections.Specialized;
 using System.Windows;
@@ -311,7 +311,6 @@ namespace olbaid_mortel_7720.MVVM.Model
 
     protected virtual void Die()
     {
-      //TODO: Rest Clean Up Impelemtieren von Bluescren View 
       Bullets.CollectionChanged -= Bullets_CollectionChanged;
       HealthPoints = 10;
       PlayerDied?.Invoke();
