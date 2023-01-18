@@ -150,7 +150,10 @@ namespace olbaid_mortel_7720.Engine
 
       return directions;
     }
-
+    public double GetDist(Player MyPlayer)
+    {
+      return Math.Sqrt(Math.Pow(this.XCoord - MyPlayer.XCoord, 2) + Math.Pow(this.YCoord - MyPlayer.YCoord, 2));
+    }
     public abstract void Attack(Player player);
     #endregion Methods
 

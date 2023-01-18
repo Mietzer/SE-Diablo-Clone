@@ -84,7 +84,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
     /// How many ticks the spawning of new enemies should wait 
     /// </summary>
     private uint timerTicksToWaitEnemySpawning = 60;
-    private uint maxEnemies = 10;
+    private uint maxEnemies = 20;
     private List<Enemy> spawnList;
 
     private int usedLevelID;
