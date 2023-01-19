@@ -6,12 +6,12 @@
   public class ImageCategory
   {
     public string Value { get; set; }
-    
+
     private ImageCategory(string value)
     {
       Value = value;
     }
-    
+
     internal static readonly ImageCategory GENERAL = new ImageCategory("");
     internal static readonly ImageCategory BOSSBAR = new ImageCategory("Bossbar/");
     internal static readonly ImageCategory BUTTONS = new ImageCategory("Buttons/");

@@ -13,7 +13,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using WpfAnimatedGif;
 
-//TODO: CodeCleanup, Regions, Kommentare
 namespace olbaid_mortel_7720.MVVM.Viewmodel
 {
   public class EnemyViewModel : NotifyObject
@@ -135,7 +134,7 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
         {
           if ((enemy as EnemyRanged).IsAttacking)
           {
-            if((enemy as EnemyRanged).GetDist(MyPlayer) < 500)
+            if ((enemy as EnemyRanged).GetDist(MyPlayer) < 500)
             {
               Point p = new Point(MyPlayer.Hitbox.X + MyPlayer.Hitbox.Width / 2, MyPlayer.Hitbox.Y + MyPlayer.Hitbox.Height / 2);
               Shoot(enemy as EnemyRanged, p);
@@ -187,7 +186,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
           //Deletes bullets, that would not be deleted because of enemy deletion
           foreach (Bullet bullet in enemy.Bullets)
           {
-            //TODO: Maybe no instant delete, but a extra list for bullets with dead origin
             deleteBullets.Add(bullet);
           }
         }
@@ -216,8 +214,6 @@ namespace olbaid_mortel_7720.MVVM.Viewmodel
       vector.Normalize();
       Brush bulletImage = new ImageBrush(ImageImporter.Import(ImageCategory.BULLETS, "ranged-bullet.png"));
       Bullet bullet = new Bullet(vector, 5, 10, bulletImage, ShotName);
-
-      //TODO: Check for walls
 
       //Add to Enemies
       enemy.Bullets.Add(bullet);

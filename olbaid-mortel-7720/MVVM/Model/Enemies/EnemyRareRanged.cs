@@ -2,19 +2,15 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
 {
   public class EnemyRareRanged : EnemyRanged
   {
-    
+
     private int shotCountForDoubleShot = 0;
-    
+
     public EnemyRareRanged(int x, int y, MapViewModel mapModel) : base(x, y, mapModel)
     {
       this.Health = base.Health * 2;
@@ -53,7 +49,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         Image = ImageImporter.Import(ImageCategory.RANGED, "rare-walking-" + directionString + ".gif");
       }
     }
-    
+
     public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;

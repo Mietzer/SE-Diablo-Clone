@@ -2,10 +2,6 @@
 using olbaid_mortel_7720.Helper;
 using olbaid_mortel_7720.MVVM.Viewmodel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace olbaid_mortel_7720.MVVM.Model.Enemies
@@ -19,12 +15,12 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
       Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-left.gif");
       Hitbox = new Rect(x, y + 22, Width, Height - 22);
     }
-    
+
     public override void RefreshHitbox()
     {
       this.Hitbox = new Rect(XCoord, YCoord + 22, Width, Height - 22);
     }
-    
+
     public override void Attack(Player player)
     {
       bool oldIsAttacking = IsAttacking;
@@ -35,7 +31,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         Image = ImageImporter.Import(ImageCategory.MELEE, "rare-attacking-" + directionString + ".gif");
       }
     }
-    
+
     public override void MoveToPlayer(Player player)
     {
       Direction lastDirection = Direction;
@@ -48,7 +44,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Enemies
         Image = ImageImporter.Import(ImageCategory.MELEE, "rare-walking-" + directionString + ".gif");
       }
     }
-    
+
     public override void StopMovement(EventArgs e)
     {
       bool oldIsMoving = IsMoving;

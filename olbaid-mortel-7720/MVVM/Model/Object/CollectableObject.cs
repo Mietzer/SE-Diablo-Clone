@@ -36,7 +36,7 @@ namespace olbaid_mortel_7720.MVVM.Model.Object
       GameTimer.Instance.Execute(OnGameTick, Name + GetHashCode());
     }
     #endregion Constructor
-    
+
     #region Methods
     private void OnGameTick(EventArgs e)
     {

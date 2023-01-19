@@ -3,7 +3,8 @@
   /// <summary>
   /// Direction a entity can moves currently.
   /// </summary>
-  public enum Direction { 
+  public enum Direction
+  {
     Up, Down, Left, Right
   }
 }
